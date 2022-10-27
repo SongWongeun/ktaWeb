@@ -1,0 +1,1345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CarAccidentInquiry">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>	
+	<typeAlias  alias="carAccidentInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	<typeAlias  alias="carAccidentInquiryVO" type="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryVO"/>
+	
+	<resultMap id="carAccidentInquiry" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryVO">	
+		<result property="cnt" column="CNT"/>
+		<result property="acdnt_no" column="ACDNT_NO"/>
+		<result property="acdnt_stat" column="ACDNT_STAT"/>
+		<result property="agent_no" column="AGENT_NO"/>
+		<result property="saupjang_seq" column="SAUPJANG_SEQ"/>
+		<result property="car_gaip_no" column="CAR_GAIP_NO"/>
+		<result property="gyeyak_no" column="GYEYAK_NO"/>
+		<result property="agent_nm" column="AGENT_NM"/>
+		<result property="car_no" column="CAR_NO"/>
+		<result property="dambo_1" column="DAMBO_1"/>
+		<result property="dambo_2" column="DAMBO_2"/>
+		<result property="dambo_3" column="DAMBO_3"/>
+		<result property="dambo_4" column="DAMBO_4"/>
+		<result property="dambo_5" column="DAMBO_5"/>
+		<result property="acdnt_date" column="ACDNT_DATE"/>
+		<result property="acdnt_place" column="ACDNT_PLACE"/>
+		<result property="drvr_nm" column="DRVR_NM"/>
+		<result property="bosang" column="BOSANG"/>
+	</resultMap>
+	
+	<resultMap id="carAccidentInfo" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryVO">			
+		<result property="acdnt_no" column="ACDNT_NO" nullValue=""/>
+		<result property="car_no" column="CAR_NO" nullValue=""/>
+		<result property="drvr_nm" column="DRVR_NM" nullValue=""/>
+		<result property="acdnt_date" column="ACDNT_DATE" nullValue=""/>
+		<result property="acdnt_place" column="ACDNT_PLACE" nullValue=""/>
+		<result property="acdnt_cause_points" column="ACDNT_CAUSE_POINTS" nullValue=""/>
+		<result property="trick" column="TRICK" nullValue=""/>
+		<result property="acdnt_comment_points" column="ACDNT_COMMENT_POINTS" nullValue=""/>
+	</resultMap>
+	
+	
+	<resultMap id="carAccidentPoint" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentPointVO">	
+		<result property="acdnt_cause_points" column="ACDNT_CAUSE_POINTS"/>
+		<result property="trick" column="TRICK"/>
+		<result property="acdnt_comment_points" column="ACDNT_COMMENT_POINTS"/>								
+	</resultMap>
+	
+	<resultMap id="carAccidentDetail" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryDetailVO">	
+		<result property="cnt" column="CNT" nullValue="" />
+		<result property="gb" column="GB" nullValue="" />
+		<result property="acdnt_no" column="ACDNT_NO" nullValue="" />
+		<result property="dmbo_gb" column="DMBO_GB" nullValue="" />
+		<result property="psn_num" column="PSN_NUM" nullValue="" />
+		<result property="dmgd_psn_nm" column="DMGD_PSN_NM" nullValue="" />
+		<result property="facto_hp_nm" column="FACTO_HP_NM" nullValue="" />
+		<result property="jigub_amt" column="JIGUB_AMT" nullValue="" />
+		<result property="jigub_amt1" column="JIGUB_AMT1" nullValue="" />
+		<result property="jigub_amt2" column="JIGUB_AMT2" nullValue="" />
+		<result property="jibu" column="JIBU" nullValue="" />
+		<result property="pat" column="PAT" nullValue="" />
+		<result property="id" column="ID" nullValue="" />
+		<result property="jibu_tel" column="JIBU_TEL" nullValue="" />
+		
+		<!-- <result property="gb_nm" column="GB_NM" nullValue="" /> -->
+		<result property="dmbo_gb_nm" column="DMBO_GB_NM" nullValue="" />
+	</resultMap>
+	
+	<resultMap id="carAccidentDetail1" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryDetailVO">	
+		<result property="gb" column="GB" nullValue="" />
+		<result property="acdnt_no" column="ACDNT_NO" nullValue="" />
+		<result property="dmbo_gb" column="DMBO_GB" nullValue="" />
+		<result property="dmbo_gb_nm" column="DMBO_GB_NM" nullValue="" />
+		<result property="psn_num" column="PSN_NUM" nullValue="" />
+		<result property="dmgd_psn_nm" column="DMGD_PSN_NM" nullValue="" />
+		<result property="jigub_amt" column="JIGUB_AMT" nullValue="" />
+		<result property="jigub_amt1" column="JIGUB_AMT1" nullValue="" />
+		<result property="jigub_amt2" column="JIGUB_AMT2" nullValue="" />
+		<result property="jigub_amt3" column="JIGUB_AMT3" nullValue="" />
+		<result property="jibu" column="JIBU" nullValue="" />
+		<result property="pat" column="PAT" nullValue="" />
+		<result property="id" column="ID" nullValue="" />
+		<result property="jibu_tel" column="JIBU_TEL" nullValue="" />
+	</resultMap>
+	
+	<resultMap id="carAccidentDetail2" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryDetailVO">	
+		<result property="gb" column="GB" nullValue="" />
+		<result property="acdnt_no" column="ACDNT_NO" nullValue="" />
+		<result property="dmbo_gb" column="DMBO_GB" nullValue="" />
+		<result property="dmbo_gb_nm" column="DMBO_GB_NM" nullValue="" />
+		<result property="psn_num" column="PSN_NUM" nullValue="" />
+		<result property="dmgd_psn_nm" column="DMGD_PSN_NM" nullValue="" />
+		<result property="jigub_amt" column="JIGUB_AMT" nullValue="" />
+		<result property="prvd_nm" column="PRVD_NM" nullValue="" />
+		<result property="jigub_amt1" column="JIGUB_AMT1" nullValue="" />
+		<result property="jibu" column="JIBU" nullValue="" />
+		<result property="pat" column="PAT" nullValue="" />
+		<result property="id" column="ID" nullValue="" />
+		<result property="jibu_tel" column="JIBU_TEL" nullValue="" />
+	</resultMap>
+	
+	<resultMap id="carAccidentDetail3" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryDetailVO">	
+		<result property="gb" column="GB" nullValue="" />
+		<result property="acdnt_no" column="ACDNT_NO" nullValue="" />
+		<result property="dmbo_gb" column="DMBO_GB" nullValue="" />
+		<result property="dmbo_gb_nm" column="DMBO_GB_NM" nullValue="" />
+		<result property="psn_num" column="PSN_NUM" nullValue="" />
+		<result property="dmgd_psn_nm" column="DMGD_PSN_NM" nullValue="" />
+		<result property="jigub_amt" column="JIGUB_AMT" nullValue="" />
+		<result property="jigub_amt1" column="JIGUB_AMT1" nullValue="" />
+		<result property="jibu" column="JIBU" nullValue="" />
+		<result property="pat" column="PAT" nullValue="" />
+		<result property="id" column="ID" nullValue="" />
+		<result property="jibu_tel" column="JIBU_TEL" nullValue="" />
+	</resultMap>
+	
+	<resultMap id="carAccidentDetail4" class="kr.or.truck.netcounter.inquiryservice.service.CarAccidentInquiryDetailVO">	
+		<result property="gb" column="GB" nullValue="" />
+		<result property="acdnt_no" column="ACDNT_NO" nullValue="" />
+		<result property="dmbo_gb" column="DMBO_GB" nullValue="" />
+		<result property="dmbo_gb_nm" column="DMBO_GB_NM" nullValue="" />
+		<result property="psn_num" column="PSN_NUM" nullValue="" />
+		<result property="dmgd_psn_nm" column="DMGD_PSN_NM" nullValue="" />
+		<result property="jigub_amt" column="JIGUB_AMT" nullValue="" />
+		<result property="jibu" column="JIBU" nullValue="" />
+		<result property="pat" column="PAT" nullValue="" />
+		<result property="id" column="ID" nullValue="" />
+		<result property="jibu_tel" column="JIBU_TEL" nullValue="" />
+	</resultMap>
+	
+	<select id="carAccidentInquiryDAO.selectCarAccidentTotCnt" parameterClass="carAccidentInquirySearchVO" resultClass="integer" >	
+		select
+	        count(*) as totCnt     
+	    from
+	        ctgi01 c,
+	        ctgi05 d,
+	        cpaa01 a,
+	        cpaa04 b
+	        
+	        
+	    where
+	            b.acdnt_no    = a.acdnt_no    
+	        /* and b.acdnt_no   >= to_char(sysdate, 'yyyy') - '3' || '00000' */    
+	        and b.car_no like '%'||#searchKeyword#||'%'       
+        	and acdnt_ymd between #start_acdnt_ymd# and #end_acdnt_ymd#
+	        and d.car_gaip_no = b.car_gaip_no     
+	        and d.agent_no     = c.agent_no                 
+	        and d.saupjang_seq = c.saupjang_seq 
+	        and substr(b.gyeyak_jibu_cd,1,2) like #gyeyak_jibu_cd#
+	        <isNotEmpty property="agent_no">
+			and c.agent_no = #agent_no#
+       		</isNotEmpty>
+       		 <isEmpty property="agent_no">
+       			 <isNotEmpty property="agent_no_array">
+       			 		<iterate property="agent_no_array" open="and c.agent_no || c.saupjang_seq in (" conjunction="," close=")">
+      					#agent_no_array[]#
+      				</iterate> 
+       			 </isNotEmpty>
+       		 </isEmpty>
+       		 <isNotEmpty property="saupjang_seq">
+       		 and c.saupjang_seq  = #saupjang_seq#
+       		 </isNotEmpty>
+            <isEqual property="agentcd" compareValue="1">
+				and c.saupja_no    = #saupja_no#
+			</isEqual>
+	             <isEqual property="agentcd" compareValue="2">
+				and d.carmgr_jumin_no    = #jumin_no#
+			</isEqual>                    
+	</select>
+	
+			
+	<select id="carAccidentInquiryDAO.selectList" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentInquiry" >	
+		select acdnt_stat, acdnt_no, car_no, car_gaip_no, gyeyak_no, agent_no, saupjang_seq,drvr_nm,agent_nm,
+				0                                             cnt,
+			       '클릭'                                        bosang,
+			     (select max(decode(x.dmbo_gb, '1', '○', ''))
+		         from cpaa03 x
+		        where x.acdnt_no = xx.acdnt_no
+		        and x.seq = '2'
+		        group by x.acdnt_no)                        dambo_1,
+		      (select max(decode(x.dmbo_gb, '2', '○', ''))
+		         from cpaa03 x
+		        where x.acdnt_no = xx.acdnt_no
+		        group by x.acdnt_no)                        dambo_2,
+		      (select max(decode(x.dmbo_gb, '3', '○', ''))
+		         from cpaa03 x
+		        where x.acdnt_no = xx.acdnt_no
+		        group by x.acdnt_no)                        dambo_3,
+		      (select max(decode(x.dmbo_gb, '4', '○', ''))
+		         from cpaa03 x
+		        where x.acdnt_no = xx.acdnt_no
+		        group by x.acdnt_no)                        dambo_4,
+		      (select max(decode(x.dmbo_gb, '5', '○', ''))
+		         from cpaa03 x
+		        where x.acdnt_no = xx.acdnt_no
+		        group by x.acdnt_no)                        dambo_5,
+		      substr(acdnt_ymd, 1, 4) || '.' ||
+		      substr(acdnt_ymd, 5, 2) || '.' ||
+		      substr(acdnt_ymd, 7, 2) || ' ' ||
+		      substr(acdnt_tm,  1, 2) || ':' ||
+		      substr(acdnt_tm,  3, 2)                     acdnt_date,
+		      trim(trim(f_zip_nm(acdnt_place_zip_code)) || ' ' ||
+		           trim(acdnt_place))                     acdnt_place
+			from (
+				select b.acdnt_no                 acdnt_no,
+				       b.car_no                   car_no,
+				       b.car_gaip_no							car_gaip_no,
+				       b.gyeyak_no								gyeyak_no,
+				       c.agent_no									agent_no,
+				       c.saupjang_seq							saupjang_seq,
+				       c.agent_nm				agent_nm,
+				       a.acdnt_ymd                acdnt_ymd,
+						   a.acdnt_tm                 acdnt_tm,
+				       decode((select x.ACDNT_PLACE_ZIP_CODE from cpaa08 x where x.acdnt_no = b.acdnt_no), null, a.ACDNT_PLACE_ZIP_CODE,
+				              (select x.ACDNT_PLACE_ZIP_CODE from cpaa08 x where x.acdnt_no = b.acdnt_no))  ACDNT_PLACE_ZIP_CODE,
+				       decode((select x.acdnt_place from cpaa08 x where x.acdnt_no = b.acdnt_no), null, a.acdnt_place,
+				              (select x.acdnt_place from cpaa08 x where x.acdnt_no = b.acdnt_no))  acdnt_place,
+				       decode((select x.DRVR_NM from cpaa08 x where x.acdnt_no = b.acdnt_no), null, a.drvr_nm,
+				              (select x.DRVR_NM from cpaa08 x where x.acdnt_no = b.acdnt_no))  drvr_nm,
+				              DECODE(F_CP_ACDNT_STAT('1', B.acdnt_no ,'',''),0, '종결', '진행중') ACDNT_STAT
+				from
+			        ctgi01 c,
+			        ctgi05 d,
+			        cpaa01 a,
+			        cpaa04 b,
+			        tb_member_saupno@kotmaswb e
+		    where  1=1
+		    	and NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1'  
+             <isEqual property="searchCondition" compareValue="detail">
+				  and a.acdnt_no = #acdnt_no#
+			 </isEqual>  
+             <isNotEmpty property="searchKeyword">
+		          and b.car_no like '%'||#searchKeyword#||'%'
+	         </isNotEmpty>
+	         <isNotEmpty property="start_acdnt_ymd">
+		       <isNotEmpty property="end_acdnt_ymd">
+	       			and a.acdnt_ymd between #start_acdnt_ymd# and #end_acdnt_ymd#
+			   </isNotEmpty> 
+			 </isNotEmpty>
+			 <isEmpty property="agent_no">
+			 	<isEqual property="jumin_no" compareValue="%">
+	         		 <isNotEmpty property="agent_no_array">
+						<iterate property="agent_no_array" open="and e.saupnum in (" conjunction="," close=")">
+							#agent_no_array[]#
+						</iterate> 
+	          		 </isNotEmpty>
+          		 </isEqual>
+			 </isEmpty>
+			 
+			 <isEmpty property="agent_no">
+				 <isNotEmpty property="tb_agent_array">
+					<iterate property="tb_agent_array" open="and c.agent_no||c.saupjang_seq in (" conjunction="," close=")">
+						#tb_agent_array[]#
+					</iterate>
+				 </isNotEmpty>
+			 </isEmpty>
+			 
+			 <isNotEmpty property="agent_no">
+				   	and c.agent_no         = 	#agent_no#
+			 </isNotEmpty>
+			 <isNotEmpty property="saupjang_seq">
+				   	and c.saupjang_seq     =  #saupjang_seq#
+			 </isNotEmpty>
+			 <isNotEmpty property="gyeyak_jibu_cd">
+					and substr(b.gyeyak_jibu_cd,1,2) like #gyeyak_jibu_cd#
+			 </isNotEmpty>
+			 <isEqual property="agentcd" compareValue="2">
+					and d.carmgr_jumin_no    = #jumin_no#
+			 </isEqual>
+			 and b.acdnt_no    = a.acdnt_no
+		     and b.acdnt_no   >= to_char(sysdate, 'yyyy') - '5' || '00000'
+		     and d.car_gaip_no = b.car_gaip_no
+		     and d.agent_no     = c.agent_no
+		     and d.saupjang_seq = c.saupjang_seq
+		     and d.agent_no = e.agent_no
+             and d.saupjang_seq = e.saupjang_seq           
+		    
+		    union
+
+			select b.acdnt_no                 acdnt_no,
+			       b.car_no                   car_no,
+			       b.car_gaip_no							car_gaip_no,
+			       b.gyeyak_no								gyeyak_no,
+			       c.agent_no									agent_no,
+			       c.saupjang_seq							saupjang_seq,
+			       c.agent_nm					agent_nm,
+			       a.acdnt_ymd                acdnt_ymd,
+					a.acdnt_tm                 acdnt_tm,
+			       a.acdnt_place_zip_code     acdnt_place_zip_code,
+			       a.acdnt_place              acdnt_place,
+			       a.drvr_nm                  drvr_nm,
+			       DECODE(F_CP_ACDNT_STAT('1', B.acdnt_no ,'',''),0, '종결', '진행중') ACDNT_STAT
+			from
+			       ctgi01 c,
+			       cpaa01 a,
+			       cpaa04 b,
+			       tb_member_saupno@kotmaswb d
+			 where NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1' 
+			   and a.acdnt_no = b.acdnt_no
+	           and b.agent_no = c.agent_no
+	           and b.saupjang_seq = c.saupjang_seq
+	           and b.agent_no = d.agent_no
+	           and b.saupjang_seq = d.saupjang_seq
+	           and b.car_no = '주선적재물'
+             <isEqual property="searchCondition" compareValue="detail">
+				  and a.acdnt_no = #acdnt_no#
+			 </isEqual>  	           
+	        <isNotEmpty property="start_acdnt_ymd">
+		       <isNotEmpty property="end_acdnt_ymd">
+	       			and a.acdnt_ymd between #start_acdnt_ymd# and #end_acdnt_ymd#
+			   </isNotEmpty> 
+			</isNotEmpty>
+			<isEmpty property="agent_no">
+				<isEqual property="jumin_no" compareValue="%">
+		       	    <isNotEmpty property="agent_no_array">
+						<iterate property="agent_no_array" open="and d.saupnum in (" conjunction="," close=")">
+							#agent_no_array[]#
+						</iterate> 
+		        	</isNotEmpty>
+		        </isEqual>
+		    </isEmpty>
+		    
+		    <isEmpty property="agent_no">
+				 <isNotEmpty property="tb_agent_array">
+					<iterate property="tb_agent_array" open="and c.agent_no||c.saupjang_seq in (" conjunction="," close=")">
+						#tb_agent_array[]#
+					</iterate>
+				 </isNotEmpty>
+			 </isEmpty>
+		    
+		    <isNotEmpty property="agent_no">
+			   	and c.agent_no         = 	#agent_no#
+		    </isNotEmpty>
+		    <isNotEmpty property="saupjang_seq">
+			   	and c.saupjang_seq     =  #saupjang_seq#
+		    </isNotEmpty>
+			<isNotEmpty property="gyeyak_jibu_cd">
+				and substr(b.gyeyak_jibu_cd,1,2) like #gyeyak_jibu_cd#
+			</isNotEmpty>
+			<isEqual property="agentcd" compareValue="2">
+				and b.car_no = ''
+			</isEqual>  
+			) xx
+			order by agent_no desc, acdnt_no
+	</select>	
+	
+	<select id="carAccidentInquiryDAO.selectListMypage" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap">	
+		select acdnt_no, car_no, agent_no, saupjang_seq,drvr_nm,agent_nm
+			from (
+				select b.acdnt_no                 acdnt_no,
+					   b.car_no                   car_no,
+					   c.agent_no									agent_no,
+					   c.saupjang_seq							saupjang_seq,
+					   c.agent_nm				agent_nm,
+					   a.acdnt_ymd                acdnt_ymd,
+						a.acdnt_tm                 acdnt_tm,
+					   a.acdnt_place_zip_code     acdnt_place_zip_code,
+					   a.acdnt_place              acdnt_place,
+					   a.drvr_nm                  drvr_nm
+				from
+					ctgi01 c,
+					ctgi05 d,
+					cpaa01 a,
+					cpaa04 b,
+					tb_member_saupno@kotmaswb e
+			where 1=1
+			   and NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1' 
+			   <isNotEmpty property="agent_no_array">
+					<iterate property="agent_no_array" open="and e.saupnum in (" conjunction="," close=")">
+						#agent_no_array[]#
+					</iterate> 
+			   </isNotEmpty>
+			   
+			   <isEmpty property="agent_no">
+					 <isNotEmpty property="tb_agent_array">
+						<iterate property="tb_agent_array" open="and b.agent_no||b.saupjang_seq in (" conjunction="," close=")">
+							#tb_agent_array[]#
+						</iterate>
+					 </isNotEmpty>
+				 </isEmpty>
+			   
+			   <isNotEmpty property="agent_no">
+	       	  		<isNotEmpty property="saupjang_seq">
+					   and b.agent_no       = #agent_no#
+					   and b.saupjang_seq   = #saupjang_seq#				       
+	              	</isNotEmpty>
+	            </isNotEmpty>
+	           and b.acdnt_no    = a.acdnt_no
+			   and b.acdnt_no   >= to_char(sysdate, 'yyyy') - '5' || '00000'
+			   and d.car_gaip_no = b.car_gaip_no
+			   and d.agent_no     = c.agent_no
+			   and d.saupjang_seq = c.saupjang_seq
+			   and d.agent_no = e.agent_no
+			   and d.saupjang_seq = e.saupjang_seq
+			   and acdnt_ymd between to_char(add_months(sysdate , -6), 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')
+			union
+			
+			select b.acdnt_no                 acdnt_no,
+				   b.car_no                   car_no,
+				   c.agent_no									agent_no,
+				   c.saupjang_seq							saupjang_seq,
+				   c.agent_nm					agent_nm,
+				   a.acdnt_ymd                acdnt_ymd,
+					a.acdnt_tm                 acdnt_tm,
+				   a.acdnt_place_zip_code     acdnt_place_zip_code,
+				   a.acdnt_place              acdnt_place,
+				   a.drvr_nm                  drvr_nm
+			from
+				   ctgi01 c,
+				   cpaa01 a,
+				   cpaa04 b,
+				   tb_member_saupno@kotmaswb d
+			where 1=1
+			and NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1' 
+			<isNotEmpty property="agent_no_array">
+				<iterate property="agent_no_array" open="and d.saupnum in (" conjunction="," close=")">
+					#agent_no_array[]#
+				</iterate> 
+			</isNotEmpty>
+			
+			<isEmpty property="agent_no">
+				 <isNotEmpty property="tb_agent_array">
+					<iterate property="tb_agent_array" open="and b.agent_no||b.saupjang_seq in (" conjunction="," close=")">
+						#tb_agent_array[]#
+					</iterate>
+				 </isNotEmpty>
+			 </isEmpty>
+			
+			<isNotEmpty property="agent_no">
+       	  		<isNotEmpty property="saupjang_seq">
+				   and b.agent_no       = #agent_no#
+				   and b.saupjang_seq   = #saupjang_seq#				       
+              	</isNotEmpty>
+            </isNotEmpty>
+            and a.acdnt_no 		= b.acdnt_no
+			and b.agent_no 		= c.agent_no
+			and b.saupjang_seq  = c.saupjang_seq
+			and b.agent_no 		= d.agent_no
+			and b.saupjang_seq 	= d.saupjang_seq      
+			and b.car_no 		= '주선적재물'
+			and acdnt_ymd between to_char(add_months(sysdate , -6), 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')
+			) xx
+	</select>	
+	
+		<select id="carAccidentInquiryDAO.selectDambobyul" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentInquiry" >	
+		select * from (
+		    select /*+ FIRST_ROWS(10) */ a.*, ROWNUM rnum from (
+		    
+					select b.acdnt_no                                    acdnt_no, 
+					       b.car_no                                      car_no,
+					       c.agent_no									agent_no,
+					       c.saupjang_seq							saupjang_seq, 
+					       c.agent_nm								agent_nm,
+					       (select max(decode(x.dmbo_gb, '1', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_1,
+					       (select max(decode(x.dmbo_gb, '2', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_2,
+					       (select max(decode(x.dmbo_gb, '3', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_3,
+					       (select max(decode(x.dmbo_gb, '4', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_4,
+					       (select max(decode(x.dmbo_gb, '5', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_5,
+					       substr(a.acdnt_ymd, 1, 4) || '.' ||
+					       substr(a.acdnt_ymd, 5, 2) || '.' ||
+					       substr(a.acdnt_ymd, 7, 2) || ' ' ||
+					       substr(a.acdnt_tm,  1, 2) || ':' ||
+					       substr(a.acdnt_tm,  3, 2)                     acdnt_date,
+					       trim(trim(f_zip_nm(a.acdnt_place_zip_code)) || ' ' ||
+					            trim(a.acdnt_place))                     acdnt_place,
+					       a.drvr_nm                                     drvr_nm,
+					       0                                             cnt,
+					       '클릭'                                        bosang,
+					       d.car_gaip_no								 car_gaip_no,
+					       b.gyeyak_no								     gyeyak_no,
+					       DECODE(F_CP_ACDNT_STAT('1', B.acdnt_no ,'',''),0, '종결', '진행중') ACDNT_STAT
+					from
+				        ctgi01 c,
+				        ctgi05 d,
+				        cpaa01 a,
+				        cpaa04 b
+				    where
+				        b.acdnt_no    = a.acdnt_no
+				        and NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1'     
+				        <isNotEmpty property="searchKeyword" >
+							  and 	b.car_no like '%'||#searchKeyword#||'%'
+						</isNotEmpty>
+				        and b.acdnt_no   >= to_char(sysdate, 'yyyy') - '5' || '00000'  
+				        <isEqual property="searchCondition" compareValue="detail">
+							and a.acdnt_no = #acdnt_no#
+						</isEqual>
+						<isEqual property="searchCondition" compareValue="list">
+							<!--and b.car_no like '%'||#searchKeyword#||'%' -->
+							and acdnt_ymd between #start_acdnt_ymd# and #end_acdnt_ymd#
+							<isNotEmpty property="gyeyak_jibu_cd" >
+								and substr(b.gyeyak_jibu_cd,1,2) like #gyeyak_jibu_cd#
+							</isNotEmpty>    
+					        and c.agent_no = #agent_no# <!-- 2016.12.27 [H] 추가 --> 
+					        and c.saupjang_seq = #saupjang_seq#  <!-- 2016.12.28 [H] 추가 --> 
+						</isEqual>
+				        and d.car_gaip_no = b.car_gaip_no     
+				        and d.agent_no     = c.agent_no                 
+				        and d.saupjang_seq = c.saupjang_seq
+			            <isEqual property="agentcd" compareValue="1">
+							and c.saupja_no    = #saupja_no#
+						</isEqual>
+				        <isEqual property="agentcd" compareValue="2">
+							and d.carmgr_jumin_no    = #jumin_no#
+						</isEqual>                    
+				    order by
+				        b.acdnt_no desc
+			 	) a
+			<isNotEmpty property="dambo">
+				where 
+				<isEqual property="dambo" compareValue="1"> 
+					dambo_1 is not null or  dambo_2 is not null or dambo_3 is not null <!-- 자동차공제 -->
+				</isEqual>
+				<isEqual property="dambo" compareValue="2"> 
+					dambo_4 is not null <!-- 재해공제 -->
+				</isEqual>
+				<isEqual property="dambo" compareValue="3"> 
+					dambo_5 is not null <!-- 적제물 공제(운송) -->
+				</isEqual>
+			</isNotEmpty>
+			)
+		<!-- <![CDATA[
+			 	) a where ROWNUM <= #lastIndex#
+			)where rnum > #firstIndex#
+		]]> -->
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectListJusun" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentInquiry">	
+		select b.acdnt_no                                    acdnt_no, 
+		       b.car_no                                      car_no, 
+		       c.agent_no									agent_no,
+		       c.saupjang_seq							saupjang_seq,
+		       c.agent_nm								agent_nm, 
+		       (select max(decode(x.dmbo_gb, '1', '○', ''))
+		          from cpaa03 x
+		         where x.acdnt_no = b.acdnt_no
+		         group by x.acdnt_no)                        dambo_1,
+		       (select max(decode(x.dmbo_gb, '2', '○', ''))
+		          from cpaa03 x
+		         where x.acdnt_no = b.acdnt_no
+		         group by x.acdnt_no)                        dambo_2,
+		       (select max(decode(x.dmbo_gb, '3', '○', ''))
+		          from cpaa03 x
+		         where x.acdnt_no = b.acdnt_no
+		         group by x.acdnt_no)                        dambo_3,
+		       (select max(decode(x.dmbo_gb, '4', '○', ''))
+		          from cpaa03 x
+		         where x.acdnt_no = b.acdnt_no
+		         group by x.acdnt_no)                        dambo_4,
+		       (select max(decode(x.dmbo_gb, '5', '○', ''))
+		          from cpaa03 x
+		         where x.acdnt_no = b.acdnt_no
+		         group by x.acdnt_no)                        dambo_5,
+		       substr(a.acdnt_ymd, 1, 4) || '.' ||
+		       substr(a.acdnt_ymd, 5, 2) || '.' ||
+		       substr(a.acdnt_ymd, 7, 2) || ' ' ||
+		       substr(a.acdnt_tm,  1, 2) || ':' ||
+		       substr(a.acdnt_tm,  3, 2)                     acdnt_date,
+		       trim(trim(f_zip_nm(a.acdnt_place_zip_code)) || ' ' ||
+		            trim(a.acdnt_place))                     acdnt_place,
+		       a.drvr_nm                                     drvr_nm,
+		       0                                             cnt,
+		       '클릭'                                        bosang,
+		       '000000000000'								 gyeyak_no,
+		       '9999999999'									 car_gaip_no
+		from
+	        ctgi01 c,
+	        cpaa01 a,
+	        cpaa04 b
+	    where  b.acdnt_no    = a.acdnt_no    
+	   		and NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1'
+	        and b.acdnt_no   >= to_char(sysdate, 'yyyy') - '5' || '00000'  
+	        <isEqual property="searchCondition" compareValue="detail">
+				and a.acdnt_no = #acdnt_no#
+			</isEqual>
+			
+			<isEqual property="searchCondition" compareValue="list">
+				and b.car_no like '주선적재물'
+				and acdnt_ymd between #start_acdnt_ymd# and #end_acdnt_ymd#
+				and substr(b.gyeyak_jibu_cd,1,2) like #gyeyak_jibu_cd#    
+		        and c.agent_no = #agent_no#  
+		        and c.saupjang_seq = #saupjang_seq# 
+			</isEqual>    
+	        and b.agent_no     = c.agent_no                 
+	        and b.saupjang_seq = c.saupjang_seq
+            <isEqual property="agentcd" compareValue="1">
+				and c.saupja_no    = #saupja_no#
+			</isEqual>
+	        <isEqual property="agentcd" compareValue="2">
+				and d.carmgr_jumin_no    = #jumin_no#
+			</isEqual>                    
+	    order by
+	        b.acdnt_no desc
+	</select>		
+	
+	<select id="carAccidentInquiryDAO.selectListInfo" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentInfo" >
+		select a.acdnt_no
+	      ,b.CAR_NO
+	      ,decode((select x.DRVR_NM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.DRVR_NM ,
+	               (select x.DRVR_NM from cpaa08 x where x.acdnt_no = a.acdnt_no)) DRVR_NM    /* 운전자 */	
+		  ,substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 1, 4) || '.' || substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 5, 2) || '.' || substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 7, 2) || ' ' || substr(decode((select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_TM ,
+	       (select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no)),  1, 2) || ':' || substr(decode((select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_TM ,
+	       (select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no)),  3, 2) ACDNT_DATE
+	
+	      ,decode((select f_zip_nm(x.ACDNT_PLACE_ZIP_CODE) from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_PLACE_ZIP_CODE ,
+	               (select f_zip_nm(x.ACDNT_PLACE_ZIP_CODE) from cpaa08 x where x.acdnt_no = a.acdnt_no)) ||' ' ||
+	
+	      decode((select x.ACDNT_PLACE from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_PLACE ,
+	               (select x.ACDNT_PLACE from cpaa08 x where x.acdnt_no = a.acdnt_no)) ACDNT_PLACE /* 사고장소2  */
+	      ,to_char(c.acdnt_cause_points) acdnt_cause_points
+	      ,decode(f_ex_trick(c.acdnt_no), '0', 'N', 'Y') trick
+	      ,to_char(c.acdnt_comment_points) acdnt_comment_points
+	
+	  from cpaa01 a, cpaa04 b, ctex21 c
+	 where a.acdnt_no = #acdnt_no#
+	   and a.acdnt_no = b.acdnt_no
+	   and a.acdnt_no = c.acdnt_no
+	   and c.acdnt_points_seq = (select max(acdnt_points_seq) from ctex21 where acdnt_no = #acdnt_no#)		
+	</select>	
+	
+	<select id="carAccidentInquiryDAO.selectListInfoReport" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap" >
+		select a.acdnt_no
+	      ,b.CAR_NO
+	      ,decode((select x.DRVR_NM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.DRVR_NM ,
+	               (select x.DRVR_NM from cpaa08 x where x.acdnt_no = a.acdnt_no)) DRVR_NM    /* 운전자 */	
+		  ,substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 1, 4) || '.' || substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 5, 2) || '.' || substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 7, 2) || ' ' || substr(decode((select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_TM ,
+	       (select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no)),  1, 2) || ':' || substr(decode((select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_TM ,
+	       (select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no)),  3, 2) ACDNT_DATE
+	
+	      ,decode((select f_zip_nm(x.ACDNT_PLACE_ZIP_CODE) from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_PLACE_ZIP_CODE ,
+	               (select f_zip_nm(x.ACDNT_PLACE_ZIP_CODE) from cpaa08 x where x.acdnt_no = a.acdnt_no)) ||' '||
+	
+	      decode((select x.ACDNT_PLACE from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_PLACE ,
+	               (select x.ACDNT_PLACE from cpaa08 x where x.acdnt_no = a.acdnt_no)) ACDNT_PLACE /* 사고장소2  */
+	      ,to_char(c.acdnt_cause_points) acdnt_cause_points
+	      ,decode(f_ex_trick(c.acdnt_no), '0', 'N', 'Y') trick
+	      ,to_char(c.acdnt_comment_points) acdnt_comment_points
+	
+	  from cpaa01 a, cpaa04 b, ctex21 c
+	 where a.acdnt_no = #acdnt_no#
+	   and a.acdnt_no = b.acdnt_no
+	   and a.acdnt_no = c.acdnt_no
+	   and c.acdnt_points_seq = (select max(acdnt_points_seq) from ctex21 where acdnt_no = #acdnt_no#)		
+	</select>	
+	
+	
+	<select id="carAccidentInquiryDAO.selectListNoPaging" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentInquiry" >	
+		select * from (
+		    select /*+ FIRST_ROWS(10) */ a.* from (
+		    
+					select b.acdnt_no                                    acdnt_no, 
+					       b.car_no                                      car_no, 
+					       (select max(decode(x.dmbo_gb, '1', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_1,
+					       (select max(decode(x.dmbo_gb, '2', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_2,
+					       (select max(decode(x.dmbo_gb, '3', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_3,
+					       (select max(decode(x.dmbo_gb, '4', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_4,
+					       (select max(decode(x.dmbo_gb, '5', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_5,
+					       substr(a.acdnt_ymd, 1, 4) || '.' ||
+					       substr(a.acdnt_ymd, 5, 2) || '.' ||
+					       substr(a.acdnt_ymd, 7, 2) || ' ' ||
+					       substr(a.acdnt_tm,  1, 2) || ':' ||
+					       substr(a.acdnt_tm,  3, 2)                     acdnt_date,
+					       trim(trim(f_zip_nm(a.acdnt_place_zip_code)) || ' ' ||
+					            trim(a.acdnt_place))                     acdnt_place,
+					       a.drvr_nm                                     drvr_nm,
+					       0                                             cnt,
+					       '클릭'                                        bosang
+					from
+				        ctgi01 c,
+				        ctgi05 d,
+				        cpaa01 a,
+				        cpaa04 b
+				    where
+				            b.acdnt_no    = a.acdnt_no    
+				        and NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1'
+				        and b.acdnt_no   >= to_char(sysdate, 'yyyy') - '5' || '00000'  
+				        <isEqual property="searchCondition" compareValue="detail">
+							and a.acdnt_no = #acdnt_no#
+						</isEqual>
+						<isEqual property="searchCondition" compareValue="list">
+							and b.car_no like '%'||#searchKeyword#||'%'
+							and acdnt_ymd between #start_acdnt_ymd# and #end_acdnt_ymd#
+						</isEqual>
+				        and d.car_gaip_no = b.car_gaip_no     
+				        and d.agent_no     = c.agent_no                 
+				        and d.saupjang_seq = c.saupjang_seq
+				        and substr(b.gyeyak_jibu_cd,1,2) like #gyeyak_jibu_cd#      
+			            <isEqual property="agentcd" compareValue="1">
+							and c.saupja_no    = #saupja_no#
+						</isEqual>
+				        <isEqual property="agentcd" compareValue="2">
+							and d.carmgr_jumin_no    = #jumin_no#
+						</isEqual>                    
+				   		 order by
+				        b.acdnt_no desc ) a )
+	</select>		
+	
+	<select id="carAccidentInquiryDAO.selectListReport" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap" >	
+		select * from (
+		    select /*+ FIRST_ROWS(10) */ a.*, ROWNUM rnum from (
+		    
+					select b.acdnt_no                                    acdnt_no, 
+					       b.car_no                                      car_no, 
+					       (select max(decode(x.dmbo_gb, '1', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_1,
+					       (select max(decode(x.dmbo_gb, '2', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_2,
+					       (select max(decode(x.dmbo_gb, '3', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_3,
+					       (select max(decode(x.dmbo_gb, '4', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_4,
+					       (select max(decode(x.dmbo_gb, '5', '○', ''))
+					          from cpaa03 x
+					         where x.acdnt_no = b.acdnt_no
+					         group by x.acdnt_no)                        dambo_5,
+					       substr(a.acdnt_ymd, 1, 4) || '.' ||
+					       substr(a.acdnt_ymd, 5, 2) || '.' ||
+					       substr(a.acdnt_ymd, 7, 2) || ' ' ||
+					       substr(a.acdnt_tm,  1, 2) || ':' ||
+					       substr(a.acdnt_tm,  3, 2)                     acdnt_date,
+					       trim(trim(f_zip_nm(a.acdnt_place_zip_code)) || ' ' ||
+					            trim(a.acdnt_place))                     acdnt_place,
+					       a.drvr_nm                                     drvr_nm,
+					       0                                             cnt,
+					       '클릭'                                        bosang,
+					       DECODE(F_CP_ACDNT_STAT('1', B.acdnt_no ,'',''),0, '종결', '진행중') ACDNT_STAT
+					from
+				        ctgi01 c,
+				        ctgi05 d,
+				        cpaa01 a,
+				        cpaa04 b
+				    where
+				            b.acdnt_no    = a.acdnt_no
+				        and NVL(TRIM(A.DEL_YN),'0') <![CDATA[<>]]> '1'    
+				        and b.acdnt_no   >= to_char(sysdate, 'yyyy') - '5' || '00000'  
+				        <isEqual property="searchCondition" compareValue="detail">
+							and a.acdnt_no = #acdnt_no#
+						</isEqual>
+						<isEqual property="searchCondition" compareValue="list">
+							and b.car_no like '%'||#searchKeyword#||'%'
+							and acdnt_ymd between #start_acdnt_ymd# and #end_acdnt_ymd#
+						</isEqual>
+				        and d.car_gaip_no = b.car_gaip_no     
+				        and d.agent_no     = c.agent_no                 
+				        and d.saupjang_seq = c.saupjang_seq     
+			            <isEqual property="agentcd" compareValue="1">
+							and c.saupja_no    = #saupja_no#
+						</isEqual>
+				             <isEqual property="agentcd" compareValue="2">
+							and d.carmgr_jumin_no    = #jumin_no#
+						</isEqual>                    
+				    order by
+				        b.acdnt_no desc
+		<![CDATA[
+			 	) a where ROWNUM <= #lastIndex#
+			)where rnum > #firstIndex#
+		]]> 
+	</select>		
+	
+
+	<select id="carAccidentInquiryDAO.selectPoint" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentPoint" >
+		select 	acdnt_cause_points,
+				decode(f_ex_trick(acdnt_no), '0', 'N', 'Y') trick,
+				acdnt_comment_points
+		from 	ctex21
+		where 	acdnt_no = #acdnt_no#
+		and		acdnt_points_seq = (select max(acdnt_points_seq)
+		                            from ctex21
+		                           where acdnt_no = #acdnt_no#)
+	
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectPointList" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap" >
+		select 	acdnt_cause_points,
+				decode(f_ex_trick(acdnt_no), '0', 'N', 'Y') trick,
+				acdnt_comment_points
+		from 	ctex21
+		where 	acdnt_no = #acdnt_no#
+		and		acdnt_points_seq = (select max(acdnt_points_seq)
+		                            from ctex21
+		                           where acdnt_no = #acdnt_no#)
+	
+	</select>
+
+	<select id="carAccidentInquiryDAO.selectDetailList" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentDetail" >
+		select /*+first row*/ 
+		       max(x.gb)         gb,
+		       x.acdnt_no        acdnt_no,
+		       x.dmbo_gb         dmbo_gb,
+		       f_code_nm('2014',x.dmbo_gb)         dmbo_gb_nm,
+		       max( x.psn_num)   psn_num,
+		       trim(f_dmgd_psn_nm_1(x.acdnt_no, x.dmbo_gb, decode(max(x.psn_num), 0, reqsit_serno, max(x.psn_num)), 
+		                                                   decode(max(x.psn_num), 0, '1',          '2')))            dmgd_psn_nm,
+		       trim(x.facto_hp_nm)                                                                                   facto_hp_nm,
+		       decode(max(x.gb), '1', f_cp_jibu_nm('2', x.bsng_part2), 
+		                         '2', f_cp_jibu_nm('2', x.bsng_part2),
+		                         f_cp_damdang('7', '99991231', x.acdnt_no, x.dmbo_gb, max(x.psn_num)))               jibu,
+		       decode(max(x.gb), '1', f_part_nm(x.bsng_part2),
+		                         '2', f_part_nm(x.bsng_part2),
+		                         f_cp_damdang('6', '99991231', x.acdnt_no, x.dmbo_gb, max(x.psn_num)))               pat,
+		       decode(max(x.gb), '1', f_id_nm(x.dmdngja_id2),
+		                         '2', f_id_nm(x.dmdngja_id2),
+		                         f_cp_damdang('1', '99991231', x.acdnt_no, x.dmbo_gb, max(x.psn_num)))               id,
+		       max((select sum(prvd_tot_amt)
+		              from cpac08   
+		             where acdnt_no     = x.acdnt_no
+		               and dmbo_gb      = x.dmbo_gb
+		               and dmgd_psn_num = x.psn_num)) jigub_amt,
+		       max(f_cp_os_dcd_amt('24', x.acdnt_no, x.dmbo_gb, x.psn_num, 0))  jigub_amt1,
+		       max(f_cp_os_dcd_amt('25', x.acdnt_no, x.dmbo_gb, x.psn_num, 0))  jigub_amt2,
+		       max((select depyo_tel_no
+		              from hrpe01
+		             where jibu_cd = x.bsng_jibu2))   jibu_tel,
+		       0                                      cnt
+		from (
+		        select a.gb, 
+		               a.acdnt_no, 
+		               a.dmbo_gb, 
+		               case when a.gb   = '1'                then  0
+		                    when (a.gb in ('2','3','4','5')) then  max(a.psn_num)
+		                    else 0
+		               end  psn_num,  
+		               b.dmgd_psn_nm,   
+		               b.facto_hp_nm,  
+		               b.bsng_jibu2, 
+		               b.bsng_part2,
+		               b.dmdngja_id2,
+		               reqsit_serno
+		          from (
+		                select acdnt_no       acdnt_no,  
+		                       dmbo_gb        dmbo_gb,  
+		                       dmgd_psn_num   reqsit_serno,
+		                       0              psn_num,  
+		                       dmgd_psn_nm    dmgd_psn_nm, 
+		                       '1'            gb
+		                  from cpaa03         
+		                 where seq      = '2'
+		                   and acdnt_no = #acdnt_no#
+		                   
+		                union
+		
+		                
+		                select a.acdnt_no     acdnt_no,  
+		                       b.dmbo_gb      dmbo_gb,  
+		                       b.dmgd_psn_num reqsit_serno,
+		                       0              psn_num,
+		                       b.dmgd_psn_nm  dmgd_psn_nm, 
+		                       '2'            gb
+		                  from cpaa08 a,      
+		                       cpaa03 b
+		                 where a.acdnt_no = #acdnt_no#
+		                   and a.acdnt_no = b.acdnt_no
+		                   and b.seq      = '2'
+		                   
+		                union
+		
+		               						
+		                select acdnt_no,  
+		                       dmbo_gb,
+		                       reqsit_serno, 
+		                       dmgd_psn_num psn_num,
+		                       case when dmbo_gb = '5' then etc_dmgd_load
+		                            when (dmbo_gb in ('2', '3') and dmgd_gb in ('01', '02', '03', '04', '05')) then car_id
+		                            else etc_dmgd_nm
+		                       end  dmgd_psn_nm,                                         
+		                       case when nvl(ex_code, '0') > '0' then '5'
+		                            when nvl(rtp_no,  '0') > '0' then '4'
+		                            else '3'
+		                       end  gb
+		                  from cpab01   
+		                 where acdnt_no = #acdnt_no#
+		
+		                union
+		
+		               
+		                select acdnt_no,  
+		                       dmbo_gb,  
+		                       reqsit_serno,
+		                       dmgd_psn_num psn_num, 
+		                       dmgd_psn_nm,
+		                       case when nvl(ex_code, '0') > '0' then '5'
+		                            when nvl(rpt_no,  '0') > '0' then '4'
+		                            else '3'
+		                       end  gb
+		                  from cpab11  
+		                 where acdnt_no = #acdnt_no#
+		               ) a, 
+		               cpaa03 b
+		         where a.acdnt_no     = #acdnt_no#         
+		           and b.seq          = '2'
+		           and a.acdnt_no     = b.acdnt_no(+)
+		           and a.dmbo_gb      = b.dmbo_gb(+)
+		           and a.reqsit_serno = b.dmgd_psn_num(+)
+		         group by a.gb,         a.acdnt_no,   a.dmbo_gb,     b.dmgd_psn_nm, b.facto_hp_nm, 
+		                  b.bsng_jibu2, b.bsng_part2, b.dmdngja_id2, reqsit_serno
+		       ) x, 
+		       cpab55 y
+		where x.acdnt_no = y.acdnt_no(+)
+		  and x.dmbo_gb  = y.dmbo_gb(+)
+		  and x.psn_num  = y.dmgd_psn_num(+)
+		group by x.acdnt_no,    x.dmbo_gb,    x.reqsit_serno, x.dmgd_psn_nm,
+		          x.facto_hp_nm, x.bsng_jibu2, x.bsng_part2,   x.dmdngja_id2
+		order by x.acdnt_no,    x.dmbo_gb,    max(x.psn_num), max(y.ins_date)
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList1" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentDetail1">
+		select  decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') GB
+		       ,a.acdnt_no                            ACDNT_NO
+		       ,a.dmbo_gb				             DMBO_GB
+		       ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    DMBO_GB_NM
+			   ,to_char(a.dmgd_psn_num)               PSN_NUM
+			   ,rpad( substr(a.psn_nm , 0, length(a.psn_nm )-(length(a.psn_nm )-1)), (length(a.psn_nm)+2),'*') dmgd_psn_nm
+			   ,to_char(a.dcd_amt)                    JIGUB_AMT
+			   ,to_char(decode(a.DEATH_GB, '1', a.hu_amt2, 0)) JIGUB_AMT1
+			   ,to_char(case when a.DEATH_GB = '0' and OBSTCL_GRD = '0' then a.dcd_amt else  a.bu_amt end) JIGUB_AMT2
+			   ,to_char(case when a.DEATH_GB = '0' and OBSTCL_GRD = '1' then a.hu_amt2 else 0 end) JIGUB_AMT3
+			   ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  JIBU
+			   ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  PAT
+			   ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  ID
+			   ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) JIBU_TEL
+		  from (select a.acdnt_no
+			          ,a.dmbo_gb
+			          ,a.dmgd_psn_num
+			          ,a.REQSIT_SERNO
+				      ,decode(trim(a.DEATH_GB), '1', '1', '2' ,'1', '0') DEATH_GB
+				      ,decode(trim(a.OBSTCL_GRD), null, '0', '1') OBSTCL_GRD
+				      ,a.DMGD_PSN_NM psn_nm
+				      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) dcd_amt
+				      ,nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) hu_amt
+				      ,f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) os_amt
+				      ,(nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) + f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				         ) bu_amt
+				      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				       - (nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) + f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				         ) hu_amt2
+				  from cpab11 a
+				 where a.acdnt_no = #acdnt_no#
+				   and a.dmbo_gb = '1'
+			 ) a
+			 order by a.dmgd_psn_num
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList2" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentDetail2">
+		select decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,rpad( substr(a.DMGD_PSN_NM , 0, length(a.DMGD_PSN_NM )-(length(a.DMGD_PSN_NM )-3)) , length(a.DMGD_PSN_NM)-1,'*') dmgd_psn_nm
+		      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+		      ,rpad( substr(a.PRVD_NM, 0, length(a.PRVD_NM)-(length(a.PRVD_NM)-1)) , lengthb(a.PRVD_NM)-2,'*') prvd_nm
+		      ,a.PRVD_TOT_AMT                                                 jigub_amt1
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		from(	select a.acdnt_no
+					      ,a.dmbo_gb
+					      ,a.dmgd_psn_num
+					      ,a.REQSIT_SERNO
+		            ,decode(a.CAR_ID, null, a.ETC_DMGD_NM, a.CAR_ID)  DMGD_PSN_NM
+					      ,b.DCD_CNT
+					      ,b.PRVD_NM
+					      ,b.PRVD_TOT_AMT
+					      ,nvl((select x.alow_yn from cpac33 x
+					         where x.acdnt_no = a.acdnt_no
+					           and x.dmbo_gb   = a.dmbo_gb
+					           and x.dmgd_psn_num  = a.dmgd_psn_num
+					           and x.DCD_CNT = b.DCD_CNT),'0') gb  /* (결재유무) 1: 결재전 , 2: 결재 , 3: 반려  반려는 제외 하자 */
+		
+					  from cpab01 a, cpac08 b
+					 where a.acdnt_no     =  #acdnt_no#
+					   and a.dmbo_gb      =  #dmbo_gb#   /* '2':대물   '3':자차    '5':적재물 */
+					   and a.acdnt_no = b.acdnt_no(+)
+					   and b.dmbo_gb(+) = a.dmbo_gb
+					   and b.dmgd_psn_num(+) = a.dmgd_psn_num
+					   and b.RTN_CD (+) = '1'
+		       ) a
+		    where a.gb <![CDATA[<>]]> '3'    /* 반려제외 */
+		    order by psn_num
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList3" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentDetail3">
+		select decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,a.DMGD_PSN_NM                                                   dmgd_psn_nm
+		
+		      ,decode(a.dmgd_psn_num,  0, nvl((select sum(x.PRVD_TOT_AMT)
+		                                     from cpac08 x
+		                                    where x.acdnt_no = a.acdnt_no
+		                                      and x.dmbo_gb = a.dmbo_gb
+		                                      and x.dmgd_psn_num = a.dmgd_psn_num
+		                                      and x.rtn_cd = 1),0 )
+		                                 ,  0 )   jigub_amt
+		      ,decode(a.dmgd_psn_num,  0,  0
+		                                ,  nvl((select sum(x.PRVD_TOT_AMT)
+				                                     from cpac08 x
+				                                    where x.acdnt_no = a.acdnt_no
+				                                      and x.dmbo_gb = a.dmbo_gb
+				                                      and x.dmgd_psn_num = a.dmgd_psn_num
+				                                      and x.rtn_cd = 1),0 )
+		                                 )  jigub_amt1
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+
+						  from cpab11 a
+						 where a.acdnt_no = #acdnt_no#
+						   and a.dmbo_gb = '7'
+		
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList4" parameterClass="carAccidentInquirySearchVO" resultMap="carAccidentDetail4">
+		select  decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,a.DMGD_PSN_NM                                                   dmgd_psn_nm
+		      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		  from cpab11 a
+		 where a.acdnt_no = #acdnt_no#
+		   and a.dmbo_gb  = '8'
+		   and a.dmgd_psn_num = 1
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList1Report" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap">
+		select  decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') GB
+		       ,a.acdnt_no                            ACDNT_NO
+		       ,a.dmbo_gb				             DMBO_GB
+		       ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    DMBO_GB_NM
+			   ,to_char(a.dmgd_psn_num)               PSN_NUM
+			   ,rpad( substr(a.psn_nm , 0, length(a.psn_nm )-(length(a.psn_nm )-1)), (length(a.psn_nm)+2),'*') dmgd_psn_nm
+			   ,to_char(a.dcd_amt)                    JIGUB_AMT
+			   ,to_char(decode(a.DEATH_GB, '1', a.hu_amt2, 0)) JIGUB_AMT1
+			   ,to_char(case when a.DEATH_GB = '0' and OBSTCL_GRD = '0' then a.dcd_amt else  a.bu_amt end) JIGUB_AMT2
+			   ,to_char(case when a.DEATH_GB = '0' and OBSTCL_GRD = '1' then a.hu_amt2 else 0 end) JIGUB_AMT3
+			   ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  JIBU
+			   ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  PAT
+			   ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  ID
+			   ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) JIBU_TEL
+		  from (select a.acdnt_no
+			          ,a.dmbo_gb
+			          ,a.dmgd_psn_num
+			          ,a.REQSIT_SERNO
+				      ,decode(trim(a.DEATH_GB), '1', '1', '2' ,'1', '0') DEATH_GB
+				      ,decode(trim(a.OBSTCL_GRD), null, '0', '1') OBSTCL_GRD
+				      ,a.DMGD_PSN_NM psn_nm
+				      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) dcd_amt
+				      ,nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) hu_amt
+				      ,f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) os_amt
+				      ,(nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) + f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				         ) bu_amt
+				      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				       - (nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) + f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				         ) hu_amt2
+				  from cpab11 a
+				 where a.acdnt_no = #acdnt_no#
+				   and a.dmbo_gb = '1'
+			 ) a
+			 order by a.dmgd_psn_num
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList2Report" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap">
+		select decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,rpad( substr(a.DMGD_PSN_NM , 0, length(a.DMGD_PSN_NM )-(length(a.DMGD_PSN_NM )-2)) , length(a.DMGD_PSN_NM)-1,'*') dmgd_psn_nm
+		      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+		      ,rpad( substr(a.PRVD_NM, 0, length(a.PRVD_NM)-(length(a.PRVD_NM)-1)) , length(a.PRVD_NM),'*') prvd_nm
+		      ,a.PRVD_TOT_AMT                                                 jigub_amt1
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		from(	select a.acdnt_no
+					      ,a.dmbo_gb
+					      ,a.dmgd_psn_num
+					      ,a.REQSIT_SERNO
+		            ,decode(a.CAR_ID, null, a.ETC_DMGD_NM, a.CAR_ID)  DMGD_PSN_NM
+					      ,b.DCD_CNT
+					      ,b.PRVD_NM
+					      ,b.PRVD_TOT_AMT
+					      ,nvl((select x.alow_yn from cpac33 x
+					         where x.acdnt_no = a.acdnt_no
+					           and x.dmbo_gb   = a.dmbo_gb
+					           and x.dmgd_psn_num  = a.dmgd_psn_num
+					           and x.DCD_CNT = b.DCD_CNT),'0') gb  /* (결재유무) 1: 결재전 , 2: 결재 , 3: 반려  반려는 제외 하자 */
+		
+					  from cpab01 a, cpac08 b
+					 where a.acdnt_no     =  #acdnt_no#
+					   and a.dmbo_gb      =  #dmbo_gb#   /* '2':대물   '3':자차    '5':적재물 */
+					   and a.acdnt_no = b.acdnt_no(+)
+					   and b.dmbo_gb(+) = a.dmbo_gb
+					   and b.dmgd_psn_num(+) = a.dmgd_psn_num
+					   and b.RTN_CD (+) = '1'
+		       ) a
+		    where a.gb <![CDATA[<>]]> '3'    /* 반려제외 */
+		    order by psn_num
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList3Report" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap">
+		select decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,a.DMGD_PSN_NM                                                   dmgd_psn_nm
+		
+		      ,decode(a.dmgd_psn_num,  0, nvl((select sum(x.PRVD_TOT_AMT)
+		                                     from cpac08 x
+		                                    where x.acdnt_no = a.acdnt_no
+		                                      and x.dmbo_gb = a.dmbo_gb
+		                                      and x.dmgd_psn_num = a.dmgd_psn_num
+		                                      and x.rtn_cd = 1),0 )
+		                                 ,  0 )   jigub_amt
+		      ,decode(a.dmgd_psn_num,  0,  0
+		                                ,  nvl((select sum(x.PRVD_TOT_AMT)
+				                                     from cpac08 x
+				                                    where x.acdnt_no = a.acdnt_no
+				                                      and x.dmbo_gb = a.dmbo_gb
+				                                      and x.dmgd_psn_num = a.dmgd_psn_num
+				                                      and x.rtn_cd = 1),0 )
+		                                 )  jigub_amt1
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+
+						  from cpab11 a
+						 where a.acdnt_no = #acdnt_no#
+						   and a.dmbo_gb = '7'
+		
+	</select>
+	
+	<select id="carAccidentInquiryDAO.selectDetailList4Report" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap">
+		select  decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,a.DMGD_PSN_NM                                                   dmgd_psn_nm
+		      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		  from cpab11 a
+		 where a.acdnt_no = #acdnt_no#
+		   and a.dmbo_gb  = '8'
+		   and a.dmgd_psn_num = 1
+	</select>
+	
+	
+	
+	
+	<select id="carAccidentInquiryDAO.selectDetailListReport" parameterClass="carAccidentInquirySearchVO" resultClass="java.util.HashMap" >
+		select /*+first row*/ 
+		       max(x.gb)         gb,
+		       x.acdnt_no        acdnt_no,
+		       x.dmbo_gb         dmbo_gb,
+		       f_code_nm('2014',x.dmbo_gb)         dmbo_gb_nm,
+		       max( x.psn_num)   psn_num,
+		       trim(f_dmgd_psn_nm_1(x.acdnt_no, x.dmbo_gb, decode(max(x.psn_num), 0, reqsit_serno, max(x.psn_num)), 
+		                                                   decode(max(x.psn_num), 0, '1',          '2')))            dmgd_psn_nm,
+		       trim(x.facto_hp_nm)                                                                                   facto_hp_nm,
+		       decode(max(x.gb), '1', f_cp_jibu_nm('2', x.bsng_part2), 
+		                         '2', f_cp_jibu_nm('2', x.bsng_part2),
+		                         f_cp_damdang('7', '99991231', x.acdnt_no, x.dmbo_gb, max(x.psn_num)))               jibu,
+		       decode(max(x.gb), '1', f_part_nm(x.bsng_part2),
+		                         '2', f_part_nm(x.bsng_part2),
+		                         f_cp_damdang('6', '99991231', x.acdnt_no, x.dmbo_gb, max(x.psn_num)))               pat,
+		       decode(max(x.gb), '1', f_id_nm(x.dmdngja_id2),
+		                         '2', f_id_nm(x.dmdngja_id2),
+		                         f_cp_damdang('1', '99991231', x.acdnt_no, x.dmbo_gb, max(x.psn_num)))               id,
+		       NVL(max((select sum(prvd_tot_amt)
+		              from cpac08   
+		             where acdnt_no     = x.acdnt_no
+		               and dmbo_gb      = x.dmbo_gb
+		               and dmgd_psn_num = x.psn_num)), 0) jigub_amt,
+		       NVL(max(f_cp_os_dcd_amt('24', x.acdnt_no, x.dmbo_gb, x.psn_num, 0)), 0)  jigub_amt1,
+		       NVL(max(f_cp_os_dcd_amt('25', x.acdnt_no, x.dmbo_gb, x.psn_num, 0)), 0)  jigub_amt2,
+		       max((select depyo_tel_no
+		              from hrpe01
+		             where jibu_cd = x.bsng_jibu2))   jibu_tel,
+		       0                                      cnt
+		from (
+		        select a.gb, 
+		               a.acdnt_no, 
+		               a.dmbo_gb, 
+		               case when a.gb   = '1'                then  0
+		                    when (a.gb in ('2','3','4','5')) then  max(a.psn_num)
+		                    else 0
+		               end  psn_num,  
+		               b.dmgd_psn_nm,   
+		               b.facto_hp_nm,  
+		               b.bsng_jibu2, 
+		               b.bsng_part2,
+		               b.dmdngja_id2,
+		               reqsit_serno
+		          from (
+		                select acdnt_no       acdnt_no,  
+		                       dmbo_gb        dmbo_gb,  
+		                       dmgd_psn_num   reqsit_serno,
+		                       0              psn_num,  
+		                       dmgd_psn_nm    dmgd_psn_nm, 
+		                       '1'            gb
+		                  from cpaa03         
+		                 where seq      = '2'
+		                   and acdnt_no = #acdnt_no#
+		                   
+		                union
+		
+		                
+		                select a.acdnt_no     acdnt_no,  
+		                       b.dmbo_gb      dmbo_gb,  
+		                       b.dmgd_psn_num reqsit_serno,
+		                       0              psn_num,
+		                       b.dmgd_psn_nm  dmgd_psn_nm, 
+		                       '2'            gb
+		                  from cpaa08 a,      
+		                       cpaa03 b
+		                 where a.acdnt_no = #acdnt_no#
+		                   and a.acdnt_no = b.acdnt_no
+		                   and b.seq      = '2'
+		                   
+		                union
+		
+		               						
+		                select acdnt_no,  
+		                       dmbo_gb,
+		                       reqsit_serno, 
+		                       dmgd_psn_num psn_num,
+		                       case when dmbo_gb = '5' then etc_dmgd_load
+		                            when (dmbo_gb in ('2', '3') and dmgd_gb in ('01', '02', '03', '04', '05')) then car_id
+		                            else etc_dmgd_nm
+		                       end  dmgd_psn_nm,                                         
+		                       case when nvl(ex_code, '0') > '0' then '5'
+		                            when nvl(rtp_no,  '0') > '0' then '4'
+		                            else '3'
+		                       end  gb
+		                  from cpab01   
+		                 where acdnt_no = #acdnt_no#
+		
+		                union
+		
+		               
+		                select acdnt_no,  
+		                       dmbo_gb,  
+		                       reqsit_serno,
+		                       dmgd_psn_num psn_num, 
+		                       dmgd_psn_nm,
+		                       case when nvl(ex_code, '0') > '0' then '5'
+		                            when nvl(rpt_no,  '0') > '0' then '4'
+		                            else '3'
+		                       end  gb
+		                  from cpab11  
+		                 where acdnt_no = #acdnt_no#
+		               ) a, 
+		               cpaa03 b
+		         where a.acdnt_no     = #acdnt_no#         
+		           and b.seq          = '2'
+		           and a.acdnt_no     = b.acdnt_no(+)
+		           and a.dmbo_gb      = b.dmbo_gb(+)
+		           and a.reqsit_serno = b.dmgd_psn_num(+)
+		         group by a.gb,         a.acdnt_no,   a.dmbo_gb,     b.dmgd_psn_nm, b.facto_hp_nm, 
+		                  b.bsng_jibu2, b.bsng_part2, b.dmdngja_id2, reqsit_serno
+		       ) x, 
+		       cpab55 y
+		where x.acdnt_no = y.acdnt_no(+)
+		  and x.dmbo_gb  = y.dmbo_gb(+)
+		  and x.psn_num  = y.dmgd_psn_num(+)
+		group by x.acdnt_no,    x.dmbo_gb,    x.reqsit_serno, x.dmgd_psn_nm,
+		          x.facto_hp_nm, x.bsng_jibu2, x.bsng_part2,   x.dmdngja_id2
+		order by x.acdnt_no,    x.dmbo_gb,    max(x.psn_num), max(y.ins_date)
+
+		
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">244</span><span class="pyoName">&#91;A&#93; 직진차 &#91;B&#93; 진행차 &#9313;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row" rowspan="2">사고상황</th>
+                            <td class="bg1" rowspan="2">기본 &#9314;</td>
+                            <td class="alC bB3 bB4">&#40;가&#41;A30</td>
+                            <td class="alC bB4">B70</td>
+                        </tr>
+                        <tr>
+                            <td class="alC bB3">&#40;나&#41; A25</td>
+                            <td class="alC">B75</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="12" class="alC"><img src="/images/truck/jpg/244.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 앞부분 내밀고 대기 &#9315;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 주행방향으로 45도 전환 &#9316;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 서행불이행</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 우측 통행 불이행</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 역주행&#40;화살표 반대 방향 주행&#41;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 현저한 과실</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 서행불이행&#40;급하게 진행&#41;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 이미 B차량 후방을 진행</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실    </td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312; 주차장에서&#44; 이미 주차하였다가 주차된 장소에서 빠져나오려는 진행 차량과 주차장 내부 차량 진행로를 주행하는 직진 차량 간의 사고를 예상한 것인데&#44; 기존 도표 가운데 이와 가장유사한 노외차 사례&#40;도표 242&#41;를 준용하되&#44; 몇 가지 수정요소를 보완하였다&#46;</p>
+                    <p class="txtPoint">&#9313; 진행차란&#44; 이미 주차하였다가 주차된 장소에서 빠져 나오려고 전진 혹은 후진하는 차를 말한다&#46;</p>
+                    <p class="txtPoint">&#9314; 도로교통법 제18조제3항에는 도로외의 시설 또는 장소에서 도로로 진입할 때에는 교통의 흐름에 방해되는 운전조작으로 취급하여 일단정지 후 서행하면서 안전여부를 충분히 확인토록 규정하고 있으므로 이를 준용하여 진행차의 기본과실을 더 크게 정하였고&#44; 진행차는 서행하고 있고 직진차에게는 가벼운 전방주시의무 태만이 존재하는 것을 전제로 기본과실을 산정하였다&#46; 노외차의 경우와 비교할 때 주차장의 경우 직진차는 항상 주차된 차량이 주차상태를 해제하면서 주행로로 나올 것을 예상하면서 주행해야 하므로&#44; 노외차&#40;20 &#58;80&#41;보다 직진차의 기본과실을 10&#37; 가산하였다&#46; 다만&#44; 후진차량이 전진차량보다 주의의무를 더 기울여 야 한다는 점을 고려하여 후행진행차의 기본과실을 전진진행차보다 5&#37; 가산하였다&#46;</p>
+                    <p class="txtPoint">&#9315; 진행차가 차체를 차량 주행로에 일부 노출시키고 대기하던 중에 사고가 발생한 경우이다&#46;</p>
+                    <p class="txtPoint">&#9316; 진행차가 이미 차량 진행로의 주행방향 쪽으로 차체를 45도 가까이 전환한 경우에는 끼어들 기의 경우&#40;기존 도표 252도&#41;를 준용하되 직진차에 10&#37;를 가산함으로써 수정된 과실비율이 40 &#58;60에 이르도록 하였다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+                <div class="txtContent">
+                    <h3 class="decuh4Tit">관련법규</h3>
+                    <p class="txtPoint">&#9827; 도로교통법 제18조&#91;횡단 등의 금지&#93;</p>
+                    <ul class="txtListst02">
+                        <li>&#9314; 차마의 운전자는 길가의 건물이나 주차장 등에서 도로에 들어가고자 하는 때에는 일단정지한 후에 안전여부를 확인하면서 서행하여야 한다&#46;</li>
+                    </ul>
+                </div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

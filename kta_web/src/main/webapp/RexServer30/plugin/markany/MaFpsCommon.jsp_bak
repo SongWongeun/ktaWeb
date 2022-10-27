@@ -1,0 +1,68 @@
+<%@ page language="java" contentType="text/html; charset=euc-kr" %>
+<%@ page import="java.util.*,java.io.*,java.text.*,java.lang.Integer, java.net.*" %>
+<%@ page import="com.markany.fps.*"%><%
+   String strServerIp     = "192.1.60.7";  // MarkAny 서버모듈 설치 IP
+    int     iServerPort     = 18320;        // MarkAny 서버모듈 PORT
+	// Config Data 형식
+	//String	strConfigData = new String("8^265^35^265^528^264^화물공제조합^사본^1^280^80^0^0^3^");
+	String	strConfigData = new String("8^265^35^265^528^264^화물공제조합^사본^0^280^80^0^0^0^");
+    
+	int           i2DCellCount=16, i2DCellRow=2;
+	
+	// Unix
+	String	strCertFilePath = "";
+	String  strPriKeyPath     = "";
+	String  strPriKeyPasswd   = "";
+	
+	String	strSignCompany = "INIT";
+	String	strReportCompany = "RP##";
+	
+	// create instance
+	MaFpsMake2DCode clMaFpsMake2DCode = new MaFpsMake2DCode();	
+	
+	String strXML =request.getParameter("rgx");
+
+
+	int iRet = 0;
+	String	strRet = new String();
+	
+
+	// Call Ma2DCode library
+	try
+	{
+		strRet = clMaFpsMake2DCode.iGen2DCodeEx(
+		                strServerIp,
+		                iServerPort,
+						strConfigData,
+						i2DCellCount,
+						i2DCellRow,
+						strXML.getBytes(),
+						strCertFilePath,
+						strPriKeyPath,
+						strPriKeyPasswd,
+						strSignCompany,	
+						strReportCompany );
+						
+						
+		String strRetCode = new String( strRet.substring( 0, 4 ) );
+		String str2DData = new String( strRet.substring( 4 ));
+	
+		if (strRetCode.equals( "0000" ))
+		{
+			out.print("OK$" + str2DData);
+			//System.out.println("2DDATA"+str2DData);
+		}
+		else
+		{
+			out.println(strRetCode);
+		}						
+							
+						
+	}
+	catch( UnsatisfiedLinkError e )
+	{
+		out.println("error while binding method");
+		out.println("\t:"+e.toString());
+		
+	}
+%>

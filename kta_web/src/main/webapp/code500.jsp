@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<!-- meta, title, css, javascript -->
+<c:import url="/common/include/subGlobal.do"></c:import>
+<script language="javascript">
+function fncGoAfterErrorPage(){
+    history.back(-2);
+}
+/* index function */
+function goIndex() {
+	document.location.href = "/main/index.do";
+}
+</script>
+</head>
+<body>
+<div class="errorWrap">
+	<h1><img src="/images/truck/etc/error_logo.gif" alt="KTA 전국화물자동차운송사업자공제조합" ></h1>
+	<div class="roundBox">
+		<div class="round"><span class="rtL"></span><span class="rtR"></span></div><!-- 상단라운드 -->
+		<!-- error message s -->
+		<div class="errorArea clfix">
+			<p class="errTxt01">서비스 과정에서 장애가 발생하였습니다&#46;</p>
+			<ul>
+				<li>이용에 불편을 드려 대단히 죄송합니다&#46;</li>
+				<li>잠시후에 다시 한번 시도해 주시길 부탁드립니다&#46;</li>
+				<li>동일한 문제가 지속적으로 발생할 경우 <span class="errTxt02">고객지원센터&#40;02&#45;3483&#45;3700&#41;</span>로<br/>문의하여 주시기 바랍니다&#46;</li>
+			</ul>
+			<!-- 버튼 -->
+			<div class="btnGroup">
+				<a href="#;" onclick="goIndex();" ><img src="/images/truck/btn/btn_home.gif" alt="홈으로 이동" /></a>
+				<a href="#;" onclick="fncGoAfterErrorPage();"><img src="/images/truck/btn/btn_pre.gif" alt="이전페이지로 가기" /></a>
+			</div>
+		</div>
+		<div class="round"><span class="rbL"></span><span class="rbR"></span></div><!-- 하단라운드 -->
+	</div>
+</div>
+</body>
+</html>

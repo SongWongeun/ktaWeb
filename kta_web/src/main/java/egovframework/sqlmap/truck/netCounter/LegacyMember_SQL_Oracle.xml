@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >	
+
+	<typeAlias  alias="LoginVO" type="egovframework.com.cmm.LoginVO"/>
+	<typeAlias  alias="MemberInformationVO" type="kr.or.truck.netcounter.memberpage.service.impl.MemberInformationVO"/>
+
+	<!-- 조합원 -->
+	<select id="LegacyMemberPageDAO.selectCtgi01" parameterClass="LoginVO" resultClass="hashmap">
+		select * from (  
+			select 
+			         a.AGENT_NO
+					,a.SAUPJANG_SEQ
+					,a.AGENT_NM
+					,a.DAEPYOJA_NM
+					,a.BUPIN_NO
+					,a.SAUPJA_NO
+					,a.JOHAPWON_JUMIN_NO
+					,a.COMPANY_NM
+					,a.MOBILE_COM_NO
+					,a.MOBILE_NO
+					,a.EMAIL
+					,a.ADDR_GB_CD
+					,a.BAEDAL_APPLY_YMD
+					,a.GAIP_YMD
+					,a.DANCHE_UPCHE_RATE
+					,a.HOMEPAGE_ADDR
+					,a.DANCHE_UPCHE_CD
+					,a.ACCOUNT_NO
+					,a.BANK_CD
+					,a.HQ_YN
+					,a.GYEYAK_JIBU_CD
+					,F_CODE_NM('7080',a.GYEYAK_JIBU_CD) as GYEYAK_JIBU_NM
+					,a.GYEYAK_CHULJANG_CD
+					,a.UPJONG_CD
+					,a.RETIRE_YN
+					,a.RETIRE_YMD
+					,a.SEOLRIP_YMD
+					,a.PROCESS_YMD
+					,a.PROCESS_ID
+					,a.PROCESS_PGM
+					,a.SEOLRIP_YMD1
+					,a.AGENT_KIND_CD
+					,a.YEON_YN
+					,b.APPLY_YMD
+					,b.ZIP1
+					,b.ZIP2
+					,b.ADDR1
+					,b.ADDR2
+					,b.TEL_LOCAL_NO
+					,b.TEL_NO
+					,b.FAX_LOCAL_NO
+					,b.FAX_NO
+			from 	CTGI01 a INNER JOIN CTGI02 b ON a.AGENT_NO = b.AGENT_NO AND a.addr_gb_cd = b.addr_gb_cd
+			where 	a.JOHAPWON_JUMIN_NO = #juminNo#
+			  and	a.SAUPJA_NO = #saupjaNo#
+			  and 	a.GYEYAK_JIBU_CD = #gyeyakJibuCd#
+		) where rownum =1
+	</select>
+	
+	<!-- 
+		조합원
+			핸드폰
+			문자수신동의여부 ?????
+	 -->
+	<update id="LegacyMemberPageDAO.updateCtgi01" parameterClass="MemberInformationVO">
+		UPDATE  CTGI01
+		SET		MOBILE_COM_NO 	= #mobile_com_no#,
+				MOBILE_NO 		= #mobile_no#,
+				EMAIL			= #email#
+		WHERE 	JOHAPWON_JUMIN_NO = #juminNo#
+		  AND	SAUPJA_NO = #saupjaNo#  
+	</update>
+		<!-- 
+		조합원
+			주소
+			전화번호
+			팩스번호
+			이메일
+	 -->
+	<update id="LegacyMemberPageDAO.updateCtgi02" parameterClass="MemberInformationVO">
+		UPDATE  CTGI02
+		SET		ZIP1            = #zip1#,            
+				ZIP2            = #zip2#,            
+				ADDR1           = #addr1#,           
+				ADDR2           = #addr2#,           
+				TEL_LOCAL_NO    = #tel_local_no#,    
+				TEL_NO          = #tel_no#,       
+				FAX_LOCAL_NO    = #fax_local_no#,    
+				FAX_NO          = #fax_no#
+		WHERE 	AGENT_NO = #agentNo# 
+		  AND	ADDR_GB_CD = #addrGbCd#
+	</update>
+	<!-- 차량관리자 -->
+	<select id="LegacyMemberPageDAO.selectCtgi06" parameterClass="LoginVO" resultClass="hashmap">
+		select
+				 CARMGR_JUMIN_NO
+				,CARMGR_NM
+				,SAUPJA_NO
+				,COMPANY_NM
+				,TEL_LOCAL_NO
+				,TEL_NO
+				,MOBILE_COM_NO
+				,MOBILE_NO
+				,EMAIL
+				,FAX_LOCAL_NO
+				,FAX_NO
+				,ZIP1
+				,ZIP2
+				,ADDR1
+				,ADDR2
+				,ENROLL_YMD
+				,PROCESS_YMD
+				,PROCESS_ID
+				,PROCESS_PGM
+		from	CTGI06
+		where 	CARMGR_JUMIN_NO = #juminNo#
+	</select>
+	<!-- 
+		트럭관리자
+			주소
+			전화번호
+			팩스번호
+			이메일
+			핸드폰
+			문자수신동의여부 ?????
+	 -->
+	<update id="LegacyMemberPageDAO.updateCtgi06" parameterClass="MemberInformationVO">
+		UPDATE  CTGI06
+		SET		TEL_LOCAL_NO  = #tel_local_no#,  
+				TEL_NO        = #tel_no#,
+				MOBILE_COM_NO = #mobile_com_no#,
+				MOBILE_NO     = #mobile_no#,
+				EMAIL         = #email#,   
+				FAX_LOCAL_NO  = #fax_local_no#,
+				FAX_NO        = #fax_no#,
+				ZIP1          = #zip1#,
+				ZIP2          = #zip2#,
+				ADDR1         = #addr1#,
+				ADDR2         = #addr2#
+		WHERE 	CARMGR_JUMIN_NO = #juminNo#
+	</update>
+	<!-- 계약자 -->
+	<select id="LegacyMemberPageDAO.selectAcsd05" parameterClass="LoginVO" resultClass="hashmap">
+		select
+				CUST_CD
+				,JIBU_CD
+        		,f_code_nm('2095',JIBU_CD) JIBU_NM
+				,BUBIN_NO
+				,CUST_GB
+				,TRD_GB
+				,CUST_NM
+				,CUST_CALLNM
+				,CUST_ZIPCD
+				,CUST_JUSO1
+				,CUST_JUSO2
+				,PRESI_NM
+				,PRESI_JUMINNO
+				,PRESI_ZIPCD
+				,PRESI_JUSO1
+				,PRESI_JUSO2
+				,UPTAE
+				,JONGMOK
+				,PRESI_TELNO
+				,ACNTBANK_CD
+				,ACNT_NO
+				,YEGUMJU_NM
+				,GAEUP_YMD
+				,WONCHUN_YN
+				,DIV_GB
+				,RES_GB
+				,CHANGE_YN
+				,MEDICAL_YN
+				,TRD_YMD
+				,DEBT_YN
+				,DEBT_YMD
+				,DEBT_REMARK
+				,DEBT_NM
+				,DEBT_JUMINNO
+				,DEBT_ZIPCD
+				,DEBT_JUSO1
+				,DEBT_JUSO2
+				,DEBT_BANKCD
+				,DEBT_ACNTNO
+				,DEBT_YEGUMJU
+				,DEBT_EXPYMD
+				,DEBT_INSSABUN
+				,DEBT_INS_YMD
+				,INS_YMD
+				,INS_SABUN
+				,EMP_CNT
+				,YONGYUK_GB
+				,INSURANCE_KND
+				,DAMDANG_NM
+				,DEL_GB
+				,DEL_YMD
+				,DEL_SABUN
+				,AGENT_NO
+				,AGENT_SEQ
+				,DEL_SAYU
+				,PAMT_BANK_CD
+				,PAMT_ACNT_NO
+				,PAMT_YEGUMJU
+			from	ACSD05
+			where 	CUST_CD = #saupjaNo#
+			  and	PRESI_JUMINNO = #juminNo#
+			  and ins_ymd = (select max(ins_ymd) from ACSD05 where CUST_CD = #saupjaNo# and	PRESI_JUMINNO = #juminNo#)
+			  and rownum = 1 
+			  /* 확인필요. ACSD05에 JIBU_CD별로 데이터가 들어있음. 어떤 jibu_cd를 사용해야하는지 확인필요.*/
+	</select>
+	<!-- 
+		거래처
+			주소
+			전화번호
+			팩스번호
+			이메일
+			핸드폰
+			문자수신동의여부 ?????
+	 -->
+	<update id="LegacyMemberPageDAO.updateAcsd05" parameterClass="MemberInformationVO">
+		UPDATE  ACSD05
+		SET		CUST_ZIPCD   = #cust_zipcd#,
+				CUST_JUSO1   = #cust_juso1#,
+				CUST_JUSO2   = #cust_juso2#
+		WHERE 	CUST_CD = #saupjaNo#
+		and		PRESI_JUMINNO = #juminNo#
+		and ins_ymd = (select max(ins_ymd) from ACSD05 where CUST_CD = #saupjaNo# and	PRESI_JUMINNO = #juminNo#) 
+	</update>	
+</sqlMap>

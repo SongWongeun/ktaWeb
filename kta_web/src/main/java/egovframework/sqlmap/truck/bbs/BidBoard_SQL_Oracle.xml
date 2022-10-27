@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BidBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="BidBoardSearchVO" type="kr.or.truck.infolounge.bid.service.BidBoardSearchVO"/>
+	<typeAlias  alias="bidBoardVO" type="kr.or.truck.infolounge.bid.service.BidBoardVO"/>
+	
+	<resultMap id="bidBoardPreNex" class="kr.or.truck.infolounge.bid.service.BidBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="bidBoard" class="kr.or.truck.infolounge.bid.service.BidBoardVO">
+		<result property="bbsCtg" column="BBS_CATEGORY" nullValue="" />
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId" column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName" column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime" column="MODIFY_TIME" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="bidNo" column="BID_NO" nullValue=""/>
+		<result property="bidStartDate" column="BID_START_DATE" nullValue=""/>
+		<result property="bidEndDate" column="BID_END_DATE" nullValue=""/>
+		<result property="bidName" column="BID_NAME" nullValue=""/>
+		<result property="bidAgency" column="BID_AGENCY" nullValue=""/>
+		<result property="bidRule" column="BID_RULE" nullValue=""/>
+		<result property="contractRule" column="CONTRACT_RULE" nullValue=""/>
+		<result property="baseAmount" column="BASE_AMOUNT" nullValue=""/>
+		<result property="bidWinRule" column="BID_WIN_RULE" nullValue=""/>
+		<result property="pq" column="PQ" nullValue=""/>
+		<result property="bidManger" column="BID_MANAGER" nullValue=""/>
+		<result property="managerCall" column="MANAGER_CALL" nullValue=""/>
+		<result property="joinDate" column="JOIN_DATE" nullValue=""/>
+		<result property="joinPlace" column="JOIN_PLACE" nullValue=""/>
+		<result property="bidDate" column="BID_DATE" nullValue=""/>
+		<result property="bidPlace" column="BID_PLACE" nullValue=""/>
+		<result property="detailBidRule" column="DETAIL_BID_RULE" nullValue=""/>
+		<result property="detialBidWinRule" column="DETAIL_BID_WIN_RULE" nullValue=""/>
+		<result property="explanDate" column="EXPLAN_DATE" nullValue=""/>
+		<result property="explanPlace" column="EXPLAN_PLACE" nullValue=""/>
+		<result property="explanTime" column="EXPLANTIME" nullValue=""/>
+		<result property="joinTime" column="JOINTIME" nullValue=""/>
+	</resultMap>
+
+
+	<insert id="bidBoardDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO BID_NOTICE(
+			BBS_CATEGORY,
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			BID_NO,
+			BID_START_DATE,
+			BID_END_DATE,
+			BID_NAME,
+			BID_AGENCY,
+			BID_RULE,
+			CONTRACT_RULE,
+			BASE_AMOUNT,
+			BID_WIN_RULE,
+			PQ,
+			BID_MANAGER,
+			MANAGER_CALL,
+			JOIN_DATE,
+			JOIN_PLACE,
+			BID_DATE,
+			BID_PLACE,
+			DETAIL_BID_RULE,
+			DETAIL_BID_WIN_RULE,
+			EXPLAN_DATE,
+			EXPLAN_PLACE,
+			USE_AT,
+			JOINTIME,
+			EXPLANTIME
+			)
+		 
+		VALUES (
+		#bbsCtg#,
+		'BID_NOTICE',
+		'입찰공고 게시판',
+		#articleNo#,
+		#bidName#,
+		sysdate,
+		0,
+		#writerId#,
+		#writerName#,
+		#writerId#,
+		#writerName#,
+		sysdate,
+		#atchFileId#,
+		#atchFileName#,
+		#bidNo#,
+		to_date(#bidStartDate#,'yyyy/mm/dd'),
+		to_date(#bidEndDate#,'yyyy/mm/dd'),
+		#bidName#,
+		'전국화물자동차공제조합',
+		#bidRule#,
+		#contractRule#,
+		#baseAmount#,
+		#bidWinRule#,
+		#pq#,
+		#bidManger#,
+		#managerCall#,
+		to_date(#joinDate#,'yyyy/mm/dd'),
+		#joinPlace#,
+		to_date(#bidDate#,'yyyy/mm/dd'),
+		#bidPlace#,
+		#detailBidRule#,
+		#detialBidWinRule#,
+		#explanDate#,
+		#explanPlace#,
+		'Y',
+		#joinTime#,
+		#explanTime#
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="bidBoardDAO.updateBoard_S" parameterClass="bidBoardVO">
+		<![CDATA[
+			UPDATE BID_NOTICE 
+			SET MODIFY_ID = #modifyId#,
+				MODIFY_NAME = #modifyName#,
+				TITLE = #bidName#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#,
+			    BBS_CATEGORY = #bbsCtg#,
+			    BID_NO = #bidNo#,
+				BID_START_DATE = #bidStartDate#,
+				BID_END_DATE =  #bidEndDate#,
+				BID_NAME = #bidName#,
+				BID_AGENCY = '전국화물자동차공제조합',
+				BID_RULE = #bidRule#,
+				CONTRACT_RULE = #contractRule#,
+				BASE_AMOUNT = #baseAmount#,
+				BID_WIN_RULE = #bidWinRule#,
+				PQ = #pq#,
+				BID_MANAGER = #bidManger#,
+				MANAGER_CALL = #managerCall#,
+				JOIN_DATE = #joinDate#,
+				JOIN_PLACE = #joinPlace#,
+				BID_DATE =  #bidDate#,
+				BID_PLACE = #bidPlace#,
+				DETAIL_BID_RULE = #detailBidRule#,
+				DETAIL_BID_WIN_RULE = #detialBidWinRule#,
+				EXPLAN_DATE = #explanDate#,
+				EXPLAN_PLACE = #explanPlace#,
+				JOINTIME=#joinTime#,
+				EXPLANTIME=#explanTime#
+				WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="bidBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE BID_NOTICE 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="bidBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE BID_NOTICE   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="bidBoardDAO.selectBoard_S" resultMap="bidBoard" >
+		<![CDATA[
+			SELECT 
+				BBS_CATEGORY,
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+				BID_NO,
+				BID_START_DATE,
+				BID_END_DATE,
+				BID_NAME,
+				BID_AGENCY,
+				BID_RULE,
+				CONTRACT_RULE,
+				BASE_AMOUNT,
+				BID_WIN_RULE,
+				PQ,
+				BID_MANAGER,
+				MANAGER_CALL,
+				JOIN_DATE,
+				JOIN_PLACE,
+				BID_DATE,
+				BID_PLACE,
+				DETAIL_BID_RULE,
+				DETAIL_BID_WIN_RULE,
+				EXPLAN_DATE,
+				EXPLAN_PLACE,
+				USE_AT,
+				JOINTIME,
+				EXPLANTIME
+			FROM BID_NOTICE 
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="bidBoardDAO.selectBoardList_D" parameterClass="BidBoardSearchVO" resultMap="bidBoard" >
+			 
+			 SELECT
+				BBS_CATEGORY,
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+				BID_NO,
+				BID_START_DATE,
+				BID_END_DATE,
+				BID_NAME,
+				BID_AGENCY,
+				BID_RULE,
+				CONTRACT_RULE,
+				BASE_AMOUNT,
+				BID_WIN_RULE,
+				PQ,
+				BID_MANAGER,
+				MANAGER_CALL,
+				JOIN_DATE,
+				JOIN_PLACE,
+				BID_DATE,
+				BID_PLACE,
+				DETAIL_BID_RULE,
+				DETAIL_BID_WIN_RULE,
+				EXPLAN_DATE,
+				EXPLAN_PLACE,
+				USE_AT,
+				JOINTIME,
+				EXPLANTIME
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM BID_NOTICE 
+					WHERE 1=1 AND USE_AT='Y'
+					<isNotEmpty  property="searchCondition" >
+						<isEqual prepend="AND" property="searchCondition" compareValue="00">
+							TITLE LIKE '%' || #searchKeyword# || '%'
+						</isEqual>
+						<isNotEqual prepend="AND" property="searchCondition" compareValue="00">
+							TITLE LIKE '%' || #searchKeyword# || '%'
+							AND
+							BBS_CATEGORY =  #searchCondition#
+						</isNotEqual>
+					</isNotEmpty>
+					<isEqual prepend="AND" property="searchRecentDate" compareValue="one">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-30,'yyyymmdd')
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+					</isEqual>
+					<isEqual prepend="AND" property="searchRecentDate" compareValue="three">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-90,'yyyymmdd')
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+					</isEqual>
+					<isEqual prepend="AND" property="searchRecentDate" compareValue="six">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-180,'yyyymmdd')
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+					</isEqual>
+					<isEqual prepend="AND" property="searchRecentDate" compareValue="year">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-365,'yyyymmdd')
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+					</isEqual>
+					<isNotEmpty prepend="AND" property="searchStartDetailDate" >
+						TITLE LIKE '%' || #searchKeyword# || '%'
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> #searchStartDetailDate#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchEndDetailDate" >
+						TITLE LIKE '%' || #searchKeyword# || '%'
+						AND
+						TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> #searchEndDetailDate#
+					</isNotEmpty>
+					ORDER BY CREATE_TIME DESC, ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="bidBoardDAO.selectBoardListTotCnt_S" parameterClass="BidBoardSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM BID_NOTICE
+			WHERE 1=1 AND USE_AT='Y' 
+			<isNotEmpty  property="searchCondition" >
+				<isEqual prepend="AND" property="searchCondition" compareValue="00">
+							TITLE LIKE '%' || #searchKeyword# || '%'
+				</isEqual>
+				<isNotEqual prepend="AND" property="searchCondition" compareValue="00">
+						BBS_CATEGORY =  #searchCondition# AND TITLE LIKE '%' || #searchKeyword# || '%'
+				</isNotEqual>
+			</isNotEmpty>
+			<isEqual prepend="AND" property="searchRecentDate" compareValue="one">
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-30,'yyyymmdd')
+				AND
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+				AND TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchRecentDate" compareValue="three">
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-90,'yyyymmdd')
+				AND
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+				AND TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchRecentDate" compareValue="six">
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-180,'yyyymmdd')
+				AND
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+				AND TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchRecentDate" compareValue="year">
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> TO_CHAR(SYSDATE-365,'yyyymmdd')
+				AND
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> TO_CHAR(SYSDATE,'yyyymmdd')
+				AND TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isNotEmpty prepend="AND" property="searchStartDetailDate" >
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[>=]]> #searchStartDetailDate#
+				AND TITLE LIKE '%' || #searchKeyword# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="searchEndDetailDate" >
+				TO_CHAR(CREATE_TIME,'yyyymmdd') <![CDATA[<=]]> #searchEndDetailDate#
+				AND TITLE LIKE '%' || #searchKeyword# || '%'
+			</isNotEmpty>
+	</select>
+	
+	
+	<update id="bidBoardDAO.bidBoardDAO.checkFileInfo" parameterClass="bidBoardVO">
+		<![CDATA[
+			UPDATE BID_NOTICE 
+			SET ATCH_FILE_ID = NULL
+			WHERE ARTICLE_NO=#articleNo# AND USE_AT='N'
+		]]>
+	</update>
+	
+	<select id="bidBoardDAO.selectPreArticle" resultMap="bidBoardPreNex" >
+		<![CDATA[	 
+			select next_ARTICLE_NO as ARTICLE_NO, next_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lead(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) next_ARTICLE_NO,
+			    lead(TITLE,1,'다음글이 없습니다') over (order by ARTICLE_NO) next_TITLE
+			    from BID_NOTICE WHERE USE_AT='Y'
+			) 
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="bidBoardDAO.selectNexArticle" resultMap="bidBoardPreNex" >
+		<![CDATA[ 		
+			select pre_ARTICLE_NO as ARTICLE_NO, pre_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lag(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) pre_ARTICLE_NO,
+			    lag(title,1,'이전글이 없습니다') over (order by ARTICLE_NO) pre_TITLE
+			    from BID_NOTICE WHERE USE_AT='Y'
+			)
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+</sqlMap>

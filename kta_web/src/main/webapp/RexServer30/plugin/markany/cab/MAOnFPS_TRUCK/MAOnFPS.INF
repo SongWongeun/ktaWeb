@@ -1,0 +1,16 @@
+[Version]
+Signature="$CHICAGO$"
+AdvancedINF=2.0
+
+[Add.Code]
+MAOnFPS_TRUCK.dll=MAOnFPS_TRUCK.dll
+
+[MAOnFPS_TRUCK.dll]
+clsid={4102E098-7021-4AEF-925B-A66DCA08CD19}
+FileVersion=4,0,9,1
+hook=MAOnFPSInstall
+
+[MAOnFPSInstall]
+file-win32-x86=MAOnFPS_TRUCK.cab
+run=%EXTRACT_DIR%\MAOnFPS_TRUCK.exe 
+

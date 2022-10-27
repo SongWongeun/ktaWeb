@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="InquiryBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="kr.or.truck.customer.inquiry.service.InquiryBoardDefaultVO"/>
+	<typeAlias  alias="inquiryBoardVO" type="kr.or.truck.customer.inquiry.service.InquiryBoardVO"/>
+
+	<resultMap id="inquiryBoard" class="kr.or.truck.customer.inquiry.service.InquiryBoardVO">
+		<result property="bbsId" 					column="BBS_ID"  		/>
+		<result property="bbsName" 					column="BBS_NAME"  		/>
+		<result property="articleNo"				column="ARTICLE_NO"  	/>
+		<result property="title" 					column="TITLE"  		/>
+		<result property="contentHtml" 				column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String"  />
+		<result property="contentText" 				column="CONTENT_CLOBTEXT"  	/>		
+		<result property="createTime" 				column="CREATE_TIME"  	/>
+		<result property="rdCount" 					column="RDCOUNT"  		/>
+		<result property="writerId" 				column="WRITER_ID"  	/>
+		<result property="writerName" 				column="WRITER_NAME"  	/>			
+		<result property="modifyId" 				column="MODIFY_ID"  	/>
+		<result property="modifyName" 				column="MODIFY_NAME"  	/>
+		<result property="modifyTime" 				column="MODIFY_TIME"  	/>
+		<result property="atchFileId" 				column="ATCH_FILE_ID"  	/>
+		<result property="atchFileName" 			column="ATCH_FILE_NAME" />
+		<result property="replyAt" 					column="REPLY_AT"  		/>
+		<result property="replyContentHtml" 		column="REPLY_CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String"  />
+		<result property="replyContentText" 		column="REPLY_CONTENT_TEXT"  />
+		<result property="replyId" 					column="REPLY_ID"  		/>
+		<result property="replyName"			 	column="REPLY_NAME"  	/>
+		<result property="replyTime" 				column="REPLY_TIME"  	/>
+		<result property="replyModifyId" 			column="REPLY_MODIFY_ID"  	/>
+		<result property="replyModifyName" 			column="REPLY_MODIFY_NAME"  />
+		<result property="replyModifyTime" 			column="REPLY_MODIFY_TIME"  />
+		<result property="useAt" 					column="USE_AT"  		/>				
+		<result property="category" 				column="CATEGORY" 		/>
+		<result property="phone" 					column="PHONE"  		/>
+		<result property="email" 					column="EMAIL"  		/>
+		<result property="forwardId" 				column="FORWARD_ID"  	/>
+		<result property="post1" 					column="POST1"  		/>
+		<result property="post2" 					column="POST2"  		/>
+		<result property="addr" 					column="ADDR"  			/>
+		<result property="new_addr" 				column="NEW_ADDR" 	 	/>
+		<result property="birth" 					column="BIRTH"  		/>
+		<result property="open_Yn" 					column="OPEN_YN"		/>
+	</resultMap>
+	
+	
+	<select id="inquiryBoardDAO.selectBoardList_D" parameterClass="searchVO" resultMap="inquiryBoard" >
+			 
+			 SELECT 	
+			 		BBS_ID,  		
+					BBS_NAME,  		
+					ARTICLE_NO,  	
+					TITLE,  		
+					CONTENT_HTML, 
+					CONTENT_CLOBTEXT,  		
+					TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') AS CREATE_TIME,  	
+					RDCOUNT,  	
+					WRITER_ID,  	
+					WRITER_NAME,  	
+					MODIFY_ID,  	
+					MODIFY_NAME,  	
+					MODIFY_TIME,  	
+					ATCH_FILE_ID,  	
+					ATCH_FILE_NAME, 
+					REPLY_AT,  		
+					REPLY_CONTENT_HTML,
+					REPLY_CONTENT_TEXT,        
+					REPLY_ID,  	
+					REPLY_NAME,  	
+					TO_CHAR(REPLY_TIME, 'YYYY.MM.DD HH24:MI:SS') AS REPLY_TIME,  
+					REPLY_MODIFY_ID,  	                                       
+					REPLY_MODIFY_NAME, 
+					REPLY_MODIFY_TIME,       
+					USE_AT,  		
+					CATEGORY, 		
+					PHONE,  		
+					EMAIL,  	 
+					FORWARD_ID ,
+					POST1,
+					POST2,
+					ADDR,
+					NEW_ADDR,
+					BIRTH,
+					OPEN_YN
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						*
+					FROM OAO_INQUIRY_BBS 
+					WHERE 1=1 AND USE_AT='Y'
+					AND BBS_ID = 'OAO_INQUIRY'			
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						TITLE LIKE '%' || #searchKeyword# || '%' or CONTENT_CLOBTEXT LIKE '%' || #searchKeyword# || '%' AND USE_AT='Y'  
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						CONTENT_CLOBTEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY CREATE_TIME DESC, ARTICLE_NO DESC
+				) S
+				WHERE 1=1	
+				<isNotEmpty prepend="AND" property="ipinDi">
+					IPIN_DI = #ipinDi#
+				</isNotEmpty>	
+				<isNotEmpty prepend="AND" property="writerId">
+					WRITER_ID IS NOT NULL
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="open_Yn">
+					OPEN_YN = #open_Yn#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="category">
+					CATEGORY = #category#
+				</isNotEmpty>
+				<isEmpty prepend="AND" property="category">
+					CATEGORY !=  '10'	
+				</isEmpty>
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="inquiryBoardDAO.selectBoardList_Member" parameterClass="searchVO" resultMap="inquiryBoard" >
+			 
+			 SELECT 
+				BBS_ID,  		
+				BBS_NAME,  		
+				ARTICLE_NO,  	
+				TITLE,  		
+				CONTENT_HTML, 
+				CONTENT_CLOBTEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') AS CREATE_TIME,  	
+				RDCOUNT,  	
+				WRITER_ID,  	
+				WRITER_NAME,  	
+				MODIFY_ID,  	
+				MODIFY_NAME,  	
+				MODIFY_TIME,  	
+				ATCH_FILE_ID,  	
+				ATCH_FILE_NAME, 
+				REPLY_AT,  		
+				REPLY_CONTENT_HTML,
+				REPLY_CONTENT_TEXT,        
+				REPLY_ID,  	
+				REPLY_NAME,  	
+				TO_CHAR(REPLY_TIME, 'YYYY.MM.DD HH24:MI:SS') AS REPLY_TIME,  
+				REPLY_MODIFY_ID,  	                                       
+				REPLY_MODIFY_NAME, 
+				REPLY_MODIFY_TIME,       
+				USE_AT,  		
+				CATEGORY, 		
+				PHONE,  		
+				EMAIL,  	 
+				FORWARD_ID,
+				POST1,
+				POST2,
+				ADDR,
+				NEW_ADDR,
+				BIRTH,
+				OPEN_YN
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM OAO_INQUIRY_BBS 
+					WHERE 1=1 AND USE_AT='Y'
+					<isNotEmpty prepend="AND" property="ipinDi">
+						IPIN_DI = #ipinDi#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="writerId">
+						WRITER_ID = #writerId#
+					</isNotEmpty>
+					AND BBS_ID = 'OAO_INQUIRY'
+					ORDER BY ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= 5 and RNUM > 0 ]]>
+	</select>
+	
+	<select id="inquiryBoardDAO.selectBoardList_MemberAll" parameterClass="searchVO" resultMap="inquiryBoard" >
+			 
+			 SELECT 
+				BBS_ID,  		
+				BBS_NAME,  		
+				ARTICLE_NO,  	
+				TITLE,  		
+				CONTENT_HTML, 
+				CONTENT_CLOBTEXT,  		
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') AS CREATE_TIME,
+				RDCOUNT,  	
+				WRITER_ID,  	
+				WRITER_NAME,  	
+				MODIFY_ID,  	
+				MODIFY_NAME,  	
+				MODIFY_TIME,  	
+				ATCH_FILE_ID,  	
+				ATCH_FILE_NAME, 
+				REPLY_AT,  		
+				REPLY_CONTENT_HTML,
+				REPLY_CONTENT_TEXT,        
+				REPLY_ID,  	
+				REPLY_NAME,  	
+				TO_CHAR(REPLY_TIME, 'YYYY.MM.DD HH24:MI:SS') AS REPLY_TIME,  
+				REPLY_MODIFY_ID,  	                                       
+				REPLY_MODIFY_NAME, 
+				REPLY_MODIFY_TIME,       
+				USE_AT,  		
+				CATEGORY, 		
+				PHONE,  		
+				EMAIL,  	 
+				FORWARD_ID,
+				POST1,
+				POST2,
+				ADDR,
+				NEW_ADDR,
+				BIRTH,
+				OPEN_YN
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM OAO_INQUIRY_BBS 
+					WHERE 1=1 AND USE_AT='Y'
+					AND BBS_ID = 'OAO_INQUIRY'
+					<isNotEmpty prepend="AND" property="ipinDi">
+						IPIN_DI = #ipinDi#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="writerId">
+						WRITER_ID = #writerId#
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchKeyword">
+					TITLE like '%'||#searchKeyword#||'%'
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="searchStartDetailDate">
+					CREATE_TIME between #searchStartDetailDate# AND #searchEndDetailDate#
+				    </isNotEmpty>
+					ORDER BY ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	
+		
+	<select id="inquiryBoardDAO.selectBoardListTotCnt_S" parameterClass="searchVO" resultClass="int">
+		SELECT COUNT(*) totCnt FROM(
+			SELECT *
+			FROM OAO_INQUIRY_BBS
+			WHERE 1=1 AND USE_AT='Y'
+			AND bbs_id = 'OAO_INQUIRY'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%' or CONTENT_CLOBTEXT LIKE '%' || #searchKeyword# || '%' AND USE_AT='Y'  
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_CLOBTEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>		
+		)WHERE 1=1		
+		<isNotEmpty prepend="AND" property="ipinDi">
+			IPIN_DI = #ipinDi#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="writerId">
+			WRITER_ID = #writerId#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="open_Yn">
+			OPEN_YN = #open_Yn#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="category">
+			CATEGORY = #category#
+		</isNotEmpty>
+		<isEmpty prepend="AND" property="category">
+			CATEGORY != '10' 
+		</isEmpty>
+	</select>
+	
+	<select id="inquiryBoardDAO.selectBoardListTotCnt_Member" parameterClass="searchVO" resultClass="int">
+		SELECT COUNT(*) totCnt
+		FROM OAO_INQUIRY_BBS
+		WHERE 1=1 AND USE_AT='Y'
+		AND bbs_id = 'OAO_INQUIRY'
+		<isNotEmpty prepend="AND" property="ipinDi">
+			IPIN_DI = #ipinDi#
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="searchKeyword">
+					TITLE like '%'||#searchKeyword#||'%'
+		</isNotEmpty>
+		<isNotEmpty prepend="AND" property="searchStartDetailDate">
+		CREATE_TIME between #searchStartDetailDate# AND #searchEndDetailDate#
+	    </isNotEmpty>
+		AND WRITER_ID = #writerId#
+	</select>
+	
+
+	 <insert id="inquiryBoardDAO.insertBoard_S">
+		<![CDATA[
+		 INSERT INTO OAO_INQUIRY_BBS 
+				( BBS_ID, BBS_NAME, ARTICLE_NO, TITLE,CREATE_TIME, RDCOUNT,FORWARD_ID,
+			 		WRITER_ID, WRITER_NAME,  MODIFY_ID,  MODIFY_NAME,  MODIFY_TIME, ATCH_FILE_ID,
+			 		ATCH_FILE_NAME, REPLY_AT, REPLY_CONTENT_HTML, REPLY_CONTENT_TEXT, REPLY_ID, REPLY_NAME,
+			 		REPLY_TIME, REPLY_MODIFY_ID, REPLY_MODIFY_NAME, REPLY_MODIFY_TIME, USE_AT, CATEGORY, PHONE, EMAIL, IPIN_CI, IPIN_DI, CERTTYPE,
+			 		POST1,POST2,ADDR,NEW_ADDR,BIRTH,OPEN_YN,CONTENT_HTML,CONTENT_CLOBTEXT,PHONE_YN,EMAIL_YN)
+			
+			VALUES ( 'OAO_INQUIRY', '1:1 문의게시판', #articleNo#, #title#,sysdate, 0,#forwardId#,
+			#writerId#, #writerName#, '','' , sysdate, #atchFileId#, #atchFileName#, 'N', '','','',
+			 '','','','', '', 'Y', #category#, #phone#, #email#, #ipinCi#, #ipinDi#, #certType#,
+			 #post1#,#post2#,#addr#,#new_addr#,#birth#, #open_Yn#,#contentHtml#,#contentText#,#phone_yn#,#email_yn#
+			)
+		]]>
+	</insert>
+	
+	
+	<update id="inquiryBoardDAO.updateBoard_S" parameterClass="inquiryBoardVO">
+		<![CDATA[
+			UPDATE OAO_INQUIRY_BBS 
+			SET MODIFY_ID = #writerId#,
+				MODIFY_NAME = #writerName#,
+				TITLE = #title#,
+				CONTENT_HTML = #contentHtml#,
+				CONTENT_CLOBTEXT = #contentText#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#,
+			    CATEGORY = #category#, 
+			    PHONE = #phone#, 
+			    EMAIL = #email#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="inquiryBoardDAO.updateBoard_D" parameterClass="inquiryBoardVO">
+		UPDATE 
+			OAO_INQUIRY_BBS
+		SET
+			FORWARD_ID = #forwardId#,
+			FORWARD_TIME = SYSDATE
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<update id="inquiryBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE OAO_INQUIRY_BBS 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	 <update id="inquiryBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE OAO_INQUIRY_BBS 
+			SET USE_AT='N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>	
+	
+	<select id="inquiryBoardDAO.selectBoard_S" resultMap="inquiryBoard" >
+			<![CDATA[
+			SELECT 				
+				BBS_ID,  		
+				BBS_NAME,  		
+				ARTICLE_NO,  	
+				TITLE,  		
+				CONTENT_HTML, 
+				CONTENT_CLOBTEXT,  	
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') AS CREATE_TIME,
+				RDCOUNT,  	
+				WRITER_ID,  	
+				WRITER_NAME,  	
+				MODIFY_ID,  	
+				MODIFY_NAME,  	
+				MODIFY_TIME,  	
+				ATCH_FILE_ID,  	
+				ATCH_FILE_NAME, 
+				REPLY_AT,  		
+				REPLY_CONTENT_HTML,
+				REPLY_CONTENT_TEXT,        
+				REPLY_ID,  	
+				REPLY_NAME,  
+				TO_CHAR(REPLY_TIME, 'YYYY.MM.DD HH24:MI:SS') AS REPLY_TIME,  	
+				REPLY_MODIFY_ID,  	                                       
+				REPLY_MODIFY_NAME, 
+				REPLY_MODIFY_TIME,       
+				USE_AT,  		
+				CATEGORY, 		
+				PHONE,  		
+				EMAIL,  	 
+				FORWARD_ID,
+				POST1,
+				POST2,
+				ADDR,
+				NEW_ADDR,
+				BIRTH,
+				OPEN_YN	
+			FROM OAO_INQUIRY_BBS 
+			WHERE ARTICLE_NO=#articleNo#
+			 ]]>
+	</select>
+	
+	<select id="inquiryBoardDAO.selectStaffAuthId"  parameterClass="HashMap" resultClass="HashMap" >
+		SELECT AUTH_ID FROM HP_MENU_AUTH
+		WHERE CATEGORY = #category# and DAEPYO_YN = 'Y'
+	</select>
+</sqlMap>

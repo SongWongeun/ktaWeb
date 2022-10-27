@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Member_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Menu_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Contents_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Customer_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Design_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Log_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/RssApi_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Stats_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/kwa/Hwamul_SQL_Oracle.xml"/>
+</sqlMapConfig>

@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Request_SQL_Oracle">
+	<!-- 물리 기기 사용 승인요청 및 수정 -->
+	<insert id="kta.request.saveUserEtcInfo">
+        MERGE 
+         INTO M_USER_ETC_INFO TBL
+        USING (
+                SELECT #_userId#      AS USER_ID
+                     , #_sessionId#   AS SESSION_ID
+                     , #_permission#  AS PERMISSION_GBN_CD
+                     , #_equipPhyAdd# AS EQUIP_PHY_ADDR
+                     , #_seqNo#       AS SEQ_NO
+                  FROM DUAL
+              ) IM
+           ON (
+                TBL.EQUIP_PHY_ADDR||TBL.SEQ_NO = IM.EQUIP_PHY_ADDR||IM.SEQ_NO
+              )
+         WHEN MATCHED THEN
+        UPDATE
+          SET TBL.EDTR_ID           = IM.SESSION_ID
+            , TBL.EDT_DT            = SYSDATE
+            , TBL.PERMISSION_GBN_CD = IM.PERMISSION_GBN_CD
+         WHEN NOT MATCHED THEN
+        INSERT
+           (
+             TBL.USER_ID
+           , TBL.REGR_ID
+           , TBL.REG_DT
+           , TBL.EDTR_ID
+           , TBL.EDT_DT
+           , TBL.PERMISSION_GBN_CD
+           , TBL.EQUIP_PHY_ADDR
+           , TBL.SEQ_NO
+           , TBL.WK_PLACE_CODE
+           , TBL.PART_CODE
+           )
+        VALUES
+           (
+             IM.USER_ID
+           , IM.SESSION_ID
+           , SYSDATE
+           , IM.SESSION_ID
+           , SYSDATE
+           , IM.PERMISSION_GBN_CD
+           , IM.EQUIP_PHY_ADDR
+           , (
+              SELECT NVL(MAX(SEQ_NO),0) + 1
+                FROM M_USER_ETC_INFO
+               WHERE EQUIP_PHY_ADDR = #_equipPhyAdd#
+             )
+           , (SELECT JIBU_CD FROM HRPE02 WHERE SAWON_NO = #_userId#)
+           , (
+				SELECT decode(trim(C.pageon_jibu_cd || C.pageon_buseo_cd|| C.pageon_gwa_cd),null,C.jibu_cd || C.heon_buseo_cd || C.gwa_cd, trim(C.pageon_jibu_cd || C.pageon_buseo_cd|| C.pageon_gwa_cd) ) 
+				  FROM HRPE02 C
+				 WHERE C.SAWON_NO = #_userId#
+             )
+           )
+	</insert>
+	
+	<!-- 승인 요청 및 요청완료 목록 조회 -->
+	<select id="kta.request.selectListUserEtcInfo" resultClass="hashmap">
+		SELECT T1.USER_ID
+		     , T1.NAME
+		     , T1.PERMISSION_GBN_CD
+		     , T1.PERMISSION_GBN_NM
+		     , T1.EQUIP_PHY_ADDR
+		     , T1.SEQ_NO
+		     , T1.EQUIP_NM
+		     , T1.EQUIP_ETC
+		     , T1.DEVICE_ID
+		     , RANK() OVER(ORDER BY USER_ID DESC) AS ROW_SEQ
+		  FROM (
+		        SELECT /*+ FIRST_ROWS */
+		               QUERY.*
+		             , ROWNUM RN
+		         FROM (
+						SELECT T1.EQUIP_PHY_ADDR
+						     , T2.SEQ_NO
+						     , T1.EQUIP_NM
+						     , T1.EQUIP_ETC
+						     , T2.USER_ID
+						     , T2.NAME
+						     , T2.PERMISSION_GBN_CD
+						     , T2.PERMISSION_GBN_NM
+						     , T1.REG_DT
+						     , T1.DEVICE_ID
+						  FROM M_REG_PHY_INFO T1
+						  LEFT OUTER JOIN
+						       (
+						       SELECT A.USER_ID
+						            , A.NAME
+						            , B.PERMISSION_GBN_CD
+						            , F_CODE_NAME('8002',B.PERMISSION_GBN_CD) AS PERMISSION_GBN_NM
+						            , B.EQUIP_PHY_ADDR
+						            , B.SEQ_NO
+						         FROM CT_USER A
+						        INNER JOIN
+						              M_USER_ETC_INFO B
+						           ON A.USER_ID = B.USER_ID
+						        WHERE 0=0
+						          AND A.USER_ID > ' '
+						          AND B.DEL_DT IS NULL
+						       ) T2
+						    ON T1.EQUIP_PHY_ADDR = T2.EQUIP_PHY_ADDR
+						 WHERE 0=0
+						 <isNotEmpty property="_searField">
+						   AND (T2.USER_ID=#_searField# OR T2.NAME=#_searField# OR T2.EQUIP_PHY_ADDR LIKE #_searField# || '%' OR T1.EQUIP_PHY_ADDR LIKE #_searField# || '%')
+						 </isNotEmpty>
+		               ) QUERY 
+		<![CDATA[
+		         WHERE ROWNUM <= (#_page# * #_pageSize#)
+		]]>
+		        ) T1
+		  WHERE T1.RN > ((#_page#-1) * #_pageSize#)
+		  ORDER BY T1.PERMISSION_GBN_CD DESC, T1.REG_DT DESC
+	</select>
+	
+	<!-- 승인 요청 및 요청완료 총 건수 -->
+	<select id="kta.request.getCountUserEtcInfo" resultClass="int">
+		SELECT 
+         COUNT(T1.EQUIP_PHY_ADDR)
+		  FROM (
+		        SELECT /*+ FIRST_ROWS */
+		               QUERY.*
+		             , ROWNUM RN
+		         FROM (
+						SELECT T1.EQUIP_PHY_ADDR
+						     , T2.SEQ_NO
+						     , T1.EQUIP_NM
+						     , T1.EQUIP_ETC
+						     , T2.USER_ID
+						     , T2.NAME
+						     , T2.PERMISSION_GBN_CD
+						     , T2.PERMISSION_GBN_NM
+						     , T1.REG_DT
+						     , T1.DEVICE_ID
+						  FROM M_REG_PHY_INFO T1
+						  LEFT OUTER JOIN
+						       (
+						       SELECT A.USER_ID
+						            , A.NAME
+						            , B.PERMISSION_GBN_CD
+						            , F_CODE_NAME('8002',B.PERMISSION_GBN_CD) AS PERMISSION_GBN_NM
+						            , B.EQUIP_PHY_ADDR
+						            , B.SEQ_NO
+						         FROM CT_USER A
+						        INNER JOIN
+						              M_USER_ETC_INFO B
+						           ON A.USER_ID = B.USER_ID
+						        WHERE 0=0
+						          AND A.USER_ID > ' '
+						          AND B.DEL_DT IS NULL
+						       ) T2
+						    ON T1.EQUIP_PHY_ADDR = T2.EQUIP_PHY_ADDR
+						 WHERE 0=0
+						 <isNotEmpty property="_searField">
+						   AND (T2.USER_ID=#_searField# OR T2.NAME=#_searField# OR T2.EQUIP_PHY_ADDR LIKE #_searField# || '%' OR T1.EQUIP_PHY_ADDR LIKE #_searField# || '%')
+						 </isNotEmpty>
+		               ) QUERY 
+		        ) T1
+		  ORDER BY T1.PERMISSION_GBN_CD DESC, T1.REG_DT DESC
+	</select>
+	
+	<!-- 기기 상세정보를 조회한다. -->
+	<select id="kta.request.selectEquip" resultClass="hashmap">
+		SELECT A.EQUIP_PHY_ADDR
+		     , A.EQUIP_NM
+		     , A.EQUIP_ETC
+		     , A.EQUIP_MODELNM
+		     , A.EQUIP_SEQNO
+		     , A.EQUIP_USIMNO
+		     , A.EQUIP_OPENNO
+		     , A.EQUIP_AGENCYNM
+		  FROM M_REG_PHY_INFO A
+		 WHERE A.EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+	</select>
+	
+	<!-- 승인 된 기기 삭제 -->
+	<delete id="kta.request.deleteUserEtcInfo">
+		DELETE FROM M_USER_ETC_INFO WHERE USER_ID = #_userId#
+	</delete>
+	
+	<!-- 승인된 기기 초기화 -->
+	<update id="kta.request.updateDelDtUserEtcInfo">
+		UPDATE M_USER_ETC_INFO A
+		   SET A.DEL_DT  = SYSDATE
+		     , A.EDT_DT  = SYSDATE
+		     , A.EDTR_ID = #USER_ID#
+		 WHERE A.EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+		   AND A.SEQ_NO         = #SEQ_NO#	
+	</update>
+	
+	<!-- 해당 맥어드래스가 이미 사용중인지 체크한다. -->
+	<select id="kta.request.getCountMacUseYn" resultClass="int">
+		SELECT COUNT(*) FROM M_USER_ETC_INFO WHERE EQUIP_PHY_ADDR = #_equipPhyAdd# AND DEL_DT IS NULL
+	</select>
+	
+	<!-- 사용허가된 기기 등록 -->
+	<insert id="kta.request.saveMRegPhyInfo">
+        MERGE 
+         INTO M_REG_PHY_INFO TBL
+        USING (
+                SELECT #EQUIP_PHY_ADDR#   AS EQUIP_PHY_ADDR
+                     , #EQUIP_NM#         AS EQUIP_NM
+                     , #EQUIP_ETC#        AS EQUIP_ETC
+                     , #EQUIP_MODELNM#    AS EQUIP_MODELNM
+                     , #EQUIP_SEQNO#      AS EQUIP_SEQNO
+                     , #EQUIP_USIMNO#     AS EQUIP_USIMNO
+                     , #EQUIP_OPENNO#     AS EQUIP_OPENNO
+                     , #EQUIP_AGENCYNM#   AS EQUIP_AGENCYNM                     
+                     , #EQUIP_DEVICE_ID#   AS EQUIP_DEVICE_ID                     
+                     , #USER_ID#          AS USER_ID
+                     , SYSDATE            AS IS_DATE
+                  FROM DUAL
+              ) IM
+           ON (
+                TBL.EQUIP_PHY_ADDR = IM.EQUIP_PHY_ADDR
+              )
+         WHEN MATCHED THEN
+        UPDATE
+          SET TBL.EDTR_ID        = IM.USER_ID
+            , TBL.EDT_DT         = IS_DATE
+            , TBL.EQUIP_NM       = IM.EQUIP_NM
+            , TBL.EQUIP_ETC      = IM.EQUIP_ETC
+            , TBL.EQUIP_MODELNM  = IM.EQUIP_MODELNM
+            , TBL.EQUIP_SEQNO    = IM.EQUIP_SEQNO
+            , TBL.EQUIP_USIMNO   = IM.EQUIP_USIMNO
+            , TBL.EQUIP_OPENNO   = IM.EQUIP_OPENNO
+            , TBL.EQUIP_AGENCYNM = IM.EQUIP_AGENCYNM
+            , TBL.DEVICE_ID = IM.EQUIP_DEVICE_ID
+         WHEN NOT MATCHED THEN
+        INSERT
+           (
+             TBL.EQUIP_PHY_ADDR
+           , TBL.EQUIP_NM
+           , TBL.EQUIP_ETC
+           , TBL.REGR_ID
+           , TBL.REG_DT
+           , TBL.EDTR_ID
+           , TBL.EDT_DT
+           , TBL.EQUIP_MODELNM
+           , TBL.EQUIP_SEQNO
+           , TBL.EQUIP_USIMNO
+           , TBL.EQUIP_OPENNO
+           , TBL.EQUIP_AGENCYNM           
+           , TBL.DEVICE_ID           
+           )
+        VALUES
+           (
+             IM.EQUIP_PHY_ADDR
+           , IM.EQUIP_NM
+           , IM.EQUIP_ETC
+           , IM.USER_ID
+           , IM.IS_DATE
+           , IM.USER_ID
+           , IM.IS_DATE
+           , IM.EQUIP_MODELNM
+           , IM.EQUIP_SEQNO
+           , IM.EQUIP_USIMNO
+           , IM.EQUIP_OPENNO
+           , IM.EQUIP_AGENCYNM              
+           , IM.EQUIP_DEVICE_ID              
+           )
+	</insert>
+	
+	<!-- 기기 중복 체크용-->
+	<select id="kta.request.getCountEquipPhyAddr" resultClass="int">
+		SELECT COUNT(EQUIP_PHY_ADDR) FROM M_REG_PHY_INFO WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR# 
+	</select>
+	
+	<!-- 사용 허가된 기기를 삭제 한다. - 0 -->
+	<delete id="kta.request.deleteUserEtcMacInfo">
+        DELETE FROM M_USER_ETC_INFO
+         WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+	</delete>
+	
+	<!-- 사용 허가된 기기를 삭제 한다. - 0 -->
+	<delete id="kta.request.deleteMregPhyInfo">
+        DELETE FROM M_REG_PHY_INFO
+         WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+	</delete>
+	
+	<!-- 중복 기기 사용자가 있나 확인. -->
+	<select id="kta.request.getCountUserChk" resultClass="int">
+		SELECT
+			COUNT(USER_ID)
+		FROM
+			M_USER_ETC_INFO
+		WHERE
+			USER_ID = #USER_ID# 
+		AND
+			DEL_DT IS NULL
+	</select>
+	
+	<!-- 기기 이전사용자 사용 종료 처리 -->
+	<update id="kta.request.updateDelDtUserEtcInfoChgUser">
+		UPDATE M_USER_ETC_INFO A
+		   SET A.DEL_DT  = SYSDATE
+		     , A.EDT_DT  = SYSDATE
+		     , A.EDTR_ID = #REG_ID#
+		 WHERE A.EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+		   AND A.SEQ_NO         = #SEQ_NO#	
+	</update>
+	
+	<!-- 사용자변경 사용자 등록 -->
+	<insert id="kta.request.insertChangeUser">
+        INSERT INTO M_USER_ETC_INFO ( 
+			EQUIP_PHY_ADDR
+			,SEQ_NO
+			,REGR_ID
+			,REG_DT
+			,EDTR_ID
+			,EDT_DT
+			,PERMISSION_GBN_CD
+			,USER_ID
+			,WK_PLACE_CODE
+			,PART_CODE
+		)VALUES(
+			#EQUIP_PHY_ADDR#,
+			(
+              SELECT NVL(MAX(SEQ_NO),0) + 1
+                FROM M_USER_ETC_INFO
+               WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+             ),
+             #REG_ID#,
+             SYSDATE,
+             #REG_ID#,
+             SYSDATE,
+             'P',
+             #USER_ID#,
+             (
+              SELECT WK_PLACE_CODE
+                FROM M_USER_ETC_INFO
+               WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+               AND SEQ_NO = #SEQ_NO#	
+             ),
+             (
+              SELECT PART_CODE
+                FROM M_USER_ETC_INFO
+               WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+               AND SEQ_NO = #SEQ_NO#
+             )
+             
+		)
+	</insert>
+	
+	<!-- 기기교환 목록 조회 -->
+	<select id="kta.request.selectChangeUserEtcInfoList" resultClass="hashmap">
+		SELECT T1.USER_ID
+		     , T1.NAME
+		     , T1.PERMISSION_GBN_CD
+		     , T1.PERMISSION_GBN_NM
+		     , T1.EQUIP_PHY_ADDR
+		     , T1.SEQ_NO
+		     , T1.EQUIP_NM
+		     , T1.EQUIP_ETC
+		     , T1.DEVICE_ID
+		     , RANK() OVER(ORDER BY USER_ID DESC) AS ROW_SEQ
+		  FROM (
+		        SELECT /*+ FIRST_ROWS */
+		               QUERY.*
+		             , ROWNUM RNUM
+		         FROM (
+						SELECT T1.EQUIP_PHY_ADDR
+						     , T2.SEQ_NO
+						     , T1.EQUIP_NM
+						     , T1.EQUIP_ETC
+						     , T2.USER_ID
+						     , T2.NAME
+						     , T2.PERMISSION_GBN_CD
+						     , T2.PERMISSION_GBN_NM
+						     , T1.REG_DT
+						     , T1.DEVICE_ID
+						  FROM M_REG_PHY_INFO T1
+						  LEFT OUTER JOIN
+						       (
+						       SELECT A.USER_ID
+						            , A.NAME
+						            , B.PERMISSION_GBN_CD
+						            , F_CODE_NAME('8002',B.PERMISSION_GBN_CD) AS PERMISSION_GBN_NM
+						            , B.EQUIP_PHY_ADDR
+						            , B.SEQ_NO
+						         FROM CT_USER A
+						        INNER JOIN
+						              M_USER_ETC_INFO B
+						           ON A.USER_ID = B.USER_ID
+						        WHERE 0=0
+						          AND A.USER_ID > ' '
+						          AND B.DEL_DT IS NULL
+						       ) T2
+						    ON T1.EQUIP_PHY_ADDR = T2.EQUIP_PHY_ADDR
+						 WHERE 0=0
+						 <isNotEmpty property="searchKeyword">
+						   AND (T2.USER_ID=#searchKeyword# OR T2.NAME=#searchKeyword# OR T2.EQUIP_PHY_ADDR LIKE #searchKeyword# || '%' OR T1.EQUIP_PHY_ADDR LIKE #searchKeyword# || '%')
+						 </isNotEmpty>
+		               ) QUERY 
+		        ) T1
+		<![CDATA[
+		         WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#
+		]]>
+		  ORDER BY T1.PERMISSION_GBN_CD DESC, T1.REG_DT DESC
+	</select>
+	
+	<!-- 기기교환 목록 조회 총 건수-->
+	<select id="kta.request.selectChangeUserEtcInfoListCnt" resultClass="int">
+	    SELECT 
+    			COUNT(T1.EQUIP_PHY_ADDR)
+		  FROM (
+		        SELECT /*+ FIRST_ROWS */
+		               QUERY.*
+		             , ROWNUM RN
+		         FROM (
+						SELECT T1.EQUIP_PHY_ADDR
+						     , T2.SEQ_NO
+						     , T1.EQUIP_NM
+						     , T1.EQUIP_ETC
+						     , T2.USER_ID
+						     , T2.NAME
+						     , T2.PERMISSION_GBN_CD
+						     , T2.PERMISSION_GBN_NM
+						     , T1.REG_DT
+						     , T1.DEVICE_ID
+						  FROM M_REG_PHY_INFO T1
+						  LEFT OUTER JOIN
+						       (
+						       SELECT A.USER_ID
+						            , A.NAME
+						            , B.PERMISSION_GBN_CD
+						            , F_CODE_NAME('8002',B.PERMISSION_GBN_CD) AS PERMISSION_GBN_NM
+						            , B.EQUIP_PHY_ADDR
+						            , B.SEQ_NO
+						         FROM CT_USER A
+						        INNER JOIN
+						              M_USER_ETC_INFO B
+						           ON A.USER_ID = B.USER_ID
+						        WHERE 0=0
+						          AND A.USER_ID > ' '
+						          AND B.DEL_DT IS NULL
+						       ) T2
+						    ON T1.EQUIP_PHY_ADDR = T2.EQUIP_PHY_ADDR
+						 WHERE 0=0
+						 <isNotEmpty property="searchKeyword">
+						   AND (T2.USER_ID=#searchKeyword# OR T2.NAME=#searchKeyword# OR T2.EQUIP_PHY_ADDR LIKE #searchKeyword# || '%' OR T1.EQUIP_PHY_ADDR LIKE #searchKeyword# || '%')
+						 </isNotEmpty>
+		               ) QUERY 
+
+		        ) T1
+	</select>
+	
+	<!-- 기기맞교환 사용자정보 등록 -->
+	<insert id="kta.request.insertChangeDevice">
+        INSERT INTO M_USER_ETC_INFO ( 
+			EQUIP_PHY_ADDR
+			,SEQ_NO
+			,REGR_ID
+			,REG_DT
+			,EDTR_ID
+			,EDT_DT
+			,PERMISSION_GBN_CD
+			,USER_ID
+			,WK_PLACE_CODE
+			,PART_CODE
+		)VALUES(
+			#EQUIP_PHY_ADDR2#,
+			(
+              SELECT NVL(MAX(SEQ_NO),0) + 1
+                FROM M_USER_ETC_INFO
+               WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR2#
+             ),
+             #REG_ID#,
+             SYSDATE,
+             #REG_ID#,
+             SYSDATE,
+             'P',
+             #USER_ID#,
+             (
+              SELECT WK_PLACE_CODE
+                FROM M_USER_ETC_INFO
+               WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+               AND SEQ_NO = #SEQ_NO#	
+             ),
+             (
+              SELECT PART_CODE
+                FROM M_USER_ETC_INFO
+               WHERE EQUIP_PHY_ADDR = #EQUIP_PHY_ADDR#
+               AND SEQ_NO = #SEQ_NO#
+             )
+             
+		)
+	</insert>
+</sqlMap>

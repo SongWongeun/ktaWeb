@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Admin_SQL_Oracle">
+
+	<!-- 관리자정보) 사용자별 관리자 목록을 조회한다. -->
+	<select id="kta.adm.selectListAdminInfo" resultClass="hashmap">
+        SELECT T1.USER_ID
+		     , T1.NAME
+		     , T1.DEPT_CODE
+		     , T1.PERMISSION_IP
+		     , T1.ADM_YN
+		     , RANK() OVER(ORDER BY USER_ID DESC) AS ROW_SEQ
+          FROM (
+                 SELECT /*+ FIRST_ROWS */
+                        QUERY.*
+                      , ROWNUM RN
+                   FROM (
+						SELECT A.USER_ID
+						     , A.NAME
+						     , A.DEPT_CODE
+						     , B.PERMISSION_IP
+						     , CASE WHEN B.USER_ID IS NOT NULL THEN '관리자' ELSE '' END AS ADM_YN
+						  FROM CT_USER A
+						  LEFT OUTER JOIN
+						       M_ADMIN_INFO B
+						    ON A.USER_ID = B.USER_ID
+                          LEFT OUTER JOIN
+                               HRPE02 C
+                            ON A.USER_ID = C.TOESA_YMD
+						 WHERE 0=0
+						   AND A.USER_ID > ' '
+						   <isNotEmpty property="_searField">
+						   AND ( A.USER_ID = #_searField# OR A.NAME LIKE '%' || #_searField# || '%' )
+						   </isNotEmpty>
+                           AND C.TOESA_YMD IS NULL
+                         ORDER BY B.PERMISSION_IP, B.USER_ID
+                        ) QUERY 
+<![CDATA[
+                  WHERE ROWNUM <= (#_page# * #_pageSize#)
+]]>
+               ) T1
+         WHERE T1.RN > ((#_page#-1) * #_pageSize#) 
+         ORDER BY T1.USER_ID DESC
+	</select>
+	
+	<!-- 메뉴권한정보) 메뉴별 권한 정보를 조회한다. -->
+	<select id="kta.adm.getCountAdminInfo" resultClass="int" remapResults="true">
+		SELECT COUNT(A.USER_ID)
+		  FROM CT_USER A
+		  LEFT OUTER JOIN
+		       M_ADMIN_INFO B
+		    ON A.USER_ID = B.USER_ID
+		  LEFT OUTER JOIN
+		       HRPE02 C
+		    ON A.USER_ID = C.TOESA_YMD
+		 WHERE 0=0
+		   AND A.USER_ID > ' '
+		<isNotEmpty property="_searField">
+		   AND ( A.USER_ID = #_searField# OR A.NAME LIKE '%' || #_searField# || '%' )
+		</isNotEmpty>
+		   AND C.TOESA_YMD IS NULL
+		 ORDER BY B.PERMISSION_IP, B.USER_ID
+	</select>
+	
+	<!-- 관리자 정보 저장 -->
+	<insert id="kta.adm.saveAdminInfo" >
+        MERGE 
+         INTO M_ADMIN_INFO TBL
+        USING (
+                SELECT #___userId#    AS USER_ID
+                     , #___ipInfo#    AS PERMISSION_IP
+                     , #___sessionId# AS SESSION_ID
+                  FROM DUAL
+              ) IM
+           ON (
+                TBL.USER_ID = IM.USER_ID
+              )
+         WHEN MATCHED THEN
+        UPDATE
+          SET TBL.EDTR_ID       = IM.SESSION_ID
+            , TBL.EDT_DT        = SYSDATE
+            , TBL.PERMISSION_IP = IM.PERMISSION_IP
+         WHEN NOT MATCHED THEN
+        INSERT
+           (
+             TBL.USER_ID
+           , TBL.REGR_ID
+           , TBL.REG_DT
+           , TBL.EDTR_ID
+           , TBL.EDT_DT
+           , TBL.PERMISSION_IP
+           )
+        VALUES
+           (
+             IM.USER_ID
+           , IM.SESSION_ID
+           , SYSDATE
+           , IM.SESSION_ID
+           , SYSDATE
+           , IM.PERMISSION_IP
+           )
+	</insert>
+	
+	<!-- 관리자 정보를 삭제 한다. -->
+	<delete id="kta.adm.deleteAdminInfo">
+		DELETE FROM M_ADMIN_INFO WHERE USER_ID = #___userId#
+	</delete>
+	
+	<!-- 관리자 아이피 체크 PERMISSION_IP -->
+	<select id="kta.adm.selectListPermissionIpCheck" resultClass="hashmap" remapResults="true">
+		SELECT T1.USER_ID FROM M_ADMIN_INFO T1 WHERE T1.PERMISSION_IP = #___ipInfo#
+	</select>
+</sqlMap>

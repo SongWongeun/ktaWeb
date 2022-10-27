@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="legacyEncour">
+
+	<select id="encourInquiryDAO.checkDecided" parameterClass="hashMap" resultClass="hashMap">
+		select f_code_nm('1911', janghak_gb_cd) janghak_gb_nm, 
+		janghak_yyyy, 
+		f_code_nm('1912', bangi_gb_cd) bangi_gb_nm, 
+		f_code_nm('1913', haksaeng_gb_cd) haksaeng_gb_nm, 
+		decode(jibu_cd, '99', '기타',f_code_nm('1051', jibu_cd)) jibu_nm, 
+		company_nm company_nm, 
+		f_code_nm('1914', drvr_jicwi_cd) drvr_jicwi_nm, 
+		drvr_nm drvr_nm, 
+		drvr_jumin_no drvr_jumin_no, 
+		hakgyo_nm hakgyo_nm, 
+		f_code_nm('1915', hakneon_cd) hakneon_nm, 
+		haksaeng_nm haksaeng_nm, 
+		substr(haksaeng_jumin_no, 1, 2)||'.'||substr(haksaeng_jumin_no, 3, 2)||'.'||substr(haksaeng_jumin_no, 5, 2) haksaeng_jumin_no, 
+		car_no car_no, 
+		janghak_amt janghak_amt, 
+		f_code_nm('1916', tukbyul_gb_cd) tukbyul_gb_nm,
+		HAKNEON_CD 
+		from ctjh01 
+		where janghak_gb_cd = '1'	 and janghak_yyyy > #YYYY#-5	
+		And Bangi_Gb_Cd Like '%' And Haksaeng_Gb_Cd Like '%' 
+		And Haksaeng_Nm = #HAKSAENG_NM#
+		AND Haksaeng_JUMIN_NO like #HAKSAENG_JUMIN_NO# ||'%'
+		And Jibu_Cd Like '%' 
+		order by janghak_gb_cd, janghak_yyyy, bangi_gb_cd
+	</select>
+	
+</sqlMap>

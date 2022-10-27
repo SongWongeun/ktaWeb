@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">113</span><span class="pyoName">통상의 횡단보도상의 횡단</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+					<caption>과실비율에 대해서 나타낸 표</caption>
+					<colgroup>
+						<col style="width:50%;" />
+						<col style="width:25%;" />
+						<col style="width:25%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">사고상황</th>
+							<td class="bg1">기본</td>
+							<td class="alC">0 &#9313;</td>
+						</tr>
+						<tr>
+							<td rowspan="11" class="alC"><img src="/images/truck/jpg/113.jpg" alt="사고상황이미지" /></td>
+							<td colspan="2" class="alC">수정 요소</td>
+						</tr>
+						<tr>
+							<td class="bg1">야간&#183;기타시야장애</td>
+							<td class="alC">15 &#9314;</td>
+						</tr>
+						<tr>
+							<td class="bg1">간선도로</td>
+							<td class="alC">15</td>
+						</tr>
+						<tr>
+							<td class="bg1">정지&#183;후퇴&#183;사행</td>
+							<td class="alC">10</td>
+						</tr>
+						<tr>
+							<td class="bg1">주택&#183;상점가&#183;학교</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인보호구역</td>
+							<td class="alC">&#45;15 </td>
+						</tr>
+						<tr>
+							<td class="bg1">집단횡단</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">차의 현저한 과실</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">차의 중대한 과실</td>
+							<td class="alC">&#45;10</td>
+						</tr>
+						<tr>
+							<td class="bg1">보&#183;차도 구별없음</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	신호기가 없는 횡단보도상의 사고에는 단일로&#40;직선로&#44; 곡선로&#41;뿐만 아니라&#44; 교차로 부근의 횡단보도상 사고도 포함한다&#46;</p>
+                    <p class="txtPoint">&#9313;	모든 차의 운전자는 도로교통법 제27조에 따라 횡단보도를 건너는 보행자를 보호해야 할 의무가 있으므로 보행자의 기본과실을 0&#37;로 한다&#46;</p>
+                    <p class="txtPoint">&#9314;	그러나&#44; 보행자 역시 신호기 없는 횡단보도를 건널때는 차량의 동태를 잘 살펴야 할 주의의무가 있다고 할 것이며&#44; 특히 야간&#183;기타시야장애가 있는 경우와 간선도로인 경우에는 보행자의 주의의무의 정도가 높다고 보여지므로 가산비율을 15&#37;로&#44; 정지&#183;후퇴&#183;사행의 경우에는 그보다는 다소 낮은 단계의 주의의무가 요구된다고 보아 10&#37;를 가산요소로 적용한다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 제27조&#91;보행자의 보호&#93;</p>
+
+					<ul class="txtListst02">
+						<li>&#9312; 모든 차의 운전자는 보행자가 횡단보도를 통행하고 있는 때에는 그 횡단보도 앞&#40;정지선이 설치되어 있는 곳에서는 그 정지선을 말한다&#41;에서 일시정지하여 보행자의 횡단을 방해하거나 위험을 주어서는 안된다&#46;</li>
+					<li>&#9313; 모든 차의 운전자는 교통정리가 행하여지고 있지 아니하는 교차로 또는 그 부근의 도로를 횡단하는 보행자의 통행을 방해하여서는 아니된다&#46;</li>
+                    </ul>
+					
+				</div>
+				<!-- 참고판례 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">참고판례</h3>
+					<p class="txtPoint">&#9827;	대법원 2003&#46; 10&#46; 23&#46; 선고 2003도3529호 판결</p>
+					<ul class="txtListst02">
+						<li>횡단보도에 보행자를 위한 보행등이 설치되어 있지 않다고 하더라도 횡단보도표시가 되어있는 이상 그 횡단보도는 도로교통법에서 말하는 횡단보도에 해당하므로&#44; 이러한 횡단보도를 진행하는 차량의 운전자가 도로교통법 제24조제1항의 규정에 의한 횡단보도에서의 보행자보호의무를 위반하여 교통사고를 낸 경우에는 교통사고처리특례법 제3조제2항 단서 제6호 소정의 횡단보도에서의 보행자보호의무 위반의 책임을 지게 되는 것이며&#44; 비록 그 횡단보도가 교차로에 인접하여 설치되어 있고 그 교차로의 차량신호등이 차량진행신호였다고 하더라도 이러한 경우 그 차량신호등은 교차로를 진행할 수 있다는 것에 불과하지&#44; 보행등이 설치되어 있지 아니한 횡단보도를 통행하는 보행자에 대한 보행자보호의무를 다하지 아니하여도 된다는 것을 의미하는 것은 아니므로 달리 볼 것은 아니다&#46;</li>
+					</ul>
+					<p class="txtPoint">&#9827; 대법원 1993&#46; 8&#46; 13&#46; 선고 93도1118호 판결</p>
+					<ul class="txtListst02">
+						<li>피해자가 사고 당시 횡단보도상에 엎드려 있었다면 횡단보도를 통행하고 있었다고 할 수 없음이 명백하여 그러한 피해자에 대한 관계에 있어서는 횡단보도상의 보행자 보호의무가 있다고 할 수 없다&#46;</li>
+					</ul>
+				</div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

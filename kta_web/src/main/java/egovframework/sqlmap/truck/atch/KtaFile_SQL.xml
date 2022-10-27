@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="KtaFileDAO">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="FileVO" type="egovframework.com.cmm.service.FileVO"/>
+	<typeAlias  alias="AgreeSearchVO" type="kr.or.truck.kwa.agreement.service.AgreeSearchVO"/>
+
+	<resultMap id="fileList" class="egovframework.com.cmm.service.FileVO">
+		<result property="atchFileId" column="ATCH_FILE_ID" columnIndex="1"/>
+		<result property="fileCn" column="FILE_CN" columnIndex="2"/>
+		<result property="fileExtsn" column="FILE_EXTSN" columnIndex="3"/>
+		<result property="fileMg" column="FILE_SIZE" columnIndex="4"/>
+		<result property="fileSn" column="FILE_SN" columnIndex="5"/>
+		<result property="fileStreCours" column="FILE_STRE_COURS" columnIndex="6"/>
+		<result property="orignlFileNm" column="ORIGNL_FILE_NM" columnIndex="7"/>
+		<result property="streFileNm" column="STRE_FILE_NM" columnIndex="8"/>
+		<result property="creatDt" column="CREAT_DT" columnIndex="9"/>			
+	</resultMap>
+
+	<resultMap id="fileDetail" class="egovframework.com.cmm.service.FileVO">
+		<result property="atchFileId" column="ATCH_FILE_ID" columnIndex="1"/>
+		<result property="fileCn" column="FILE_CN" columnIndex="2"/>
+		<result property="fileExtsn" column="FILE_EXTSN" columnIndex="3"/>
+		<result property="fileMg" column="FILE_SIZE" columnIndex="4"/>
+		<result property="fileSn" column="FILE_SN" columnIndex="5"/>
+		<result property="fileStreCours" column="FILE_STRE_COURS" columnIndex="6"/>
+		<result property="orignlFileNm" column="ORIGNL_FILE_NM" columnIndex="7"/>
+		<result property="streFileNm" column="STRE_FILE_NM" columnIndex="8"/>
+	</resultMap>
+	
+	<!-- 2016.12.19[H] 관리자 페이지 약관관리 파일등록-->
+	<insert id="KtaFileDAO.insertAgree" parameterClass="AgreeSearchVO">
+		<![CDATA[
+			INSERT INTO TB_PRIVACY_HISTORY
+			(PH_NO, PH_VER, PH_CHG_INFO, PH_REGDATE, PH_REG_FILENAME, PH_CODE, PH_ATCH_FILE_ID, PH_CONTENTS)
+			VALUES
+			( (SELECT NVL(MAX(PH_NO)+1,1) FROM TB_PRIVACY_HISTORY), #ph_ver#, #ph_chg_info#, sysdate, #ph_reg_fileName#, #ph_code#, #ph_atch_file_id#, #ph_contents#)			
+		]]>
+	</insert>
+	
+	<!-- 2016.12.20[H] 관리자 페이지 약관관리 파일리스트-->
+	<select id="KtaFileDAO.selectAttachFileAgree" parameterClass="string" resultClass="string">
+		SELECT
+			ORIGNL_FILE_NM as attachFile
+		FROM
+			COMTNFILEDETAIL
+		WHERE
+			ATCH_FILE_ID = #ph_atch_file_id# 
+	</select>
+	
+	<select id="KtaFileDAO.selectFileAgree" parameterClass="AgreeSearchVO" resultClass="AgreeSearchVO">
+		SELECT
+			TO_CHAR(PH_REGDATE, 'yyyy-mm-dd') as PH_REGDATE
+			, PH_NO
+			, PH_VER
+			, PH_CHG_INFO
+			, PH_REG_FILENAME
+			, PH_ATCH_FILE_ID
+		FROM
+			TB_PRIVACY_HISTORY
+		WHERE
+			PH_CODE = #ph_code#
+		ORDER BY PH_NO ASC
+
+		<!-- 기존 
+		SELECT
+			TO_CHAR(PH_REGDATE, 'yyyy-mm-dd') as PH_REGDATE
+			, PH_VER
+			, PH_CHG_INFO
+			, PH_REG_FILENAME
+			, PH_CODE
+			, PH_ATCH_FILE_ID
+		FROM
+			TB_PRIVACY_HISTORY
+		WHERE
+			PH_CODE = #ph_code# -->
+	</select>
+	
+	<!-- 2016.12.20[H] 홈페이지 footer-->
+	<select id="KtaFileDAO.selectFile" resultClass="AgreeSearchVO">
+		SELECT
+			PH_CONTENTS
+		FROM
+			(SELECT * FROM TB_PRIVACY_HISTORY 
+				WHERE PH_CODE = #ph_code#
+				order by ph_no desc)
+		WHERE ROWNUM = 1
+	</select>	
+	
+ 	<select id="KtaFileDAO.selectFileList" parameterClass="FileVO" resultMap="fileList" >
+ 		<![CDATA[
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_CN, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				COMTNFILE a, COMTNFILEDETAIL b
+			WHERE
+				a.ATCH_FILE_ID = #atchFileId#
+			AND 
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID
+			AND 
+				a.USE_AT = 'Y'				
+			ORDER BY b.FILE_SN	
+ 		]]>
+ 	</select>
+ 	
+	<insert id="KtaFileDAO.insertFileMaster" parameterClass="FileVO" >
+		<![CDATA[
+			INSERT INTO COMTNFILE
+			(ATCH_FILE_ID, CREAT_DT, USE_AT)
+			VALUES
+			( #atchFileId#, SYSDATE, 'Y')			
+		]]>
+	</insert>
+	
+	<insert id="KtaFileDAO.insertFileDetail" parameterClass="FileVO" >
+		<![CDATA[
+			INSERT INTO COMTNFILEDETAIL
+			( ATCH_FILE_ID, FILE_SN, FILE_STRE_COURS, STRE_FILE_NM, 
+			  ORIGNL_FILE_NM, FILE_EXTSN, FILE_SIZE, FILE_CN )
+			VALUES
+			( #atchFileId#, #fileSn#, #fileStreCours#, #streFileNm#, 
+			  #orignlFileNm#, #fileExtsn#, #fileMg#, #fileCn# )			
+		]]>
+	</insert>	
+	
+	<delete id="KtaFileDAO.deleteFileDetail" parameterClass="FileVO" >
+		<![CDATA[
+			DELETE FROM COMTNFILEDETAIL
+			WHERE
+				ATCH_FILE_ID = #atchFileId#
+			AND	
+				FILE_SN = #fileSn#			
+		]]>	
+	</delete>
+ 	
+	<select id="KtaFileDAO.getMaxFileSN" parameterClass="FileVO" resultClass="java.lang.Integer">
+		<![CDATA[
+			SELECT NVL(MAX(FILE_SN),0)+1 AS FILE_SN
+			FROM COMTNFILEDETAIL
+			WHERE ATCH_FILE_ID =  #atchFileId#		
+		]]>
+	</select>
+
+ 	<select id="KtaFileDAO.selectFileInf" parameterClass="FileVO" resultMap="fileDetail" >
+ 		<![CDATA[
+			SELECT 
+				ATCH_FILE_ID, FILE_CN, FILE_SN, FILE_STRE_COURS, STRE_FILE_NM,
+				FILE_EXTSN, ORIGNL_FILE_NM, FILE_SIZE
+			FROM
+				COMTNFILEDETAIL
+			WHERE
+				ATCH_FILE_ID = #atchFileId#
+		]]>	
+		<isNotEmpty prepend="AND" property="fileSn">
+		<![CDATA[	FILE_SN = #fileSn#	]]>
+		</isNotEmpty>
+		<isEmpty prepend="AND" property="fileSn">
+		<![CDATA[	ROWNUM = 1	]]>
+		</isEmpty>
+		<![CDATA[			
+        	ORDER BY FILE_SN
+ 		]]>
+ 	</select>
+
+	<update id="KtaFileDAO.deleteCOMTNFILE" parameterClass="FileVO" >
+		<![CDATA[
+			UPDATE COMTNFILE
+			SET USE_AT = 'N'
+			WHERE ATCH_FILE_ID = #atchFileId#
+		]]>
+	</update>
+
+ 	<select id="KtaFileDAO.selectFileListByFileNm" parameterClass="FileVO" resultMap="fileList" >
+ 		<![CDATA[
+ 		SELECT * FROM ( SELECT rownum rn, TB.* FROM (
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_CN, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				COMTNFILE a, COMTNFILEDETAIL b
+			WHERE
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID
+			AND 
+				a.USE_AT = 'Y'
+ 		]]>
+			<isEqual prepend="AND" property="searchCnd" compareValue="streFileNm">
+				<![CDATA[	b.STRE_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCnd" compareValue="orignlFileNm">
+				<![CDATA[	b.ORIGNL_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>	
+		<![CDATA[			
+			ORDER BY a.ATCH_FILE_ID, b.FILE_SN	
+			) TB ) WHERE rn BETWEEN #firstIndex# + 1 AND #firstIndex# + #recordCountPerPage#
+		]]>		 		
+ 	</select>
+
+ 	<select id="KtaFileDAO.selectFileListCntByFileNm" parameterClass="FileVO" resultClass="java.lang.Integer" >
+ 		<![CDATA[
+			SELECT 
+				COUNT(a.ATCH_FILE_ID)
+			FROM
+				COMTNFILE a, COMTNFILEDETAIL b
+			WHERE
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID
+			AND 
+				a.USE_AT = 'Y'				
+ 		]]>
+			<isEqual prepend="AND" property="searchCnd" compareValue="streFileNm">
+				<![CDATA[	b.STRE_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>
+			<isEqual prepend="AND" property="searchCnd" compareValue="orignlFileNm">
+				<![CDATA[	b.ORIGNL_FILE_NM LIKE '%' || #searchWrd# || '%' 		]]>
+			</isEqual>	 		
+ 	</select>
+ 	
+  	<select id="KtaFileDAO.selectImageFileList" parameterClass="FileVO" resultMap="fileList" >
+ 		<![CDATA[
+			SELECT 
+				a.ATCH_FILE_ID, b.FILE_CN, b.FILE_SN, b.FILE_STRE_COURS, b.STRE_FILE_NM,
+				b.FILE_EXTSN, b.ORIGNL_FILE_NM, b.FILE_SIZE, a.CREAT_DT
+			FROM
+				COMTNFILE a, COMTNFILEDETAIL b
+			WHERE
+				a.ATCH_FILE_ID = #atchFileId#
+			AND 
+				a.ATCH_FILE_ID = b.ATCH_FILE_ID
+			AND
+				UPPER(b.FILE_EXTSN) IN ('GIF','JPG','BMP','PNG')
+			AND 
+				a.USE_AT = 'Y'				
+			ORDER BY b.FILE_SN	
+ 		]]>
+ 	</select>	
+ 	
+</sqlMap>

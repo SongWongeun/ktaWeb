@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>sns</title>
+<script type="text/javascript">
+function shareTwitter(){
+	//내용
+	var msg = "메세지";
+	var url = "http://twitter.com/home?status="+encodeURIComponent( msg );
+
+	window.open( url );
+}
+function shareMe2day(){
+	//내용
+	var msg = "메세지";
+	var url = "http://me2day.net/posts/new?new_post[body]="+encodeURIComponent( msg );
+
+	window.open( url );
+}
+function shareFB(){
+	
+	//내용
+	var msg = "DB 활용 스토리 테스트 게시물입니다.";
+	var f_url = 'http://183.101.223.66:8098/frt/utm/storyManage/selectStoryMngment.do?nttId=7013&bbsId=BBSMSTR_00000700&fbrefresh=CAN_BE_ANYTHING';
+	var f_images = 'http://183.101.223.66:8098/images/nre/frt/logo01.jpg';
+	var f_title = '코리아DB';
+ 	var queryParams = [
+	  		           	's=100'
+	  	     			,'p[url]=' + encodeURIComponent( f_url ) 
+	  	     			,'p[images][0]=' + encodeURIComponent(f_images)
+	  	     			,'p[title]=' + encodeURIComponent( f_title )
+	  	     			,'p[summary]=' + encodeURIComponent( msg )
+	  	     		];
+	var url = "http://www.facebook.com/sharer.php?"+queryParams.join('&');
+	
+
+
+
+ 	window.open( url );
+}
+</script>
+</head>
+<body>
+<a href="#;" onclick="shareTwitter(); return false;">트위터</a>
+<a href="#;" onclick="shareMe2day(); return false;">미투데이</a>
+<a href="#;" onclick="shareFB(); return false;">페이스북</a>
+</body>
+</html>

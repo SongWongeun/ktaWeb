@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CleanCenterBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="cleanCenterBoardDefaultVO" type="kr.or.truck.customer.cleancenter.service.CleanCenterBoardDefaultVO"/>
+	<typeAlias  alias="cleanCenterBoardVO" type="kr.or.truck.customer.cleancenter.service.CleanCenterBoardVO"/>
+
+	<resultMap id="cleanCenterBoard" class="kr.or.truck.customer.cleancenter.service.CleanCenterBoardVO">
+		<result property="bbsId" 		column="BBS_ID"/>
+		<result property="bbsName" 		column="BBS_NAME"/>
+		<result property="articleNo" 	column="ARTICLE_NO"/>
+		<result property="title" 		column="title"/>
+		<result property="contentHtml" 	column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="contentText"	column="CONTENT_TEXT"/>		
+		<result property="createTime" 	column="CREATE_TIME"/>
+		<result property="rdCount" 		column="RDCOUNT"/>
+		<result property="writerId"		column="WRITER_ID"/>
+		<result property="writerName" 	column="WRITER_NAME"/>			
+		<result property="modifyId" 	column="MODIFY_ID"/>
+		<result property="modifyName" 	column="MODIFY_NAME"/>
+		<result property="modifyTime" 	column="MODIFY_TIME"/>
+		<result property="atchFileId" 	column="ATCH_FILE_ID"/>
+		<result property="atchFileName" column="ATCH_FILE_NAME"/>
+		<result property="atchFileName" column="ATCH_FILE_NAME"/>
+		<result property="replyAt" 		column="REPLY_AT"/>
+		<result property="replyContentHtml" column="REPLY_CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="replyContentText" column="REPLY_CONTENT_TEXT"/>
+		<result property="replyId" 		column="REPLY_ID"/>
+		<result property="replyName"	column="REPLY_NAME"/>
+		<result property="replyTime" 	column="REPLY_TIME"/>
+		<result property="replyModifyId"	column="REPLY_MODIFY_ID"/>
+		<result property="replyModifyName"  column="REPLY_MODIFY_NAME"/>
+		<result property="replyModifyTime"  column="REPLY_MODIFY_TIME"/>
+		<result property="useAt" 		column="USE_AT"/>			
+		<result property="phone" 		column="PHONE"/>
+		<result property="email" 		column="EMAIL"/>
+		<result property="post1" 					column="POST1"  		/>
+		<result property="post2" 					column="POST2"  		/>
+		<result property="addr" 					column="ADDR"  	/>
+		<result property="new_addr" 				column="NEW_ADDR"  	/>
+		<result property="birth" 				column="BIRTH"  	/>
+	</resultMap>
+	
+	
+	<select id="cleanCenterBoardDAO.selectBoardList_D" parameterClass="cleanCenterBoardDefaultVO" resultMap="cleanCenterBoard" >
+			 
+			 SELECT
+			 	BBS_ID,          
+				BBS_NAME,        
+				ARTICLE_NO,      
+				TITLE,           
+				CONTENT_HTML,
+				CONTENT_TEXT,		
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') AS CREATE_TIME,   
+				RDCOUNT,         
+				WRITER_ID,       
+				WRITER_NAME,		
+				MODIFY_ID,       
+				MODIFY_NAME,     
+				MODIFY_TIME,     
+				ATCH_FILE_ID,    
+				ATCH_FILE_NAME,  
+				ATCH_FILE_NAME,  
+				REPLY_AT,        
+				REPLY_CONTENT_HTML,
+				REPLY_CONTENT_TEXT,
+				REPLY_ID,        
+				REPLY_NAME,      
+				REPLY_TIME,      
+				REPLY_MODIFY_ID,
+				REPLY_MODIFY_NAME,
+				REPLY_MODIFY_TIME,
+				USE_AT,		
+				PHONE,           
+				EMAIL,
+				POST1,
+				POST2,
+				ADDR,
+				NEW_ADDR,
+				BIRTH
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM REPORT_BBS 
+					WHERE 1=1 AND USE_AT='Y'
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						TITLE LIKE '%' || #searchKeyword# || '%' or CONTENT_TEXT LIKE '%' || #searchKeyword# || '%' AND USE_AT='Y'  
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY CREATE_TIME DESC, ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+		
+	<select id="cleanCenterBoardDAO.selectBoardListTotCnt_S" parameterClass="cleanCenterBoardDefaultVO" resultClass="int">
+		SELECT COUNT(*) totCnt
+		FROM REPORT_BBS
+		WHERE 1=1 AND USE_AT='Y'
+		AND bbs_id = 'CLEANCENTER_REPORT'
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			TITLE LIKE '%' || #searchKeyword# || '%' or CONTENT_TEXT LIKE '%' || #searchKeyword# || '%' AND USE_AT='Y'  
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			TITLE LIKE '%' || #searchKeyword# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+		</isEqual>			
+	</select>
+
+	 <insert id="cleanCenterBoardDAO.insertBoard_S">
+		<![CDATA[
+		 INSERT INTO REPORT_BBS 
+				( BBS_ID, BBS_NAME, ARTICLE_NO, TITLE, CONTENT_HTML, CONTENT_TEXT, CREATE_TIME, RDCOUNT,
+			 		WRITER_ID, WRITER_NAME,  MODIFY_ID,  MODIFY_NAME,  MODIFY_TIME, ATCH_FILE_ID,
+			 		ATCH_FILE_NAME, REPLY_AT, REPLY_CONTENT_HTML, REPLY_CONTENT_TEXT, REPLY_ID, REPLY_NAME,
+			 		REPLY_TIME, REPLY_MODIFY_ID, REPLY_MODIFY_NAME, REPLY_MODIFY_TIME, USE_AT,  PHONE, EMAIL, IPIN_CI, IPIN_DI, CERTTYPE,
+			 		POST1,POST2,ADDR,NEW_ADDR,BIRTH,EMAIL_YN,PHONE_YN)
+			
+			VALUES ( 'CLEANCENTER_REPORT', '클린센터', #articleNo#, #title#,#contentHtml#,#contentText#,sysdate, 0,
+			#writerId#, #writerName#, '','' , sysdate, #atchFileId#, #atchFileName#, 'N', '답내용html','답내용text','답변자id',
+			 '',sysdate,'','', SYSDATE, 'Y',  #phone#, #email#,  #ipinCi#, #ipinDi#, #certType#,
+			 #post1#,#post2#,#addr#,#new_addr#,#birth#,#email_yn#,#phone_yn#
+			)
+		]]>
+	</insert>
+	
+	
+	<update id="cleanCenterBoardDAO.updateBoard_S" parameterClass="cleanCenterBoardVO">
+		<![CDATA[
+			UPDATE REPORT_BBS 
+			SET MODIFY_ID = #writerId#,
+				MODIFY_NAME = #writerName#,
+				TITLE = #title#,
+				CONTENT_HTML = #contentHtml#,
+				CONTENT_TEXT = #contentText#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#,			    
+			    PHONE = #phone#, 
+			    EMAIL = #email#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	<update id="cleanCenterBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE REPORT_BBS 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	 <update id="cleanCenterBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE REPORT_BBS 
+			SET USE_AT='N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>	
+	
+	<select id="cleanCenterBoardDAO.selectBoard_S" resultMap="cleanCenterBoard" >
+			<![CDATA[
+			SELECT 
+				BBS_ID,          
+				BBS_NAME,        
+				ARTICLE_NO,      
+				TITLE,           
+				CONTENT_HTML,
+				CONTENT_TEXT,		
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') AS CREATE_TIME,     
+				RDCOUNT,         
+				WRITER_ID,       
+				WRITER_NAME,		
+				MODIFY_ID,       
+				MODIFY_NAME,     
+				MODIFY_TIME,     
+				ATCH_FILE_ID,    
+				ATCH_FILE_NAME,  
+				ATCH_FILE_NAME,  
+				REPLY_AT,        
+				REPLY_CONTENT_HTML,
+				REPLY_CONTENT_TEXT,
+				REPLY_ID,        
+				REPLY_NAME,      
+				REPLY_TIME,      
+				REPLY_MODIFY_ID,
+				REPLY_MODIFY_NAME,
+				REPLY_MODIFY_TIME,
+				USE_AT,		
+				PHONE,           
+				EMAIL,
+				POST1,
+				POST2,
+				ADDR,
+				NEW_ADDR,
+				BIRTH	
+			FROM REPORT_BBS 
+			WHERE ARTICLE_NO=#articleNo#
+			 ]]>
+	</select>
+</sqlMap>

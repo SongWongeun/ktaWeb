@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Office">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="OfficeSearchVO" type="kr.or.truck.associntroduce.office.service.OfficeSearchVO"/>
+
+	
+	<select id="officeDAO.selectJibuInfo" parameterClass="OfficeSearchVO" resultClass="java.util.HashMap" >
+		<![CDATA[
+			SELECT 
+					JIBU_NAME,
+					ADDR,
+					PHONE1,
+					PHONE2,
+					X,
+					Y,
+					CODE1,
+					CODE2,
+					NEW_ADDR
+			FROM 	JIBU_ADDR
+			WHERE 	CODE1=#code1#
+			AND 	CODE2=#code2#
+			order by code1, code2
+		]]>
+	</select>
+	
+	<select id="officeDAO.selectJibuList" parameterClass="OfficeSearchVO" resultClass="java.util.HashMap" >
+			SELECT 
+					JIBU_NAME,
+					ADDR,
+					PHONE1,
+					PHONE2,
+					X,
+					Y,
+					CODE1,
+					CODE2,
+					NEW_ADDR
+			FROM 	JIBU_ADDR
+			WHERE 	CODE1=#code1#
+			order by code1, code2
+			
+	</select>
+</sqlMap>

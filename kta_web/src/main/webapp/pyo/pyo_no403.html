@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">403</span><span class="pyoName">자전거A 황색진입 자동차B 적색 진입 &#9312;&#9313;&#9314;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본</td>
+                            <td class="alC bB3">A15</td>
+                            <td class="alC">B85</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="11" class="alC"><img src="/images/truck/jpg/403.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">간선도로</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">야간</td>
+                            <td class="alC bB3">&#42;</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 좌측통행</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 현저한 과실</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 인근에 자전거도로가 있는 경우&#9317;</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 교차로 사각 횡단</td>
+                            <td class="alC bB3">&#42;</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        
+                         <tr>
+                            <td class="bg1">A 어린이&#183;노인</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 현저한 과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	본 도표는 녹색의 등화에 교차로에 진입하여 진행중 황색의 등화로 바뀐 경우에는 적용하지 아니한다&#46; 그 이유는 도로교통법시행규칙 [별표2] &#34;신호기가 표시하는 신호의 종류 및 신호의 뜻&#40;제6조제2항 관련&#41;&#34;에 의하면&#44; 황색의 등화는 차마가 이미 교차로에 진입하고 있는 경우에는 신속히 교차로 밖으로 진행하여야 한다고 규정하고 있으므로&#44; 이러한 상태에서 사고가 발생한 경우에는 앞서 본 제401도&#44; 제402도를 적용하여야 한다&#46;</p>
+                    <p class="txtPoint">&#9313;	한편&#44; 황색의 등화시 차마는 정지선이 있거나 횡단보도가 있을 때에는 그 직전이나 교차로의 직전에 정지하여야 하도록 되어 있으므로&#44; 결국 본 도표는 교차로 직전에서 황색의 등화로 바뀌어&#44; 교차로의 앞에서 정지할 수 없는 경우에만 해당된다&#46;&#40;다만&#44; 속도위반을 하여 정지선이나 횡단보도에서 안전하게 정지할 수 없는 경우에는&#44; 황색 등화를 위반하여 진입한 것으로 취급하여야 한다&#41;</p>
+                    <p class="txtPoint">&#9314;	본 도표는 교차로에 진입한 이후에 황색의 등화가 켜지거나&#44; 교차로 진입전에 황색의 등화가 켜진 경우에는 모두 해당사항이 없고&#44; 교차로 진입 순간에 황색의 등화가 켜진 경우에 적용되는 것이므로 이러한 사고형태는 매우 적다고 할 것이다&#46;</p>
+                   </div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 시행규칙 [별표2] &#34;신호기가 표시하는 신호의 종류 및 신호의 뜻&#40;제6조제2항관련&#41;&#34;</p>
+					<ul class="txtListst02">
+						<li>&#45; 황색의 등화  &#58;</li>
+                        <li>1&#46; 차마는 정지선이 있거나 횡단보도가 있을 때에는 그 직전이나 교차로의 직전에 정지하여야 하며&#44; 이미 교차로에 진입하고 있는 경우에는 신속히 교차로 밖으로 진행하여야 한다&#46;</li>
+                        <li>2&#46; 차마는 우회전을 할 수 있고 우회전하는 경우에는 보행자의 횡단을 방해하지 못한다&#46;</li>
+                        </ul>
+                      <p class="txtPoint">&#9827;	도로교통법 시행규칙 [별표5] &#34;신호등의 신호 순서&#40;제7조제2항관련&#41;&#34;</p>
+					<ul class="txtListst02">
+						<li>&#45; &#40;주석부분&#41; 교차로와 교통여건상 특별히 필요하다고 인정되는 장소는 신호의 순서를 달리하거나 녹색화살표 및 녹색등화를 동시에 표시할 수 있다&#46;</li>
+                        </ul>
+                        <p class="txtPoint">&#9827;	도로교통법 시행규칙 별표5 &#91;신호등의 신호순서&#93;</p>
+					<ul class="txtListst02">
+						<li>1&#46;적색&#183;황색&#183;녹색화살표&#183;녹색의 사색등화 &#58;적색 및 녹색화살표&#8594;황색&#8594;녹색&#8594;황색&#8594;적색</li>
+                        <li>2&#46;적색&#183;황색&#183;녹색&#40;녹색화살표&#41;의 삼색등화 &#58;녹색&#40;적색 및 녹색화살표&#41;&#8594;황색&#8594;적색</li>
+                        <li>3&#46;보행등의 적색 및 녹색의 이색등화 &#58;녹색&#8594;녹색 점멸&#8594;적색
+</li>
+                        </ul>
+				  </div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

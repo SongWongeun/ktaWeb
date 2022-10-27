@@ -1,0 +1,57 @@
+.netTitbox {position:relative;margin-bottom:10px;}
+.netTitbox .iconType01 {background:url("/images/truck/net/tit_icon01.gif") no-repeat left bottom;padding-left:60px;margin:25px 0px 30px 0px;}
+.netTitbox .iconType02 {background:url("/images/truck/net/tit_icon03.gif") no-repeat left bottom;padding-left:60px;margin:25px 0px 30px 0px;}
+.netTitbox .iconType03 {background:url("/images/truck/net/tit_icon04.gif") no-repeat left bottom;padding-left:60px;margin:25px 0px 30px 0px;}
+.netTitbox .iconType04 {background:url("/images/truck/net/tit_icon05.gif") no-repeat left center;padding:25px 0px 25px 75px;margin:0px 0px 5px 0px;}
+.netTit {font-size:20px;letter-spacing:-1px;line-height:28px;color:#8c969d;padding:1px 0px 7px 0px;font-weight:bold}
+.netTitsub {font-size:15px;color:#8c969d;line-height:16px;padding-bottom:1px;font-weight:bold;letter-spacing:-1px;}
+.netTit02 {font-size:20px;letter-spacing:-2px;line-height:18px;color:#8c969d;padding:4px 0px 7px 0px;font-weight:bold}
+.netTitsub02 {font-size:24px;color:#8c969d;line-height:28px;padding-bottom:1px;letter-spacing:-2px;font-weight:bold}
+
+.netsubBoth {clear:both;position:relative;#display:inline-block;}
+.netsubTit {font-size:17px;font-family:'NanumGothicBold';color:#3e3e3e;line-height:32px;height:32px;display:block;}
+.netsubTit .blueBul {background:url("/images/truck/com/icon_bullet_11.gif") no-repeat left 5px;padding-left:17px;}
+.netsubTit .greenBul {background:url("/images/truck/com/icon_bullet_12.gif") no-repeat left 5px;padding-left:17px;}
+.netsubTit .emeBar {background:url("/images/truck/com/icon_bullet_17.gif") no-repeat left center;padding-left:10px;font-size:15px;}
+
+.txtColor03 {color:#555968;}
+
+.searchBox02 .btn_absol {position:absolute;right:20px;bottom:10px;}
+.searchBox04 .btn_absol {position:absolute;right:20px;bottom:10px;}
+.searchBox05 .btn_absol {position:absolute;right:20px;bottom:10px;}
+
+.btn_pack.btn_type13, .btn_pack.btn_type13 * {height:27px;line-height:25px}
+.btn_pack.btn_type13 {background-position:left -363px;}
+.btn_pack.btn_type13 * {padding:0 12px 0 6px;background-position:right -363px;font-size:13px;color:#4e5861;}
+.btn_type13.icon * {padding-left:14px}
+.btn_type13.icon span {width:26px;margin-right:-10px;padding:0 5px !important}
+.btn_pack.btn_type13 .print {background-position:-427px -320px;}
+
+.netsubBoth {clear:both;position:relative;#display:inline-block;}
+.netsubTit {font-size:17px;font-family:'NanumGothicBold';color:#3e3e3e;line-height:32px;height:32px;display:block;}
+.netsubTit .blueBul {background:url("/images/truck/com/icon_bullet_11.gif") no-repeat left 5px;padding-left:17px;}
+.netsubTit .greenBul {background:url("/images/truck/com/icon_bullet_12.gif") no-repeat left 5px;padding-left:17px;}
+.netsubTit .emeBar {background:url("/images/truck/com/icon_bullet_17.gif") no-repeat left center;padding-left:10px;font-size:15px;}
+
+.tbWork1 {clear:both;position:relative;width:970px;margin-bottom:30px;}
+.tbWork11 {clear:both;position:relative;width:970px;margin-bottom:10px;}
+.tbWork2 {clear:both;position:relative;width:930px;margin-bottom:30px;background-color:#f7f7f7;line-height:22px;padding:15px 20px 18px 20px;}
+.tbWork3 {clear:both;position:relative;width:580px;margin-bottom:30px;}
+.tbWork1 .etcTxt {position:absolute;top:-21px;right:0px;}
+.tbWork11 .etcTxt {position:absolute;top:-21px;right:0px;}
+.tbWork_st01 {width:100%;border-collapse:separate;#border-collapse:collapse;border-spacing:0px;font-size:13px;border-top:2px solid #c7ced1;border-left:1px solid #e4ebee;}
+.tbWork_st01 th {color:#2d2e2f;font-weight:normal;text-align:center;background-color:#f7f7f7;border-bottom:2px solid #c7ced1;padding:10px 0px;line-height:18px;border-right:1px solid #e4ebee;}
+.tbWork_st01 td {display:table-cell;color:#585858;text-align:center;padding:0px 3px;border-right:1px solid #e4ebee;border-bottom:1px solid #e4ebee;height:34px;word-wrap:break-word;vertical-align:middle;letter-spacing:-1px;}
+.tbWork_st01 tfoot td {color:#2d2e2f;background-color:#f7f7f7;padding:0px 3px;border-right:1px solid #e4ebee;border-bottom:2px solid #e4ebee;height:34px;}
+.tbWork_st01 th.brB1 {border-bottom:1px solid #e4ebee;}
+.tbWork_st01 tr.last td {border-bottom:2px solid #e4ebee;}
+.tbWork_st01 .last {border-right:none}
+.tbWork_st01 .brB2 {border-bottom:2px solid #e4ebee;}
+.tbWork_st01 a.link {color:#585858;font-family:'NanumGothicBold';}
+.tbWork_st01 a.link:hover {text-decoration:underline;}
+.tbWork_st01 a.txtC01, .tbWork_st01 .txtC01 {color:#4788ea;}
+.tbWork_st01 a.txtC02, .tbWork_st01 .txtC02 {color:#3a9897;}
+.tbWork_st01 a.txtC03, .tbWork_st01 .txtC03 {color:#8172c0;}
+.tbWork_st01 a.txtC04, .tbWork_st01 .txtC04 {color:#fe524a;}
+.tbWork_st01 a.txtC05, .tbWork_st01 .txtC05 {color:#146e93; text-decoration:none;}
+.centerDate {color:#585858; font_size:13px; margin:10px;}

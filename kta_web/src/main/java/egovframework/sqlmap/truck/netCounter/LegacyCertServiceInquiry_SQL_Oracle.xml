@@ -1,0 +1,1934 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >
+
+	<typeAlias  alias="certServiceSearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	
+	
+	<parameterMap id="callDocNoMap" class="hashMap">
+	    <parameter property="GB" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="SHEETGB" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="GYEYAK_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="APPLY_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="PUBLISH_USE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="COMMENT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="DAMDANG_JIBU_CD" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="DAMDANG_SABUN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	    <parameter property="V_INOUT_KEY1" javaType="java.lang.String" jdbcType="VARCHAR" mode="INOUT" />
+		<parameter property="V_INOUT_KEY2" javaType="java.lang.String" jdbcType="VARCHAR" mode="INOUT" />
+	    <parameter property="V_OUT_PUBLISH_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="INOUT" />
+	    <parameter property="V_OUT_RETURN_CD" javaType="java.lang.String" jdbcType="VARCHAR" mode="INOUT" />
+ 	</parameterMap>
+ 	
+ 	<resultMap id="callDocMap" class="hashMap">
+	    <result property="INOUT_KEY1" column="V_INOUT_KEY1"  nullValue=""/>
+		<result property="INOUT_KEY2" column="V_INOUT_KEY2" nullValue="" />
+	    <result property="PUBLISH_NO" column="V_OUT_PUBLISH_NO"  nullValue=""/>
+	    <result property="RETURN_CD" column="V_OUT_RETURN_CD" nullValue="" />
+ 	</resultMap>
+ 	 
+ 	 <resultMap id="carryDeductInquiry" class="kr.or.truck.netcounter.inquiryservice.service.CarryDeductInquiryVO">		
+		<result property="rnum" column="RNUM"/>
+		<result property="myunchaek_amt" column="MYUNCHAEK_AMT"/>
+		<result property="gyeyak_state_nm" column="GYEYAK_STATE_NM"/>
+		<result property="napip_gb" column="NAPIP_GB"/>
+		<result property="gaip_ymd" column="GAIP_YMD"/>
+		<result property="yuhyo_ymd" column="YUHYO_YMD"/>
+		<result property="next_bunnap_ymd" column="NEXT_BUNNAP_YMD"/>
+		<result property="next_bunnap_amt" column="NEXT_BUNNAP_AMT"/>
+		<result property="gyeyak_no" column="GYEYAK_NO"/>
+		<result property="agent_nm" column="AGENT_NM"/>
+		<result property="car_no" column="CAR_NO"/>
+		<result property="agent_no" column="AGENT_NO"/>
+		<result property="daepyoja_nm" column="DAEPYOJA_NM"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+		<result property="tel_local_no" column="TEL_LOCAL_NO"/>
+		<result property="tel_no" column="TEL_NO"/>
+		<result property="fax_local_no" column="FAX_LOCAL_NO"/>
+		<result property="fax_no" column="FAX_NO"/>
+		<result property="jukjaemul_bosang_hando" column="JUKJAEMUL_BOSANG_HANDO"/>
+		<result property="jukjaemul_maechul_amt" column="JUKJAEMUL_MAECHUL_AMT"/>
+		<result property="gyeyak_state_cd" column="GYEYAK_STATE_CD"/>
+		<result property="bosang_hando" column="BOSANG_HANDO"/>
+		<result property="gyeyak_symd" column="GYEYAK_SYMD"/>
+		<result property="gyeyak_eymd" column="GYEYAK_EYMD"/>
+		<result property="tot_napip_amt" column="TOT_NAPIP_AMT"/>
+		<result property="bunnap_cnt" column="BUNNAP_CNT"/>
+		<result property="yuhyo_symd" column="YUHYO_SYMD"/>
+		<result property="bunnap_amt" column="BUNNAP_AMT"/>
+		<result property="saupjang_seq" column="SAUPJANG_SEQ"/>
+		<result property="bundam_amt" column="BUNDAM_AMT"/>
+		<result property="napip_gb_cd" column="NAPIP_GB_CD"/>
+	</resultMap>
+	
+ 	 
+ 	<parameterMap id="serialMap" class="hashmap">
+    	<parameter property="V_IN_GB" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="V_IN_SHEET_GB" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="AGENT_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SAUPJANG_SEQ" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_GAIP_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="APPLY_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="PUBLISH_USE" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="COMMENT" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="JIBU_CD" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SAWON_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="AGENT_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="DAEPYOJA_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="BUPIN_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SAUPJA_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="JOHAPWON_JUMIN" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ZIP1" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ZIP2" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ADDR1" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ADDR2" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_BODY_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_KIND_CD" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="PROPER_WG" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG1" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG2" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG3" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG4" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="START_DATE" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="END_DATE" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="DAE1_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="DAE2_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="DAEMUL_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="CAR_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="LAW_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="JAEHAE_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="JUK_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="JUSUN_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="TOT_TUKYAK_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="SIN_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="CHUL_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="IN_JABUDAM_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="MUL_JABUDAM_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="SHEET_CNT1" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_CNT2" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="V_OUT_SHEET_KIND_CD" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+    	<parameter property="V_OUT_PUBLISH_NO" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+    	<parameter property="V_OUT_RETURN_WCD" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+    </parameterMap>
+   
+ 	 <parameterMap id="serialMapAll" class="hashmap">
+    	<parameter property="V_IN_GB" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="AGENT_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SAUPJANG_SEQ" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_GAIP_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="APPLY_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="PUBLISH_USE" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="COMMENT" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="JIBU_CD" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SAWON_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="AGENT_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="DAEPYOJA_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="BUPIN_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SAUPJA_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="JOHAPWON_JUMIN" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ZIP1" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ZIP2" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ADDR1" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="ADDR2" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_BODY_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="CAR_KIND_CD" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="PROPER_WG" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG1" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG2" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG3" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="SHEET_NYG4" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="START_DATE" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="END_DATE" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+    	<parameter property="DAE1_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="DAE2_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="DAEMUL_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="CAR_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="LAW_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="JAEHAE_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="JUK_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="JUSUN_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="TOT_TUKYAK_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="SIN_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="CHUL_BUNNAP_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="IN_JABUDAM_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="MUL_JABUDAM_AMT" javaType="java.math.BigDecimal" jdbcType="NUMERIC"  mode="IN"/>
+    	<parameter property="V_OUT_SHEET_KIND_CD" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+    	<parameter property="V_OUT_PUBLISH_NO" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+    	<parameter property="V_OUT_RETURN_CD" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>    	
+    </parameterMap>
+ 	 
+ 	 
+ 	 <parameterMap id="conSerialMap" class="hashmap">
+ 	 	<parameter property="GB" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="SHEET_GB" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="GYEYAK_NO" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="APPLY_NM" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="PUBLISH_USE" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="COMMENT" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="DAMDANG_JIBU_CD" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="DAMDANG_SABUN" javaType="java.lang.String" jdbcType="VARCHAR"  mode="IN"/>
+ 	 	<parameter property="V_INOUT_KEY1"  javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+ 	 	<parameter property="V_INOUT_KEY2"  javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+    	<parameter property="V_OUT_PUBLISH_NO" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+    	<parameter property="V_OUT_RETURN_CD" javaType="java.lang.String" jdbcType="VARCHAR" nullValue="" mode="INOUT"/>
+ 	 </parameterMap>
+ 	 
+	<!--증명서 발급번호 조회  proc1-->
+	<procedure id="CertServiceInquiryDAO.callDocNo"  parameterClass="hashMap">
+	{call SP_CT_CTMG20_SHEET5M_WEB ( #GB#, #SHEETGB#, #GYEYAK_NO#, #APPLY_NM#, #PUBLISH_USE#, #COMMENT#, #DAMDANG_JIBU_CD#,
+	#DAMDANG_SABUN#, #V_INOUT_KEY1#, #V_INOUT_KEY2#, #V_OUT_PUBLISH_NO#, #V_OUT_RETURN_CD# )}
+	</procedure>
+	
+	<!-- 증명서 내용 입력및 발급번호 채번 프로시저 실행 -->
+	<procedure id="CertServiceInquiryDAO.excuteCertProcedure" parameterMap="conSerialMap" >
+	{call SP_CT_CTMG20_SHEET5M_WEB ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )}
+	</procedure>
+	
+	
+	<!-- 증명서 발급조회 통합증명서 -->
+	<select id="CertServiceInquiryDAO.selectJoinFactList" parameterClass="hashMap" resultClass="hashMap">
+	select AGENT_NM
+		,BAESEO_1
+		,BAESEO_2
+		,BAESEO_3
+		,BAESEO_4
+		,BAESEO_5
+		,BAESEO_6
+		,BAESEO_7
+		,BAESEO_8
+		,BUPIN_NO
+		,CAR_BODY_NO
+		,F_CODE_NM('1056',CAR_KIND_CD) CAR_KIND_CD
+		,CAR_NM
+		,CAR_NO
+		,DAMBO_GAIP_EYMD_1
+		,DAMBO_GAIP_EYMD_2
+		,DAMBO_GAIP_EYMD_3_1
+		,
+		CASE WHEN 
+		Dambo_Hando_Amt_3_2 > 0 THEN
+		DAMBO_GAIP_SYMD_3_2 
+		ELSE ''
+		END DAMBO_GAIP_SYMD_3_2
+		,DAMBO_GAIP_EYMD_4
+		,DAMBO_GAIP_EYMD_5
+		,DAMBO_GAIP_EYMD_7
+		,DAMBO_GAIP_SYMD_1
+		,substr(DAMBO_GAIP_SYMD_1_TM, 0, 4) DAMBO_GAIP_SYMD_1_TM
+		,DAMBO_GAIP_SYMD_2
+		,substr(DAMBO_GAIP_SYMD_2_TM, 0, 4) DAMBO_GAIP_SYMD_2_TM
+		,DAMBO_GAIP_SYMD_3_1
+		,substr(DAMBO_GAIP_SYMD_3_1_TM, 0, 4) DAMBO_GAIP_SYMD_3_1_TM
+		,
+		CASE WHEN 
+		Dambo_Hando_Amt_3_2 > 0 THEN
+		DAMBO_GAIP_EYMD_3_2 
+		ELSE ''
+		END DAMBO_GAIP_EYMD_3_2 
+		,substr(DAMBO_GAIP_SYMD_3_2_TM, 0, 4) DAMBO_GAIP_SYMD_3_2_TM
+		,DAMBO_GAIP_SYMD_4
+		,substr(DAMBO_GAIP_SYMD_4_TM, 0, 4 )DAMBO_GAIP_SYMD_4_TM
+		,DAMBO_GAIP_SYMD_5
+		,substr(DAMBO_GAIP_SYMD_5_TM, 0, 4) DAMBO_GAIP_SYMD_5_TM
+		,DAMBO_GAIP_SYMD_7
+		,substr(Dambo_Gaip_Symd_7_Tm, 0, 4) Dambo_Gaip_Symd_7_Tm
+		,'의무가입 1사고당 ' || lpad(Dambo_Hando_Amt_3_1, 6, ' ') ||'만원' Dambo_Hando_Amt_3_1
+		,
+		CASE WHEN 
+		Dambo_Hando_Amt_3_2 > 0 THEN
+		'임의가입 1사고당 ' || lpad(Dambo_Hando_Amt_3_2, 6, ' ') ||'만원' 
+		ELSE ''
+		END Dambo_Hando_Amt_3_2
+		,
+		CASE WHEN 
+		Dambo_Hando_Amt_3_2 > 0 THEN
+		'합계 1사고당 ' || F_CODE_NM('1010',DAMBO_HANDO_CD_3) 
+		ELSE ''
+		END	DAMBO_HANDO_CD_3
+		,
+		CASE WHEN 
+		DAMBO_HANDO_AMT_4 > 0 THEN
+		to_char(DAMBO_HANDO_AMT_4, 'FM999,999,999') || '원' 
+		ELSE ''
+		END	DAMBO_HANDO_AMT_4
+		,
+		CASE WHEN 
+		DAMBO_HANDO_AMT_4_2 > 0 THEN
+		'(차대차한정)  '||to_char(DAMBO_HANDO_AMT_4_2, 'FM999,999,999') || '원' 
+		ELSE ''
+		END	DAMBO_HANDO_AMT_4_2
+		,
+		CASE WHEN 
+		DAMBO_HANDO_AMT_4_3 > 0 THEN
+		'(침수해한정)  '||to_char(DAMBO_HANDO_AMT_4_3, 'FM999,999,999') || '원' 
+		ELSE ''
+		END	DAMBO_HANDO_AMT_4_3
+		,
+		CASE WHEN
+		length(SIN_HANDO_CD) > 0 THEN
+		'사망+후유장애(1인당) ' || F_CODE_NM('1009',SIN_HANDO_CD)
+		ELSE ''
+		END SIN_HANDO_CD
+		,
+		CASE WHEN
+		length(SIN_HANDO_BUSANG) > 0 THEN
+		'부상(1인당) ' || SIN_HANDO_BUSANG
+		ELSE ''
+		END SIN_HANDO_BUSANG
+		,
+		CASE WHEN
+		length(CHUL_TUKYAK_KIND) > 0 THEN
+		decode(CHUL_TUKYAK_KIND, '1','긴급출동서비스 특약Ⅰ','2','긴급출동서비스 특약Ⅱ','')
+		ELSE ''
+		END SIN_HANDO_BUSANG2
+		
+		,F_CODE_NM('1001',GAIP_YN_1) GAIP_YN_1
+		,F_CODE_NM('1001',GAIP_YN_2) GAIP_YN_2
+		,F_CODE_NM('1001',GAIP_YN_3) GAIP_YN_3
+		,F_CODE_NM('1001',GAIP_YN_4) GAIP_YN_4
+		,F_CODE_NM('1001',GAIP_YN_5) GAIP_YN_5
+		,F_CODE_NM('1001',GAIP_YN_7) GAIP_YN_7
+		,F_CODE_NM('1001',GAIP_YN_8) GAIP_YN_8
+		,F_CODE_NM('1001',GAIP_YN_9) GAIP_YN_9
+		,GYEYAK_EYMD
+		,GYEYAK_EYMD_JS
+		,GYEYAK_EYMD_JS_TM
+		,GYEYAK_EYMD_TM
+		,GYEYAK_NO
+		,GYEYAK_NO_JS
+		,GYEYAK_NY1
+		,GYEYAK_NY2
+		,GYEYAK_NY3
+		,GYEYAK_NY4
+		,GYEYAK_NY5
+		,GYEYAK_NY6
+		,GYEYAK_SYMD
+		,GYEYAK_SYMD_JS
+		,GYEYAK_SYMD_JS_TM
+		,GYEYAK_SYMD_TM
+		,JONGSA_JUMIN_NO
+		,JONGSA_NM ,
+		CASE WHEN MYUNCHAEK_CD > 0 THEN '자기부담금 : ' || f_code_nm('1013', MYUNCHAEK_CD)
+		ELSE MYUNCHAEK_CD END MYUNCHAEK_CD
+		,NOT_BOSANG_YMD_1
+		,NOT_BOSANG_YMD_10
+		,NOT_BOSANG_YMD_2
+		,NOT_BOSANG_YMD_3
+		,NOT_BOSANG_YMD_4
+		,NOT_BOSANG_YMD_5
+		,NOT_BOSANG_YMD_6
+		,NOT_BOSANG_YMD_7
+		,NOT_BOSANG_YMD_8
+		,NOT_BOSANG_YMD_9
+		,PROPER_WG
+		,PUBLISH_NO
+		,PUBLISH_SEQ
+		,SAUPJA_NO
+		,SHEET_KIND_CD
+		,SUBTITLE_CD
+		,TOT_WG
+		,TUKBYUL_RATE1_CD
+		,TUKBYUL_RATE2_CD
+		,TUKBYUL_RATE3_CD
+		,f_code_nm('1011', TUKBYUL_RATE1_CD )  || ' ' || f_code_nm('1011', TUKBYUL_RATE2_CD )|| ' ' || f_code_nm('1011', TUKBYUL_RATE3_CD ) as TUKBYUL_RATE /**/
+		,DAMBO_GAIP_SYMD_8
+		,DAMBO_GAIP_EYMD_8
+		,DAMBO_GAIP_SYMD_9
+		,DAMBO_GAIP_EYMD_9
+		,DAMBO_GAIP_SYMD_8_TM
+		,DAMBO_GAIP_SYMD_9_TM
+		 from ctmg22 where
+		 sheet_kind_cd= #V_INOUT_KEY1# and publish_no = #V_OUT_PUBLISH_NO#
+	</select>
+	
+	<!-- 적재물 항목조회(다건) -->
+	<select id="CertServiceInquiryDAO.selectCarryCertList" parameterClass="hashMap" resultClass="hashMap">
+	select AGENT_NM
+		,BAESEO_1
+		,BAESEO_10
+		,BAESEO_2
+		,BAESEO_3
+		,BAESEO_4
+		,BAESEO_5
+		,BAESEO_6
+		,BAESEO_7
+		,BAESEO_8
+		,BAESEO_9
+		,BUNNAP_CNT
+		,BUPIN_NO
+		,CAR_BODY_NO
+		,CAR_KIND_CD
+		,CAR_NM
+		,CAR_NO
+		,DAMBO_EYMD_1
+		,DAMBO_EYMD_1_TM
+		,DAMBO_EYMD_2
+		,DAMBO_EYMD_2_TM
+		,DAMBO_EYMD_3
+		,DAMBO_EYMD_3_TM
+		,DAMBO_EYMD_4
+		,DAMBO_EYMD_4_TM
+		,DAMBO_EYMD_5
+		,DAMBO_EYMD_5_TM
+		,DAMBO_EYMD_6
+		,DAMBO_EYMD_6_TM
+		,DAMBO_EYMD_7
+		,DAMBO_EYMD_7_TM
+		,DAMBO_EYMD_8
+		,DAMBO_EYMD_8_TM
+		,DAMBO_NM_1
+		,DAMBO_NM_2
+		,DAMBO_NM_3
+		,DAMBO_NM_4
+		,DAMBO_NM_5
+		,DAMBO_NM_6
+		,DAMBO_NM_7
+		,DAMBO_NM_8
+		,DAMBO_SYMD_1
+		,DAMBO_SYMD_1_TM
+		,DAMBO_SYMD_2
+		,DAMBO_SYMD_2_TM
+		,DAMBO_SYMD_3
+		,DAMBO_SYMD_3_TM
+		,DAMBO_SYMD_4
+		,DAMBO_SYMD_4_TM
+		,DAMBO_SYMD_5
+		,DAMBO_SYMD_5_TM
+		,DAMBO_SYMD_6
+		,DAMBO_SYMD_6_TM
+		,DAMBO_SYMD_7
+		,DAMBO_SYMD_7_TM
+		,DAMBO_SYMD_8
+		,DAMBO_SYMD_8_TM
+		,GYEYAK_EYMD
+		,GYEYAK_EYMD_TM
+		,GYEYAK_NO
+		,GYEYAK_SYMD
+		,GYEYAK_SYMD_TM
+		,JUKJAEMUL_BOSANG_CD
+		,F_CODE_NM('1113',JUKJAEMUL_GONGJE_CD) JUKJAEMUL_GONGJE_CD
+		,F_CODE_NM('1115',MYUNCHAEK_CD) MYUNCHAEK_CD
+		,decode(SUBTITLE_CD, '7', f_code_nm('1124', jukjaemul_bosang_cd ),  f_code_nm('1113', jukjaemul_gongje_cd )  )     jukjaemul_gongje_nm
+		,to_char(to_number(nvl( myunchaek_cd, '0 ')) * 10) ||   '만원'        myunchaek_nm
+		,NAPIP_GB_CD
+		,NOT_BOSANG_YMD_1
+		,NOT_BOSANG_YMD_10
+		,NOT_BOSANG_YMD_2
+		,NOT_BOSANG_YMD_3
+		,NOT_BOSANG_YMD_4
+		,NOT_BOSANG_YMD_5
+		,NOT_BOSANG_YMD_6
+		,NOT_BOSANG_YMD_7
+		,NOT_BOSANG_YMD_8
+		,NOT_BOSANG_YMD_9
+		,PROPER_CD
+		,PROPER_WG
+		,PUBLISH_NO
+		,PUBLISH_SEQ
+		,SAUPJA_NO
+		,SHEET_KIND_CD
+		,SUBTITLE_CD
+		,TOT_WG
+		,YUHYO_EYMD_1
+		,YUHYO_EYMD_2
+		,YUHYO_EYMD_3
+		,YUHYO_EYMD_4
+		,YUHYO_EYMD_5
+		,YUHYO_EYMD_6
+		,YUHYO_EYMD_7
+		,YUHYO_EYMD_8
+		,YUHYO_SYMD_1
+		,YUHYO_SYMD_2
+		,YUHYO_SYMD_3
+		,YUHYO_SYMD_4
+		,YUHYO_SYMD_5
+		,YUHYO_SYMD_6
+		,YUHYO_SYMD_7
+		,YUHYO_SYMD_8
+		,TUKBYUL_RATE1_CD
+		,MOD_PROPER_WG
+		,F_CODE_NM('1114', TUKBYUL_RATE1_CD ) TUKBYUL_RATE1_NM
+		 from ctmg23 where Sheet_Kind_Cd=#V_INOUT_KEY1# and publish_no=#V_OUT_PUBLISH_NO#
+	</select>
+	
+	
+	<!-- 적재물 항목조회 (단건)-->
+	<select id="CertServiceInquiryDAO.selectCarryCert" parameterClass="hashMap" resultClass="hashMap">
+	select AGENT_NM
+		,BAESEO_1
+		,BAESEO_10
+		,BAESEO_2
+		,BAESEO_3
+		,BAESEO_4
+		,BAESEO_5
+		,BAESEO_6
+		,BAESEO_7
+		,BAESEO_8
+		,BAESEO_9
+		,BUNNAP_CNT
+		,BUPIN_NO
+		,CAR_BODY_NO
+		,CAR_KIND_CD
+		,CAR_NM
+		,CAR_NO
+		,DAMBO_EYMD_1
+		,DAMBO_EYMD_1_TM
+		,DAMBO_EYMD_2
+		,DAMBO_EYMD_2_TM
+		,DAMBO_EYMD_3
+		,DAMBO_EYMD_3_TM
+		,DAMBO_EYMD_4
+		,DAMBO_EYMD_4_TM
+		,DAMBO_EYMD_5
+		,DAMBO_EYMD_5_TM
+		,DAMBO_EYMD_6
+		,DAMBO_EYMD_6_TM
+		,DAMBO_EYMD_7
+		,DAMBO_EYMD_7_TM
+		,DAMBO_EYMD_8
+		,DAMBO_EYMD_8_TM
+		,DAMBO_NM_1
+		,DAMBO_NM_2
+		,DAMBO_NM_3
+		,DAMBO_NM_4
+		,DAMBO_NM_5
+		,DAMBO_NM_6
+		,DAMBO_NM_7
+		,DAMBO_NM_8
+		,DAMBO_SYMD_1
+		,DAMBO_SYMD_1_TM
+		,DAMBO_SYMD_2
+		,DAMBO_SYMD_2_TM
+		,DAMBO_SYMD_3
+		,DAMBO_SYMD_3_TM
+		,DAMBO_SYMD_4
+		,DAMBO_SYMD_4_TM
+		,DAMBO_SYMD_5
+		,DAMBO_SYMD_5_TM
+		,DAMBO_SYMD_6
+		,DAMBO_SYMD_6_TM
+		,DAMBO_SYMD_7
+		,DAMBO_SYMD_7_TM
+		,DAMBO_SYMD_8
+		,DAMBO_SYMD_8_TM
+		,GYEYAK_EYMD
+		,GYEYAK_EYMD_TM
+		,GYEYAK_NO
+		,GYEYAK_SYMD
+		,GYEYAK_SYMD_TM
+		,JUKJAEMUL_BOSANG_CD
+		,F_CODE_NM('1113',JUKJAEMUL_GONGJE_CD) JUKJAEMUL_GONGJE_CD
+		,F_CODE_NM('1115',MYUNCHAEK_CD) MYUNCHAEK_CD
+		,decode(SUBTITLE_CD, '7', f_code_nm('1124', jukjaemul_bosang_cd ),  f_code_nm('1113', jukjaemul_gongje_cd )  )     jukjaemul_gongje_nm
+		,to_char(to_number(nvl( myunchaek_cd, '0 ')) * 10) ||   '만원'        myunchaek_nm
+		,NAPIP_GB_CD
+		,NOT_BOSANG_YMD_1
+		,NOT_BOSANG_YMD_10
+		,NOT_BOSANG_YMD_2
+		,NOT_BOSANG_YMD_3
+		,NOT_BOSANG_YMD_4
+		,NOT_BOSANG_YMD_5
+		,NOT_BOSANG_YMD_6
+		,NOT_BOSANG_YMD_7
+		,NOT_BOSANG_YMD_8
+		,NOT_BOSANG_YMD_9
+		,PROPER_CD
+		,PROPER_WG
+		,PUBLISH_NO
+		,PUBLISH_SEQ
+		,SAUPJA_NO
+		,SHEET_KIND_CD
+		,SUBTITLE_CD
+		,TOT_WG
+		,YUHYO_EYMD_1
+		,YUHYO_EYMD_2
+		,YUHYO_EYMD_3
+		,YUHYO_EYMD_4
+		,YUHYO_EYMD_5
+		,YUHYO_EYMD_6
+		,YUHYO_EYMD_7
+		,YUHYO_EYMD_8
+		,YUHYO_SYMD_1
+		,YUHYO_SYMD_2
+		,YUHYO_SYMD_3
+		,YUHYO_SYMD_4
+		,YUHYO_SYMD_5
+		,YUHYO_SYMD_6
+		,YUHYO_SYMD_7
+		,YUHYO_SYMD_8
+		,TUKBYUL_RATE1_CD
+		,MOD_PROPER_WG
+		,F_CODE_NM('1114', TUKBYUL_RATE1_CD ) TUKBYUL_RATE1_NM
+		 from ctmg23 where Sheet_Kind_Cd=#V_INOUT_KEY1# and publish_no=#V_OUT_PUBLISH_NO#
+	</select>
+	
+	<!-- 적재물 항목조회 (주선)-->
+	<select id="CertServiceInquiryDAO.selectCarryCertJusun" parameterClass="hashMap" resultClass="hashMap">
+	select C.SHEET_KIND_CD  SHEET_KIND_CD,
+         C.PUBLISH_NO  PUBLISH_NO,
+         C.PUBLISH_SEQ PUBLISH_SEQ,
+         SUBTITLE_CD,
+         AGENT_NM,
+         BUPIN_NO,
+         SAUPJA_NO,
+         CAR_NO,
+         CAR_BODY_NO,
+         CAR_NM,
+         CAR_KIND_CD,
+         PROPER_CD,
+         PROPER_WG,
+         TOT_WG,
+         C.GYEYAK_NO  GYEYAK_NO,
+         GYEYAK_SYMD,
+         GYEYAK_EYMD,
+         GYEYAK_SYMD_TM,
+         GYEYAK_EYMD_TM,
+         NAPIP_GB_CD,
+         BUNNAP_CNT,
+         JUKJAEMUL_GONGJE_CD,
+         JUKJAEMUL_BOSANG_CD,
+         decode(SUBTITLE_CD, '7', f_code_nm('1124', c.jukjaemul_bosang_cd ),  f_code_nm('1113', c.jukjaemul_gongje_cd )  )     jukjaemul_gongje_nm,
+         MYUNCHAEK_CD,
+         to_char(to_number(nvl( c.myunchaek_cd, '0 ')) * 10) ||   '만원'        myunchaek_nm,
+         DAMBO_NM_1,
+         DAMBO_NM_2,
+         DAMBO_NM_3,
+         DAMBO_NM_4,
+         DAMBO_NM_5,
+         DAMBO_NM_6,
+         DAMBO_NM_7,
+         DAMBO_NM_8,
+         DAMBO_SYMD_1,
+         DAMBO_EYMD_1,
+         DAMBO_SYMD_2,
+         DAMBO_EYMD_2,
+         DAMBO_SYMD_3,
+         DAMBO_EYMD_3,
+         DAMBO_SYMD_4,
+         DAMBO_EYMD_4,
+         DAMBO_SYMD_5,
+         DAMBO_EYMD_5,
+         DAMBO_SYMD_6,
+         DAMBO_EYMD_6,
+         DAMBO_SYMD_7,
+         DAMBO_EYMD_7,
+         DAMBO_SYMD_8,
+         DAMBO_EYMD_8,
+         DAMBO_SYMD_1_TM,
+         DAMBO_EYMD_1_TM,
+         DAMBO_SYMD_2_TM,
+         DAMBO_EYMD_2_TM,
+         DAMBO_SYMD_3_TM,
+         DAMBO_EYMD_3_TM,
+         DAMBO_SYMD_4_TM,
+         DAMBO_EYMD_4_TM,
+         DAMBO_SYMD_5_TM,
+         DAMBO_EYMD_5_TM,
+         DAMBO_SYMD_6_TM,
+         DAMBO_EYMD_6_TM,
+         DAMBO_SYMD_7_TM,
+         DAMBO_EYMD_7_TM,
+         DAMBO_SYMD_8_TM,
+         DAMBO_EYMD_8_TM,
+         YUHYO_SYMD_1,
+         YUHYO_EYMD_1,
+         YUHYO_SYMD_2,
+         YUHYO_EYMD_2,
+         YUHYO_SYMD_3,
+         YUHYO_EYMD_3,
+         YUHYO_SYMD_4,
+         YUHYO_EYMD_4,
+         YUHYO_SYMD_5,
+         YUHYO_EYMD_5,
+         YUHYO_SYMD_6,
+         YUHYO_EYMD_6,
+         YUHYO_SYMD_7,
+         YUHYO_EYMD_7,
+         YUHYO_SYMD_8,
+         YUHYO_EYMD_8,
+         NOT_BOSANG_YMD_1,
+         NOT_BOSANG_YMD_2,
+         NOT_BOSANG_YMD_3,
+         NOT_BOSANG_YMD_4,
+         NOT_BOSANG_YMD_5,
+         NOT_BOSANG_YMD_6,
+         NOT_BOSANG_YMD_7,
+         NOT_BOSANG_YMD_8,
+         NOT_BOSANG_YMD_9,
+         NOT_BOSANG_YMD_10,
+         BAESEO_1,
+         BAESEO_2,
+         BAESEO_3,
+         BAESEO_4,
+         BAESEO_5,
+         BAESEO_6,
+         BAESEO_7,
+         BAESEO_8,
+         BAESEO_9,
+         BAESEO_10,
+         a.USING                publish_use,
+         a.apply_nm           APPLY_NM,
+         a.special_cmt         SPECIAL_CMT,
+         a.gijun_ymd1           GIJUN_YMD1,
+         a.PUBLISH_DATE     PUBLISH_DATE,
+         to_char(a.PUBLISH_DATE, 'yyyymmddhh24miss')                     PUBLISH_ymd_tm,
+        f_ct_damdang('11', a.JUBSU_SAWON_NO, null )                       GYEYAK_CHULJANG_CD,
+        f_jibu_nm ( f_ct_damdang('11', a.JUBSU_SAWON_NO, null ) ) jibuname,
+         '              '  jibutelno,
+         '              '  jibufax,
+        nvl(f_id_nm( a.PUBLISH_SAWON_NO ), a.PUBLISH_SAWON_NO)      balgubja,
+        f_id_nm( a.JUBSU_SAWON_NO)          damdang
+		from ctmg23 C, CTMG20 A
+		where C.Sheet_Kind_Cd=#V_INOUT_KEY1# and c.publish_no=#V_OUT_PUBLISH_NO#
+		and a.sheet_kind_cd  = c.sheet_kind_cd
+        and a.publish_no        = c.publish_no
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectJoinCarListTotCnt" parameterClass="certServiceSearchVO" resultClass="integer" >
+		select
+				count(*) as tot_cnt
+	    from  ctgi01 a,
+	    	  (select b1.agent_no,
+		              b1.saupjang_seq,
+		              b1.car_gaip_no,
+		              b1.car_no,
+		              b1.carmgr_jumin_no,
+		              b1.car_body_no
+		         from tb_member_saupno@kotmaswb a1,
+		              ctgi05 b1
+		        where a1.saupnum      = #saupja_no#
+		          and a1.agent_no     = b1.agent_no
+		          and a1.saupjang_seq = b1.saupjang_seq
+		       ) b 
+          where '1' = #agentcd# 
+            and a.agent_no = b.agent_no
+            and a.saupjang_seq = b.saupjang_seq
+			<isEqual property="searchCondition" compareValue="1">
+				and b.car_no like '%'||#searchKeyword#||'%'
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="2">
+				and b.car_gaip_no like '%'||#searchKeyword#||'%'
+			</isEqual>		
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectJoinCarListTotCntNabip" parameterClass="certServiceSearchVO" resultClass="integer" >
+	Select <![CDATA[/*+ rule */]]> count(*) as tot_cnt
+		from (  select b.car_gaip_no
+							From   tb_member_saupno@kotmaswb a, ctgi05 b, ctgy01 c, ctgy03 d
+						 Where  a.saupnum      = #saupja_no# 
+							 and  a.agent_no     = b.agent_no
+							 and  a.saupjang_seq = b.saupjang_seq
+							 and  b.car_gaip_no  = c.car_gaip_no
+							 and  c.gyeyak_no    = d.gyeyak_no 
+							 and  c.gyeyak_state_cd <![CDATA[<>]]> '8'
+							 and  d.youngsu_ymd  Is Not Null 
+							 <isNotEmpty property="searchStartDetailDate">
+						     	<isNotEmpty property="searchEndDetailDate">
+						      		and d.youngsu_ymd  Between #searchStartDetailDate# and #searchEndDetailDate#
+									</isNotEmpty> 
+							 </isNotEmpty>
+
+						 union
+
+						select b.car_gaip_no
+						  From  tb_member_saupno@kotmaswb a, ctgi05 b, ctgy06 c, ctgy07 d
+						 Where  a.saupnum      = #saupja_no#
+					     and  a.agent_no     = b.agent_no 
+					     and  a.saupjang_seq = b.saupjang_seq 
+					     and  b.car_gaip_no  = c.car_gaip_no    
+					     and  c.gyeyak_no    = d.gyeyak_no    
+					     and  c.gyeyak_state_cd <![CDATA[<>]]> '8'  
+					     and  d.youngsu_ymd  Is Not Null       
+							 <isNotEmpty property="searchStartDetailDate">
+						     	<isNotEmpty property="searchEndDetailDate">
+						      		and d.youngsu_ymd  Between #searchStartDetailDate# and #searchEndDetailDate#
+									</isNotEmpty> 
+							 </isNotEmpty>
+
+						 union
+
+            select b.car_gaip_no
+              From  tb_member_saupno@kotmaswb a,  ctgy20 b, ctgy21 c
+						Where a.saupnum      = #saupja_no# 
+					   and  a.agent_no     = b.agent_no 
+					   and  a.saupjang_seq = b.saupjang_seq 
+					   and  b.car_gaip_no  <![CDATA[<>]]> '9999999999'   
+					   and  b.gyeyak_no    = c.gyeyak_no     
+					   and  b.gyeyak_state_cd <![CDATA[<>]]> '8' 
+					   and  c.youngsu_ymd  Is Not Null       
+							 <isNotEmpty property="searchStartDetailDate">
+						     	<isNotEmpty property="searchEndDetailDate">
+						      		and c.youngsu_ymd  Between #searchStartDetailDate# and #searchEndDetailDate#
+									</isNotEmpty> 
+							 </isNotEmpty>
+                   )  z, ctgi05 y
+          where z.car_gaip_no = y.car_gaip_no
+            <isEqual property="searchCondition" compareValue="1">
+							and y.car_no like '%'||#searchKeyword#||'%'
+						</isEqual>
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectJoinCarListNabip" parameterClass="certServiceSearchVO" resultClass="hashmap">
+		  SELECT ROWNUM RNUM,A.*
+		  FROM(
+		  SELECT ROWNUM RNUM,S.*
+		  FROM(
+		Select <![CDATA[/*+ rule */]]> distinct y.car_gaip_no, y.agent_no, y.saupjang_seq, y.car_no, y.car_body_no
+		from (  select b.car_gaip_no
+							From   tb_member_saupno@kotmaswb a, ctgi05 b, ctgy01 c, ctgy03 d
+						 Where  a.saupnum      = #saupja_no# 
+							 and  a.agent_no     = b.agent_no
+							 and  a.saupjang_seq = b.saupjang_seq
+							 and  b.car_gaip_no  = c.car_gaip_no
+							 and  c.gyeyak_no    = d.gyeyak_no 
+							 and  c.gyeyak_state_cd <![CDATA[<>]]> '8'
+							 and  d.youngsu_ymd  Is Not Null 
+							 <isNotEmpty property="searchStartDetailDate">
+						     	<isNotEmpty property="searchEndDetailDate">
+						      		and d.youngsu_ymd  Between #searchStartDetailDate# and #searchEndDetailDate#
+									</isNotEmpty> 
+							 </isNotEmpty>
+
+						 union
+
+						select b.car_gaip_no
+						  From  tb_member_saupno@kotmaswb a, ctgi05 b, ctgy06 c, ctgy07 d
+						 Where  a.saupnum      = #saupja_no#
+					     and  a.agent_no     = b.agent_no 
+					     and  a.saupjang_seq = b.saupjang_seq 
+					     and  b.car_gaip_no  = c.car_gaip_no    
+					     and  c.gyeyak_no    = d.gyeyak_no    
+					     and  c.gyeyak_state_cd <![CDATA[<>]]> '8'  
+					     and  d.youngsu_ymd  Is Not Null       
+							 <isNotEmpty property="searchStartDetailDate">
+						     	<isNotEmpty property="searchEndDetailDate">
+						      		and d.youngsu_ymd  Between #searchStartDetailDate# and #searchEndDetailDate#
+									</isNotEmpty> 
+							 </isNotEmpty>
+
+						 union
+
+            select b.car_gaip_no
+              From  tb_member_saupno@kotmaswb a,  ctgy20 b, ctgy21 c
+						Where a.saupnum      = #saupja_no# 
+					   and  a.agent_no     = b.agent_no 
+					   and  a.saupjang_seq = b.saupjang_seq 
+					   and  b.car_gaip_no  <![CDATA[<>]]> '9999999999'   
+					   and  b.gyeyak_no    = c.gyeyak_no     
+					   and  b.gyeyak_state_cd <![CDATA[<>]]> '8' 
+					   and  c.youngsu_ymd  Is Not Null       
+							 <isNotEmpty property="searchStartDetailDate">
+						     	<isNotEmpty property="searchEndDetailDate">
+						      		and c.youngsu_ymd  Between #searchStartDetailDate# and #searchEndDetailDate#
+									</isNotEmpty> 
+							 </isNotEmpty>
+                   )  z, ctgi05 y
+          where z.car_gaip_no = y.car_gaip_no
+            <isEqual property="searchCondition" compareValue="1">
+							and y.car_no like '%'||#searchKeyword#||'%'
+						</isEqual>    
+						)S)A
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+	</select>
+	
+<select id="CertServiceInquiryDAO.selectDeductInquiryTotCount" parameterClass="certServiceSearchVO" resultClass="integer" >
+	select count(*) as tot_cnt from (
+	select b.agent_no,
+	       b.saupjang_seq,
+	       f_agent_nm(b.agent_no, b.saupjang_seq) agent_nm,
+	       a.car_no,
+	       b.gyeyak_no,
+	       b.gyeyak_state_cd,
+	       to_char(to_number(b.myunchaek_cd) * 10) || '만원' myunchaek_amt,
+	       (select code_name
+		  from ct_code01
+		 where code_part = '1113'
+		   and code_no   = b.jukjaemul_gongje_cd) bosang_hando,
+	       b.gyeyak_symd,
+	       b.gyeyak_eymd,
+	       b.bundam_amt,
+	       b.tot_napip_amt,
+	       b.bunnap_cnt,
+	       b.napip_gb_cd,
+	       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+		    then (
+			  select yuhyo_symd
+			    from ctgy21
+			   where gyeyak_no  = b.gyeyak_no
+			     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+			 )
+		    else '' end yuhyo_symd,
+	       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+		    then (
+			  select bunnap_amt
+			    from ctgy21
+			   where gyeyak_no  = b.gyeyak_no
+			     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+			 )
+		    else 0 end bunnap_amt
+	  from ctgi05 a,
+	       ctgy20 b,
+	       (
+		select agent_no,
+		       saupjang_seq
+		  from tb_member_saupno@kotmaswb
+		 where saupnum in (#saupja_no#)
+	       ) c
+	 where c.agent_no         = a.agent_no
+	   and c.saupjang_seq     = a.saupjang_seq
+	   and a.car_gaip_no      = b.car_gaip_no
+	   and b.gyeyak_kind_cd  <![CDATA[<>]]> 'B'
+	   and b.gyeyak_state_cd in ('1', '2', '5')
+	   <isNotEmpty property="searchKeyword">
+		and a.car_no like '%'||#searchKeyword#||'%'
+	   </isNotEmpty>
+	   <isNotEmpty property="searchStartDetailDate">
+		<isNotEmpty property="searchEndDetailDate">
+			<![CDATA[and ( #searchStartDetailDate# < b.gyeyak_symd and #searchEndDetailDate# > b.gyeyak_eymd )]]>
+		</isNotEmpty> 
+	   </isNotEmpty>
+	 order by f_agent_nm(b.agent_no, b.saupjang_seq), a.car_no, b.gyeyak_no )
+
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectDeductInquiryTotCount2" parameterClass="certServiceSearchVO" resultClass="integer" >
+	select count(*) as tot_cnt from (
+	select b.agent_no,
+	       b.saupjang_seq,
+	       f_agent_nm(b.agent_no, b.saupjang_seq) agent_nm,
+	       a.car_no,
+	       b.gyeyak_no,
+	       b.gyeyak_state_cd,
+	       to_char(to_number(b.myunchaek_cd) * 10) || '만원' myunchaek_amt,
+	       (select code_name
+		  from ct_code01
+		 where code_part = '1113'
+		   and code_no   = b.jukjaemul_gongje_cd) bosang_hando,
+	       b.gyeyak_symd,
+	       b.gyeyak_eymd,
+	       b.bundam_amt,
+	       b.tot_napip_amt,
+	       b.bunnap_cnt,
+	       b.napip_gb_cd,
+	       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+		    then (
+			  select yuhyo_symd
+			    from ctgy21
+			   where gyeyak_no  = b.gyeyak_no
+			     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+			 )
+		    else '' end yuhyo_symd,
+	       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+		    then (
+			  select bunnap_amt
+			    from ctgy21
+			   where gyeyak_no  = b.gyeyak_no
+			     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+			 )
+		    else 0 end bunnap_amt
+	  from ctgi05 a,
+	       ctgy20 b,
+	       (
+		select agent_no,
+		       saupjang_seq
+		  from tb_member_saupno@kotmaswb
+		 where saupnum in (#saupja_no#)
+	       ) c
+	 where c.agent_no         = a.agent_no
+	   and c.saupjang_seq     = a.saupjang_seq
+	   and a.car_gaip_no      = b.car_gaip_no
+	   and b.gyeyak_kind_cd  <![CDATA[<>]]> 'B'
+	   and b.gyeyak_state_cd in ('1', '2', '5')
+	   <isNotEmpty property="car_no">
+		and a.car_no like '%'||#car_no#||'%'
+	   </isNotEmpty>
+	 order by f_agent_nm(b.agent_no, b.saupjang_seq), a.car_no, b.gyeyak_no )
+
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectDeductInquiryTotCount3" parameterClass="certServiceSearchVO" resultClass="integer" >
+	select count(*) as tot_cnt
+		 from ctgy20 a,
+   		      (select agent_no, saupjang_seq
+          		 from tb_member_saupno@kotmaswb
+				 where saupnum = #saupja_no#
+			  ) e
+		where e.agent_no         = a.agent_no
+		   and e.saupjang_seq     = a.saupjang_seq
+		   and a.car_gaip_no = '9999999999'
+		   and a.gyeyak_state_cd in ('1', '2', '5')
+		  <isNotEmpty property="searchKeyword">
+		  	and a.car_no like '%'||#searchKeyword#||'%'
+		  </isNotEmpty>
+	      <isNotEmpty property="searchStartDetailDate">
+	      	<isNotEmpty property="searchEndDetailDate">
+	      		<![CDATA[and ( #searchStartDetailDate# < a.gyeyak_eymd and #searchEndDetailDate# > a.gyeyak_eymd )]]>
+			</isNotEmpty> 
+		  </isNotEmpty>
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectDeductInquiryList" parameterClass="certServiceSearchVO" resultClass="hashmap" >
+		SELECT * FROM(
+		 SELECT ROWNUM RNUM,F.* FROM (
+			select b.agent_no,
+			       b.saupjang_seq,
+			       f_agent_nm(b.agent_no, b.saupjang_seq) agent_nm,
+			       a.car_no,
+			       b.gyeyak_no,
+			       b.gyeyak_state_cd,
+			       to_char(to_number(b.myunchaek_cd) * 10) || '만원' myunchaek_amt,
+			       (select code_name
+				  from ct_code01
+				 where code_part = '1113'
+				   and code_no   = b.jukjaemul_gongje_cd) bosang_hando,
+			        substr(b.gyeyak_symd, 1, 4) || '.' ||
+					substr(b.gyeyak_symd, 5, 2) || '.' ||
+					substr(b.gyeyak_symd, 7, 2) gyeyak_symd,
+					substr(b.gyeyak_eymd, 1, 4) || '.' ||
+					substr(b.gyeyak_symd, 5, 2) || '.' ||
+					substr(b.gyeyak_eymd, 7, 2) gyeyak_eymd,
+			       to_char(b.bundam_amt, 'FM9,999,999') bundam_amt,
+			       to_char(b.tot_napip_amt, 'FM9,999,999') tot_napip_amt,
+			       b.bunnap_cnt,
+			       b.napip_gb_cd,
+			       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+				    then (
+					  select yuhyo_symd
+					    from ctgy21
+					   where gyeyak_no  = b.gyeyak_no
+					     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+					 )
+				    else '' end yuhyo_symd,
+			       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+				    then (
+					  select bunnap_amt
+					    from ctgy21
+					   where gyeyak_no  = b.gyeyak_no
+					     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+					 )
+				    else 0 end bunnap_amt
+			  from ctgi05 a,
+			       ctgy20 b,
+			       (
+				select agent_no,
+				       saupjang_seq
+				  from tb_member_saupno@kotmaswb
+				 where saupnum in (#saupja_no#)
+			       ) c
+	
+			 where c.agent_no         = a.agent_no
+			   and c.saupjang_seq     = a.saupjang_seq
+			   and a.car_gaip_no      = b.car_gaip_no
+			   and b.gyeyak_kind_cd  <![CDATA[<>]]> 'B'
+			   and b.gyeyak_state_cd in ('1', '2', '5')
+			   <isNotEmpty property="searchKeyword">
+				and a.car_no like '%'||#searchKeyword#||'%'
+			   </isNotEmpty>
+			   <isNotEmpty property="searchStartDetailDate">
+				<isNotEmpty property="searchEndDetailDate">
+					<![CDATA[and ( #searchStartDetailDate# < b.gyeyak_symd and #searchEndDetailDate# > b.gyeyak_eymd )]]>
+				</isNotEmpty> 
+			   </isNotEmpty>
+			 order by f_agent_nm(b.agent_no, b.saupjang_seq), a.car_no, b.gyeyak_no )F
+			  )
+	 <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectDeductInquiryList2" parameterClass="certServiceSearchVO" resultClass="hashmap" >
+		SELECT * FROM(
+		 SELECT ROWNUM RNUM,F.* FROM (
+			select b.agent_no	agent_no,
+			       b.saupjang_seq	saupjang_seq,
+			       f_agent_nm(b.agent_no, b.saupjang_seq) agent_nm,
+			       a.car_no		car_no,
+			       b.gyeyak_no	gyeyak_no,
+			       b.gyeyak_state_cd	gyeyak_state_cd,
+			       to_char(to_number(b.myunchaek_cd) * 10) || '만원' myunchaek_amt,
+			       (select code_name
+					  from ct_code01
+					 where code_part = '1113'
+					   and code_no   = b.jukjaemul_gongje_cd) bosang_hando,
+			       substr(b.gyeyak_symd, 1, 4) || '.' ||
+				   substr(b.gyeyak_symd, 5, 2) || '.' ||
+				   substr(b.gyeyak_symd, 7, 2) gyeyak_symd,
+				   substr(b.gyeyak_eymd, 1, 4) || '.' ||
+				   substr(b.gyeyak_eymd, 5, 2) || '.' ||
+				   substr(b.gyeyak_eymd, 7, 2) gyeyak_eymd,
+			       to_char(b.bundam_amt, 'FM9,999,999')||'원'		bundam_amt,
+			       to_char(b.tot_napip_amt, 'FM9,999,999')||'원'	tot_napip_amt,
+			       b.bunnap_cnt		bunnap_cnt,
+			       b.napip_gb_cd	napip_gb_cd,
+			       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+				    then (
+					  select yuhyo_symd
+					    from ctgy21
+					   where gyeyak_no  = b.gyeyak_no
+					     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+					 )
+				    else '' end yuhyo_symd,
+			       case when b.bunnap_cnt <![CDATA[<]]> b.napip_gb_cd
+				    then (
+					  select bunnap_amt
+					    from ctgy21
+					   where gyeyak_no  = b.gyeyak_no
+					     and bunnap_cnt = to_char(to_number(b.bunnap_cnt) + 1)
+					 )
+				    else 0 end bunnap_amt
+			  from ctgi05 a,
+			       ctgy20 b,
+			       (
+				select agent_no,
+				       saupjang_seq
+				  from tb_member_saupno@kotmaswb
+				 where saupnum in (#saupja_no#)
+			       ) c
+	
+			 where c.agent_no         = a.agent_no
+			   and c.saupjang_seq     = a.saupjang_seq
+			   and a.car_gaip_no      = b.car_gaip_no
+			   and b.gyeyak_kind_cd  <![CDATA[<>]]> 'B'
+			   and b.gyeyak_state_cd in ('1', '2', '5')
+			   <isNotEmpty property="car_no">
+				and a.car_no like '%'||#car_no#||'%'
+			   </isNotEmpty>
+			 order by f_agent_nm(b.agent_no, b.saupjang_seq), a.car_no, b.gyeyak_no )F
+			  )
+	 <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectDeductInquiryList3" parameterClass="certServiceSearchVO"  resultClass="hashmap" >
+	SELECT ROWNUM RNUM,F.* FROM(
+	SELECT * FROM(
+	select c.agent_nm                                                 agent_nm,
+		   '적재물(주선)'  car_no,
+		      f_code_nm('1115', a.myunchaek_cd)                          myunchaek_amt,
+		      f_code_nm('1004', a.gyeyak_state_cd)                       gyeyak_state_nm,
+		      trim(a.bunnap_cnt) || '회/' || trim(a.napip_gb_cd) || '회' napip_gb,
+		      substr(a.gyeyak_symd, 1, 4) || '.'   ||
+		      substr(a.gyeyak_symd, 5, 2) || '.'   ||
+		      substr(a.gyeyak_symd, 7, 2) || ' ~ ' ||
+		      substr(a.gyeyak_eymd, 1, 4) || '.'   ||
+		      substr(a.gyeyak_eymd, 5, 2) || '.'   ||
+		      substr(a.gyeyak_eymd, 7, 2)                                gaip_ymd,
+		      substr(b.yuhyo_symd,  1, 4) || '.'   ||
+		      substr(b.yuhyo_symd,  5, 2) || '.'   ||
+		      substr(b.yuhyo_symd,  7, 2) || ' ~ ' ||
+		      substr(b.yuhyo_eymd,  1, 4) || '.'   ||
+		      substr(b.yuhyo_eymd,  5, 2) || '.'   ||
+		      substr(b.yuhyo_eymd,  7, 2)                                yuhyo_ymd,
+		      (case when a.bunnap_cnt = a.napip_gb_cd
+		            then ''
+		            else (select x.yuhyo_symd
+		                    from ctgy21 x
+		                   where x.gyeyak_no  = b.gyeyak_no
+		                     and x.bunnap_cnt = b.bunnap_cnt + '1')
+		      end)                                                       next_bunnap_ymd,
+		      (case when a.bunnap_cnt = a.napip_gb_cd
+		            then 0
+		            else (select y.bunnap_amt
+		                    from ctgy21 y
+		                   where y.gyeyak_no  = b.gyeyak_no
+		                     and y.bunnap_cnt = b.bunnap_cnt + '1')
+		      end)                                                       next_bunnap_amt,
+		      a.gyeyak_no , /* 계약번호*/
+		        a.agent_no  ,
+		        c.DAEPYOJA_NM,
+		        d.ADDR1,
+		        d.ADDR2,
+		        d.TEL_LOCAL_NO,
+		        d.TEL_NO,
+		        d.FAX_LOCAL_NO,
+		        d.FAX_NO,
+       			f_code_nm('1113', a.jukjaemul_gongje_cd)                   jukjaemul_bosang_hando,/*보상한도*/
+       			f_code_nm('1123', a.jukjaemul_maechul_cd)                          jukjaemul_maechul_amt/*매출액*/
+
+		 from ctgy20 a,
+		      ctgy21 b,
+		      ctgi01 c,
+		      ctgi02 d,
+				tb_member_saupno@kotmaswb e
+		where #agentcd#         = '1'
+  		  and a.agent_no         = c.agent_no
+  		  and a.saupjang_seq     = c.saupjang_seq
+		  and c.agent_no         = d.agent_no
+		  and c.saupjang_seq     = d.saupjang_seq
+		  and d.agent_no         = e.agent_no
+		  and d.saupjang_seq     = e.saupjang_seq
+		  and a.gyeyak_no        = b.gyeyak_no
+		  and a.bunnap_cnt       = b.bunnap_cnt
+		  and a.saupjang_seq     = d.saupjang_seq
+		  and c.addr_gb_cd		 = d.addr_gb_cd
+		  and a.car_gaip_no      = '9999999999'
+		  and e.saupnum          = #saupja_no#
+		  and a.gyeyak_state_cd in ('1', '2', '5')
+		  <isNotEmpty property="searchStartDetailDate">
+	        <isNotEmpty property="searchEndDetailDate">
+	      		<![CDATA[and ( #searchStartDetailDate# < a.gyeyak_eymd and #searchEndDetailDate# > a.gyeyak_symd )]]>
+		  	</isNotEmpty> 
+		  </isNotEmpty>
+		  )
+		  order by gyeyak_no desc
+		  )F
+		  <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and ROWNUM > #firstIndex# ]]> 
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectJoinCarList" parameterClass="certServiceSearchVO" resultClass="hashmap">
+		  SELECT ROWNUM RNUM,A.*
+		  FROM(
+		  SELECT ROWNUM RNUM,S.*
+		  FROM(
+		  select b.car_gaip_no, b.car_no, b.car_body_no
+          from  ctgi01 a,
+   	    	  (select b1.agent_no,
+			         b1.saupjang_seq,
+			         b1.car_gaip_no,
+			         b1.car_no,
+			         b1.carmgr_jumin_no,
+			         b1.car_body_no
+			    from tb_member_saupno@kotmaswb a1,
+			         ctgi05 b1
+			   where a1.saupnum      = #saupja_no#
+			     and a1.agent_no     = b1.agent_no
+			     and a1.saupjang_seq = b1.saupjang_seq
+			  ) b 
+          where '1' = #agentcd# 
+            and a.agent_no = b.agent_no
+            and a.saupjang_seq = b.saupjang_seq
+			<isEqual property="searchCondition" compareValue="1">
+				and b.car_no like '%'||#searchKeyword#||'%'
+			</isEqual>
+			<isEqual property="searchCondition" compareValue="2">
+				and b.car_gaip_no like '%'||#searchKeyword#||'%'
+			</isEqual>		
+		/*order by b.car_no*/
+		)S)A
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+	</select>
+
+	<!-- car_gain_no로 조합원명,대표자명,법인,사업자,차량번호,주소조회 -->
+	<select id="CertServiceInquiryDAO.selectJoinCert" parameterClass="certServiceSearchVO" resultClass="hashmap">
+	select a.agent_nm,   a.agent_no,   a.saupjang_seq,   a.daepyoja_nm,  a.bupin_no, a.saupja_no, c.car_no,
+		       b.zip_cd ||' '           zip, 
+				 b.addr1 || ' ' || b.addr2   address  
+		  from ctgi01 a, ctgi02 b, ctgi05 c  
+		 where c.car_gaip_no  = #car_gaip_no#
+		   and c.saupjang_seq = a.saupjang_seq 
+		   and c.agent_no     = a.agent_no   
+		   and a.agent_no     = b.agent_no     
+		   and a.saupjang_seq = b.saupjang_seq
+		   and b.addr_gb_cd   = a.addr_gb_cd
+	</select>
+	
+	
+		
+	<!-- 최초가입일 조회 -->
+	<select id="CertServiceInquiryDAO.selectContractDate" parameterClass="certServiceSearchVO" resultClass="String">
+			select min(aa.gyeyak_symd) contractDate
+		  from ctgy01 aa, ctgi05 bb
+		 where bb.car_gaip_no      = #car_gaip_no#
+		   and bb.car_gaip_no      = aa.car_gaip_no
+		   and aa.gyeyak_state_cd <![CDATA[<>]]>  '8'
+	</select>
+	
+	<!--계약경력일 조회  -->
+	<select id="CertServiceInquiryDAO.selectContractSymd" parameterClass="certServiceSearchVO" resultClass="integer">
+			  select nvl(sum(months_between(to_date(z.gyeyak_eymd2), to_date(z.gyeyak_symd))), 0) contractSymd
+from (
+      select aa.gyeyak_symd, 
+             nvl(decode(min(cc.haeji_ymd), null, aa.gyeyak_eymd, 
+                                                 decode(max(cc.gyeyak_state_cd), '3', max(cc.haeji_ymd), 
+                                                                                      aa.gyeyak_eymd
+                                                 )
+                        ), 0
+                ) gyeyak_eymd2 
+        from ctgy01 aa, ctgi05 bb, ctgy02 cc
+       where bb.car_gaip_no      =  #car_gaip_no#
+         and bb.car_gaip_no      = aa.car_gaip_no       
+         and aa.gyeyak_eymd      <![CDATA[<]]> #basic_date#
+         and aa.gyeyak_state_cd <![CDATA[<>]]>  '8'         
+         and cc.gyeyak_no        = aa.gyeyak_no
+       group by cc.gyeyak_no,aa.gyeyak_symd, aa.gyeyak_eymd
+	  ) z
+	</select>
+	
+	
+	<!--계약말일 조회  -->
+	<select id="CertServiceInquiryDAO.selectContractEymd" parameterClass="certServiceSearchVO" resultClass="integer">
+			 select   nvl(sum(y.days),0) contractEymd
+		from 
+		(  
+		select    months_between ( to_date( z.end_day), to_date( z.gyeyak_symd)  )  days 
+		from  
+		( 
+	      select aa.gyeyak_symd,aa.gyeyak_eymd, max(cc.haeji_ymd)
+	            ,decode(max(cc.haeji_ymd),null,decode(sign(to_date(aa.gyeyak_eymd)-to_date(#basic_date#)),
+	                    1, #basic_date#,aa.gyeyak_eymd)
+	            , decode(sign(to_date(max(cc.haeji_ymd)) - to_date(#basic_date#)),1,#basic_date#,max(cc.haeji_ymd))  
+	               ) end_day  
+
+		        from ctgy01 aa, ctgi05 bb, ctgy02 cc
+		       where bb.car_gaip_no      = #car_gaip_no#
+		         and bb.car_gaip_no      = aa.car_gaip_no       
+		         and aa.gyeyak_symd      <![CDATA[<]]> #basic_date#
+					and #basic_date# <![CDATA[<=]]> aa.gyeyak_eymd 
+		         and aa.gyeyak_state_cd <![CDATA[<>]]> '8'         
+		         and cc.gyeyak_no        = aa.gyeyak_no
+		       group by cc.gyeyak_no,aa.gyeyak_symd, aa.gyeyak_eymd
+			  ) z 
+		) y 
+	</select>
+	
+	<!--공제가입사실증명(통합)기본사항 조회(조합원및 차량정보  -->
+	<select id="CertServiceInquiryDAO.selectJoinFactBasic"  parameterClass="certServiceSearchVO" resultClass="hashMap">
+	select b.agent_nm,   				/*조합원명*/
+			c.car_no,  					/*차량번호*/
+	 		c.car_body_no,				/*차대번호*/
+	  		c.car_nm,  				 	/*차명*/
+	    	c.car_kind_cd,				/*차종코드*/
+	    	f_code_nm('1056',  c.car_kind_cd ) car_kind_nm , /* 차종명*/
+	    	c.proper_wg,				/*적재량Kg*/
+	      	b.gyeyak_chuljang_cd,		/*출장지부코드*/
+         	trim(bupin_no) as bupin_no,	/*법인번호*/
+         	tukbyul_rate1_cd,			/*특별요율코드*/
+        	tukbyul_rate1_cd,			/*특별요율코드*/
+          	f_code_nm('1011', tukbyul_rate1_cd )  || ' ' || f_code_nm('1011', tukbyul_rate2_cd ) as tukbyul_rate /**/
+          	
+	  from ctgi01    b,        ctgi05    c
+	 where c.car_gaip_no 
+	 <iterate prepend="IN" property="arr_car_gaip_no" open="(" close=")" conjunction=",">
+	 #arr_car_gaip_no[]#
+	 </iterate>
+	   and c.agent_no        = b.agent_no
+	   and c.saupjang_seq = b.saupjang_seq 
+	</select>
+	
+	<!--공제가입사실증명(통합)계약기간조회  -->
+	<select id="CertServiceInquiryDAO.selectAllContractDate" parameterClass="certServiceSearchVO" resultClass="hashMap">
+	select 
+       substr(gyeyak_symd, 1, 4) || '.' ||
+       substr(gyeyak_symd, 5, 2) || '.' ||
+       substr(gyeyak_symd, 7, 2) || ' ' ||
+       substr(GYEYAK_DAE1_TIME, 3, 2) ||':'||
+       substr(GYEYAK_DAE1_TIME, 5, 2) ||  ' ~ ' ||
+       
+       substr(f_ct_gyeyak_end_ymd('1', gyeyak_no, null ), 1, 4) || '.' ||
+       substr(f_ct_gyeyak_end_ymd('1', gyeyak_no, null ), 5, 2) || '.' ||
+       substr(f_ct_gyeyak_end_ymd('1', gyeyak_no, null ), 7, 2) || ' ' ||
+       substr(GYEYAK_DAE1_TIME, 3, 2) ||':'||
+       substr(GYEYAK_DAE1_TIME, 5, 2)          gyeyakymd,
+	     gyeyak_symd , 													/**계약시작일*/
+	     substr(GYEYAK_DAE1_TIME, 1, 4) as gyeyak_dae1_time,			/**계약시간*/
+		 f_ct_gyeyak_end_ymd('1', gyeyak_no, null ) as gyeyak_end_ymd,	/**계약말일*/
+	     tukbyul_rate1_cd,												/**특별요율코드*/
+	     tukbyul_rate1_cd,												/**특별요율코드*/
+	     f_code_nm('1011', tukbyul_rate1_cd )  || ' ' || f_code_nm('1011', tukbyul_rate2_cd ) as tukbyul_rate 
+	  from ctgy01
+	 where gyeyak_no 
+	 <iterate prepend="IN" property="arr_gyeyak_no" open="(" close=")" conjunction=",">
+	 #arr_gyeyak_no[]#
+	 </iterate>
+	</select>
+	
+	<!-- 공제가입사실증명 담보항목조회 -->
+	<select id="CertServiceInquiryDAO.selectJoinFactDambo" parameterClass="certServiceSearchVO" resultClass="hashMap">
+	     select
+	    c.car_gaip_no							as car_gaip_no,
+        a.gyeyak_no                                               /**1은 유 또는 가입,    0은 무 */      as imsi_gyeyak_no,
+        max(decode(c.gaip_dae1_yn,        '1',        '1',        '0'))           as dae1_gaip_yn,        /** 대인1 가입유무*/                                                     
+        max(decode(c.gaip_dae2_yn,        '1',        '1',        '0'))           as dae2_gaip_yn,        /** 대인2 가입유무*/                                                          
+        max(decode(c.gaip_daemul_yn,        '1',        '1',        '0'))           as daemul_gaip_yn,        /** 대물 가입유무*/                                                             
+        max(decode(c.gaip_cha_yn,        '1',        '1',        '0'))           as car_gaip_yn,        /** 자기차량손해*/                                                          
+        max(decode(f_ct_tukyak_info('CTGY10',        'TUKYAK_OK_YN',        '4',        c.gyeyak_no,        ''),        '1',        '1',        '0'))   as law_gaip_yn,        /*법률비용특약*/                                                      
+        max(decode(b.dambo_kind_cd,        '1',        b.gyeyak_state_cd,        null))           as state_dae1,        /** 담보상태-대인1*/                                                  
+        max(decode(b.dambo_kind_cd,        '2',        b.gyeyak_state_cd,        null))                                      as state_dae2,        /** 담보상태-대인2*/                                                      
+        max(decode(b.dambo_kind_cd,        '3',        b.gyeyak_state_cd,        null))                                      as state_daemul,        /** 담보상태-대물*/                                                       
+        max(decode(b.dambo_kind_cd,        '4',        b.gyeyak_state_cd,        null))                                      as state_cha,        /** 담보상태-자기차량손해*/                                               
+        max(decode(b.dambo_kind_cd,        '1',        b.dambo_gaip_symd,        null))                                      as dae1_dambo_gaip_symd,        /** 계약시작-대인1*/                                                      
+        max(decode(b.dambo_kind_cd,        '1',        b.dambo_gaip_eymd,        null))                                      as dae1_dambo_gaip_eymd,        /** 계약끝-대인1*/                                                      
+        max(decode(b.dambo_kind_cd,        '2',        b.dambo_gaip_symd,        null))                                      as dae2_dambo_gaip_symd,        /** 계약시작-대인2*/                                                      
+        max(decode(b.dambo_kind_cd,        '2',        b.dambo_gaip_eymd,        null))                                      as dae2_dambo_gaip_eymd,        /** 계약끝-대인2*/                                                         
+        max(decode(b.dambo_kind_cd,        '3',        b.dambo_gaip_symd,        null))                                      as daemul_dambo_gaip_symd,        /** 계약시작-대물*/                                                      
+        max(decode(b.dambo_kind_cd,        '3',        b.dambo_gaip_eymd,        null))                                      as daemul_dambo_gaip_eymd,        /** 계약끝-대물*/                                                         
+        max(decode(b.dambo_kind_cd,        '4',        b.dambo_gaip_symd,        null))                                      as car_dambo_gaip_symd,        /** 계약시작-자기차량*/                                                  
+        max(decode(b.dambo_kind_cd,        '4',        b.dambo_gaip_eymd,        null))                                      as car_dambo_gaip_eymd,        /** 계약끝-자기차량*/                                            
+        max(decode(b.dambo_kind_cd,        '7',        b.dambo_gaip_symd,        null))                                      as law_dambo_gaip_symd,        /** 계약시작-법률비용*/                                                
+        max(decode(b.dambo_kind_cd,        '7',        b.dambo_gaip_eymd,        null))                                      as law_dambo_gaip_eymd,        /** 계약끝-법률비용*/                                                 
+        max(decode(b.dambo_kind_cd,        '1',        b.dambo_gaip_stime,        null))                                      as dae1_dambo_gaip_stime,        /** 담보가입초일시간-대인*/                                              
+        max(decode(b.dambo_kind_cd,        '2',        b.dambo_gaip_stime,        null))                                      as dae2_dambo_gaip_stime,        /** 담보가입초일시간-대물*/                                                
+        max(decode(b.dambo_kind_cd,        '3',        b.dambo_gaip_stime,        null))                                      as daemul_dambo_gaip_stime,        /** 담보가입초일시간-차량*/                                              
+        max(decode(b.dambo_kind_cd,        '4',        b.dambo_gaip_stime,        null))                                      as car_dambo_gaip_stime,        /** 담보가입초일시간-법률*/                                               
+        max(decode(b.dambo_kind_cd,        '1',        b.dambo_gaip_symd,        null))                                      as dae1_yuhyo_symd,        /** 대물유효가입일*/            
+        max(decode(b.dambo_kind_cd,        '1',        decode(b.gyeyak_state_cd,        3,        decode(b.haeji_sayu_cd,        '2',        b.haeji_ymd,        '3',        b.haeji_ymd,        a.yuhyo_eymd),        a.yuhyo_eymd))) as dae1_yuhyo_eymd,
+        max(decode(b.dambo_kind_cd,        '2',        b.dambo_gaip_symd,        null)) as dae2_yuhyo_symd,
+        max(decode(b.dambo_kind_cd,        '2',        decode(b.gyeyak_state_cd,        3,        decode(b.haeji_sayu_cd,        '2',        b.haeji_ymd,        '3',        b.haeji_ymd,        a.yuhyo_eymd),        a.yuhyo_eymd))) as dae2_yuhyo_eymd,
+        max(decode(b.dambo_kind_cd,        '3',        b.dambo_gaip_symd,        null)) as daemul_yuhyo_symd,
+        max(decode(b.dambo_kind_cd,        '3',        decode(b.gyeyak_state_cd,        3,        decode(b.haeji_sayu_cd,        '2',        b.haeji_ymd,        '3',        b.haeji_ymd,        a.yuhyo_eymd),        a.yuhyo_eymd))) as daemul_yuhyo_eymd,
+        max(decode(b.dambo_kind_cd,        '4',        b.dambo_gaip_symd,        null)) as car_yuhyo_symd,        
+        max(decode(b.dambo_kind_cd,        '4',        decode(b.gyeyak_state_cd,        3,        decode(b.haeji_sayu_cd,        '2',        b.haeji_ymd,        '3',        b.haeji_ymd,        a.yuhyo_eymd),        a.yuhyo_eymd))) as car_yuhyo_eymd,
+        max(decode(b.dambo_kind_cd,        '7',        decode(b.gyeyak_state_cd,        3,        decode(b.haeji_sayu_cd,        '2',        b.haeji_ymd,        '3',        b.haeji_ymd,        a.yuhyo_eymd),        a.yuhyo_eymd))) as law_yuhyo_eymd,
+        max(decode(b.dambo_kind_cd,        '1',        b.napip_gb_cd,        null))       as dae1_napip_gb_cd,        /** 납입구분      */                               
+        max(decode(b.dambo_kind_cd,        '2',        b.napip_gb_cd,        null))       as dae2_napip_gb_cd,
+        max(decode(b.dambo_kind_cd,        '3',        b.napip_gb_cd,        null))       as daemul_napip_gb_cd,
+        max(decode(b.dambo_kind_cd,        '4',        b.napip_gb_cd,        null))        car_napip_gb_cd,
+        max(decode(b.dambo_kind_cd,        '1',        b.bunnap_cnt,        null))       as dae1_bunnap_cnt,        /** 분납상태 */                                            
+        max(decode(b.dambo_kind_cd,        '2',        b.bunnap_cnt,        null))        as dae2_bunnap_cnt,        
+        max(decode(b.dambo_kind_cd,        '3',        b.bunnap_cnt,        null))        as daemul_bunnap_cnt, 
+        max(decode(b.dambo_kind_cd,        '4',        b.bunnap_cnt,        null))        as car_bunnap_cnt,    
+        max(decode(b.dambo_kind_cd,        '3',        dambo_hando_cd ,        null ))     as dambo_hando_cd_3,        /** 대물한도코드 */                        
+        max(decode(b.dambo_kind_cd,        '3',        f_code_nm('1010',        dambo_hando_cd),        null ))  daemul_dambo_hando,        /** 대물한도*/                     
+        max(decode(c.gaip_cha_yn,      1,      c.myunchaek_cd,     null ))         as myunchaek_cd,      /** 면책금코드*/                      
+        max(decode(c.gaip_cha_yn,     1,        f_code_nm('1013',        c.myunchaek_cd ),        null))  as myunchaek_nm,      /** 면책금*/                                  
+        max(decode(c.gaip_cha_yn,   1,   c.premium_car_amt, 0))        as premium_car_amt,  /** 차량가액*/   
+        max(decode(c.gaip_cha_yn,  1,  c.car_apply_rate,   0))              as car_apply_rate      /** 일부차량공제요율*/                   
+      from
+        ctgy03 a,
+        ctgy02 b,
+        ctgy01 c      
+    where c.gyeyak_no 
+	 <iterate prepend="IN" property="arr_gyeyak_no" open="(" close=")" conjunction=",">
+	 #arr_gyeyak_no[]#
+	 </iterate>
+      and c.gyeyak_no     = b.gyeyak_no
+      and b.gyeyak_no     = a.gyeyak_no
+      and b.dambo_kind_cd = a.dambo_kind_cd
+      and b.bunnap_cnt    = a.bunnap_cnt
+    group by a.gyeyak_no , c.car_gaip_no
+	
+	</select>
+	
+	
+	<!-- 공제가입사실증명서 계약당시 차대번호 명시  -->
+	<select id="CertServiceInquiryDAO.selectChadaeInfo" parameterClass="certServiceSearchVO" resultClass="hashMap">
+	select z.car_body_no,
+	  z.car_nm,
+	  z.car_kind_cd, 
+	  f_code_nm('1056', z.car_kind_cd) car_kind_nm,
+	  z.proper_wg
+	 
+	  from ctbs04 z, 
+			  (select max(b.baeseo_no) baeseo_no, max(b.baeseo_seq) baeseo_seq
+				  from ctbs01 a, ctbs04 b
+				 where a.car_gaip_no = #car_gaip_no#
+					and a.baeseo_basic_ymd <![CDATA[<=]]> #basic_date#
+					and a.baeseo_ok_yn='1'
+					and a.car_gaip_no = b.car_gaip_no
+					and a.baeseo_no = b.baeseo_no) y
+	 where z.baeseo_no = y.baeseo_no
+	 and z.baeseo_seq = y.baeseo_seq
+	</select>
+	
+	<!-- 각맵에서 추출한 담보한도코드로 담보한도액을 구해온다 -->
+	<select id="CertServiceInquiryDAO.selectDamboHandoAmt3" parameterClass="String" resultClass="Int">
+		select  to_number(nvl(trim(f_code_etc('3', '1010', #code#)), '0') )
+		from dual
+	</select>
+	
+	
+	<select id="CertServiceInquiryDAO.selectNotbosang" parameterClass="String" resultClass="hashMap">
+	  select 
+      substr(decode(to_date(a.buhwal_daecha_ymd) - to_date(a.pyecha_ymd), 0, '',
+                  decode(a.buhwal_daecha_gb_cd, '1', f_ctbj_mon(a.choigo_eymd, 1, 2), 
+                                                    f_ctbj_mon(a.pyecha_ymd, 1, 2))), 1, 4) || '.' ||
+       substr(decode(to_date(a.buhwal_daecha_ymd) - to_date(a.pyecha_ymd), 0, '',
+                  decode(a.buhwal_daecha_gb_cd, '1', f_ctbj_mon(a.choigo_eymd, 1, 2), 
+                                                    f_ctbj_mon(a.pyecha_ymd, 1, 2))), 5, 2) || '.' ||
+       substr(decode(to_date(a.buhwal_daecha_ymd) - to_date(a.pyecha_ymd), 0, '',
+                  decode(a.buhwal_daecha_gb_cd, '1', f_ctbj_mon(a.choigo_eymd, 1, 2), 
+                                                    f_ctbj_mon(a.pyecha_ymd, 1, 2))), 7, 2)  not_bosang_symd,
+                                                    
+       substr(decode(to_date(a.buhwal_daecha_ymd) - to_date(a.pyecha_ymd), 0, '', a.buhwal_daecha_ymd), 1, 4) || '.' ||
+       substr(decode(to_date(a.buhwal_daecha_ymd) - to_date(a.pyecha_ymd), 0, '', a.buhwal_daecha_ymd), 5, 2) || '.' ||
+       substr(decode(to_date(a.buhwal_daecha_ymd) - to_date(a.pyecha_ymd), 0, '', a.buhwal_daecha_ymd), 7, 2)  not_bosang_eymd,        
+		dambo_kind_cd	 ,
+		f_code_nm('1008', dambo_kind_cd) dambo_kind_nm , a.gyeyak_no      
+	     from ctbj06 a
+	    where a.gyeyak_no = #gyeyak_no#
+	    	 	 and   ( a.pyecha_ymd   <![CDATA[<]]> a.buhwal_daecha_ymd  
+		         or a.choigo_eymd <![CDATA[<]]>  a.buhwal_daecha_ymd )
+	</select>
+	
+		
+	<select id="CertServiceInquiryDAO.selectBaeseoNotice" parameterClass="String" resultClass="hashMap">
+	select baeseo_no
+        , baeseo_3rd_cd
+        , f_code_name('1021', baeseo_3rd_cd ) as baeseo_nm
+        , baeseo_basic_ymd
+		, process_ymd
+		, f_id_nm(process_id ) as baeseo_process_nm
+     from ctbs01
+     where baeseo_ok_yn = '1'
+	  and ( gyeyak_no   = #gyeyak_no#  or jaehae_gyeyak_no   =  #gyeyak_no# )
+	  and baeseo_3rd_cd in ( '151', '152', '322', '323', '341'
+                                            , '342', '343', '344', '345', '346'
+                                            , '347', '371', '372', '373'
+                                            , '511', '512', '513' )
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectBaeseoNo_car" parameterClass="String" resultClass="String">
+	 select case  when bd is null     and ad is not null then  ad || ' 추가'
+						 when bd is not null and ad is null     then  bd || ' 해지'
+						 when bd is not null and ad is not null then  bd || ' -> ' || ad
+				 end
+		from (
+			select  case when (bd1 is not null and bd2 is null)      then f_code_nm('1011', bd1)
+							 when (bd1 is null     and bd2 is not null)  then f_code_nm('1011', bd2)
+							 when (bd1 is not null and bd2 is not null)  then f_code_nm('1011', bd1) || ',' || f_code_nm('1011', bd2)
+					  end  bd
+				  ,  case when (ad1 is not null and ad2 is null)      then f_code_nm('1011', ad1)
+							 when (ad1 is null     and ad2 is not null)  then f_code_nm('1011', ad2)
+							 when (ad1 is not null and ad2 is not null)  then f_code_nm('1011', ad1) || ',' || f_code_nm('1011', ad2)
+					  end  ad
+			from (
+		
+				select max(decode(chg_attribute, 'tukbyul_rate1_cd', before_data, null)) bd1
+					  , max(decode(chg_attribute, 'tukbyul_rate1_cd', after_data , null)) ad1
+					  , max(decode(chg_attribute, 'tukbyul_rate2_cd', before_data, null)) bd2
+					  , max(decode(chg_attribute, 'tukbyul_rate2_cd', after_data , null)) ad2
+				from ctbs02
+				where  baeseo_no = #baeseo_no#
+				and chg_table_cd = 'ctgy01' and chg_attribute in ( 'tukbyul_rate1_cd', 'tukbyul_rate2_cd' )
+				group by baeseo_no
+		
+			)
+		)
+	</select>
+	<select id="CertServiceInquiryDAO.selectBaeseoNo_cont" parameterClass="String" resultClass="String">
+		select before_data || ' -> '  || after_data
+		from ctbs02
+		where baeseo_no = #baeseo_no#
+			  and chg_table_cd = 'ctgy01' and chg_attribute = 'gyeyak_eymd'
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectBaeseoNo_daemul" parameterClass="String" resultClass="String">
+		select f_code_nm('1010', before_data) || ' -> '  || f_code_nm('1010', after_data)
+		from ctbs02
+		where baeseo_no = #baeseo_no#
+			and chg_table_cd = 'ctgy02' and chg_attribute = 'dambo_hando_cd'
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectBaeseoNo_jcont" parameterClass="String" resultClass="String">
+		select before_data || ' -> '  || after_data
+		from ctbs02
+		where baeseo_no = #baeseo_no#
+			  and upper(chg_table_cd) = upper('CTGY06' ) and chg_attribute = 'gyeyak_eymd' 
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectBaeseoNo_jmodif" parameterClass="String" resultClass="String">
+		select ( select trim(JONGSA_NM) from ctgi09 where JONGSA_JUMIN_NO = before_data )
+ 		           || ' -> '  ||
+ 		          ( select trim(JONGSA_NM) from ctgi09 where JONGSA_JUMIN_NO = after_data )
+		from ctbs02
+		where baeseo_no = #baeseo_no#
+			  and upper(chg_table_cd) = upper('CTGY06' ) and upper(chg_attribute) = upper('JONGSA_JUMIN_NO' )
+	</select>
+	
+	<select id="selectBaeseoNo_yangdo" parameterClass="String" resultClass="String">
+		select ( select trim(agent_NM) from ctgi01 where agent_NO = substr(before_data, 1, 10) and saupjang_seq = substr(before_data, 12, 2) )
+				|| ' -> '  ||
+				( select trim(agent_NM) from ctgi01 where agent_NO = substr(after_data, 1, 10) and saupjang_seq = substr(after_data, 12, 2) )
+		from ctbs02
+		where baeseo_no =  #baeseo_no#
+			  and upper(chg_table_cd) = upper('ctgi05' ) and upper(chg_attribute) = upper('agent_no' )
+	</select>
+	
+	<!-- 계약 상태 코드 조회 -->
+	<select id="CertServiceInquiryDAO.selectStateCode" parameterClass="hashMap" resultClass="String">
+	SELECT  
+		GYEYAK_STATE_CD
+    FROM 
+     	CTGY01
+    WHERE 
+     	GYEYAK_NO = (SELECT MAX(GYEYAK_NO)
+		FROM 
+			CTGY01 A, CTGI05 B, CTGI01 C
+		WHERE A.CAR_GAIP_NO = #CAR_GAIP_NO#
+	AND A.CAR_GAIP_NO= B.CAR_GAIP_NO
+	AND B.AGENT_NO = C.AGENT_NO
+	AND B.SAUPJANG_SEQ = C.SAUPJANG_SEQ
+	AND C.GYEYAK_JIBU_CD = A.GYEYAK_JIBU_CD)
+	</select>
+	
+	
+	<!-- 계약 상태 조회 -->
+	<select id="CertServiceInquiryDAO.selectState" parameterClass="hashMap" resultClass="String">
+	SELECT 
+		CODE_NAME   
+  	FROM 
+  		CT_CODE01
+ 	WHERE 
+ 		CODE_PART = '1004'
+   	AND 
+   		CODE_NO   = #GYEYAK_STATE_CD#
+	</select>
+	
+	<!-- 통합납입분담금 조회 -->
+	<select id="CertServiceInquiryDAO.selectTotalDivide"  parameterClass="hashMap" resultClass="hashMap">
+	select sum(DAE1_BUNNAP_AMT) DAE1_BUNNAP_AMT
+			,sum(DAE2_BUNNAP_AMT) DAE2_BUNNAP_AMT
+			,sum(DAEMUL_BUNNAP_AMT) DAEMUL_BUNNAP_AMT
+			,sum(SIN_BUNNAP_AMT)  SIN_BUNNAP_AMT
+			,sum(CAR_BUNNAP_AMT)   CAR_BUNNAP_AMT
+			,sum(LAW_BUNNAP_AMT)  LAW_BUNNAP_AMT
+			,sum(CHUL_BUNNAP_AMT)  CHUL_BUNNAP_AMT
+			,sum(DAEIN_JABUDAM_AMT)   DAEIN_JABUDAM_AMT
+			,sum(MUL_JABUDAM_AMT)  MUL_JABUDAM_AMT
+	from (
+			SELECT 	NVL(SUM(DECODE(B.DAMBO_KIND_CD, 1, NVL(B.BUNNAP_AMT, 0), 0)),0) DAE1_BUNNAP_AMT,
+			            NVL(SUM(DECODE(B.DAMBO_KIND_CD, 2, NVL(B.BUNNAP_AMT, 0), 0)),0) DAE2_BUNNAP_AMT,
+			            NVL(SUM(DECODE(B.DAMBO_KIND_CD, 3, NVL(B.BUNNAP_AMT, 0), 0)),0) DAEMUL_BUNNAP_AMT,
+			            NVL(SUM(DECODE(B.DAMBO_KIND_CD, 8, NVL(B.BUNNAP_AMT, 0), 0)),0) SIN_BUNNAP_AMT,
+			            NVL(SUM(DECODE(B.DAMBO_KIND_CD, 4, NVL(B.BUNNAP_AMT, 0), 0)),0) CAR_BUNNAP_AMT,
+			            NVL(SUM(DECODE(B.DAMBO_KIND_CD, 7, NVL(B.BUNNAP_AMT, 0), 0)),0) LAW_BUNNAP_AMT,
+			            NVL(SUM(DECODE(B.DAMBO_KIND_CD, 9, NVL(B.BUNNAP_AMT, 0), 0)),0) CHUL_BUNNAP_AMT,
+				       0 daein_jabudam_amt,
+				       0 mul_jabudam_amt
+				FROM CTGY01 A, CTGY03 B
+				WHERE A.CAR_GAIP_NO =   #CAR_GAIP_NO#
+				AND A.GYEYAK_NO   =       B.GYEYAK_NO
+				AND B.YOUNGSU_YMD IS  NOT NULL
+				AND B.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+			union all
+				select sum(dae_sunap_amt) DAE1_BUNNAP_AMT,
+				       sum(daein_sunap_amt)DAE2_BUNNAP_AMT,
+				       sum(mul_sunap_amt) DAEMUL_BUNNAP_AMT,
+				       0 SIN_BUNNAP_AMT, 0 CAR_BUNNAP_AMT, 0 LAW_BUNNAP_AMT, 0 CHUL_BUNNAP_AMT,
+				       0 daein_jabudam_amt,
+				       0 mul_jabudam_amt
+				  from (
+							select nvl(sum(decode(b.dambo_kind_cd, 1, nvl(b.sunap_amt, 0), 0)),0) dae_sunap_amt,
+									 nvl(sum(decode(b.dambo_kind_cd, 2, nvl(b.sunap_amt, 0), 0)),0) daein_sunap_amt,
+									 nvl(sum(decode(b.dambo_kind_cd, 3, nvl(b.sunap_amt, 0), 0)),0) mul_sunap_amt
+							from ctgy01 a, ctgy05 b
+							where a.car_gaip_no = #CAR_GAIP_NO#
+							  and a.gyeyak_no = b.gyeyak_no
+							  and b.youngsu_ymd is not null
+							  and b.youngsu_ymd between #START_DATE# AND #END_DATE#
+							union all
+							select nvl(sum(decode(b.dambo_kind_cd, 1, nvl(b.sunap_amt, 0), 0)),0) dae_sunap_amt,
+									 nvl(sum(decode(b.dambo_kind_cd, 2, nvl(b.sunap_amt, 0), 0)),0) daein_sunap_amt,
+									 nvl(sum(decode(b.dambo_kind_cd, 3, nvl(b.sunap_amt, 0), 0)),0) mul_sunap_amt
+							from ctgy01 a, ctgy05 b, ctbs01 c, ctsn07 d
+							where a.car_gaip_no = #CAR_GAIP_NO#
+							  and a.gyeyak_no = b.gyeyak_no
+							  and b.sunap_amt <![CDATA[<]]> 0
+							  and b.gyeyak_no = c.gyeyak_no
+							  and c.baeseo_no = d.migyul_cmt
+							  and c.baeseo_3rd_cd= '410'
+							  and c.baeseo_ok_yn = '1'
+							  and d.chungsan_ymd between #START_DATE# AND #END_DATE#
+							  and d.chungsan_yn = '1'
+				)
+      union all
+				select 0 DAE1_BUNNAP_AMT,     0 DAE2_BUNNAP_AMT,     0 DAEMUL_BUNNAP_AMT,
+				       0 SIN_BUNNAP_AMT, 0 CAR_BUNNAP_AMT, 0 LAW_BUNNAP_AMT, 0 CHUL_BUNNAP_AMT,
+				       nvl(sum(decode(b.sunap_kind_cd, '41', nvl(b.migyul_jungri_amt, 0), 0)),0) daein_jabudam_amt,
+						   nvl(sum(decode(b.sunap_kind_cd, '42', nvl(b.migyul_jungri_amt, 0), 0)),0) mul_jabudam_amt
+				from ctgy01 a, ctsn07 b
+				where a.car_gaip_no = #CAR_GAIP_NO#
+				  and a.gyeyak_no = b.gyeyak_no
+				  and b.sunap_kind_cd in ('41','42')
+				  and b.migyul_cancel_yn <![CDATA[<>]]> '1'
+				  and b.chungsan_yn = '1'
+				  and b.chungsan_ymd between #START_DATE# AND #END_DATE#
+	)
+	</select>
+	
+	
+	<!-- 납입증명서 내역별 조회 -->
+	<select id="CertServiceInquiryDAO.selectDivideHistory"  parameterClass="hashMap" resultClass="hashMap">
+	SELECT  X.GYEYAK_NO		GYEYAK_NO,
+	        X.BUNNAP_CNT	BUNNAP_CNT,
+	        MAX(X.YOUNGSU_YMD) 	YOUNGSU_YMD,
+	        MAX(X.YOUNGSU_NO) YOUNGSU_NO,
+	        SUM(X.CHK)            CHK,
+	        SUM(NVL(X.DAEIN, 0) + NVL(DAEMUL, 0) + NVL(SIN, 0) + NVL(CHA, 0) + NVL(LAW, 0) + NVL(CHUL, 0))   ILBAN,
+	        SUM(X.JAE) JAE,
+	        SUM(X.JUK) JUK,
+	        #CAR_GAIP_NO# CAR_GAIP_NO
+	FROM   ( SELECT  B.GYEYAK_NO,
+	                 DECODE(B.DAMBO_KIND_CD, '1', DECODE(A.NAPIP_GB_DAE1, '2', DECODE(B.BUNNAP_CNT, '2', '4', B.BUNNAP_CNT), B.BUNNAP_CNT), B.BUNNAP_CNT) BUNNAP_CNT,
+	                 MAX(B.YOUNGSU_YMD) YOUNGSU_YMD,
+	                 MAX(B.YOUNGSU_NO)  YOUNGSU_NO,
+						  SUM(DECODE( B.DAMBO_KIND_CD,'1', B.BUNNAP_AMT ,0)) CHK ,
+						  SUM(DECODE( B.DAMBO_KIND_CD,'2', B.BUNNAP_AMT ,0)) DAEIN ,
+						  SUM(DECODE( B.DAMBO_KIND_CD,'3', B.BUNNAP_AMT ,0)) DAEMUL ,
+						  SUM(DECODE( B.DAMBO_KIND_CD,'8', B.BUNNAP_AMT ,0)) SIN ,
+						  SUM(DECODE( B.DAMBO_KIND_CD,'4', B.BUNNAP_AMT ,0)) CHA ,
+						  SUM(DECODE( B.DAMBO_KIND_CD,'7', B.BUNNAP_AMT ,0)) LAW ,
+						  SUM(DECODE( B.DAMBO_KIND_CD,'9', B.BUNNAP_AMT ,0)) CHUL ,
+						  0  JAE , 0 JUK
+				FROM   (SELECT GYEYAK_NO, NAPIP_GB_DAE1
+	                   FROM CTGY01
+	                  WHERE CAR_GAIP_NO = #CAR_GAIP_NO#) A,  CTGY03 B
+				WHERE  A.GYEYAK_NO = B.GYEYAK_NO
+				AND    B.YOUNGSU_YMD  BETWEEN #START_DATE#  AND  #END_DATE#
+				GROUP BY  B.GYEYAK_NO, DECODE(B.DAMBO_KIND_CD, '1', DECODE(A.NAPIP_GB_DAE1, '2', DECODE(B.BUNNAP_CNT, '2', '4', B.BUNNAP_CNT), B.BUNNAP_CNT), B.BUNNAP_CNT)
+	
+				UNION ALL
+	
+				SELECT   B.GYEYAK_NO,
+	                  B.BUNNAP_CNT,
+	                  MAX(B.YOUNGSU_YMD) YOUNGSU_YMD,
+	                  MAX(B.YOUNGSU_NO) YOUNGSU_NO,
+					  0,
+                  	  0,
+                  	  0,
+                  	  0,
+                  	  0,
+                  	  0,
+                  	  0,
+	                  SUM(B.BUNNAP_AMT) JAE ,0 JUK
+				FROM    (SELECT GYEYAK_NO
+	                    FROM CTGY06
+	                   WHERE CAR_GAIP_NO = #CAR_GAIP_NO#  ) A,  CTGY07 B
+				WHERE  A.GYEYAK_NO    = B.GYEYAK_NO
+				AND    B.YOUNGSU_YMD  BETWEEN #START_DATE#  AND  #END_DATE#
+				GROUP BY  B.GYEYAK_NO, B.BUNNAP_CNT
+	
+				UNION ALL
+	
+				SELECT   B.GYEYAK_NO,
+	                  B.BUNNAP_CNT,
+	                  MAX(B.YOUNGSU_YMD) YOUNGSU_YMD,
+	                  MAX(B.YOUNGSU_NO) YOUNGSU_NO,
+					  0,
+                  	  0,
+                  	  0,
+                  	  0,
+                  	  0,
+                  	  0,
+                  	  0,
+	                  0  JAE, SUM(B.BUNNAP_AMT) JUK
+				FROM    (SELECT D.GYEYAK_NO
+	                    FROM CTGY20  D, CTGI05 E
+	                   WHERE D.CAR_GAIP_NO = #CAR_GAIP_NO#
+	                    AND D.CAR_GAIP_NO = E.CAR_GAIP_NO
+	                     <!--  조합원사 2개이상인 경우 일치 하지 않음 -->
+	                     AND E.AGENT_NO = #AGENT_NO#
+	                     AND E.SAUPJANG_SEQ = #SAUPJANG_SEQ#
+	                     ) A,  CTGY21 B
+				WHERE  A.GYEYAK_NO    = B.GYEYAK_NO
+				AND    B.YOUNGSU_YMD  BETWEEN #START_DATE#  AND  #END_DATE#
+				GROUP BY  B.GYEYAK_NO, B.BUNNAP_CNT
+	
+	) X
+	GROUP BY  X.GYEYAK_NO, X.BUNNAP_CNT
+	ORDER BY  X.GYEYAK_NO, X.BUNNAP_CNT
+	</select>
+	
+	
+	<!-- 재해납입분담금 조회  -->
+	<select id="CertServiceInquiryDAO.selectJaehaeDivide" parameterClass="hashMap" resultClass="hashMap">
+	SELECT 
+		NVL(SUM(NVL(B.BUNNAP_AMT, 0)), 0) JAEHAE_BUNNAP_AMT
+	FROM 
+		CTGY06 A, CTGY07 B
+	WHERE 
+		A.CAR_GAIP_NO =     #CAR_GAIP_NO#
+	AND 
+		A.GYEYAK_NO   =       B.GYEYAK_NO      
+	AND 
+		B.YOUNGSU_YMD IS  NOT NULL        
+	AND 
+	B.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+	</select>
+	
+	<!-- 적재물 납입분담금 조회 -->
+	<select id="CertServiceInquiryDAO.selectJukDivide" parameterClass="hashMap" resultClass="hashMap">
+	SELECT 
+		NVL(SUM(NVL(B.BUNNAP_AMT - B.TUKYAK_BUNNAP_AMT, 0)), 0) JUK_BUNNAP_AMT,
+		NVL(SUM(NVL(B.TUKYAK_BUNNAP_AMT, 0)), 0) TOT_TUKYAK_BUNNAP_AMT
+	FROM 
+		CTGY20 A, CTGY21 B, CTGI05 C
+	WHERE 
+		A.CAR_GAIP_NO =      #CAR_GAIP_NO#
+	AND 
+		A.CAR_GAIP_NO = C.CAR_GAIP_NO
+	<!--  조합원사 2개이상인 경우 일치 하지 않음	
+	AND C.AGENT_NO =   #AGENT_NO#
+	AND C.SAUPJANG_SEQ = #SAUPJANG_SEQ# -->
+	AND 
+		A.GYEYAK_NO   =       B.GYEYAK_NO
+	AND 
+		B.YOUNGSU_YMD IS  NOT NULL
+	AND 
+		B.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+	</select>
+	
+	<select id="CertServiceInquiryDAO.selectCarNotice"  parameterClass="hashMap" resultClass="hashMap">
+	SELECT 
+		B.AGENT_NM,   				/*조합원명*/
+		C.CAR_NO,  					/*차량번호*/
+		C.CAR_BODY_NO,				/*차대번호*/
+		C.CAR_NM,  				 	/*차명*/
+	 	C.CAR_KIND_CD,				/*차종코드*/
+	 	F_CODE_NM('1056',  C.CAR_KIND_CD ) CAR_KIND_NM , /* 차종명*/
+	 	C.PROPER_WG,				/*적재량KG*/
+	    C.TOT_WG,
+	   	B.GYEYAK_CHULJANG_CD		/*출장지부코드*/       	
+	FROM 
+		CTGI01    B,        CTGI05    C
+	WHERE 
+		C.CAR_GAIP_NO =  #CAR_GAIP_NO#
+	AND 
+		C.AGENT_NO        = B.AGENT_NO
+	AND 
+		C.SAUPJANG_SEQ = B.SAUPJANG_SEQ 
+	</select>
+	
+	<!-- 가입차량조회 -->
+	<select id="CertServiceInquiryDAO.selectCarCount" parameterClass="hashmap" resultClass="int">
+	SELECT 
+		NVL(COUNT(DISTINCT(B.CAR_GAIP_NO)),0)
+	FROM   
+		CTGY03 A, CTGY01 B, CTGI05 C
+	WHERE  
+		C.AGENT_NO     = #AGENT_NO#      
+	AND 
+		C.SAUPJANG_SEQ = #SAUPJANG_SEQ#  
+	AND  
+		C.CAR_GAIP_NO  = B.CAR_GAIP_NO     
+	AND
+		B.GYEYAK_NO    = A.GYEYAK_NO       
+	AND 
+		A.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+	
+	</select>
+	
+	<!-- 최종계약 번호조회 -->
+	<select id="CertServiceInquiryDAO.selectMaxGyeyakNo"  parameterClass="hashmap" resultClass="String">
+	SELECT 
+		MAX(B.GYEYAK_NO)
+	FROM   
+		CTGI05 A, CTGY01 B, CTGY03 C
+	WHERE  
+		A.AGENT_NO     = #AGENT_NO#    
+	AND 
+		A.SAUPJANG_SEQ = #SAUPJANG_SEQ#   
+	AND
+		A.CAR_GAIP_NO  = B.CAR_GAIP_NO    
+	AND 
+		B.GYEYAK_NO    = C.GYEYAK_NO     
+	AND
+		C.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+	
+	</select>
+	
+	<!-- 최종계약 차량넘버조회 -->
+	<select id="CertServiceInquiryDAO.selectLastCarNo"  parameterClass="hashmap" resultClass="String">
+	SELECT B.CAR_NO     
+	FROM   
+		CTGY01 A, CTGI05 B, CTGI01 D  
+	WHERE  
+		A.GYEYAK_NO    = #GYEYAK_NO#
+	AND
+		A.CAR_GAIP_NO  = B.CAR_GAIP_NO 
+	AND 
+		B.AGENT_NO     = D.AGENT_NO      
+	AND
+		B.SAUPJANG_SEQ = D.SAUPJANG_SEQ   
+	</select>
+	
+	<!-- 최종계약 가입번호 조회 -->
+	<select id="CertServiceInquiryDAO.selectLastCarGaipNo"  parameterClass="hashmap" resultClass="String">
+	SELECT B.CAR_GAIP_NO     
+	FROM   
+		CTGY01 A, CTGI05 B, CTGI01 D  
+	WHERE  
+		A.GYEYAK_NO    = #GYEYAK_NO#
+	AND
+		A.CAR_GAIP_NO  = B.CAR_GAIP_NO 
+	AND 
+		B.AGENT_NO     = D.AGENT_NO      
+	AND
+		B.SAUPJANG_SEQ = D.SAUPJANG_SEQ   
+	</select>
+	
+	<!-- 분담금 통합 토탈 조회 -->
+	<select id="CertServiceInquiryDAO.selectTotalDivideAll" parameterClass="hashmap" resultClass="hashmap">
+	 SELECT 	NVL(SUM(DECODE(B.DAMBO_KIND_CD, 1, NVL(B.BUNNAP_AMT, 0), 0)),0) DAE1_BUNNAP_AMT,
+      NVL(SUM(DECODE(B.DAMBO_KIND_CD, 2, NVL(B.BUNNAP_AMT, 0), 0)),0) DAE2_BUNNAP_AMT,
+      NVL(SUM(DECODE(B.DAMBO_KIND_CD, 3, NVL(B.BUNNAP_AMT, 0), 0)),0) DAEMUL_BUNNAP_AMT,
+      NVL(SUM(DECODE(B.DAMBO_KIND_CD, 4, NVL(B.BUNNAP_AMT, 0), 0)),0) CAR_BUNNAP_AMT, 
+      NVL(SUM(DECODE(B.DAMBO_KIND_CD, 7, NVL(B.BUNNAP_AMT, 0), 0)),0) LAW_BUNNAP_AMT 
+	FROM 
+		CTGY01 A, CTGY03 B, CTGI05 C
+	WHERE
+		C.AGENT_NO     = #AGENT_NO#     
+	AND 
+		C.SAUPJANG_SEQ = #SAUPJANG_SEQ#
+	AND
+		C.CAR_GAIP_NO  = A.CAR_GAIP_NO   
+	 AND 
+		A.GYEYAK_NO    = B.GYEYAK_NO      
+	AND
+		B.YOUNGSU_YMD  IS NOT NULL        
+	AND
+		B.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+	</select>
+	
+	<!-- 분담금 통합 재해 조회  -->
+	<select id="CertServiceInquiryDAO.selectJaehaeDivideAll" parameterClass="hashmap" resultClass="hashmap">
+	SELECT 
+		NVL(SUM(NVL(C.BUNNAP_AMT, 0)), 0) JAEHAE_BUNNAP_AMT
+	FROM   
+		CTGI05 A, CTGY06 B, CTGY07 C
+	WHERE  
+		A.AGENT_NO     = #AGENT_NO#
+	AND 
+		A.SAUPJANG_SEQ = #SAUPJANG_SEQ#
+	AND
+		A.CAR_GAIP_NO  = B.CAR_GAIP_NO    
+	AND 
+		B.GYEYAK_NO    = C.GYEYAK_NO      
+	AND
+		C.YOUNGSU_YMD  IS NOT NULL        
+	AND
+		C.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+	</select>
+	
+	<!-- 분담금 통합 적재물 조회 -->
+	<select id="CertServiceInquiryDAO.selectJukDivideAll" parameterClass="hashmap" resultClass="hashmap">
+	SELECT   
+		NVL(SUM(DECODE(B.CAR_GAIP_NO, '9999999999', NVL(C.BUNNAP_AMT - C.TUKYAK_BUNNAP_AMT, 0), 0)),0) AS JUSUN_BUNNAP_AMT,
+		NVL(SUM(DECODE(B.CAR_GAIP_NO, '9999999999', 0, NVL(C.BUNNAP_AMT - C.TUKYAK_BUNNAP_AMT, 0))),0) AS JUK_BUNNAP_AMT,
+		NVL(SUM(NVL(C.TUKYAK_BUNNAP_AMT, 0)), 0) AS TOT_TUKYAK_BUNNAP_AMT
+	FROM   
+		CTGY20 B, CTGY21 C
+	WHERE  B.AGENT_NO  =  #AGENT_NO#
+	AND 
+		B.SAUPJANG_SEQ = #SAUPJANG_SEQ#
+	AND
+		B.GYEYAK_NO    = C.GYEYAK_NO      
+	AND
+		C.YOUNGSU_YMD  IS NOT NULL        
+	AND
+		C.YOUNGSU_YMD BETWEEN #START_DATE# AND #END_DATE#
+	</select>
+	
+	<!-- 발급번호 조회 분담금 개별 -->
+	<procedure id="CertServiceInquiryDAO.createSerialNumber" parameterMap="serialMap" >
+	{call SP_CT_CTMG20_SHEET1_WEB ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+	?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+	</procedure>
+	
+	<!-- 발급번호 조회 분담금 총계-->
+	<procedure id="CertServiceInquiryDAO.createSerialNumberAll" parameterMap="serialMapAll" >
+	{call SP_CT_CTMG20_SHEET1_WEB ( ?, '1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+	?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ? )}
+	</procedure>
+	
+	<!-- 출력번호로 법인번호 조회 -->
+	<select id="CertServiceInquiryDAO.selectBupinNo"  parameterClass="String" resultClass="String">
+	SELECT SUBSTR(BUPIN_NO,1,6) AS BUPIN_NO FROM CTMG22 WHERE PUBLISH_NO = #PUBLISH_NO#
+	</select>
+</sqlMap>
+

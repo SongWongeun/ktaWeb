@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="KwaDesignMgrDAO">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<typeAlias  alias="designVO" type="kr.or.truck.kwa.designmgr.service.KwaDesignMgrVO"/>
+	
+	<!-- 게시판 목록조회 -->
+	<select id="KwaDesignMgrDAO.selectBannerList" resultClass="hashMap">
+	SELECT 
+		BANNER_NO, 
+		BANNER_URL, 
+		ATCH_FILE_ID, 
+		FILE_ASC, 
+		USE_AT,
+		TITLE,
+		NEW_WINDOW,
+		END_DATE
+	FROM
+		KTA_BANNER
+	WHERE 
+		USE_AT ='Y'
+	ORDER BY 
+		FILE_ASC ASC
+	</select>
+	
+	<insert id="KwaDesignMgrDAO.insertBanner" parameterClass="designVO">
+	
+	<selectKey keyProperty="file_asc" resultClass="int" type="pre">
+		SELECT 
+			NVL(MAX(FILE_ASC)+1,0)
+		FROM 
+			KTA_BANNER
+		WHERE
+			USE_AT ='Y'
+	</selectKey>
+	INSERT INTO 
+		KTA_BANNER
+		(
+			BANNER_NO, 
+			BANNER_URL, 
+			ATCH_FILE_ID, 
+			FILE_ASC, 
+			USE_AT,
+			TITLE,
+			NEW_WINDOW,
+			END_DATE
+		)
+	VALUES
+		(
+			KTA_BANNER_SEQ.NEXTVAL,
+			#banner_url#,
+			#atchFileId#,
+			#file_asc#,
+			'Y',
+			#title#,
+			#newWindow#,
+			to_date(#endDate#,'yyyy/mm/dd')
+		)
+	
+	</insert>
+	
+	<update id="KwaDesignMgrDAO.deleteBanner"  parameterClass="designVO">
+	UPDATE
+		KTA_BANNER
+	SET
+		FILE_ASC = null,
+		USE_AT = 'N'
+	WHERE
+		BANNER_NO = #bannerNo#
+	</update>
+	
+	<update id="KwaDesignMgrDAO.updateIdx"  parameterClass="designVO">
+	UPDATE
+		KTA_BANNER
+	SET
+		FILE_ASC = #file_asc#
+	WHERE
+		BANNER_NO = #bannerNo#
+	
+	</update>
+	
+	<select id="KwaDesignMgrDAO.selectThema"  parameterClass="designVO" resultClass="designVO">
+	SELECT
+		THEMA
+	FROM
+		HP_THEMA
+	WHERE
+		USE_AT ='Y'
+	</select>
+	
+	<update id="KwaDesignMgrDAO.modifyThemaN" parameterClass="designVO">
+	UPDATE 
+		HP_THEMA
+	SET
+		USE_AT = 'N'	
+	</update>
+	
+	<update id="KwaDesignMgrDAO.modifyThema" parameterClass="designVO">
+	UPDATE 
+		HP_THEMA
+	SET
+		USE_AT = 'Y'
+	WHERE
+		THEMA = #thema#
+	</update>
+	
+	<update id="KwaDesignMgrDAO.modifyBanner" parameterClass="designVO">
+	UPDATE
+		KTA_BANNER
+	SET
+		BANNER_URL = #banner_url#,
+		TITLE = #title#,
+		NEW_WINDOW = #newWindow#,
+		END_DATE = to_date(#endDate#,'yyyy/mm/dd')
+		
+	WHERE
+		BANNER_NO = #bannerNo#
+	</update>
+	
+		<!-- 모바일공지사항 목록조회 -->
+	<select id="KwaDesignMgrDAO.selectNoticeIconList" resultClass="hashMap">
+		SELECT
+			NO,
+			NAME,
+			CODE,
+			START_M_DT,
+			START_D_DT,
+			END_M_DT,
+			END_D_DT,
+			URL
+		FROM
+			M_NOTICE_ICON
+	</select>
+	
+	<update id="KwaDesignMgrDAO.modifyIconInfo" parameterClass="designVO">
+	UPDATE
+		M_NOTICE_ICON
+	SET
+		START_M_DT = #START_M_DT#,
+		START_D_DT = #START_D_DT#,
+		END_M_DT = #END_M_DT#,
+		END_D_DT = #END_D_DT#,
+		URL = #URL#
+	WHERE
+		NO = #NO#
+	</update>
+</sqlMap>

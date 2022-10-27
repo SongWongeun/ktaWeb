@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="DeductBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="DeductBoardSearchVO" type="kr.or.truck.infolounge.deductnews.service.DeductBoardSearchVO"/>
+	<typeAlias  alias="deductBoardVO" type="kr.or.truck.infolounge.deductnews.service.DeductBoardVO"/>
+	
+	<resultMap id="deductBoardPreNex" class="kr.or.truck.infolounge.deductnews.service.DeductBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="deductBoard" class="kr.or.truck.infolounge.deductnews.service.DeductBoardVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String" nullValue=""/>
+		<result property="contentText" column="CONTENT_TEXT" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId" column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName" column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime" column="MODIFY_TIME" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="category" column="CATEGORY" nullValue=""/>
+		
+	</resultMap>
+
+
+	<insert id="deductBoardDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO DEDUCT_NOTICE(
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CONTENT_HTML,
+			CONTENT_TEXT,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			CATEGORY,
+			USE_AT
+			)
+		 
+		VALUES (
+		'DEDUCT_NOTICE',
+		'공제소식 게시판',
+		#articleNo#,
+		#title#,
+		#contentHtml#,
+		#contentText#,
+		sysdate,
+		0,
+		#writerId#,
+		#writerName#,
+		#writerId#,
+		#writerName#,
+		sysdate,
+		#atchFileId#,
+		#atchFileName#,
+		#category#,
+		'Y'
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="deductBoardDAO.updateBoard_S" parameterClass="deductBoardVO">
+		<![CDATA[
+			UPDATE DEDUCT_NOTICE 
+			SET MODIFY_ID = #modifyId#,
+				MODIFY_NAME = #modifyName#,
+				TITLE = #title#,
+				CONTENT_HTML = #contentHtml#,
+				CONTENT_TEXT = #contentText#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="deductBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE DEDUCT_NOTICE 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="deductBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE DEDUCT_NOTICE   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="deductBoardDAO.selectBoard_S" resultMap="deductBoard" >
+		<![CDATA[
+			SELECT  
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+				CATEGORY,
+				USE_AT
+			FROM DEDUCT_NOTICE 
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="deductBoardDAO.selectBoardList_D" parameterClass="DeductBoardSearchVO" resultMap="deductBoard" >
+			 
+			 SELECT 
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+				CATEGORY,
+				USE_AT
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM DEDUCT_NOTICE 
+					WHERE 1=1 AND USE_AT='Y' 
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						(TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%')
+						AND USE_AT='Y' 
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="open_Yn" compareValue="N">
+						(OPEN_YN != 'Y' or OPEN_YN is null)
+					</isEqual>			
+					ORDER BY CREATE_TIME DESC,ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="deductBoardDAO.selectBoardListTotCnt_S" parameterClass="DeductBoardSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM DEDUCT_NOTICE
+			WHERE 1=1 AND USE_AT='Y' 
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				(TITLE LIKE '%' || #searchKeyword# || '%')
+				OR
+				(CONTENT_TEXT LIKE '%' || #searchKeyword# || '%') AND USE_AT='Y' 
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="open_Yn" compareValue="N">
+				(OPEN_YN != 'Y' or OPEN_YN is null)
+			</isEqual>			
+	</select>
+	
+	
+	<update id="deductBoardDAO.deductBoardDAO.checkFileInfo" parameterClass="deductBoardVO">
+		<![CDATA[
+			UPDATE DEDUCT_NOTICE 
+			SET ATCH_FILE_ID = NULL
+			WHERE ARTICLE_NO=#articleNo# AND USE_AT='N'
+		]]>
+	</update>
+	
+	<select id="deductBoardDAO.selectPreArticle" resultMap="deductBoardPreNex" >
+		<![CDATA[	 
+			select next_ARTICLE_NO as ARTICLE_NO, next_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lead(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) next_ARTICLE_NO,
+			    lead(TITLE,1,'이전글이 없습니다') over (order by ARTICLE_NO) next_TITLE
+			    from DEDUCT_NOTICE WHERE USE_AT='Y'
+			) 
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="deductBoardDAO.selectNexArticle" resultMap="deductBoardPreNex" >
+		<![CDATA[ 		
+			select pre_ARTICLE_NO as ARTICLE_NO, pre_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lag(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) pre_ARTICLE_NO,
+			    lag(title,1,'다음글이 없습니다') over (order by ARTICLE_NO) pre_TITLE
+			    from DEDUCT_NOTICE WHERE USE_AT='Y'
+			)
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="deductBoardDAO.selectRecentList" parameterClass="string" resultClass="hashMap">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			CREATE_TIME,
+			USE_AT, 
+			ATCH_FILE_ID 
+		FROM
+			(SELECT ROWNUM RNUM, A.*
+			FROM (
+				SELECT ARTICLE_NO,TITLE,CREATE_TIME,USE_AT, ATCH_FILE_ID
+				
+				FROM
+					DEDUCT_NOTICE
+				WHERE OPEN_YN IS NULL	
+				UNION ALL
+				SELECT  ARTICLE_NO,TITLE,CREATE_TIME,USE_AT, ATCH_FILE_ID
+				FROM
+					INSURANCE_NOTICE
+			)A
+			WHERE 1=1 AND
+				USE_AT ='Y'	
+				AND ARTICLE_NO != #MINUSNO#
+			ORDER BY 
+				CREATE_TIME DESC, ARTICLE_NO DESC)
+		<![CDATA[WHERE ROWNUM <= 8 and RNUM > 0]]>
+	</select>
+	
+	<select id="deductBoardDAO.selectRecentImg" resultClass="hashMap">
+	SELECT 
+		ARTICLE_NO,
+		TITLE,
+		TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+		USE_AT, 
+		ATCH_FILE_ID
+	 FROM
+			(SELECT ROWNUM RNUM, A.*
+			FROM (
+				SELECT ARTICLE_NO,TITLE,CREATE_TIME,USE_AT, ATCH_FILE_ID
+				
+				FROM
+					DEDUCT_NOTICE
+       			WHERE 
+       				ATCH_FILE_ID IS NOT NULL
+				UNION ALL
+				SELECT  ARTICLE_NO,TITLE,CREATE_TIME,USE_AT, ATCH_FILE_ID
+				FROM
+					INSURANCE_NOTICE
+        		WHERE 
+        			ATCH_FILE_ID IS NOT NULL
+			)A
+			WHERE 
+				USE_AT ='Y'	
+			AND 			
+				A.ATCH_FILE_ID = 
+				(SELECT ATCH_FILE_ID FROM COMTNFILEDETAIL WHERE ATCH_FILE_ID= A.ATCH_FILE_ID AND FILE_SN='0'  )
+			ORDER BY 
+				CREATE_TIME DESC, ARTICLE_NO DESC)
+		<![CDATA[WHERE ROWNUM <= 1 and RNUM > 0]]>
+	</select>
+	
+</sqlMap>

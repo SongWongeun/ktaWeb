@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RecommandCompany">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="recommandCompanySearchVO" type="kr.or.truck.infolounge.datacenter.service.RecommandCompanySearchVO"/>
+	<typeAlias  alias="recommandCompanyVO" type="kr.or.truck.infolounge.datacenter.service.RecommandCompanyVO"/>
+	
+	
+	<resultMap id="recommandCompany" class="kr.or.truck.infolounge.datacenter.service.RecommandCompanyVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>		
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>		
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="areaDivide" column="AREA_DIVIDE" nullValue=""/>
+		<result property="companyCategory" column="COMPANY_CATEGORY" nullValue=""/>
+		<result property="companyName" column="COMPANY_NAME" nullValue=""/>
+		<result property="companyTel" column="COMPANY_TEL" nullValue=""/>
+		<result property="companyAddr" column="COMPANY_ADDR" nullValue=""/>
+		<result property="companyNY" column="COMPANY_NY" nullValue=""/>
+		<result property="companyXY" column="COMPANY_XY" nullValue=""/>
+	</resultMap>
+
+
+	<insert id="recommandCompanyDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO RECOMMAND_COMPANY
+			 
+		VALUES (
+		'RECOMMAND_COMPANY',
+		'우수협력업체',
+		#articleNo#,			
+		sysdate,	
+		#areaDivide#,	
+		#companyCategory#,
+		#companyName#,
+		#companyTel#,
+		#companyAddr#,
+		#companyNY#,
+		#companyXY#,
+		'Y'
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="recommandCompanyDAO.updateBoard_S" parameterClass="recommandCompanyVO">
+		<![CDATA[
+			UPDATE RECOMMAND_COMPANY 
+			SET AREA_DIVIDE = #areaDivide#,
+				COMPANY_CATEGORY = #companyCategory#,
+				COMPANY_NAME = #companyName#,
+				COMPANY_TEL = #companyTel#,
+				COMPANY_ADDR = #companyAddr#,
+				COMPANY_NY = #companyNY#,
+				COMPANY_XY = #companyXY#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	
+	<update id="recommandCompanyDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE RECOMMAND_COMPANY   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="recommandCompanyDAO.selectBoard_S" resultMap="recommandCompany" >
+		<![CDATA[
+			SELECT 
+			*
+			FROM RECOMMAND_COMPANY 
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="recommandCompanyDAO.selectBoardList_D" parameterClass="recommandCompanySearchVO" resultMap="recommandCompany" >
+			 
+			 SELECT * 
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM RECOMMAND_COMPANY 
+					WHERE 1=1 AND USE_AT='Y'
+					AND BBS_ID = 'RECOMMAND_COMPANY'					
+					<isEqual prepend="AND" property="searchCategory" compareValue="hospital">
+						COMPANY_CATEGORY LIKE 'hospital' AND AREA_DIVIDE LIKE '%' || #searchDirect# || '%' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCategory" compareValue="factory">
+						COMPANY_CATEGORY LIKE 'factory' AND AREA_DIVIDE LIKE '%' || #searchDirect# || '%' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="country">
+						COMPANY_CATEGORY LIKE #searchCategory# AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="seoul">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '서울' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="busan">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '부산' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="daegu">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '대구' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="incheon">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '인천' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gwangju">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '광주' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="daejeon">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '대전' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="ulsan">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '울산' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gyeonggi">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '경기' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gangwon">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '강원' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="chungbuk">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '충북' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="chungnam">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '충남' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="jeonbuk">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '전북' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="jeonnam">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '전남' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gyeongbuk">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '경북' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gyeongnam">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '경남' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="jeju">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '제주' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="recommandCompanyDAO.selectBoardListTotCnt_S" parameterClass="recommandCompanySearchVO" resultClass="int">
+
+			SELECT COUNT(*) totCnt
+			FROM RECOMMAND_COMPANY
+			WHERE 1=1 AND USE_AT='Y'
+			<isEqual prepend="AND" property="searchCategory" compareValue="hospital">
+						COMPANY_CATEGORY LIKE 'hospital' AND AREA_DIVIDE LIKE '%' || #searchDirect# || '%' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCategory" compareValue="factory">
+						COMPANY_CATEGORY LIKE 'factory' AND AREA_DIVIDE LIKE '%' || #searchDirect# || '%' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="country">
+						COMPANY_CATEGORY LIKE #searchCategory# AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="seoul">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '서울' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="busan">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '부산' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="daegu">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '대구' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="incheon">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '인천' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gwangju">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '광주' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="daejeon">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '대전' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="ulsan">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '울산' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gyeonggi">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '경기' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gangwon">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '강원' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="chungbuk">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '충북' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="chungnam">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '충남' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="jeonbuk">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '전북' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="jeonnam">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '전남' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gyeongbuk">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '경북' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="gyeongnam">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '경남' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="jeju">
+						COMPANY_CATEGORY LIKE #searchCategory# AND AREA_DIVIDE LIKE '제주' AND COMPANY_NAME LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+	</select>
+	
+	<select id="recommandCompanyDAO.selectBoardDirectList_D" parameterClass="recommandCompanySearchVO" resultMap="recommandCompany" >
+			 
+			 SELECT * 
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM RECOMMAND_COMPANY 
+					WHERE 1=1 AND USE_AT='Y'
+					AND BBS_ID = 'RECOMMAND_COMPANY'					
+					<isEqual prepend="AND" property="searchCom" compareValue="hospital">
+						COMPANY_CATEGORY LIKE 'hospital'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCom" compareValue="factory">
+						COMPANY_CATEGORY LIKE 'factory'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="seoul">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '서울'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="busan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '부산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="daegu">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대구'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="incheon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '인천'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gwangju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '광주'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="daejeon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대전'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="ulsan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '울산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gyeonggi">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경기'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gangwon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '강원'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="chungbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="chungnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="jeonbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="jeonnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gyeongbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gyeongnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="jeju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '제주'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="seoul">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '서울'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="busan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '부산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="daegu">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대구'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="incheon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '인천'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gwangju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '광주'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="daejeon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대전'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="ulsan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '울산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gyeonggi">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경기'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gangwon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '강원'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="chungbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="chungnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="jeonbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="jeonnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gyeongbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gyeongnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="jeju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '제주'
+					</isEqual>
+					ORDER BY ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="recommandCompanyDAO.selectBoardDirectListTotCnt_S" parameterClass="recommandCompanySearchVO" resultClass="int">
+			SELECT COUNT(*) totCnt
+			FROM RECOMMAND_COMPANY
+			WHERE 1=1 AND USE_AT='Y'
+					<isEqual prepend="AND" property="searchCom" compareValue="hospital">
+						COMPANY_CATEGORY LIKE 'hospital'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCom" compareValue="factory">
+						COMPANY_CATEGORY LIKE 'factory'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="seoul">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '서울'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="busan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '부산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="daegu">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대구'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="incheon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '인천'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gwangju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '광주'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="daejeon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대전'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="ulsan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '울산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gyeonggi">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경기'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gangwon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '강원'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="chungbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="chungnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="jeonbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="jeonnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gyeongbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="gyeongnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchSelect" compareValue="jeju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '제주'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="seoul">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '서울'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="busan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '부산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="daegu">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대구'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="incheon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '인천'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gwangju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '광주'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="daejeon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '대전'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="ulsan">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '울산'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gyeonggi">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경기'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gangwon">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '강원'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="chungbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="chungnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '충남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="jeonbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="jeonnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '전남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gyeongbuk">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경북'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="gyeongnam">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '경남'
+					</isEqual>
+					<isEqual prepend="AND" property="searchMap" compareValue="jeju">
+						COMPANY_CATEGORY LIKE #searchCom# AND AREA_DIVIDE LIKE '제주'
+					</isEqual>						
+	</select>
+</sqlMap>

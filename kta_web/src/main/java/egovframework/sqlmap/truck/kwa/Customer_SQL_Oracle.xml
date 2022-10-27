@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Customer">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<typeAlias  alias="customerSearchVO" type="kr.or.truck.kwa.customerMgr.service.CustomerSearchVO"/>
+	
+	<typeAlias  alias="customerBoardVO" type="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO"/>
+	
+	<resultMap id="qnaCustomerList" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="category" column="CATEGORY" nullValue=""/>
+		<result property="categoryNm" column="CATEGORY_NM" nullValue=""/>
+		<result property="replyAt" column="REPLY_AT" nullValue=""/>
+		<result property="forwardId" column="FORWARD_ID" nullValue=""/>
+		<result property="forwardName" column="FORWARD_NAME" nullValue=""/>
+		<result property="replyTime" column="REPLY_TIME" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="qnaCustomerDetail" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="category" column="CATEGORY" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="replyContentHtml" column="REPLY_CONTENT_HTML" nullValue=""/>
+		<result property="replyContentText" column="REPLY_CONTENT_TEXT" nullValue=""/>
+		<result property="replyAt" column="REPLY_AT" nullValue=""/>
+		<result property="email" column="EMAIL" nullValue=""/>
+		<result property="forwardId" column="FORWARD_ID" nullValue=""/>
+		<result property="phone" column="PHONE" nullValue=""/>
+		<result property="replyTime" column="REPLY_TIME" nullValue=""/>
+		<result property="birth" column="BIRTH" nullValue=""/>
+		<result property="newAddr" column="NEW_ADDR" nullValue=""/>
+		<result property="addr" column="ADDR" nullValue=""/>
+		<result property="forwardTime" column="FORWARD_TIME" nullValue=""/>
+		<result property="procTime" column="PROC_TIME" nullValue=""/>
+		<result property="totalProcTime" column="TOTAL_PROC_TIME" nullValue=""/>
+		<result property="phone_yn" column="PHONE_YN" nullValue=""/>
+		<result property="email_yn" column="EMAIL_YN" nullValue=""/>
+		<result property="open_Yn" column="OPEN_YN" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="faqCustomerList" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="faqCategory" column="FAQ_CATEGORY" nullValue=""/>
+		<result property="faqCategoryNm" column="FAQ_CATEGORY_NM" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="faqCustomerDetail" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="faqCategory" column="FAQ_CATEGORY" nullValue=""/>
+		<result property="faqCategoryNm" column="FAQ_CATEGORY_NM" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="birth" column="BIRTH" nullValue=""/>
+		<result property="newAddr" column="NEW_ADDR" nullValue=""/>
+		<result property="addr" column="ADDR" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="cleanCustomerList" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="replyAt" column="REPLY_AT" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="cleanCustomerDetail" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="birth" column="BIRTH" nullValue=""/>
+		<result property="newAddr" column="NEW_ADDR" nullValue=""/>
+		<result property="addr" column="ADDR" nullValue=""/>
+		<result property="phone" column="PHONE" nullValue=""/>
+		<result property="email" column="EMAIL" nullValue=""/>
+		<result property="phone_yn" column="PHONE_YN" nullValue=""/>
+		<result property="email_yn" column="EMAIL_YN" nullValue=""/>
+		<result property="replyAt" column="REPLY_AT" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="praiseCustomerList" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="useAt" column="USE_AT" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="praiseCustomerDetail" class="kr.or.truck.kwa.customerMgr.service.CustomerBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" nullValue=""/>
+		<result property="phone" column="PHONE" nullValue=""/>
+		<result property="email" column="EMAIL" nullValue=""/>
+		<result property="useAt" column="USE_AT" nullValue=""/>
+		<result property="birth" column="BIRTH" nullValue=""/>
+		<result property="newAddr" column="NEW_ADDR" nullValue=""/>
+		<result property="addr" column="ADDR" nullValue=""/>
+		<result property="phone_yn" column="PHONE_YN" nullValue=""/>
+		<result property="email_yn" column="EMAIL_YN" nullValue=""/>
+		<result property="accntNo" column="ACCNT_NO" nullValue=""/>
+		<result property="carNo" column="CAR_NO" nullValue=""/>
+		<result property="accntName" column="ACCNT_NAME" nullValue=""/>
+	</resultMap>
+	
+	
+	<!-- 게시판 카테고리 조회 -->
+	<select id="customerDAO.getCategoryList" resultClass="hashMap" parameterClass="String">
+		SELECT 
+			CATEGORY_ID,
+			CATEGORY_NM
+		FROM
+			HP_BOARD_CATEGORY
+		WHERE
+			HP_BOARD_MASTER_NO = #boardMasterNo#
+	</select>
+
+	<!-- 1:1문의 게시판 권한 종류 조회 -->
+	<select id="customerDAO.getQnaAuthCodeList" resultClass="String" parameterClass="String">
+		SELECT
+			CODE
+		FROM
+			COMTCCMMNDETAILCODE
+		WHERE
+			CODE_ID = 'TRU002'
+		AND
+			CODE LIKE 'qna%'
+	</select>
+	
+	<!-- 1:1문의 게시판 목록조회 -->
+	<select id="customerDAO.getQnaCustomerList" resultMap="qnaCustomerList" parameterClass="customerSearchVO"  >
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			CATEGORY,
+			CATEGORY_NM,
+			REPLY_AT,
+			FORWARD_ID,
+			(  
+				SELECT HANGEUL_NM
+			      FROM  HRPE02@KOTMASDB  /* 운영디비   */
+					/* HRPE02@KOTMAS_ORG 개발디비 */
+				WHERE 
+				SAWON_NO = FORWARD_ID)
+			AS FORWARD_NAME,
+			REPLY_TIME
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT
+					ARTICLE_NO,
+					TITLE,
+					TO_CHAR(CREATE_TIME, 'yyyy.mm.dd') as CREATE_TIME,
+					WRITER_ID,
+					WRITER_NAME,
+					CATEGORY,
+					CATEGORY_NM,
+					REPLY_AT,
+					FORWARD_ID,
+					REPLY_TIME
+				FROM
+					OAO_INQUIRY_BBS	oib
+				LEFT OUTER JOIN
+					HP_BOARD_CATEGORY hbc
+				ON
+					hbc.HP_BOARD_MASTER_NO = 9
+				AND
+					oib.CATEGORY = hbc.CATEGORY_ID
+				WHERE
+					use_at= 'Y'
+				<dynamic prepend="AND">
+					<isNotEmpty property="searchCondition" prepend="and">
+						CATEGORY = #searchCondition#
+					</isNotEmpty>
+					<isNotEmpty property="searchCondition2" prepend="and">
+						REPLY_AT = #searchCondition2#
+					</isNotEmpty>
+					<isEqual property="searchCondition3" prepend="and" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="menuAuthCondition" prepend="and" compareValue="d">
+					(	CATEGORY in (<iterate property="menuAuth" conjunction=",">#menuAuth[]#</iterate>)
+					OR
+						FORWARD_ID = #forwardId#)
+					</isEqual>					
+					<isEqual property="menuAuthCondition" prepend="and" compareValue="f">
+						FORWARD_ID = #forwardId#
+					</isEqual>
+				</dynamic>
+				ORDER BY
+					create_time DESC, article_no DESC
+					) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 1:1문의 게시판 목록 총 카운트 -->	
+	<select id="customerDAO.getQnaCustomerListCnt" resultClass="Int" parameterClass="customerSearchVO">
+		SELECT
+			COUNT(ARTICLE_NO)
+		FROM
+			OAO_INQUIRY_BBS
+		WHERE
+			use_at= 'Y'
+				<dynamic prepend="AND">
+					<isNotEmpty property="searchCondition" prepend="and">
+						CATEGORY = #searchCondition#
+					</isNotEmpty>
+					<isNotEmpty property="searchCondition2" prepend="and">
+						REPLY_AT = #searchCondition2#
+					</isNotEmpty>
+					<isEqual property="searchCondition3" prepend="and" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="menuAuthCondition" prepend="and" compareValue="d">
+					(	CATEGORY in (<iterate property="menuAuth" conjunction=",">#menuAuth[]#</iterate>)
+					OR
+						FORWARD_ID = #forwardId#)
+					</isEqual>					
+					<isEqual property="menuAuthCondition" prepend="and" compareValue="f">
+						FORWARD_ID = #forwardId#
+					</isEqual>
+				</dynamic>
+	</select>
+	
+	<!-- 1:1문의 게시판 상세보기 -->	
+	<select id="customerDAO.getQnaCustomerDetail" resultMap="qnaCustomerDetail" parameterClass="customerBoardVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			TO_CHAR(CREATE_TIME, 'yyyy-mm-dd') as CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			CATEGORY,
+			CONTENT_HTML,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			REPLY_CONTENT_HTML,
+			REPLY_CONTENT_TEXT,
+			REPLY_AT,
+			EMAIL,
+			FORWARD_ID,
+			PHONE,
+			REPLY_TIME,
+			BIRTH,
+			NEW_ADDR,
+			ADDR,
+			FORWARD_TIME,
+			PROC_TIME,
+			TOTAL_PROC_TIME,
+			PHONE_YN,
+			EMAIL_YN,
+			OPEN_YN
+		FROM
+			OAO_INQUIRY_BBS
+		WHERE
+			use_at= 'Y'
+		AND
+			ARTICLE_NO = #articleNo#
+	</select>
+	
+	<update id="customerDAO.updateReplyContent" parameterClass="customerBoardVO">
+		UPDATE 
+			OAO_INQUIRY_BBS
+		SET
+			REPLY_CONTENT_HTML = #replyContentHtml#,
+			REPLY_CONTENT_TEXT = #replyContentText#,
+			REPLY_ID = #replyId#,
+			REPLY_NAME = #replyName#,
+			REPLY_AT = 'Y',
+			REPLY_TIME = SYSDATE,
+			TOTAL_PROC_TIME = (
+							SELECT
+							  	TRUNC(SYSDATE - A.CREATE_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									CREATE_TIME
+							    FROM 
+							    	OAO_INQUIRY_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			),
+			PROC_TIME =(
+							SELECT
+							  	TRUNC(SYSDATE - A.FORWARD_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									FORWARD_TIME
+							    FROM 
+							    	OAO_INQUIRY_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			)
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<update id="customerDAO.updateReplyContent2" parameterClass="customerBoardVO">
+		UPDATE 
+			OAO_INQUIRY_BBS
+		SET
+			REPLY_CONTENT_HTML = #replyContentHtml#,
+			REPLY_CONTENT_TEXT = #replyContentText#,
+			REPLY_MODIFY_ID = #replyId#,
+			REPLY_MODIFY_NAME = #replyName#,
+			REPLY_AT = 'Y',
+			REPLY_MODIFY_TIME = SYSDATE,
+			TOTAL_PROC_TIME = (
+							SELECT
+							  	TRUNC(SYSDATE - A.CREATE_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									CREATE_TIME
+							    FROM 
+							    	OAO_INQUIRY_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			),
+			PROC_TIME =(
+							SELECT
+							  	TRUNC(SYSDATE - A.FORWARD_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									FORWARD_TIME
+							    FROM 
+							    	OAO_INQUIRY_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			)
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<update id="customerDAO.updateReplyRepContent" parameterClass="customerBoardVO">
+		UPDATE 
+			OAO_INQUIRY_BBS
+		SET
+			FORWARD_ID = #forwardId#,
+			FORWARD_TIME = SYSDATE
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+		<!-- 게시판 목록조회 -->
+	<select id="customerDAO.getFaqCustomerList" resultMap="faqCustomerList" parameterClass="customerSearchVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			FAQ_CATEGORY,
+			FAQ_CATEGORY_NM,
+			RDCOUNT
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT
+					ARTICLE_NO,
+					TITLE,
+					TO_CHAR(CREATE_TIME, 'yyyy.mm.dd') as CREATE_TIME,
+					WRITER_ID,
+					WRITER_NAME,
+					FAQ_CATEGORY,
+					hbc.CATEGORY_NM AS FAQ_CATEGORY_NM,
+					RDCOUNT
+				FROM
+					FAQ_NOTICE fn
+				LEFT OUTER JOIN
+					HP_BOARD_CATEGORY hbc
+				ON
+					hbc.HP_BOARD_MASTER_NO = '16'
+				AND
+					fn.FAQ_CATEGORY = hbc.CATEGORY_ID
+				WHERE
+					fn.USE_AT = 'Y'
+				<dynamic prepend="AND">
+					<isNotEmpty property="searchCondition" prepend="and">
+						FAQ_CATEGORY = #searchCondition#
+					</isNotEmpty>
+					<isEqual property="searchCondition2" prepend="and" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition2" prepend="and" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition2" prepend="and" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition2" prepend="and" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+				</dynamic>
+				ORDER BY
+					create_time DESC, article_no DESC
+					) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 게시판 목록 총 카운트 -->	
+	<select id="customerDAO.getFaqCustomerListCnt" resultClass="Int" parameterClass="customerSearchVO">
+		SELECT
+			COUNT(ARTICLE_NO)
+		FROM
+			FAQ_NOTICE
+		WHERE
+			use_at= 'Y'
+				<dynamic prepend="AND">
+					<isNotEmpty property="searchCondition" prepend="and">
+						FAQ_CATEGORY = #searchCondition#
+					</isNotEmpty>
+					<isEqual property="searchCondition2" prepend="and" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition2" prepend="and" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition2" prepend="and" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition2" prepend="and" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+				</dynamic>
+	</select>
+	
+	<!-- faq 게시판 상세보기-->	
+	<select id="customerDAO.getFaqCustomerDetail" resultMap="faqCustomerDetail" parameterClass="customerBoardVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			TO_CHAR(CREATE_TIME, 'yyyy-mm-dd') as CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			FAQ_CATEGORY,
+			hbc.CATEGORY_NM AS FAQ_CATEGORY_NM,
+			CONTENT_HTML,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			BIRTH,
+			NEW_ADDR,
+			ADDR
+		FROM
+			FAQ_NOTICE fn
+		LEFT OUTER JOIN
+		  HP_BOARD_CATEGORY hbc
+		ON
+		  hbc.HP_BOARD_MASTER_NO = '6'
+		AND
+		  fn.FAQ_CATEGORY = hbc.CATEGORY_ID
+		WHERE
+			use_at= 'Y'
+		AND
+			ARTICLE_NO = #articleNo#
+	</select>
+	
+	<!-- faq 게시판 입력-->
+	<insert id="customerDAO.insertFaqCustomer" parameterClass="customerBoardVO">
+		<![CDATA[
+		INSERT INTO FAQ_NOTICE(
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CONTENT_HTML,
+			CONTENT_TEXT,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			USE_AT,
+			FAQ_CATEGORY
+			)
+		VALUES (
+			'FAQ_NOTICE',
+			'자주하는 질문 게시판',
+			#articleNo#,
+			#title#,
+			#contentHtml#,
+			#contentText#,
+			sysdate,
+			0,
+			#writerId#,
+			#writerName#,
+			#writerId#,
+			#writerName#,
+			sysdate,
+			#atchFileId#,
+			#atchFileName#,
+			'Y',
+			#faqCategory#
+			)
+		]]>
+	</insert>
+	
+	<!-- faq 게시판 수정-->
+	<update id="customerDAO.updateFaqCustomer" parameterClass="customerBoardVO">
+		UPDATE
+			FAQ_NOTICE 
+		SET
+			TITLE = #title#,
+			CONTENT_HTML = #contentHtml#,
+			CONTENT_TEXT = #contentText#,
+			MODIFY_ID = #modifyId#,
+			MODIFY_NAME = #modifyName#,
+			MODIFY_TIME = sysdate,
+			FAQ_CATEGORY = #faqCategory#
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<!-- faq 게시판 삭제-->
+	<update id="customerDAO.deleteFaqCustomer" parameterClass="customerBoardVO">
+		UPDATE
+			FAQ_NOTICE 
+		SET
+			MODIFY_ID = #modifyId#,
+			MODIFY_NAME = #modifyName#,
+			MODIFY_TIME = sysdate,
+			USE_AT = 'N'
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<!-- 클린센터 목록조회 -->
+	<select id="customerDAO.getCleanCustomerList" resultMap="cleanCustomerList" parameterClass="customerSearchVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			RDCOUNT,
+			REPLY_AT
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT
+					ARTICLE_NO,
+					TITLE,
+					TO_CHAR(CREATE_TIME, 'yyyy.mm.dd') as CREATE_TIME,
+					WRITER_ID,
+					WRITER_NAME,
+					RDCOUNT,
+					REPLY_AT
+				FROM
+					REPORT_BBS
+				WHERE
+					USE_AT = 'Y'
+				<dynamic prepend="AND">
+					<isEqual property="searchCondition" prepend="and" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition" prepend="and" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="and" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="and" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+				</dynamic>
+				ORDER BY
+					create_time DESC, article_no DESC
+					) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+		
+	<!-- 클린센터 목록 총 카운트 -->	
+	<select id="customerDAO.getCleanCustomerListCnt" resultClass="Int" parameterClass="customerSearchVO">
+		SELECT
+			COUNT(ARTICLE_NO)
+		FROM
+			REPORT_BBS
+		WHERE
+			USE_AT = 'Y'
+				<dynamic prepend="AND">
+					<isEqual property="searchCondition" prepend="and" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition" prepend="and" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="and" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="and" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+				</dynamic>
+	</select>
+	
+	<!-- 클린센터 게시판 상세보기-->	
+	<select id="customerDAO.getCleanCustomerDetail" resultMap="cleanCustomerDetail" parameterClass="customerBoardVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			TO_CHAR(CREATE_TIME, 'yyyy-mm-dd') as CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			CONTENT_HTML,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			BIRTH,
+			NEW_ADDR,
+			ADDR,
+			PHONE,
+			EMAIL,
+			PHONE_YN,
+			EMAIL_YN,
+			REPLY_AT
+		FROM
+			REPORT_BBS
+		WHERE
+			use_at= 'Y'
+		AND
+			ARTICLE_NO = #articleNo#
+	</select>
+	
+	<!-- 칭찬합시다 게시판 목록조회 -->
+	<select id="customerDAO.getPraiseCustomerList" resultMap="praiseCustomerList" parameterClass="customerSearchVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			RDCOUNT,
+			USE_AT
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT
+					ARTICLE_NO,
+					TITLE,
+					TO_CHAR(CREATE_TIME, 'yyyy.mm.dd') as CREATE_TIME,
+					WRITER_ID,
+					WRITER_NAME,
+					RDCOUNT,
+					USE_AT
+				FROM
+					PRAISE_NOTICE
+				<dynamic prepend="WHERE">
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+				</dynamic>
+				ORDER BY
+					create_time DESC, article_no DESC
+					) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+		
+	<!-- 칭찬합시다 게시판 목록 총 카운트 -->	
+	<select id="customerDAO.getPraiseCustomerListCnt" resultClass="Int" parameterClass="customerSearchVO">
+		SELECT
+			COUNT(ARTICLE_NO)
+		FROM
+			PRAISE_NOTICE
+				<dynamic prepend="WHERE">
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="0" >
+						(TITLE like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%')
+					</isEqual>
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="1">
+						TITLE like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition" prepend="WHERE" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+				</dynamic>
+	</select>
+	
+	<!-- 칭찬합시다 게시판 상세보기-->	
+	<select id="customerDAO.getPraiseCustomerDetail" resultMap="praiseCustomerDetail" parameterClass="customerBoardVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			TO_CHAR(CREATE_TIME, 'yyyy-mm-dd') as CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			CONTENT_HTML,
+			PHONE,
+          	EMAIL,
+          	USE_AT,
+			BIRTH,
+			NEW_ADDR,
+			ADDR,
+			EMAIL_YN,
+			PHONE_YN,
+			ACCNT_NO,
+			CAR_NO,
+			ACCNT_NAME
+		FROM
+			PRAISE_NOTICE
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</select>
+	
+	<!-- 칭찬합시다 표출여부 변경-->
+	<update id="customerDAO.praiseCustomerViewChange" parameterClass="customerBoardVO">
+		UPDATE
+			PRAISE_NOTICE 
+		SET
+			MODIFY_ID = #modifyId#,
+			MODIFY_NAME = #modifyName#,
+			MODIFY_TIME = sysdate,
+			USE_AT = #useAt#
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<update id="customerDAO.cleanCenterCustomerViewChange" parameterClass="customerBoardVO">
+		UPDATE
+			REPORT_BBS 
+		SET
+			MODIFY_ID = #modifyId#,
+			MODIFY_NAME = #modifyName#,
+			MODIFY_TIME = sysdate,
+			REPLY_AT = #replyAt#
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	
+	<select id="customerDAO.selectWriterIdAgentCd" parameterClass="String" resultClass="String">
+		select agentcd from tb_member where id= #writerId# and rownum = '1' 
+	</select>
+	
+	<select id="customerDAO.selectWriterIdNameCtgi06" parameterClass="String" resultClass="String">
+		select 
+        	CARMGR_NM as name 
+   		from tb_member tb inner join ctgi06@kotmasdb c6
+   		on tb.agent_no = c6.carmgr_seq
+    	where tb.id=#writerId# and rownum ='1'
+	</select>
+	
+	<select id="customerDAO.selectWriterIdNameAcsd05" parameterClass="String" resultClass="String">
+		select 
+       		PRESI_NM as name
+    	from tb_member tb left outer join Acsd05@kotmasdb a5
+    	on tb.agent_no = a5.cust_cd
+    	where tb.id=#writerId# and rownum ='1'
+	</select>
+	
+	<select id="customerDAO.selectWriterIdNameCtgi01" parameterClass="String" resultClass="String">
+		 select 
+        	c1.daepyoja_nm as name 
+     	from tb_member tb inner join ctgi01@kotmasdb c1 
+     	on tb.agent_no = c1.agent_no 
+     	and tb.saupjang_seq = c1.saupjang_seq 
+     	where tb.id =#writerId# and rownum ='1'
+	</select>
+	
+	<select id="customerDAO.getMailAddr" parameterClass="string" resultClass="string">
+		SELECT
+			email
+		FROM
+			employee@gw
+		WHERE
+			emp_code = #id#
+	</select>
+	
+	<select id="customerDAO.getPhoneAddr" parameterClass="string" resultClass="string">
+		SELECT
+			mobile
+		FROM
+			employee@gw
+		WHERE
+			emp_code = #id#
+	</select>
+</sqlMap>

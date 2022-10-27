@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">501</span><span class="pyoName">A 본선차 B 합류차</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본 &#9312;</td>
+                            <td class="alC bB3">A 30</td>
+                            <td class="alC">B 70</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="11" class="alC"><img src="/images/truck/jpg/501.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 진로변경 신호불이행</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 진입로 직전진입 &#9313;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 부적절한 합류방법 &#9314;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                          <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 급가속 &#9315;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 10㎞이상 속도위반 &#9316;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 20㎞이상 속도위반 &#9316;</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 현저한 과실</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	고속도로와 자동차전용도로&#40;이하 고속도로 등이라 한다&#41;의 합류지점이나 진출입로 부근에서는 차량의 진입이 빈번하게 이루어지므로 이러한 곳을 통과하는 차량들은 항상 차량이 진입할 것을 예상하고 운행하여야 한다&#46; 따라서 이러한 경우 A의 기본과실을 비교적 높게 인정한다&#46; 그러나&#44; B로서도 도로교통법 제65조제1항에서 규정하는 바와 같이 고속도로로 진입함에 있어 이미 그 고속도로를 진행하고 있는 차량의 통행을 방해하여서는 아니되므로 A보다 높은 과실을 적용한다&#46;</p>
+                    <p class="txtPoint">&#9313;	본선차도에 진입하기 위하여 모든 차량은 가속차선에서 충분히 속력을 내어 본선차선에 진입하여야 하므로 가속차선 시작 직전 본선차선에 진입한 경우에는 10&#37;의 수정요소를 고려하여야 한다&#46;</p>
+                    <p class="txtPoint">&#9314;	부적절한 합류방법이라 함은 A와 B의 거리가 50미터 이내에서 진입을 감행하는 경우 또는 B의 속도가 A의 속도보다 시속20㎞이상 늦음에도 불구하고 본선차도로 진입을 시도하였을 경우 등을 말한다&#46;</p>
+                    <p class="txtPoint">&#9315;	A가 합류지점에서 B의 합류를 인식하고 합류지점을 신속히 통과하기 위하여 어느정도 가속을 하는 것은 B가 충분히 인식할 수 있는 일반적인 사항이다&#46; 그러나 합류직전에 A가 무리하게 가속하는 것은 B로서도 예측하기 어려우므로 이러한 경우 10&#37; 가산 수정하여야 한다&#46;</p>
+                    <p class="txtPoint">&#9316;	고속도로는 자동차의 속도가 빠르므로 과속으로 인한 사고의 가능성이 높기 때문에 이하 고속도로 사고유형에 대하여는 속도위반을 별도 수정요소로 적용한다&#46;
+</p>
+					</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 제65조&#91;고속도로 진입시의 우선순위&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 자동차&#40;긴급자동차를 제외한다&#41;의 운전자는 고속도로에 들어가고자 하는 때에는 그 고속도로를 통행하고 있는 다른 자동차의 통행을 방해하여서는 아니된다&#46;</li>
+					       </ul>
+					<p class="txtPoint">&#9827;	도로교통법 시행령 별표2 &#91;신호의 시기 및 방법&#93;&#45; 제21조 관련</p>
+					<ul class="txtListst02">
+						<li>&#45; 신호를 행할 시기  &#58; 그 행위를 하고자 하는 지점&#40;좌&#183;우회전할 경우에는 그 교차로의 가장자리&#41;에 이르기 전 30미터&#40;고속도로에서는 100미터&#41; 이상의 지점에 이르렀을 때
+</li>
+						</ul>
+					
+				</div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

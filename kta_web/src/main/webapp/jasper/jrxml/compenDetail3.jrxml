@@ -1,0 +1,3408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="divideCert" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="7045c4d0-5d6d-4965-a2cf-80e2def3e3ca">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF" radius="1">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.0" lineColor="#000000"/>
+			<topPen lineWidth="0.0" lineColor="#000000"/>
+			<leftPen lineWidth="0.0" lineColor="#000000"/>
+			<bottomPen lineWidth="0.0" lineColor="#000000"/>
+			<rightPen lineWidth="0.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#B0B0B0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_CH" mode="Opaque" backcolor="#ADADAD">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="gbBorder">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{GB_N}.equals("1")&&$F{GB_C}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{GB_N}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{GB_N}.equals($F{GB_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{GB_N}.equals("1")&&$F{GB_N}.equals($F{GB_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="dmboBorder">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{DMBO_N}.equals("1")&&$F{DMBO_C}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{DMBO_N}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{DMBO_N}.equals($F{DMBO_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{DMBO_N}.equals("1")&&$F{DMBO_N}.equals($F{DMBO_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="leftright" hTextAlign="Center" vTextAlign="Middle" isBlankWhenNull="true" fontName="굴림">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{PSN_N}.equals("1")&&$F{PSN_C}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{PSN_N}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{PSN_N}.equals($F{PSN_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{PSN_N}.equals("1")&&$F{PSN_N}.equals($F{PSN_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="boarderAll">
+		<box>
+			<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="jibuBorder">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{JIBU_N}.equals("1")&&$F{JIBU_C}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{JIBU_N}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{JIBU_N}.equals($F{JIBU_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{JIBU_N}.equals("1")&&$F{JIBU_N}.equals($F{JIBU_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="patBorder">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{PAT_N}.equals("1")&&$F{PAT_C}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{PAT_N}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{PAT_N}.equals($F{PAT_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{PAT_N}.equals("1")&&$F{PAT_N}.equals($F{PAT_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="idBorder">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{ID_N}.equals("1")&&$F{ID_C}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{ID_N}.equals("1"))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{ID_N}.equals($F{ID_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(!$F{ID_N}.equals("1")&&$F{ID_N}.equals($F{ID_C}))]]></conditionExpression>
+			<style>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<subDataset name="report1" uuid="f9dec560-e3bf-4e4f-8a38-e810f6868cc8">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="339"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="652"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+		<parameter name="acdnt_no" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{acdnt_no}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ORACLE_REF_CURSOR" class="interface java.sql.ResultSet" isForPrompting="false"/>
+		<queryString language="plsql">
+			<![CDATA[SELECT 
+	GB_N,GB_C,
+	CASE WHEN GB_C> 1 AND GB_N = ROUND(GB_C/2) THEN GB WHEN GB_C=1 THEN GB ELSE NULL END GB, 
+	ACDNT_NO, DMBO_GB,
+	rnum,
+	DMBO_N, DMBO_C,
+	CASE WHEN DMBO_C> 1 AND DMBO_N = ROUND(DMBO_C/2) THEN DMBO_GB_NM WHEN DMBO_C=1 THEN DMBO_GB_NM ELSE NULL END DMBO_GB_NM,
+	PSN_N,PSN_C,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN PSN_NUM WHEN PSN_C=1 THEN PSN_NUM ELSE NULL END PSN_NUM,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN DMGD_PSN_NM WHEN PSN_C=1 THEN DMGD_PSN_NM ELSE NULL END DMGD_PSN_NM,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN JIGUB_AMT WHEN PSN_C=1 THEN JIGUB_AMT ELSE NULL END JIGUB_AMT,
+	PRVD_NM, JIGUB_AMT1, 
+	JIBU_N,JIBU_C,
+	CASE WHEN JIBU_C> 1 AND JIBU_N = ROUND(JIBU_C/2) THEN JIBU WHEN JIBU_C=1 THEN JIBU ELSE NULL END JIBU,
+	PAT_N, PAT_C,
+	CASE WHEN PAT_C> 1 AND PAT_N = ROUND(PAT_C/2) THEN PAT WHEN PAT_C=1 THEN PAT ELSE NULL END PAT,
+	ID_N, ID_C,
+	CASE WHEN ID_C> 1 AND ID_N = ROUND(ID_C/2) THEN ID WHEN ID_C=1 THEN ID ELSE NULL END ID,
+	CASE WHEN ID_C> 1 AND ID_N = ROUND(ID_C/2) THEN JIBU_TEL WHEN ID_C=1 THEN JIBU_TEL ELSE NULL END JIBU_TEL
+FROM(
+	SELECT
+		ROW_NUMBER()OVER(PARTITION BY gb ORDER BY gb, rnum) GB_N,
+		COUNT(*)OVER(PARTITION BY gb ORDER BY gb) GB_C,
+		ROW_NUMBER()OVER(PARTITION BY dmbo_gb ORDER BY rnum) DMBO_N,
+		COUNT(*)OVER(PARTITION BY dmbo_gb ORDER BY dmbo_gb) DMBO_C,
+		ROW_NUMBER()OVER(PARTITION BY psn_num ORDER BY psn_num, rnum) PSN_N,
+		COUNT(*)OVER(PARTITION BY psn_num ORDER BY psn_num) PSN_C,
+		ROW_NUMBER()OVER(PARTITION BY jibu ORDER BY jibu, rnum) JIBU_N,
+		COUNT(*)OVER(PARTITION BY jibu ORDER BY jibu) JIBU_C,
+		ROW_NUMBER()OVER(PARTITION BY pat ORDER BY pat, rnum) PAT_N,
+		COUNT(*)OVER(PARTITION BY pat ORDER BY pat) PAT_C,
+		ROW_NUMBER()OVER(PARTITION BY id ORDER BY id, rnum) ID_N,
+		COUNT(*)OVER(PARTITION BY id ORDER BY id) ID_C,
+		A.*
+	FROM(
+		SELECT rownum rnum,
+			decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		    ,a.acdnt_no  acdnt_no
+		    ,a.dmbo_gb				                     dmbo_gb
+		    ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		    ,a.dmgd_psn_num                                                  psn_num
+		    ,rpad( substr(a.DMGD_PSN_NM , 0, length(a.DMGD_PSN_NM )-(length(a.DMGD_PSN_NM )-3)) , length(a.DMGD_PSN_NM)-1,'*') dmgd_psn_nm
+		    ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+		    ,rpad( substr(a.PRVD_NM, 0, length(a.PRVD_NM)-(length(a.PRVD_NM)-1)) , lengthb(a.PRVD_NM)-2,'*') prvd_nm
+		    ,a.PRVD_TOT_AMT                                                 jigub_amt1
+			,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+			,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+			,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+			,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		FROM(	select a.acdnt_no
+					      ,a.dmbo_gb
+					      ,a.dmgd_psn_num
+					      ,a.REQSIT_SERNO
+		            ,decode(a.CAR_ID, null, a.ETC_DMGD_NM, a.CAR_ID)  DMGD_PSN_NM
+					      ,b.DCD_CNT
+					      ,b.PRVD_NM
+					      ,b.PRVD_TOT_AMT
+					      ,nvl((select x.alow_yn from cpac33 x
+					         where x.acdnt_no = a.acdnt_no
+					           and x.dmbo_gb   = a.dmbo_gb
+					           and x.dmgd_psn_num  = a.dmgd_psn_num
+					           and x.DCD_CNT = b.DCD_CNT),'0') gb
+		
+					  from cpab01 a, cpac08 b
+					 where a.acdnt_no     =  $P{acdnt_no}
+					   and a.dmbo_gb      =  '2' 
+					   and a.acdnt_no = b.acdnt_no(+)
+					   and b.dmbo_gb(+) = a.dmbo_gb
+					   and b.dmgd_psn_num(+) = a.dmgd_psn_num
+					   and b.RTN_CD (+) = '1'
+		       ) a
+		    where a.gb <> '3'  
+		    order by psn_num
+) A
+) 
+ORDER BY rnum]]>
+		</queryString>
+		<field name="GB_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB_N"/>
+		</field>
+		<field name="GB_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB_C"/>
+		</field>
+		<field name="GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB"/>
+		</field>
+		<field name="ACDNT_NO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ACDNT_NO"/>
+			<property name="com.jaspersoft.studio.field.label" value="ACDNT_NO"/>
+		</field>
+		<field name="DMBO_GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB"/>
+		</field>
+		<field name="RNUM" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="RNUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="RNUM"/>
+		</field>
+		<field name="DMBO_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_N"/>
+		</field>
+		<field name="DMBO_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_C"/>
+		</field>
+		<field name="DMBO_GB_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB_NM"/>
+		</field>
+		<field name="PSN_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_N"/>
+		</field>
+		<field name="PSN_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_C"/>
+		</field>
+		<field name="PSN_NUM" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_NUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_NUM"/>
+		</field>
+		<field name="DMGD_PSN_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMGD_PSN_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMGD_PSN_NM"/>
+		</field>
+		<field name="JIGUB_AMT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT"/>
+		</field>
+		<field name="PRVD_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRVD_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRVD_NM"/>
+		</field>
+		<field name="JIGUB_AMT1" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT1"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT1"/>
+		</field>
+		<field name="JIBU_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_N"/>
+		</field>
+		<field name="JIBU_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_C"/>
+		</field>
+		<field name="JIBU" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU"/>
+		</field>
+		<field name="PAT_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT_N"/>
+		</field>
+		<field name="PAT_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT_C"/>
+		</field>
+		<field name="PAT" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT"/>
+		</field>
+		<field name="ID_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID_N"/>
+		</field>
+		<field name="ID_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID_C"/>
+		</field>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="JIBU_TEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_TEL"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_TEL"/>
+		</field>
+		<group name="Group1"/>
+	</subDataset>
+	<subDataset name="report2" uuid="22df0828-f3f1-4c84-ba85-fb4be6418148">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="acdnt_no" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{acdnt_no}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ORACLE_REF_CURSOR" class="interface java.sql.ResultSet" isForPrompting="false"/>
+		<queryString language="plsql">
+			<![CDATA[select  decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') GB
+		       ,a.acdnt_no                            ACDNT_NO
+		       ,a.dmbo_gb				             DMBO_GB
+		       ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    DMBO_GB_NM
+			   ,to_char(a.dmgd_psn_num)               PSN_NUM
+			   ,rpad( substr(a.psn_nm , 0, length(a.psn_nm )-(length(a.psn_nm )-1)), (length(a.psn_nm)+2),'*') dmgd_psn_nm
+			   ,to_char(a.dcd_amt)                    JIGUB_AMT
+			   ,to_char(decode(a.DEATH_GB, '1', a.hu_amt2, 0)) JIGUB_AMT1
+			   ,to_char(case when a.DEATH_GB = '0' and OBSTCL_GRD = '0' then a.dcd_amt else  a.bu_amt end) JIGUB_AMT2
+			   ,to_char(case when a.DEATH_GB = '0' and OBSTCL_GRD = '1' then a.hu_amt2 else 0 end) JIGUB_AMT3
+			   ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  JIBU
+			   ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  PAT
+			   ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  ID
+			   ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) JIBU_TEL
+		  from (select a.acdnt_no
+			          ,a.dmbo_gb
+			          ,a.dmgd_psn_num
+			          ,a.REQSIT_SERNO
+				      ,decode(trim(a.DEATH_GB), '1', '1', '2' ,'1', '0') DEATH_GB
+				      ,decode(trim(a.OBSTCL_GRD), null, '0', '1') OBSTCL_GRD
+				      ,a.DMGD_PSN_NM psn_nm
+				      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) dcd_amt
+				      ,nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) hu_amt
+				      ,f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) os_amt
+				      ,(nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) + f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				         ) bu_amt
+				      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				       - (nvl((select sum(nvl(x.FLT_AFT_AMT,0)) from cpac03 x
+				         where x.acdnt_no = a.acdnt_no and x.dmbo_gb = a.dmbo_gb
+				         and x.AJUST_ITM_CODE = '202' and x.dmgd_psn_num = a.dmgd_psn_num),0) + f_cp_os_dcd_amt('24', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0)
+				         ) hu_amt2
+				  from cpab11 a
+				 where a.acdnt_no = $P{acdnt_no}
+				   and a.dmbo_gb = '1'
+			 ) a
+			 order by a.dmgd_psn_num]]>
+		</queryString>
+		<field name="GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB"/>
+		</field>
+		<field name="ACDNT_NO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ACDNT_NO"/>
+			<property name="com.jaspersoft.studio.field.label" value="ACDNT_NO"/>
+		</field>
+		<field name="DMBO_GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB"/>
+		</field>
+		<field name="DMBO_GB_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB_NM"/>
+		</field>
+		<field name="PSN_NUM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_NUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_NUM"/>
+		</field>
+		<field name="DMGD_PSN_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMGD_PSN_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMGD_PSN_NM"/>
+		</field>
+		<field name="JIGUB_AMT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT"/>
+		</field>
+		<field name="JIGUB_AMT1" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT1"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT1"/>
+		</field>
+		<field name="JIGUB_AMT2" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT2"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT2"/>
+		</field>
+		<field name="JIGUB_AMT3" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT3"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT3"/>
+		</field>
+		<field name="JIBU" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU"/>
+		</field>
+		<field name="PAT" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT"/>
+		</field>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="JIBU_TEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_TEL"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_TEL"/>
+		</field>
+	</subDataset>
+	<subDataset name="report3" uuid="f9dec560-e3bf-4e4f-8a38-e810f6868cc8">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="339"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="652"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+		<parameter name="acdnt_no" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{acdnt_no}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ORACLE_REF_CURSOR" class="interface java.sql.ResultSet" isForPrompting="false"/>
+		<queryString language="plsql">
+			<![CDATA[SELECT 
+	GB_N,GB_C,
+	CASE WHEN GB_C> 1 AND GB_N = ROUND(GB_C/2) THEN GB WHEN GB_C=1 THEN GB ELSE NULL END GB, 
+	ACDNT_NO, DMBO_GB,
+	rnum,
+	DMBO_N, DMBO_C,
+	CASE WHEN DMBO_C> 1 AND DMBO_N = ROUND(DMBO_C/2) THEN DMBO_GB_NM WHEN DMBO_C=1 THEN DMBO_GB_NM ELSE NULL END DMBO_GB_NM,
+	PSN_N,PSN_C,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN PSN_NUM WHEN PSN_C=1 THEN PSN_NUM ELSE NULL END PSN_NUM,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN DMGD_PSN_NM WHEN PSN_C=1 THEN DMGD_PSN_NM ELSE NULL END DMGD_PSN_NM,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN JIGUB_AMT WHEN PSN_C=1 THEN JIGUB_AMT ELSE NULL END JIGUB_AMT,
+	PRVD_NM, JIGUB_AMT1, 
+	JIBU_N,JIBU_C,
+	CASE WHEN JIBU_C> 1 AND JIBU_N = ROUND(JIBU_C/2) THEN JIBU WHEN JIBU_C=1 THEN JIBU ELSE NULL END JIBU,
+	PAT_N, PAT_C,
+	CASE WHEN PAT_C> 1 AND PAT_N = ROUND(PAT_C/2) THEN PAT WHEN PAT_C=1 THEN PAT ELSE NULL END PAT,
+	ID_N, ID_C,
+	CASE WHEN ID_C> 1 AND ID_N = ROUND(ID_C/2) THEN ID WHEN ID_C=1 THEN ID ELSE NULL END ID,
+	CASE WHEN ID_C> 1 AND ID_N = ROUND(ID_C/2) THEN JIBU_TEL WHEN ID_C=1 THEN JIBU_TEL ELSE NULL END JIBU_TEL
+FROM(
+	SELECT
+		ROW_NUMBER()OVER(PARTITION BY gb ORDER BY gb, rnum) GB_N,
+		COUNT(*)OVER(PARTITION BY gb ORDER BY gb) GB_C,
+		ROW_NUMBER()OVER(PARTITION BY dmbo_gb ORDER BY rnum) DMBO_N,
+		COUNT(*)OVER(PARTITION BY dmbo_gb ORDER BY dmbo_gb) DMBO_C,
+		ROW_NUMBER()OVER(PARTITION BY psn_num ORDER BY psn_num, rnum) PSN_N,
+		COUNT(*)OVER(PARTITION BY psn_num ORDER BY psn_num) PSN_C,
+		ROW_NUMBER()OVER(PARTITION BY jibu ORDER BY jibu, rnum) JIBU_N,
+		COUNT(*)OVER(PARTITION BY jibu ORDER BY jibu) JIBU_C,
+		ROW_NUMBER()OVER(PARTITION BY pat ORDER BY pat, rnum) PAT_N,
+		COUNT(*)OVER(PARTITION BY pat ORDER BY pat) PAT_C,
+		ROW_NUMBER()OVER(PARTITION BY id ORDER BY id, rnum) ID_N,
+		COUNT(*)OVER(PARTITION BY id ORDER BY id) ID_C,
+		A.*
+	FROM(
+		SELECT rownum rnum,
+			decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		    ,a.acdnt_no  acdnt_no
+		    ,a.dmbo_gb				                     dmbo_gb
+		    ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		    ,a.dmgd_psn_num                                                  psn_num
+		    ,rpad( substr(a.DMGD_PSN_NM , 0, length(a.DMGD_PSN_NM )-(length(a.DMGD_PSN_NM )-3)) , length(a.DMGD_PSN_NM)-1,'*') dmgd_psn_nm
+		    ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+		    ,rpad( substr(a.PRVD_NM, 0, length(a.PRVD_NM)-(length(a.PRVD_NM)-1)) , lengthb(a.PRVD_NM)-2,'*') prvd_nm
+		    ,a.PRVD_TOT_AMT                                                 jigub_amt1
+			,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+			,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+			,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+			,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		FROM(	select a.acdnt_no
+					      ,a.dmbo_gb
+					      ,a.dmgd_psn_num
+					      ,a.REQSIT_SERNO
+		            ,decode(a.CAR_ID, null, a.ETC_DMGD_NM, a.CAR_ID)  DMGD_PSN_NM
+					      ,b.DCD_CNT
+					      ,b.PRVD_NM
+					      ,b.PRVD_TOT_AMT
+					      ,nvl((select x.alow_yn from cpac33 x
+					         where x.acdnt_no = a.acdnt_no
+					           and x.dmbo_gb   = a.dmbo_gb
+					           and x.dmgd_psn_num  = a.dmgd_psn_num
+					           and x.DCD_CNT = b.DCD_CNT),'0') gb
+		
+					  from cpab01 a, cpac08 b
+					 where a.acdnt_no     =  $P{acdnt_no}
+					   and a.dmbo_gb      =  '3' 
+					   and a.acdnt_no = b.acdnt_no(+)
+					   and b.dmbo_gb(+) = a.dmbo_gb
+					   and b.dmgd_psn_num(+) = a.dmgd_psn_num
+					   and b.RTN_CD (+) = '1'
+		       ) a
+		    where a.gb <> '3'  
+		    order by psn_num
+) A
+) 
+ORDER BY rnum]]>
+		</queryString>
+		<field name="GB_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB_N"/>
+		</field>
+		<field name="GB_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB_C"/>
+		</field>
+		<field name="GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB"/>
+		</field>
+		<field name="ACDNT_NO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ACDNT_NO"/>
+			<property name="com.jaspersoft.studio.field.label" value="ACDNT_NO"/>
+		</field>
+		<field name="DMBO_GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB"/>
+		</field>
+		<field name="RNUM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="RNUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="RNUM"/>
+		</field>
+		<field name="DMBO_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_N"/>
+		</field>
+		<field name="DMBO_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_C"/>
+		</field>
+		<field name="DMBO_GB_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB_NM"/>
+		</field>
+		<field name="PSN_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_N"/>
+		</field>
+		<field name="PSN_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_C"/>
+		</field>
+		<field name="PSN_NUM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_NUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_NUM"/>
+		</field>
+		<field name="DMGD_PSN_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMGD_PSN_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMGD_PSN_NM"/>
+		</field>
+		<field name="JIGUB_AMT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT"/>
+		</field>
+		<field name="PRVD_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRVD_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRVD_NM"/>
+		</field>
+		<field name="JIGUB_AMT1" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT1"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT1"/>
+		</field>
+		<field name="JIBU_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_N"/>
+		</field>
+		<field name="JIBU_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_C"/>
+		</field>
+		<field name="JIBU" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU"/>
+		</field>
+		<field name="PAT_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT_N"/>
+		</field>
+		<field name="PAT_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT_C"/>
+		</field>
+		<field name="PAT" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT"/>
+		</field>
+		<field name="ID_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID_N"/>
+		</field>
+		<field name="ID_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID_C"/>
+		</field>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="JIBU_TEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_TEL"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_TEL"/>
+		</field>
+		<group name="Group1"/>
+	</subDataset>
+	<subDataset name="report4" uuid="f9dec560-e3bf-4e4f-8a38-e810f6868cc8">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="339"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="652"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+		<parameter name="acdnt_no" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{acdnt_no}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ORACLE_REF_CURSOR" class="interface java.sql.ResultSet" isForPrompting="false"/>
+		<queryString language="plsql">
+			<![CDATA[SELECT 
+	GB_N,GB_C,
+	CASE WHEN GB_C> 1 AND GB_N = ROUND(GB_C/2) THEN GB WHEN GB_C=1 THEN GB ELSE NULL END GB, 
+	ACDNT_NO, DMBO_GB,
+	rnum,
+	DMBO_N, DMBO_C,
+	CASE WHEN DMBO_C> 1 AND DMBO_N = ROUND(DMBO_C/2) THEN DMBO_GB_NM WHEN DMBO_C=1 THEN DMBO_GB_NM ELSE NULL END DMBO_GB_NM,
+	PSN_N,PSN_C,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN PSN_NUM WHEN PSN_C=1 THEN PSN_NUM ELSE NULL END PSN_NUM,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN DMGD_PSN_NM WHEN PSN_C=1 THEN DMGD_PSN_NM ELSE NULL END DMGD_PSN_NM,
+	CASE WHEN PSN_C> 1 AND PSN_N = ROUND(PSN_C/2) THEN JIGUB_AMT WHEN PSN_C=1 THEN JIGUB_AMT ELSE NULL END JIGUB_AMT,
+	PRVD_NM, JIGUB_AMT1, 
+	JIBU_N,JIBU_C,
+	CASE WHEN JIBU_C> 1 AND JIBU_N = ROUND(JIBU_C/2) THEN JIBU WHEN JIBU_C=1 THEN JIBU ELSE NULL END JIBU,
+	PAT_N, PAT_C,
+	CASE WHEN PAT_C> 1 AND PAT_N = ROUND(PAT_C/2) THEN PAT WHEN PAT_C=1 THEN PAT ELSE NULL END PAT,
+	ID_N, ID_C,
+	CASE WHEN ID_C> 1 AND ID_N = ROUND(ID_C/2) THEN ID WHEN ID_C=1 THEN ID ELSE NULL END ID,
+	CASE WHEN ID_C> 1 AND ID_N = ROUND(ID_C/2) THEN JIBU_TEL WHEN ID_C=1 THEN JIBU_TEL ELSE NULL END JIBU_TEL
+FROM(
+	SELECT
+		ROW_NUMBER()OVER(PARTITION BY gb ORDER BY gb, rnum) GB_N,
+		COUNT(*)OVER(PARTITION BY gb ORDER BY gb) GB_C,
+		ROW_NUMBER()OVER(PARTITION BY dmbo_gb ORDER BY rnum) DMBO_N,
+		COUNT(*)OVER(PARTITION BY dmbo_gb ORDER BY dmbo_gb) DMBO_C,
+		ROW_NUMBER()OVER(PARTITION BY psn_num ORDER BY psn_num, rnum) PSN_N,
+		COUNT(*)OVER(PARTITION BY psn_num ORDER BY psn_num) PSN_C,
+		ROW_NUMBER()OVER(PARTITION BY jibu ORDER BY jibu, rnum) JIBU_N,
+		COUNT(*)OVER(PARTITION BY jibu ORDER BY jibu) JIBU_C,
+		ROW_NUMBER()OVER(PARTITION BY pat ORDER BY pat, rnum) PAT_N,
+		COUNT(*)OVER(PARTITION BY pat ORDER BY pat) PAT_C,
+		ROW_NUMBER()OVER(PARTITION BY id ORDER BY id, rnum) ID_N,
+		COUNT(*)OVER(PARTITION BY id ORDER BY id) ID_C,
+		A.*
+	FROM(
+		SELECT rownum rnum,
+			decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		    ,a.acdnt_no  acdnt_no
+		    ,a.dmbo_gb				                     dmbo_gb
+		    ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		    ,a.dmgd_psn_num                                                  psn_num
+		    ,rpad( substr(a.DMGD_PSN_NM , 0, length(a.DMGD_PSN_NM )-(length(a.DMGD_PSN_NM )-2)) , length(a.DMGD_PSN_NM)-1,'*') dmgd_psn_nm
+		    ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+		    ,rpad( substr(a.PRVD_NM, 0, length(a.PRVD_NM)-(length(a.PRVD_NM)-1)) , length(a.PRVD_NM),'*') prvd_nm
+		    ,a.PRVD_TOT_AMT                                                 jigub_amt1
+			,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+			,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+			,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+			,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		FROM(	select a.acdnt_no
+					      ,a.dmbo_gb
+					      ,a.dmgd_psn_num
+					      ,a.REQSIT_SERNO
+		            ,decode(a.CAR_ID, null, a.ETC_DMGD_NM, a.CAR_ID)  DMGD_PSN_NM
+					      ,b.DCD_CNT
+					      ,b.PRVD_NM
+					      ,b.PRVD_TOT_AMT
+					      ,nvl((select x.alow_yn from cpac33 x
+					         where x.acdnt_no = a.acdnt_no
+					           and x.dmbo_gb   = a.dmbo_gb
+					           and x.dmgd_psn_num  = a.dmgd_psn_num
+					           and x.DCD_CNT = b.DCD_CNT),'0') gb
+		
+					  from cpab01 a, cpac08 b
+					 where a.acdnt_no     =  $P{acdnt_no}
+					   and a.dmbo_gb      =  '5' 
+					   and a.acdnt_no = b.acdnt_no(+)
+					   and b.dmbo_gb(+) = a.dmbo_gb
+					   and b.dmgd_psn_num(+) = a.dmgd_psn_num
+					   and b.RTN_CD (+) = '1'
+		       ) a
+		    where a.gb <> '3'  
+		    order by psn_num
+) A
+) 
+ORDER BY rnum]]>
+		</queryString>
+		<field name="GB_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB_N"/>
+		</field>
+		<field name="GB_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB_C"/>
+		</field>
+		<field name="GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB"/>
+		</field>
+		<field name="ACDNT_NO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ACDNT_NO"/>
+			<property name="com.jaspersoft.studio.field.label" value="ACDNT_NO"/>
+		</field>
+		<field name="DMBO_GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB"/>
+		</field>
+		<field name="RNUM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="RNUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="RNUM"/>
+		</field>
+		<field name="DMBO_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_N"/>
+		</field>
+		<field name="DMBO_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_C"/>
+		</field>
+		<field name="DMBO_GB_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB_NM"/>
+		</field>
+		<field name="PSN_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_N"/>
+		</field>
+		<field name="PSN_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_C"/>
+		</field>
+		<field name="PSN_NUM" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_NUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_NUM"/>
+		</field>
+		<field name="DMGD_PSN_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMGD_PSN_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMGD_PSN_NM"/>
+		</field>
+		<field name="JIGUB_AMT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT"/>
+		</field>
+		<field name="PRVD_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRVD_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRVD_NM"/>
+		</field>
+		<field name="JIGUB_AMT1" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT1"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT1"/>
+		</field>
+		<field name="JIBU_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_N"/>
+		</field>
+		<field name="JIBU_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_C"/>
+		</field>
+		<field name="JIBU" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU"/>
+		</field>
+		<field name="PAT_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT_N"/>
+		</field>
+		<field name="PAT_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT_C"/>
+		</field>
+		<field name="PAT" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT"/>
+		</field>
+		<field name="ID_N" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID_N"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID_N"/>
+		</field>
+		<field name="ID_C" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID_C"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID_C"/>
+		</field>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="JIBU_TEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_TEL"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_TEL"/>
+		</field>
+		<group name="Group1"/>
+	</subDataset>
+	<subDataset name="report5" uuid="2c8ee9d6-3e7f-4a74-a286-3f576ea8ef79">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="339"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="652"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+		<parameter name="acdnt_no" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{acdnt_no}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ORACLE_REF_CURSOR" class="interface java.sql.ResultSet" isForPrompting="false"/>
+		<queryString language="plsql">
+			<![CDATA[select decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,a.DMGD_PSN_NM                                                   dmgd_psn_nm
+		
+		      ,decode(a.dmgd_psn_num,  0, nvl((select sum(x.PRVD_TOT_AMT)
+		                                     from cpac08 x
+		                                    where x.acdnt_no = a.acdnt_no
+		                                      and x.dmbo_gb = a.dmbo_gb
+		                                      and x.dmgd_psn_num = a.dmgd_psn_num
+		                                      and x.rtn_cd = 1),0 )
+		                                 ,  0 )   jigub_amt
+		      ,decode(a.dmgd_psn_num,  0,  0
+		                                ,  nvl((select sum(x.PRVD_TOT_AMT)
+				                                     from cpac08 x
+				                                    where x.acdnt_no = a.acdnt_no
+				                                      and x.dmbo_gb = a.dmbo_gb
+				                                      and x.dmgd_psn_num = a.dmgd_psn_num
+				                                      and x.rtn_cd = 1),0 )
+		                                 )  jigub_amt1
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+
+						  from cpab11 a
+						 where a.acdnt_no = $P{acdnt_no}
+						   and a.dmbo_gb = '7']]>
+		</queryString>
+		<field name="GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB"/>
+		</field>
+		<field name="ACDNT_NO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ACDNT_NO"/>
+			<property name="com.jaspersoft.studio.field.label" value="ACDNT_NO"/>
+		</field>
+		<field name="DMBO_GB_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB_NM"/>
+		</field>
+		<field name="PSN_NUM" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_NUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_NUM"/>
+		</field>
+		<field name="DMGD_PSN_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMGD_PSN_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMGD_PSN_NM"/>
+		</field>
+		<field name="JIGUB_AMT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT"/>
+		</field>
+		<field name="PRVD_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRVD_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRVD_NM"/>
+		</field>
+		<field name="JIGUB_AMT1" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT1"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT1"/>
+		</field>
+		<field name="JIBU" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU"/>
+		</field>
+		<field name="PAT" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT"/>
+		</field>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="JIBU_TEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_TEL"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_TEL"/>
+		</field>
+		<group name="Group1"/>
+	</subDataset>
+	<subDataset name="report6" uuid="2c8ee9d6-3e7f-4a74-a286-3f576ea8ef79">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="339"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="652"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+		<parameter name="acdnt_no" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[$P{acdnt_no}]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ORACLE_REF_CURSOR" class="interface java.sql.ResultSet" isForPrompting="false"/>
+		<queryString language="plsql">
+			<![CDATA[select  decode((F_CP_ACDNT_STAT('2',  A.acdnt_no, A.dmbo_gb, A.REQSIT_SERNO)), '1', '접수', '2', '조사', '3', '등록', '4', '종결', '5', '면책', '6', '임의') gb
+		      ,a.acdnt_no  acdnt_no
+		      ,a.dmbo_gb				                     dmbo_gb
+		      ,decode(a.dmbo_gb,'1','대인', '2','대물', '3','차량', '4','종사자', '5','적재물', '7','법률특약', '8','자기신체', '  ')    dmbo_gb_nm
+		      ,a.dmgd_psn_num                                                  psn_num
+		      ,a.DMGD_PSN_NM                                                   dmgd_psn_nm
+		      ,f_cp_os_dcd_amt('20', a.acdnt_no, a.dmbo_gb, a.dmgd_psn_num, 0) jigub_amt
+				  ,f_cp_damdang('7','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  jibu
+				  ,f_cp_damdang('6','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  pat
+				  ,f_cp_damdang('1','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)  id
+				  ,f_sawon_hpno(f_cp_damdang('2','99991231', A.acdnt_no, A.dmbo_gb, A.dmgd_psn_num)) jibu_tel
+		  from cpab11 a
+		 where a.acdnt_no = $P{acdnt_no}
+		   and a.dmbo_gb  = '8'
+		   and a.dmgd_psn_num = 1]]>
+		</queryString>
+		<field name="GB" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GB"/>
+			<property name="com.jaspersoft.studio.field.label" value="GB"/>
+		</field>
+		<field name="ACDNT_NO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ACDNT_NO"/>
+			<property name="com.jaspersoft.studio.field.label" value="ACDNT_NO"/>
+		</field>
+		<field name="DMBO_GB_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMBO_GB_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMBO_GB_NM"/>
+		</field>
+		<field name="PSN_NUM" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="PSN_NUM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PSN_NUM"/>
+		</field>
+		<field name="DMGD_PSN_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="DMGD_PSN_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="DMGD_PSN_NM"/>
+		</field>
+		<field name="JIGUB_AMT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT"/>
+		</field>
+		<field name="PRVD_NM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRVD_NM"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRVD_NM"/>
+		</field>
+		<field name="JIGUB_AMT1" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="JIGUB_AMT1"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIGUB_AMT1"/>
+		</field>
+		<field name="JIBU" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU"/>
+		</field>
+		<field name="PAT" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PAT"/>
+			<property name="com.jaspersoft.studio.field.label" value="PAT"/>
+		</field>
+		<field name="ID" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+		</field>
+		<field name="JIBU_TEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JIBU_TEL"/>
+			<property name="com.jaspersoft.studio.field.label" value="JIBU_TEL"/>
+		</field>
+		<group name="Group1"/>
+	</subDataset>
+	<parameter name="acdnt_no" class="java.lang.String"/>
+	<parameter name="ORACLE_REF_CURSOR" class="interface java.sql.ResultSet" isForPrompting="false"/>
+	<parameter name="report1" class="java.lang.String"/>
+	<parameter name="report2" class="java.lang.String"/>
+	<parameter name="report3" class="java.lang.String"/>
+	<parameter name="report4" class="java.lang.String"/>
+	<parameter name="report5" class="java.lang.String"/>
+	<parameter name="report6" class="java.lang.String"/>
+	<parameter name="kta_logo" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[select a.acdnt_no
+	      ,b.CAR_NO
+	      ,decode((select x.DRVR_NM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.DRVR_NM ,
+	               (select x.DRVR_NM from cpaa08 x where x.acdnt_no = a.acdnt_no)) DRVR_NM    /* 운전자 */	
+		  ,substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 1, 4) || '.' || substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 5, 2) || '.' || substr(decode((select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_YMD ,
+	       (select x.ACDNT_YMD from cpaa08 x where x.acdnt_no = a.acdnt_no)), 7, 2) || ' ' || substr(decode((select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_TM ,
+	       (select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no)),  1, 2) || ':' || substr(decode((select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_TM ,
+	       (select x.ACDNT_TM from cpaa08 x where x.acdnt_no = a.acdnt_no)),  3, 2) ACDNT_DATE
+	
+	      ,decode((select f_zip_nm(x.ACDNT_PLACE_ZIP_CODE) from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_PLACE_ZIP_CODE ,
+	               (select f_zip_nm(x.ACDNT_PLACE_ZIP_CODE) from cpaa08 x where x.acdnt_no = a.acdnt_no)) ||' '||
+	
+	      decode((select x.ACDNT_PLACE from cpaa08 x where x.acdnt_no = a.acdnt_no), null ,a.ACDNT_PLACE ,
+	               (select x.ACDNT_PLACE from cpaa08 x where x.acdnt_no = a.acdnt_no)) ACDNT_PLACE /* 사고장소2  */
+	      ,to_char(c.acdnt_cause_points) acdnt_cause_points
+	      ,decode(f_ex_trick(c.acdnt_no), '0', 'N', 'Y') trick
+	      ,to_char(c.acdnt_comment_points) acdnt_comment_points
+	
+	  from cpaa01 a, cpaa04 b, ctex21 c
+	 where a.acdnt_no = $P{acdnt_no}
+	   and a.acdnt_no = b.acdnt_no
+	   and a.acdnt_no = c.acdnt_no
+	   and c.acdnt_points_seq = (select max(acdnt_points_seq) from ctex21 where acdnt_no = $P{acdnt_no})]]>
+	</queryString>
+	<field name="ACDNT_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ACDNT_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="ACDNT_NO"/>
+	</field>
+	<field name="CAR_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CAR_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="CAR_NO"/>
+	</field>
+	<field name="DRVR_NM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DRVR_NM"/>
+		<property name="com.jaspersoft.studio.field.label" value="DRVR_NM"/>
+	</field>
+	<field name="ACDNT_DATE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ACDNT_DATE"/>
+		<property name="com.jaspersoft.studio.field.label" value="ACDNT_DATE"/>
+	</field>
+	<field name="ACDNT_PLACE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ACDNT_PLACE"/>
+		<property name="com.jaspersoft.studio.field.label" value="ACDNT_PLACE"/>
+	</field>
+	<field name="ACDNT_CAUSE_POINTS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ACDNT_CAUSE_POINTS"/>
+		<property name="com.jaspersoft.studio.field.label" value="ACDNT_CAUSE_POINTS"/>
+	</field>
+	<field name="TRICK" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TRICK"/>
+		<property name="com.jaspersoft.studio.field.label" value="TRICK"/>
+	</field>
+	<field name="ACDNT_COMMENT_POINTS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ACDNT_COMMENT_POINTS"/>
+		<property name="com.jaspersoft.studio.field.label" value="ACDNT_COMMENT_POINTS"/>
+	</field>
+	<detail>
+		<band height="106">
+			<rectangle>
+				<reportElement x="23" y="75" width="764" height="19" uuid="97575eb6-82e1-4c58-9cef-adef559cefb9"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="260" y="10" width="280" height="26" backcolor="#999999" uuid="b11c7263-ccd6-4c63-ad5e-eec582376ea0"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="23" y="56" width="764" height="19" backcolor="#999999" uuid="be2b6d89-2c09-4334-9506-9a56a7c2dc85"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="24" y="76" width="80" height="17" uuid="440e3f6d-1216-4c4f-be20-e94e036edea3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACDNT_NO}.substring( 0, 4 ) + "-" + $F{ACDNT_NO}.substring(4)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="76" width="85" height="17" uuid="e043ca96-3a19-49cc-bad4-8ab27f0130f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAR_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="376" y="76" width="411" height="17" uuid="f62a2de1-2a9a-45ed-85a2-75986803217e">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACDNT_PLACE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="260" y="7" width="280" height="26" forecolor="#FFFFFF" backcolor="#999999" uuid="5c125faa-1315-4a03-9dd7-86af7781e6a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="20"/>
+				</textElement>
+				<text><![CDATA[보상정보조회]]></text>
+			</staticText>
+			<line>
+				<reportElement x="23" y="75" width="764" height="1" uuid="33d54a5f-2aad-4710-b3b2-fcbfc3b7c48d"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="191" y="76" width="87" height="17" uuid="52ba4129-1bda-4edf-82f4-04b8a06d187a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DRVR_NM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="76" width="96" height="17" uuid="86221e38-532b-41e1-9f9f-05990516fd32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACDNT_DATE}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="104" y="56" width="1" height="38" uuid="49fcce05-709f-46cd-9842-21593287ed82">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="190" y="56" width="1" height="38" uuid="89f5275e-c965-4d48-b6f4-eb84928da4e3">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="375" y="56" width="1" height="38" uuid="459af859-7f41-4d23-a34b-54154d3bf2c8">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="278" y="56" width="1" height="38" uuid="42e1ad0d-d7fc-42e2-a541-2116db65c820">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="24" y="57" width="80" height="18" uuid="125f91af-9c2b-4f8a-b158-ad0cf4331ad7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" isBold="true"/>
+				</textElement>
+				<text><![CDATA[사고번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="57" width="85" height="18" uuid="08a9f729-c74f-4b88-974a-1f79f2013014">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" isBold="true"/>
+				</textElement>
+				<text><![CDATA[차량번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="57" width="87" height="17" uuid="23ab762d-955e-482d-8639-86de32acd6d7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" isBold="true"/>
+				</textElement>
+				<text><![CDATA[운전자]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="57" width="96" height="17" uuid="7b659436-d57f-4cc4-8e3f-48329358523a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" isBold="true"/>
+				</textElement>
+				<text><![CDATA[사고일시]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="376" y="57" width="411" height="17" uuid="b1337aa1-e75b-4cf5-863c-eea6d7717670">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" isBold="true"/>
+				</textElement>
+				<text><![CDATA[사고장소]]></text>
+			</staticText>
+			<image>
+				<reportElement x="690" y="36" width="96" height="16" uuid="a2d472cc-e950-4997-bc74-08e44260e112"/>
+				<imageExpression><![CDATA[$P{kta_logo}]]></imageExpression>
+			</image>
+		</band>
+		<band height="76">
+			<printWhenExpression><![CDATA[$P{report1}.equals("Y")]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="23" y="25" width="764" height="47" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="10a43c47-9024-4709-99ea-cc1b4f06712a">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 2_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 2_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 2_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="report2" uuid="7c225795-ca41-4103-8af4-1e201b61c97b">
+						<datasetParameter name="acdnt_no">
+							<datasetParameterExpression><![CDATA[$P{acdnt_no}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="41" uuid="8df94518-de4c-4d4a-9fc5-3e1cfb4b076e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="41" height="27" uuid="a950b425-61d3-4fcf-87a9-b6cbd42547ea">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[구분]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement x="0" y="0" width="41" height="20" uuid="3b98fe0d-6bc1-402c-80ad-4c6a6dc56dfa"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="c26cb43d-72c5-4dc9-b3d5-148a51bb25da">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="27" uuid="542e78fc-468c-4815-9215-d52b16fe2e5a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[담보]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="20" uuid="82ce0c7b-626c-4444-b0de-4570710dee2f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMBO_GB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="1576cfd1-b7bf-4e6b-938c-bcb3a2020575">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="38" height="27" uuid="4c61eb79-5114-47a2-940b-f783c4d1d774"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[순번]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="20" uuid="7ee5a974-e785-4b39-ba63-f9f8e23348ed"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PSN_NUM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="62" uuid="7f7bbdca-baf9-4c57-9397-d94492836aaf">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="62" height="27" uuid="383a93a4-2327-47a0-8142-8fad39339106"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[피해자/물]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="62" height="20" uuid="cf4a7cda-1c95-4b67-8175-df0628f908ea"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMGD_PSN_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="4c23bb13-fa7d-428f-9e1e-b4aa6aa13850">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="27" uuid="23ebd2b2-48d7-4d91-8567-afbf100c97e6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[보상금액1]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField pattern="#,##0">
+								<reportElement x="0" y="0" width="80" height="20" uuid="94ba00bc-6f5f-498c-b3c1-b83a8ad46b96">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="559263e3-418e-4d53-bee1-0415717b26ff">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="27" uuid="e48b6008-0588-4832-b054-1662fb7b58cc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[사망공제금]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField pattern="#,##0">
+								<reportElement x="0" y="0" width="79" height="20" uuid="79ff98d4-ed6d-4ecc-83c6-65c3155f79af">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="71b4a2fd-cbb2-49b7-826c-f27b8422785b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="27" uuid="cdb69a3b-42ab-4693-bf12-330981cac3f7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[부상공제금]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField pattern="#,##0">
+								<reportElement x="0" y="0" width="79" height="20" uuid="eb49874e-c933-4845-b5e1-e3ea203b2142">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="cf80114a-04d4-4062-aabd-f0a93bbe3d55">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="79" height="27" uuid="594c7659-668c-4611-a80b-33af934f494b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[후유장애공제금]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField pattern="#,##0">
+								<reportElement x="0" y="0" width="79" height="20" uuid="0414ea45-f3d3-40b2-bcbc-256939cf80b6">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT3}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75" uuid="d9409032-ed1b-4573-89fb-73fbc45e1f87">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="75" height="27" uuid="915360e5-be31-408d-a178-0011c019c201"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[처리지부]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="75" height="20" uuid="d0d016b8-fd22-4c62-87bb-a8a7e4d2fdcf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIBU}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="d951d686-e386-48d5-9e34-6bc7be4bc43e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:columnHeader style="Table 2_CH" height="27" rowSpan="2">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="27" uuid="95ba9833-7a33-410f-a668-4844d6c017ca"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[담당부서]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="20" uuid="cc79e492-9617-4cb1-b0cc-e22f5aa953d4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PAT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="136" uuid="43c55eff-c4d5-4722-afe3-93ca719e20f9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:columnHeader style="Table 2_CH" height="15" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="136" height="15" uuid="30d0bbca-4fba-4abf-bc81-1d15e8b0b332"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+								</textElement>
+								<text><![CDATA[담당자]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:column width="52" uuid="d081bc8c-ee80-413a-b5a1-e0ec13190d65">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+							<jr:columnHeader style="Table 2_CH" height="12" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="52" height="12" uuid="ea6c2efe-bc12-45f9-88cc-3ad4430a89af"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[이름]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 2_TD" height="20">
+								<textField>
+									<reportElement x="0" y="0" width="52" height="20" uuid="0eef2d0f-18c5-4c99-9eae-886944bac65c"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="84" uuid="b5efe17b-70c1-4e18-b9c6-5e0146225775">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
+							<jr:columnHeader style="Table 2_CH" height="12" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<staticText>
+									<reportElement x="0" y="0" width="84" height="12" uuid="a13ba290-5ad6-40e0-b8bd-2b0515cd0cfc"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[연락처]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 2_TD" height="20">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<textField>
+									<reportElement x="0" y="0" width="84" height="20" uuid="422119ba-ee46-4734-b9ac-ab5ea40c28ec"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIBU_TEL}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="23" y="5" width="157" height="18" uuid="e8e1b569-e550-48da-acf4-06c0c9c78d32"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="12"/>
+				</textElement>
+				<text><![CDATA[■ 대인사고 상세정보]]></text>
+			</staticText>
+		</band>
+		<band height="79">
+			<printWhenExpression><![CDATA[$P{report2}.equals("Y")]]></printWhenExpression>
+			<componentElement>
+				<reportElement isPrintRepeatedValues="false" x="23" y="26" width="764" height="48" uuid="d344a63d-ea40-4ced-af29-7414c58d398f">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="report1" uuid="6fc9eafc-3d29-4b35-b515-1bf3251280a3">
+						<datasetParameter name="acdnt_no">
+							<datasetParameterExpression><![CDATA[$P{acdnt_no}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="41" uuid="51d8cd9b-562f-4363-9dae-fdd52ccd59f8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="41" height="28" backcolor="#FFFFFF" uuid="de9a10c9-11e6-4148-a253-6abd2456158d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[구분]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField isBlankWhenNull="true">
+								<reportElement style="gbBorder" stretchType="RelativeToBandHeight" x="0" y="0" width="41" height="20" uuid="3ec2c1ee-f6ba-4408-8752-2a08007063c4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="3dbdd513-a4de-471f-be9e-0300808d6116">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<staticText>
+									<reportElement x="0" y="0" width="40" height="28" uuid="4662edf9-eb19-41fc-bfcd-076e3b43dbae"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담보]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField isBlankWhenNull="true">
+								<reportElement style="dmboBorder" stretchType="RelativeToBandHeight" x="0" y="0" width="40" height="20" uuid="6f96cad1-a550-45f6-9202-a2c4f0f54c00"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMBO_GB_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="4a8b22b1-96e8-4d95-ad23-f6bda9301ada">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="38" height="28" uuid="d22e7940-7908-4e30-8b83-967a36bcbbec"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[순번]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement style="leftright" stretchType="RelativeToBandHeight" x="0" y="0" width="38" height="20" uuid="8228eaa5-85b9-44e3-ad11-c1bbe90f739c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PSN_NUM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="62" uuid="3fc7f32d-5f59-4e96-8fec-ba9cbd9c0bba">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="62" height="28" uuid="8fc4c5dd-460f-404f-84fe-d164094ef358"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[피해자/물]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement style="leftright" stretchType="RelativeToBandHeight" x="0" y="0" width="62" height="20" uuid="661b8a18-70b7-4ac9-bafd-fca149ae36d3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMGD_PSN_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="db86a230-35ea-4573-9f80-535fc1010346">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="115" height="28" uuid="0ac153c1-4c9e-4c0b-a815-5dae5740190d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[보상금액2]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField pattern="#,##0">
+								<reportElement style="leftright" stretchType="RelativeToBandHeight" x="0" y="0" width="115" height="20" uuid="6071219d-efe7-4e95-8924-e32ba06ae0b9">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="202" uuid="1702deec-d253-46d4-a358-3215f3fa3aab">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="202" height="15" uuid="51621ad8-6f14-4611-b010-a0740e5d1712"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[지급상세]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="102" uuid="574c50a1-52f6-4bbb-b83c-23ac10ed2d95">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<staticText>
+										<reportElement x="0" y="0" width="100" height="13" uuid="b441551b-2f5d-48c9-a7b5-ebc79abfbfe8"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[지급처명]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="20">
+								<textField pattern="#,##0" isBlankWhenNull="true">
+									<reportElement style="boarderAll" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="102" height="20" isPrintInFirstWholeBand="true" uuid="41d58a93-dc16-4ac5-8067-2bda7eeb4db9">
+										<property name="com.jaspersoft.layout.grid.rowspan" value="2"/>
+									</reportElement>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{PRVD_NM}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="100" uuid="f3031727-8114-456a-924a-cc2e7930caef">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="100" height="13" uuid="70e37a54-e182-41e6-8bff-b72da98f91aa"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[지급금액]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="20">
+								<textField pattern="#,##0" isBlankWhenNull="true">
+									<reportElement style="boarderAll" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="0" y="0" width="100" height="20" isPrintInFirstWholeBand="true" uuid="ce3fc119-1b25-4d13-af84-bea49d88c986">
+										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									</reportElement>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+										<paragraph rightIndent="3"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIGUB_AMT1}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:column width="75" uuid="4981abf0-471d-416a-a90e-56528c1c2695">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="75" height="28" uuid="8e0e087b-5c16-4ea9-85d6-11a63313b48a"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[처리지부]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField isBlankWhenNull="true">
+								<reportElement style="jibuBorder" stretchType="RelativeToBandHeight" x="0" y="0" width="75" height="20" uuid="20ccf1fd-9e64-4e0f-b9c9-db2d067e9ff9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIBU}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="d7bfad9f-bc5b-4aa1-ad58-7cf717776398">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="55" height="28" uuid="3ba1caf3-32a6-4422-a1ab-187eca46baee"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당부서]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField isBlankWhenNull="true">
+								<reportElement style="patBorder" stretchType="RelativeToBandHeight" x="0" y="0" width="55" height="20" uuid="d4c70716-dc11-440a-82fb-6cc332d40975"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PAT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="136" uuid="0a27af40-0ade-4474-88b4-0674c53e6ff1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="136" height="15" uuid="6dd75a3c-014f-4cba-b056-e4022333776d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당자]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="58" uuid="0ee1df6f-d941-4211-b0c3-4f408deb9f33">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="58" height="13" uuid="f8835f3f-7b21-4915-a41c-335cc204609c"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[이름]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="20">
+								<textField isBlankWhenNull="true">
+									<reportElement style="idBorder" stretchType="RelativeToBandHeight" x="0" y="0" width="58" height="20" uuid="918a760c-8064-48fe-b7ee-a972ea4395b3"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="78" uuid="98e568ea-2f10-4c45-8c9e-38922098167a">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="78" height="13" uuid="4c0751bb-cbe8-4b4e-ae52-236d74c8b8a9"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[연락처]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="20">
+								<textField isBlankWhenNull="true">
+									<reportElement style="idBorder" stretchType="RelativeToBandHeight" x="0" y="0" width="78" height="20" uuid="a9fcc93f-0405-4a79-9612-3d401cdb5d64"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" size="9"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIBU_TEL}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="23" y="6" width="157" height="18" uuid="8608ac93-59e6-4d47-b7c9-fad18c1d460c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="12"/>
+				</textElement>
+				<text><![CDATA[■ 대물사고 상세정보]]></text>
+			</staticText>
+		</band>
+		<band height="82">
+			<printWhenExpression><![CDATA[$P{report3}.equals("Y")]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="23" y="23" width="764" height="52" uuid="496bb818-9fd0-46e9-b307-e765c8be37f8">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="report3" uuid="c8a75733-185e-46ef-bb70-8f070beac086">
+						<datasetParameter name="acdnt_no">
+							<datasetParameterExpression><![CDATA[$P{acdnt_no}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="41" uuid="d2015bf8-8950-4023-abdf-481a8b72d0b0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="41" height="28" backcolor="#FFFFFF" uuid="33c7b5dd-8b2c-4e20-976c-ed8bb924cb3d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[구분]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="gbBorder" x="0" y="0" width="41" height="24" uuid="d65101ff-ff4c-427b-ae18-82bc8bd07439"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="2980bb71-6b63-47c7-a99e-3282253ae9c1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<staticText>
+									<reportElement x="0" y="0" width="40" height="28" uuid="be42feec-42f9-42e9-b585-92efcc35ac51"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담보]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="dmboBorder" x="0" y="0" width="40" height="24" uuid="7f1fbce2-2bab-420e-8733-c2d1577b1120"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMBO_GB_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="3386a185-e456-45fa-ab86-e10e69a1ffcb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="38" height="28" uuid="97fd4280-6a37-4a93-8b18-09d16fad8416"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[순번]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="leftright" x="0" y="0" width="38" height="24" uuid="ae0c66e2-5572-440a-a9d4-9f902820b0bc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PSN_NUM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="62" uuid="9d2d48fa-4dc0-4a0e-b9e3-b54f3bd9b532">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="62" height="28" uuid="ac891add-05c1-4093-94f4-aaa3295bf96f"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[피해자/물]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="leftright" x="0" y="0" width="62" height="24" uuid="0879b4d3-85f2-4d81-be59-af07106a289c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMGD_PSN_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="ce27a463-f3c8-4891-8743-39a978f3d95d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="115" height="28" uuid="8287d528-ec54-43e9-872d-72133b0d72d1"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[보상금액]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField pattern="#,##0">
+								<reportElement style="leftright" x="0" y="0" width="115" height="24" uuid="f8cde65b-dd4a-4166-a302-bf652c34a7ad">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="202" uuid="b1820bbf-9942-4904-938c-48f6bb5db3a7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="200" height="15" uuid="2965e27d-b025-4f89-94d7-389686ea58cd"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[지급상세]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="102" uuid="dde5591f-b3ab-422d-9f63-ef0a911644b9">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<staticText>
+										<reportElement x="0" y="0" width="100" height="13" uuid="3e0bbde8-16ed-42b3-98d1-0e2792c7f229"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[지급처명]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement style="boarderAll" x="0" y="0" width="102" height="24" uuid="654f9cec-1e44-41fa-aab3-470a3b2c784e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{PRVD_NM}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="100" uuid="fd343ddc-f573-4fa7-a653-c961ba81bcbd">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="100" height="13" uuid="0ff26bba-1166-482a-8280-66484e1601dd"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[지급금액]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField pattern="#,##0">
+									<reportElement style="boarderAll" x="0" y="0" width="100" height="24" uuid="1c1a1e98-dc5b-4695-a5f6-5eb03bf05f1c">
+										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									</reportElement>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+										<paragraph rightIndent="3"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIGUB_AMT1}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:column width="75" uuid="d9b84eb7-27d4-43e2-95f2-5aaae0943191">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="75" height="28" uuid="5d0b1eb1-4c3c-4275-ba7f-8403eaf2034d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[처리지부]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="jibuBorder" x="0" y="0" width="75" height="24" uuid="a763c264-58ef-4505-b9f5-e799641a7c1b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIBU}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="ab3a5782-1d5f-4146-8d67-83e611016972">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="55" height="28" uuid="8d19579a-e996-420f-b0f5-c3542ad2db8f"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당부서]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="patBorder" x="0" y="0" width="55" height="24" uuid="6d32a1cf-821c-4731-beba-77339be4f507"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PAT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="136" uuid="514192c3-1069-475c-a8de-149c74694f3e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="136" height="15" uuid="2b8521cd-1f9b-455b-a428-6e72f83c570d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당자]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="58" uuid="e87250cc-f15a-4d41-9e97-aa1470dc902d">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="58" height="13" uuid="b5904cb9-279f-43b3-b1b8-c636a9d269f2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[이름]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement style="idBorder" x="0" y="0" width="58" height="24" uuid="242e9e26-e4df-4f15-b81b-5380a327fe9e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="78" uuid="d399c985-3d04-47d8-8138-7ba70cf32064">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="78" height="13" uuid="9199732f-716e-4057-9599-350235c35988"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[연락처]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement style="idBorder" x="0" y="0" width="78" height="24" uuid="b0a4ee21-f439-4132-8361-678b0c343edc"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIBU_TEL}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="23" y="5" width="157" height="18" uuid="c86bbe2c-af44-40ff-8091-010f301faa8a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="12"/>
+				</textElement>
+				<text><![CDATA[■ 자기차량사고 상세정보]]></text>
+			</staticText>
+		</band>
+		<band height="81">
+			<printWhenExpression><![CDATA[$P{report4}.equals("Y")]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="23" y="25" width="764" height="52" uuid="de96f937-d5e7-4d03-8c5e-e0771e7cb0d9">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="report4" uuid="4e10c94a-c865-499f-ba22-f0ea9afa252e">
+						<datasetParameter name="acdnt_no">
+							<datasetParameterExpression><![CDATA[$P{acdnt_no}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="41" uuid="3f519287-fd19-425d-a589-7bc14a56be9b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="41" height="28" backcolor="#FFFFFF" uuid="bcc28e31-e3df-48d7-bf3e-7a2cea9da710"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[구분]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="gbBorder" x="0" y="0" width="41" height="24" uuid="03cfc060-60eb-4403-a972-d634a07bf36e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="c7a358e3-58a1-4f9e-86a7-7e9caa9d59f7">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<staticText>
+									<reportElement x="0" y="0" width="40" height="28" uuid="6caa0184-cfb7-45f3-8336-afcb47cd95cb"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담보]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="dmboBorder" x="0" y="0" width="40" height="24" uuid="90af4605-45d2-42db-acee-a7822af791c3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMBO_GB_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="00ac22f2-62ea-4deb-87f7-3559644965d9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="38" height="28" uuid="6449375f-c95e-42dd-af07-2fbc16349727"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[순번]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="leftright" x="0" y="0" width="38" height="24" uuid="7d42ed28-b0bc-4e7d-b486-025591d3c95b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PSN_NUM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="62" uuid="19d672d1-907d-42d3-9187-7b341503a4c9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="62" height="28" uuid="d0a30e5e-d9f9-4973-895d-e4cb9af8a7d7"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[피해자/물]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="leftright" x="0" y="0" width="62" height="24" uuid="8810ae2f-6754-497c-b1fe-4405269f3946"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMGD_PSN_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="22ab3c1e-87e2-4d60-8249-1afac5bd7300">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="115" height="28" uuid="a35169a6-7782-4ecd-a8a1-2a3ee56e6407"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[보상금액]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField pattern="#,##0">
+								<reportElement style="leftright" x="0" y="0" width="115" height="24" uuid="f4ea3305-cf5d-4715-aa42-d65fbf4e34f9">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="true"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="202" uuid="db3f50c9-ef4c-4f2b-b0a4-549da089a37b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="200" height="15" uuid="0c00c6ff-6a18-4b6e-af1d-0c3cd1fb1b0c"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[지급상세]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="102" uuid="e67f7c8e-7827-485a-84ae-14a7a8ced585">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<property name="com.jaspersoft.studio.unit.height" value="px"/>
+									<staticText>
+										<reportElement x="0" y="0" width="100" height="13" uuid="6178239b-de77-43ff-8c46-eb48e3681d35"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[지급처명]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement style="boarderAll" x="0" y="0" width="102" height="24" uuid="4c2069cb-4b79-4de8-9a34-63f6eac51655"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{PRVD_NM}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="100" uuid="56174bbd-c1b3-4125-80e4-19bf0af5958a">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="100" height="13" uuid="7fce2056-d94b-4b97-bf5d-cff3b23193b8"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[지급금액]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField pattern="#,##0">
+									<reportElement style="boarderAll" x="0" y="0" width="100" height="24" uuid="07e9f613-bf68-4fd1-b22b-2ad6235828b8">
+										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									</reportElement>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+										<paragraph rightIndent="3"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIGUB_AMT1}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:column width="75" uuid="68974a16-a8c7-4827-8be4-fa9760166a9b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="75" height="28" uuid="658c9984-2e05-4d7d-9bca-da7eca5d9e05"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[처리지부]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="jibuBorder" x="0" y="0" width="75" height="24" uuid="22a1d16d-b9ca-418b-beff-c25f9a7dcd35"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIBU}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="06a83d35-cd91-4f5d-95a5-4af9dc54e98a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="55" height="28" uuid="a6c192b6-4c21-47cb-9966-2c582a2235f1"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당부서]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement style="patBorder" x="0" y="0" width="55" height="24" uuid="2485de50-dbad-4dbf-a9ae-bb1b155cc823"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PAT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="136" uuid="2b54b04d-dcfc-417f-ade1-928add804001">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="136" height="15" uuid="1085a4da-351f-4dc9-a6c0-5407e9a9a646"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당자]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="58" uuid="84cb0fe9-3c70-45b4-9516-e35b01643793">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="58" height="13" uuid="0b25b94f-08a2-41ac-a329-409cec984cbf"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[이름]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement style="idBorder" x="0" y="0" width="58" height="24" uuid="b9433d59-507f-418e-b363-8669fa573159"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="78" uuid="798951ee-c9b2-44e0-b3c6-a17e35772b3e">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="78" height="13" uuid="cd3b99bd-96e0-4d8a-b3e7-a70bd9adfca4"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[연락처]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement style="idBorder" x="0" y="0" width="78" height="24" uuid="32921c55-eff9-4e1d-b6c3-31395ea01e7d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" size="10"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIBU_TEL}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="23" y="5" width="157" height="18" uuid="69ba50f9-ccb6-4c1a-bf8f-70898395bded"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="12"/>
+				</textElement>
+				<text><![CDATA[■ 적재물배상 사고 상세정보]]></text>
+			</staticText>
+		</band>
+		<band height="79">
+			<printWhenExpression><![CDATA[$P{report5}.equals("Y")]]></printWhenExpression>
+			<staticText>
+				<reportElement x="23" y="5" width="157" height="18" uuid="80812a36-2437-4c2c-88f2-a29d5598d494"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="12"/>
+				</textElement>
+				<text><![CDATA[■ 법률비용지원특약 상세정보]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="23" y="25" width="764" height="52" uuid="58eb9b38-ef15-44bf-8959-b3293a0ae309">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="report5" uuid="fdce95a0-173e-40e3-8f97-567ed90a893e">
+						<datasetParameter name="acdnt_no">
+							<datasetParameterExpression><![CDATA[$P{acdnt_no}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="41" uuid="dd8c8eaf-719f-48bc-958c-10be4b4776ce">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="41" height="28" backcolor="#FFFFFF" uuid="dada1796-6126-4749-9b7f-a79a8fce9277"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[구분]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement x="0" y="0" width="41" height="24" uuid="a16b4ee0-9070-43e5-9449-80d1c9bc3f52"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="e9994264-833a-4280-b4c6-0f7554625e8d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<staticText>
+									<reportElement x="0" y="0" width="40" height="28" uuid="1efc8ee1-1db1-44cc-8b16-2ec3ec0fa709"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담보]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="24" uuid="a3b24e62-a17a-438c-9078-e9ba95755796"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMBO_GB_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="2e2c962d-4255-4d4e-812a-b3d3b5513189">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="38" height="28" uuid="6cd18a24-376e-45dd-9a1f-e0198f6a4dec"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[순번]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="24" uuid="fcc51ee1-abfa-43cf-8538-ea75136ec4be"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PSN_NUM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="62" uuid="2df4ab6b-0a1e-4992-9074-ad84a4e18bf5">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="62" height="28" uuid="081a3db9-bd97-4c2b-bb5d-0dac0d249367"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[피해자/물]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="62" height="24" uuid="b49424f1-596c-4e71-a93a-1cfd648d5cfa"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMGD_PSN_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="159" uuid="031cb1ee-b531-427a-91bf-c4b6eaea85d4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="159" height="28" uuid="b3d9663b-ead3-48e9-a0cc-cc1c1cc1ffc2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[방어비용 + 벌금지원금]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField pattern="#,##0">
+								<reportElement x="0" y="0" width="159" height="24" uuid="caff902e-ed9d-4cd1-bef6-d9dc4eec42f8">
+									<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+								</reportElement>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+									<paragraph rightIndent="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="158" uuid="d173567f-b223-4043-a0a5-4f17c69a7004">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [1]"/>
+						<jr:column width="158" uuid="9ace8c48-30ff-4632-95d2-f7b46819806d">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<staticText>
+										<reportElement x="0" y="0" width="158" height="28" uuid="ec4e6f79-8a03-473e-8b44-4f1713f96daf"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[형사합의지원금]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField pattern="#,##0">
+									<reportElement x="0" y="0" width="158" height="24" uuid="6848268c-2afc-43bc-8dce-a22809be2902">
+										<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+									</reportElement>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+										<paragraph rightIndent="3"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIGUB_AMT1}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:column width="75" uuid="0057ccf1-da48-45c5-8d0b-95b45134cfde">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="75" height="28" uuid="1a78d9ee-b847-44cc-8d25-c3aa43cd63e9"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[처리지부]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="75" height="24" uuid="cddd20ae-ad09-4bfd-81b8-b6ddd1949808"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIBU}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="85312324-da55-4bf9-822d-778f7856e674">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="55" height="28" uuid="1c33012d-e75b-42b7-b128-d58a5af06f00"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당부서]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="24" uuid="70b1b709-65fc-413f-9528-0e9798f4ff7f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PAT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="136" uuid="3e6f06cf-cdde-49a5-89e8-f3affffaaaa4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="136" height="15" uuid="10b74e12-6ec9-4ed5-8fd1-edf445a07b6e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당자]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="58" uuid="3c9e62a0-8f79-41f5-aa07-2a775899b7ed">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="58" height="13" uuid="4e2527da-880b-4cd3-9285-690be6e0acef"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[이름]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement x="0" y="0" width="58" height="24" uuid="41f3222d-28a3-4345-9d9f-e9ffcb8e3d69"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="78" uuid="bf9912cd-5f7d-4a01-bb6d-bd335bbb5ba7">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="78" height="13" uuid="ba554017-1caa-4364-852d-6cae0ca5ca0c"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[연락처]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement x="0" y="0" width="78" height="24" uuid="0baf5c38-ada5-4189-9f01-cfc149641520"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIBU_TEL}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="82">
+			<printWhenExpression><![CDATA[$P{report6}.equals("Y")]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="23" y="25" width="764" height="52" uuid="b35ad750-7036-4036-9cd4-9e0280904346">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="report6" uuid="cb1d8179-b5d1-4184-8944-14f9f6376985">
+						<datasetParameter name="acdnt_no">
+							<datasetParameterExpression><![CDATA[$P{acdnt_no}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="41" uuid="a8a1e801-2932-4100-a989-52b2dd426589">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="41" height="28" backcolor="#FFFFFF" uuid="c6f31931-4403-4514-841c-faaf7e471a19"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[구분]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement x="0" y="0" width="41" height="24" uuid="4c9a479f-fb38-4a64-aa85-5987bf063614"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{GB}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="53" uuid="58cfd155-dc86-4cc3-b271-ce9cfe8d91de">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="53" height="28" uuid="0cf79c1d-6ecc-47fa-9bee-b4e44d8e473f"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담보]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="53" height="24" uuid="c464dd66-b888-4c94-a5ea-27d8c1523031"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMBO_GB_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="6016b0a6-9242-4aba-bca1-1698cfa76281">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="41" height="28" uuid="aec645b1-f4d3-45f4-9a9f-31eae91add4b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[순번]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="24" uuid="919ab4a1-8a35-4830-a252-329cb0e1f370"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PSN_NUM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="eadcaa9b-dc6b-4fa8-9806-bf6cfdc92159">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="80" height="28" uuid="7e6aff9a-b99a-4bfa-92bd-67254cb60909"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[피해자/물]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="24" uuid="afcc836f-2985-4b79-98ff-c9d50deed6dc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{DMGD_PSN_NM}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="152" uuid="edc0bd3b-0692-4f7a-b283-d096c6e4e3d6">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="152" height="28" uuid="e9e76afb-0501-4429-9f1b-13f4cc7e9ec2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[보상금액]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField pattern="#,##0">
+								<reportElement x="0" y="0" width="152" height="24" uuid="51e00712-e828-469f-9baf-c7dc3426da65"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{JIGUB_AMT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="158" uuid="4f15139e-dbcb-43c6-a04a-4c60a372b66f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [1]"/>
+						<jr:column width="158" uuid="132a1b29-d277-4667-b2e8-cc6ec2fe5761">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<staticText>
+										<reportElement x="0" y="0" width="158" height="28" uuid="ab4650b1-aa87-4e75-90d6-43b754fe1238"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[처리지부]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement x="0" y="0" width="158" height="24" uuid="94a8a398-1352-482a-9dde-2f5aeac057c9"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIBU}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+					<jr:column width="80" uuid="29f53394-d557-4afb-81db-e57e8d0b2a54">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="28" rowSpan="2">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="80" height="28" uuid="5e22894d-be9e-4467-a0dd-71eacbf712e7"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당부서]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:detailCell style="Table_TD" height="24">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="24" uuid="1f575f08-dcac-4aa9-98dc-1d23ab4f0075"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="굴림" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{PAT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="159" uuid="2b99138a-dfdd-4e25-a062-461204e5bfa4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<jr:groupHeader groupName="Group1">
+							<jr:cell style="Table 2_CH" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="158" height="15" uuid="04bae4a4-628d-4743-8c11-d161c52609de"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="true"/>
+									</textElement>
+									<text><![CDATA[담당자]]></text>
+								</staticText>
+							</jr:cell>
+						</jr:groupHeader>
+						<jr:column width="81" uuid="f90205ed-bf5f-4d81-9d26-7b922e69b682">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<staticText>
+										<reportElement x="0" y="0" width="81" height="13" uuid="9cd047b4-010b-4cc5-aa8c-90008dcc76ee"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[이름]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement x="0" y="0" width="81" height="24" uuid="718646b7-e495-4cb1-8737-a2d0f6e03fb2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="78" uuid="ece5ea41-7d71-49c6-8cec-a1d6e12f02df">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+							<jr:groupHeader groupName="Group1">
+								<jr:cell style="Table 2_CH" height="13" rowSpan="1">
+									<property name="com.jaspersoft.studio.unit.width" value="px"/>
+									<staticText>
+										<reportElement x="0" y="0" width="78" height="13" uuid="18a923ce-fb80-4366-81a1-80982346650a"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="굴림" isBold="true"/>
+										</textElement>
+										<text><![CDATA[연락처]]></text>
+									</staticText>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:detailCell style="Table_TD" height="24">
+								<textField>
+									<reportElement x="0" y="0" width="78" height="24" uuid="92e3f872-0060-4f0d-a481-9138950a56e2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="굴림" isBold="false"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{JIBU_TEL}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="23" y="5" width="157" height="18" uuid="55750aca-19a0-42d8-9ecc-a37dfef7a704"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="12"/>
+				</textElement>
+				<text><![CDATA[■ 자기신체손해 상세정보]]></text>
+			</staticText>
+		</band>
+		<band height="104">
+			<rectangle>
+				<reportElement x="530" y="36" width="266" height="18" uuid="9b8a58b4-da65-424b-a2b1-acda50cf76ae"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="34" y="63" width="764" height="41" backcolor="#C1C1C1" uuid="92f37fe4-22a7-4c8f-8fb4-c09b41476443"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="34" y="64" width="763" height="13" uuid="3f674e9b-f61f-4790-aebd-f3ec64fbd042">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[◑ 본 출력물은 화물공제조합 홈페이지에서 출력이 가능하며, 조합원을 위한 업무지원 서비스로서 위의 내용과 실제처리가 상이한 경우에는 해당지부 보상과로 문의하시기 바랍니다.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="77" width="763" height="13" uuid="bd4dbae8-370d-44c0-95fa-460522f74404">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[◑ 위 내용은 참고자료로서 법적인 효력이 없습니다.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="90" width="763" height="13" uuid="1c99f2c2-65f1-4803-b283-503f443d4ace">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[◑ 사고점수사항은 전일까지의 점수이며, 갱신계약/조회시점에 따라 할인, 할증 및 특별할증 여부등이 변동될 수 있습니다.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="530" y="18" width="266" height="18" backcolor="#999999" uuid="da6dde31-53e6-4a5f-8dae-9f3df1f41526"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="616" y="18" width="1" height="36" uuid="ca23bcf2-a195-43cf-9792-3eb07378eac4"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="709" y="18" width="1" height="36" uuid="28f0c399-e102-44e0-bc59-892e2132d472"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="531" y="19" width="85" height="17" uuid="868ad095-79b0-4a3a-8369-d1f2b521c332"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[원인점수]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="617" y="19" width="92" height="17" uuid="4453d080-3a0c-4be9-b0fe-2b6e99ed66a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[위장사고여부]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="710" y="19" width="86" height="17" uuid="c0bef503-0a57-4643-bc73-1266d28e6674"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[내용점수]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="617" y="36" width="92" height="18" uuid="679a5d53-891e-4ec6-9cb3-5593f4da2c18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRICK}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="530" y="36" width="86" height="18" uuid="b6ff2a43-f466-4ce0-899d-3f655c924fc8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACDNT_CAUSE_POINTS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="710" y="36" width="86" height="18" uuid="e2cb1958-3b34-4b69-ba7d-4aa7afe4cb46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ACDNT_COMMENT_POINTS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

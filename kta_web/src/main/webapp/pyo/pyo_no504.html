@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">504</span><span class="pyoName">A 후행직진차 B 기타진로변경 &#9315;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본</td>
+                            <td class="alC bB3">A 30</td>
+                            <td class="alC">B 70</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="13" class="alC"><img src="/images/truck/jpg/504.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                       <tr>
+                            <td class="bg1">B 진로변경 신호불이행</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 기타 부적절한 진로변경 &#9313;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10&#126;20</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 진로변경 금지구간</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 전용차로 위반</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                          <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 초보운전표시 등 &#9314;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 10㎞이상 속도위반</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 20㎞이상 속도위반</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">분기점&#183;출입로 부근</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 현저한 과실</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9313;	B는 차선변경시 A의 속도&#44; 차간거리 등을 충분히 고려하여 차선을 변경하여야 함에도 이러한 것을 고려하지 아니하고 지나치게 저속 또는 불충분한 차간거리에서 차선변경을 시도 하였을 시 10&#37;의 가산을 하여야 한다&#46; 다만 B가 방향지시등을 작동하지 않고 갑자기 차로를 변경하거나 2개이상의 차로를 가로질러 변경하는 등 A가 쉽게 예측하기 불가능한 방법으로 차로를 변경한 경우에는 20&#37;의 가산을 한다&#46;</p>
+                    <p class="txtPoint">&#9314;	A가 이른바 초보운전표시 등을 한 차량인 경우에 B가 진로변경을 함에 있어서 주의의무가 가중되기 때문에 수정요소로 고려한다&#46;</p>
+                    <p class="txtPoint">&#9315;	추월선으로부터 주행선으로 또는 주행선에서 다른 주행선으로의 차선변경시 적용한다&#46; 모든차의 운전자는 진로를 변경하고자 하는 경우에 도로교통법 제19조제2항에 의하여 그 변경하고자 하는 방향으로 오고 있는 다른 차의 정상적인 통행에 장해를 주어서는 안된다&#46; 따라서 그 밖의 장소에서의 진로변경시 과실비율이 추월선으로서의 진로변경시 과실비율보다 낮지만 진로를 변경하려던 차에서 더 높은 과실을 인정하는 것이다&#46;</p>
+                    </div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 제19조&#91;안전거리 확보 등&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9313; 모든 차의 운전자는 차의 진로를 변경하고자 하는 경우에 그 변경하고자 하는 방향으로오고 있는 다른차의 정상적인 통행에 장애를 줄 우려가 있는 때에는 진로를 변경하여서는 아니된다&#46;</li>
+					       </ul>
+					<p class="txtPoint">&#9827;	도로교통법 시행령 별표2 &#91;신호의 시기와 방법&#93;&#45; 제21조 관련</p>
+					<ul class="txtListst02">
+						<li>&#45; 신호를 행할 시기  &#58; 그 행위를 하고자 하는 지점&#40;좌&#183;우회전할 경우에는 그 교차로의 가장자리&#41;에 이르기 전 30미터&#40;고속도로에서는 100미터&#41; 이상의 지점에 이르렀을 때</li>
+					       </ul>
+					
+				</div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

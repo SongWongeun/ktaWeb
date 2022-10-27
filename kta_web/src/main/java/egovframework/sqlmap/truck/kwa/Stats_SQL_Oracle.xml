@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="kwaLog">
+
+	<!-- 전체 조회 -->
+	<select id="KwaStatsMgrDAO.selectTotalStats" resultClass="hashmap" remapResults="true">
+		SELECT
+			( SELECT SUM(RDCNT) FROM COMTSWEBLOGSUMMARY where INSTR( url ,'/com/' ) = 0 AND INSTR( url ,'/cmm/' ) = 0 ) AS HP_ALL,
+			( SELECT SUM(RDCNT) FROM COMTSWEBLOGSUMMARY where INSTR( url ,'/com/' ) = 0 AND INSTR( url ,'/cmm/' ) = 0 AND INSTR( url ,'/m/' ) = 0 ) AS HP_PC,
+			( SELECT SUM(RDCNT) FROM COMTSWEBLOGSUMMARY where INSTR( url ,'/com/' ) = 0 AND INSTR( url ,'/cmm/' ) = 0 AND INSTR( url ,'/m/' ) = 1 ) AS HP_M,
+			( select COUNT(*) from OAO_INQUIRY_BBS where use_at ='Y' ) AS CUSTOMER,
+      		( select trim(to_char( avg(reply_time-create_time),'999990.99')) from OAO_INQUIRY_BBS  where use_at ='Y' and reply_time is not null ) AS CUSTOMER_PROC,
+			( select COUNT(*) from PRAISE_NOTICE where use_at ='Y' ) AS PR,
+			( select COUNT(*) from REPORT_BBS where use_at ='Y' ) AS CC,
+			( SELECT SUM(PUBLISH_CNT) AS CNT  FROM(
+							SELECT SUBSTR(PUBLISH_YMD, 1, 4) AS PUB_Y, PUBLISH_CNT FROM CTMG20@KOTMASDB
+         								WHERE PUBLISH_SAWON_NO = 'Internet' AND SHEET_KIND_CD LIKE '1' AND INSTR(PUBLISH_YMD , '0000' ) = 0 ) ) AS "분담금",
+         	( SELECT SUM(PUBLISH_CNT) AS CNT  FROM(
+							SELECT SUBSTR(PUBLISH_YMD, 1, 4) AS PUB_Y, PUBLISH_CNT FROM CTMG20@KOTMASDB
+         								WHERE PUBLISH_SAWON_NO = 'Internet' AND SHEET_KIND_CD LIKE '2' AND INSTR(PUBLISH_YMD , '0000' ) = 0 ) ) AS "공제가입",
+         	( SELECT SUM(PUBLISH_CNT) AS CNT  FROM(
+							SELECT SUBSTR(PUBLISH_YMD, 1, 4) AS PUB_Y, PUBLISH_CNT FROM CTMG20@KOTMASDB
+         								WHERE PUBLISH_SAWON_NO = 'Internet' AND SHEET_KIND_CD LIKE '3' AND INSTR(PUBLISH_YMD , '0000' ) = 0 ) ) AS "공제계약",
+         	( SELECT SUM(PUBLISH_CNT) AS CNT  FROM(
+							SELECT SUBSTR(PUBLISH_YMD, 1, 4) AS PUB_Y, PUBLISH_CNT FROM CTMG20@KOTMASDB
+         								WHERE PUBLISH_SAWON_NO = 'Internet' AND SHEET_KIND_CD LIKE '5' AND INSTR(PUBLISH_YMD , '0000' ) = 0 ) ) AS "적재물",
+         	( SELECT COUNT(ID) CNT FROM TB_MEMBER WHERE UNREGISTER_YN = 'N' ) AS "가입", 
+         	( SELECT COUNT(ID) CNT FROM TB_MEMBER WHERE UNREGISTER_YN = 'Y' ) AS "탈퇴"							
+		FROM DUAL
+	</select>
+	<!-- 전체 조회 -->
+	<select id="KwaStatsMgrDAO.selectPageViewStatsAll" resultClass="hashmap" remapResults="true">
+		 SELECT 
+		 	COUNT(DISTINCT RQESTER_IP) as "ALL"
+  		FROM 
+  			COMTNWEBLOG
+	</select>
+	<select id="KwaStatsMgrDAO.selectPageViewStatsToday" resultClass="hashmap" remapResults="true">
+		SELECT 
+			COUNT(DISTINCT RQESTER_IP) as "TODAY"
+        FROM 
+        	COMTNWEBLOG
+        WHERE 
+         	OCCRRNC_DE 
+         		BETWEEN  TO_DATE( #strToday# || ' 000000','YYYYMMDD HH24MISS') AND TO_DATE( #strToday# || ' 235959','YYYYMMDD HH24MISS')
+	</select>
+	<!-- 웹통계 조회 -->
+	<select id="KwaStatsMgrDAO.selectWebStats" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+        		
+        		
+		    	<isEqual property="sc" compareValue="y" >
+		    		DEPTH1||'_'||DEPTH2 as S_ID ,
+					DEPTH1,
+        			DEPTH2,
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="m" >
+					DEPTH1||'_'||DEPTH2||'_'||YEAR_MONTH as S_ID ,
+					DEPTH1,
+					DEPTH2,
+        			YEAR_MONTH,
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="m_1" >
+					DEPTH1||'_'||YEAR_MONTH as S_ID ,
+					DEPTH1,
+        			YEAR_MONTH,
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="m_t" >
+					YEAR_MONTH AS S_ID ,
+        			YEAR_MONTH,
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" >
+					DEPTH1||'_'||DEPTH2||'_'||TRIM(OCCRRNC_DE) as S_ID ,
+					DEPTH1,
+					DEPTH2,
+        			TRIM(OCCRRNC_DE) AS OCCRRNC_DE,
+		    	</isEqual>
+				<isEqual property="sc" compareValue="d_1" >
+					DEPTH1||'_'||TRIM(OCCRRNC_DE) as S_ID ,
+					DEPTH1,
+        			TRIM(OCCRRNC_DE) AS OCCRRNC_DE,
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d_t" >
+					TRIM(OCCRRNC_DE) AS S_ID ,
+        			TRIM(OCCRRNC_DE) AS OCCRRNC_DE,
+		    	</isEqual>
+		    	SUM(RDCNT) CNT
+		FROM (
+		    select 
+		      case 
+		          when INSTR( url ,'/netCounter/' ) > 0 then '0'
+		          when INSTR( url ,'/infoLounge/' ) > 0 then '1'
+		          when INSTR( url ,'/deductProduct/' ) > 0 then '2'
+		          when ( INSTR( url ,'/customer/' ) > 0 AND INSTR( url ,'/customer/cleanCenter/' ) = 0 ) then '3'
+		          when ( INSTR( url ,'/assocIntroduce/' ) > 0 OR INSTR( url ,'/customer/cleanCenter/' ) > 0 ) then '4'
+		          when INSTR( url ,'/cyberPr/' ) > 0 then '5'
+		          when INSTR( url ,'/main/index.do' ) > 0 then '6'
+		          else  '7'
+		        end as "DEPTH1",
+		      CASE 
+		          WHEN INSTR( url ,'/netCounter/netCountIndex.do' ) > 0 then '서브메인'
+		          WHEN INSTR( url ,'/netCounter/memberPage/myPage/myInfo' ) > 0 then '마이페이지'
+		          WHEN INSTR( url ,'/netCounter/inquiryService/contractInquiry/' ) > 0 then '계약조회'
+		          WHEN INSTR( url ,'/netCounter/inquiryService/accountInquiry/compen' ) > 0 then '보상정보조회'
+		          WHEN INSTR( url ,'/netCounter/inquiryService/accountInquiry/payment' ) > 0 then '지급내역조회'
+		          WHEN INSTR( url ,'/netCounter/memberPage/myPage/alter' ) > 0 then '회원정보관리'
+		          WHEN INSTR( url ,'/netCounter/certSerivce/' ) > 0 then '증명서발급'
+		          WHEN INSTR( url ,'/netCounter/memberManagerment/') > 0 then '조합원관리'
+		          
+		          WHEN INSTR( url ,'/infoLounge/infoLoungeIndex.do' ) > 0 then '서브메인'
+		          WHEN INSTR( url ,'/infoLounge/deductNews' ) > 0 then '공제소식'
+		          WHEN INSTR( url ,'/infoLounge/insuranceNews' ) > 0 then '보험소식'
+		          WHEN INSTR( url ,'/infoLounge/bidNotice' ) > 0 then '입찰공고'
+		          WHEN ( INSTR( url ,'/infoLounge/encour' ) > 0 OR INSTR( url ,'/infoLounge/recipientResult.do' ) > 0 ) then '장학사업'
+		          WHEN INSTR( url ,'/infoLounge/dataCenter/recommandSite' ) > 0 then '관련사이트'
+		          WHEN INSTR( url ,'/infoLounge/dataCenter/recommandCompany' ) > 0 then '우수협력정비업체'
+		          
+		          WHEN INSTR( url ,'/deductProduct/deductProductIndex.do' ) > 0 then '서브메인'
+		          WHEN ( INSTR( url ,'/deductProduct/joinInfo/' ) > 0 OR INSTR( url ,'/deductProduct/divideCalcu' ) > 0 ) then '가입안내'
+		          WHEN INSTR( url ,'/deductProduct/productInfo/' ) > 0 then '상품안내'
+		          WHEN INSTR( url ,'/deductProduct/guaranteeProduct' ) > 0 then '보증상품'
+		          WHEN INSTR( url ,'/deductProduct/compenInfo/' ) > 0 then '보상안내'
+		          WHEN INSTR( url ,'/deductProduct/dataCenter/' ) > 0 then '보상관련정보'
+		          WHEN ( INSTR( url ,'/deductProduct/carDeductInfo' ) > 0 OR INSTR( url ,'/deductProduct/carryDeductInfo' ) > 0 ) then '공제약관'
+		          WHEN INSTR( url ,'/deductProduct/callInfo' ) > 0 then '콜센터안내'
+		          
+		          WHEN INSTR( url ,'/customer/customerIndex.do' ) > 0 then '서브메인'
+		          WHEN INSTR( url ,'/customer/qnaInfo.do' ) > 0 then '문의안내'
+		          WHEN INSTR( url ,'/customer/faqNotice' ) > 0 then '자주하는질문'
+		          WHEN INSTR( url ,'/customer/inquiry/' ) > 0 then '고객문의'
+		          WHEN INSTR( url ,'/customer/praise/' ) > 0 then '칭찬합시다'
+		          WHEN INSTR( url ,'/customer/formData' ) > 0 then '자료실'
+		          WHEN INSTR( url ,'/customer/fraud/' ) > 0 then '보험사기제보'
+		          
+		          
+		          WHEN INSTR( url ,'/assocIntroduce/assocIntroduceIndex.do' ) > 0 then '서브메인'
+		          WHEN INSTR( url ,'/assocIntroduce/presidentGreeting.do' ) > 0 then '인사말'
+		          WHEN ( INSTR( url ,'/assocIntroduce/introduce/' ) > 0 OR INSTR( url ,'/assocIntroduce/steeringCommittee.do' ) > 0 ) then '공제조합소개'
+		          WHEN INSTR( url ,'/customer/cleanCenter/' ) > 0 then '윤리경영'
+		          WHEN INSTR( url ,'/assocIntroduce/recruit/' ) > 0 then '채용안내'
+		          WHEN INSTR( url ,'/assocIntroduce/office/' ) > 0 then '지부안내'
+		          WHEN INSTR( url ,'/assocIntroduce/allRoughMap.do' ) > 0 then '본부안내'
+		          
+		          
+		          WHEN INSTR( url ,'/cyberPr/cyberPrIndex.do' ) > 0 then '서브메인'
+		          WHEN INSTR( url ,'/cyberPr/thirtyHistory' ) > 0 then '화물공제30년사'
+		          WHEN INSTR( url ,'/cyberPr/driversDay' ) > 0 then '운전자의날'
+		          WHEN INSTR( url ,'/cyberPr/acc' ) > 0 then '사고예방활동'
+		          WHEN INSTR( url ,'/cyberPr/echo' ) > 0 then '트럭메아리'
+		          WHEN INSTR( url ,'/cyberPr/event' ) > 0 then '행사안내'
+		          WHEN INSTR( url ,'/cyberPr/prMovie' ) > 0 then '홍보영상'
+		          
+		          WHEN INSTR( url ,'/main/index.do' ) > 0 then '메인'
+		          WHEN INSTR( url ,'/mail/' ) > 0 then '만기안내비밀번호변경'
+		        ELSE '기타' END AS "DEPTH2",
+		      URL,
+		      SUBSTR(TRIM(OCCRRNC_DE),1,4) AS "YEAR",
+		      SUBSTR(TRIM(OCCRRNC_DE),1,6) AS "YEAR_MONTH",
+		      TRIM(OCCRRNC_DE) AS OCCRRNC_DE,
+		      RDCNT
+		      
+		    FROM COMTSWEBLOGSUMMARY
+		    WHERE 
+		    	1 = 1
+		    	<isEqual property="sc" compareValue="y" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        substr(TRIM(OCCRRNC_DE),1,4) = #year#
+		    		</isNotEmpty>
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="m" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        substr(TRIM(OCCRRNC_DE),1,4) = #year#
+		    		</isNotEmpty>
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="m_1" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        substr(TRIM(OCCRRNC_DE),1,4) = #year#
+		    		</isNotEmpty>
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="m_t" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        substr(TRIM(OCCRRNC_DE),1,4) = #year#
+		    		</isNotEmpty>
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        substr(TRIM(OCCRRNC_DE),1,6) = #year#||#month#
+		    		</isNotEmpty>
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d_1" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        substr(TRIM(OCCRRNC_DE),1,6) = #year#||#month#
+		    		</isNotEmpty>
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d_t" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        substr(TRIM(OCCRRNC_DE),1,6) = #year#||#month#
+		    		</isNotEmpty>
+		    	</isEqual>
+		    AND INSTR( url ,'/com/' ) = 0
+		    AND INSTR( url ,'/cmm/' ) = 0
+			AND INSTR( url ,'/kwa/' ) = 0
+			AND INSTR( url ,'/kma/' ) = 0
+			AND INSTR( url ,'/m/' ) = 0
+		)
+    	<isEqual property="sc" compareValue="y" >
+			GROUP BY DEPTH1, DEPTH2
+    	</isEqual>
+    	<isEqual property="sc" compareValue="m" >
+			GROUP BY DEPTH1, DEPTH2, YEAR_MONTH
+    	</isEqual>
+    	<isEqual property="sc" compareValue="m_1" >
+			GROUP BY DEPTH1, YEAR_MONTH
+    	</isEqual>
+    	<isEqual property="sc" compareValue="m_t" >
+			GROUP BY YEAR_MONTH
+    	</isEqual>
+    	<isEqual property="sc" compareValue="d" >
+			GROUP BY DEPTH1, DEPTH2, OCCRRNC_DE
+    	</isEqual>
+    	<isEqual property="sc" compareValue="d_1" >
+			GROUP BY DEPTH1, OCCRRNC_DE
+    	</isEqual>
+    	<isEqual property="sc" compareValue="d_t" >
+			GROUP BY OCCRRNC_DE
+    	</isEqual>
+	</select>
+	
+	<!-- 칭찬합시다 통계 조회 -->
+	<select id="KwaStatsMgrDAO.selectPrStats" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+	    	<isEqual property="sc" compareValue="y" >
+				YEAR as S_ID ,
+				YEAR,
+		  		COUNT(YEAR) AS CNT
+	    	</isEqual>
+	    	<isEqual property="sc" compareValue="m" >
+				YEAR_MONTH as S_ID ,
+				YEAR_MONTH,
+				COUNT(YEAR_MONTH) AS CNT
+	    	</isEqual>
+		   	<isEqual property="sc" compareValue="d" >
+				OCCRRNC_DE as S_ID ,
+				OCCRRNC_DE,
+				COUNT(OCCRRNC_DE) AS CNT
+		   	</isEqual>
+		FROM(
+		    SELECT 
+		    TO_CHAR(CREATE_TIME,'yyyyMMDD') AS OCCRRNC_DE,
+		    TO_CHAR(CREATE_TIME,'yyyy') AS YEAR,
+		    TO_CHAR(CREATE_TIME,'yyyyMM') AS YEAR_MONTH
+		    FROM PRAISE_NOTICE 
+		    WHERE USE_AT ='Y'
+		    	<!-- <isEqual property="sc" compareValue="y" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        TO_CHAR(CREATE_TIME,'yyyy') = #year#
+		    		</isNotEmpty>
+		    	</isEqual> -->
+		    	<isEqual property="sc" compareValue="m" prepend="AND">
+				        TO_CHAR(CREATE_TIME,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" prepend="AND" >
+				        TO_CHAR(CREATE_TIME,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+		)
+	   	<isEqual property="sc" compareValue="y" >
+			GROUP BY YEAR
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="m" >
+			GROUP BY YEAR_MONTH
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="d" >
+			GROUP BY OCCRRNC_DE
+	   	</isEqual>
+	</select>
+	
+	<!-- 클린센터 통계 조회 -->
+	<select id="KwaStatsMgrDAO.selectCcStats" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+	    	<isEqual property="sc" compareValue="y" >
+				YEAR as S_ID ,
+				YEAR,
+		  		COUNT(YEAR) AS CNT
+	    	</isEqual>
+	    	<isEqual property="sc" compareValue="m" >
+				YEAR_MONTH as S_ID ,
+				YEAR_MONTH,
+				COUNT(YEAR_MONTH) AS CNT
+	    	</isEqual>
+		   	<isEqual property="sc" compareValue="d" >
+				OCCRRNC_DE as S_ID ,
+				OCCRRNC_DE,
+				COUNT(OCCRRNC_DE) AS CNT
+		   	</isEqual>
+		FROM(
+		    SELECT 
+			    TO_CHAR(CREATE_TIME,'yyyyMMDD') AS OCCRRNC_DE,
+			    TO_CHAR(CREATE_TIME,'yyyy') AS YEAR,
+			    TO_CHAR(CREATE_TIME,'yyyyMM') AS YEAR_MONTH
+		    FROM REPORT_BBS 
+		    WHERE USE_AT ='Y'
+		    	<!-- <isEqual property="sc" compareValue="y" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        TO_CHAR(CREATE_TIME,'yyyy') = #year#
+		    		</isNotEmpty>
+		    	</isEqual> -->
+		    	<isEqual property="sc" compareValue="m" prepend="AND" >
+				        TO_CHAR(CREATE_TIME,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" prepend="AND" >
+				        TO_CHAR(CREATE_TIME,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+		)
+	   	<isEqual property="sc" compareValue="y" >
+			GROUP BY YEAR
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="m" >
+			GROUP BY YEAR_MONTH
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="d" >
+			GROUP BY OCCRRNC_DE
+	   	</isEqual>
+	</select>
+	
+	<!-- 고객문의 통계 조회 -->
+	<select id="KwaStatsMgrDAO.selectCustomerStats" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+	    	<isEqual property="sc" compareValue="y" >
+				YEAR as S_ID ,
+				YEAR,
+		  		COUNT(YEAR) AS CNT
+	    	</isEqual>
+	    	<isEqual property="sc" compareValue="m" >
+				YEAR_MONTH as S_ID ,
+				YEAR_MONTH,
+				COUNT(YEAR_MONTH) AS CNT
+	    	</isEqual>
+		   	<isEqual property="sc" compareValue="d" >
+				OCCRRNC_DE as S_ID ,
+				OCCRRNC_DE,
+				COUNT(OCCRRNC_DE) AS CNT
+		   	</isEqual>
+		FROM(
+		    SELECT 
+		    TO_CHAR(CREATE_TIME,'yyyyMMDD') AS OCCRRNC_DE,
+		    TO_CHAR(CREATE_TIME,'yyyy') AS YEAR,
+		    TO_CHAR(CREATE_TIME,'yyyyMM') AS YEAR_MONTH
+		    FROM OAO_INQUIRY_BBS 
+		    WHERE USE_AT ='Y'
+		    	<!-- <isEqual property="sc" compareValue="y" >
+		    		<isNotEmpty property="year" prepend="AND"  >
+				        TO_CHAR(CREATE_TIME,'yyyy') = #year#
+		    		</isNotEmpty>
+		    	</isEqual> -->
+		    	<isEqual property="sc" compareValue="m" prepend="AND">
+				        TO_CHAR(CREATE_TIME,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" prepend="AND" >
+				        TO_CHAR(CREATE_TIME,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+		)
+	   	<isEqual property="sc" compareValue="y" >
+			GROUP BY YEAR
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="m" >
+			GROUP BY YEAR_MONTH
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="d" >
+			GROUP BY OCCRRNC_DE
+	   	</isEqual>
+	</select>
+	
+	<!-- 고객문의 처리시간 통계 조회 -->
+	<select id="KwaStatsMgrDAO.selectCustomerProcTimeStats" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+	    	<isEqual property="sc" compareValue="y" >
+				YEAR AS S_ID,
+				YEAR,
+				TRIM(TO_CHAR( AVG(DIFF),'999990.99')) AS CNT
+	    	</isEqual>
+	    	<isEqual property="sc" compareValue="m" >
+				YEAR_MONTH AS S_ID,
+				YEAR_MONTH,
+				TRIM(TO_CHAR( AVG(DIFF),'999990.99')) AS CNT
+	    	</isEqual>
+		   	<isEqual property="sc" compareValue="d" >
+				OCCRRNC_DE AS S_ID,
+				OCCRRNC_DE,
+				TRIM(TO_CHAR( AVG(DIFF),'999990.99')) AS CNT
+		   	</isEqual>
+		FROM(
+			SELECT 
+			      TO_CHAR(CREATE_TIME,'YYYYMMDD') AS OCCRRNC_DE,
+			      TO_CHAR(CREATE_TIME,'YYYY') AS YEAR,
+			      TO_CHAR(CREATE_TIME,'YYYYMM') AS YEAR_MONTH,
+			      REPLY_TIME-CREATE_TIME AS DIFF
+			FROM OAO_INQUIRY_BBS 
+			WHERE USE_AT ='Y'
+			AND REPLY_TIME IS NOT NULL
+		    	<isEqual property="sc" compareValue="m" prepend="AND" >
+				        TO_CHAR(CREATE_TIME,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" prepend="AND" >
+				        TO_CHAR(CREATE_TIME,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+		)
+	   	<isEqual property="sc" compareValue="y" >
+			GROUP BY YEAR
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="m" >
+			GROUP BY YEAR_MONTH
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="d" >
+			GROUP BY OCCRRNC_DE
+	   	</isEqual>
+	</select>
+	
+	<!-- 고객문의 카테고리별 통계 -->
+	<select id="KwaStatsMgrDAO.selectCustomerCategoryCount" resultClass="hashmap" remapResults="true">
+		SELECT
+			(SELECT COUNT(CATEGORY) FROM OAO_INQUIRY_BBS WHERE USE_AT = 'Y' AND CATEGORY = '1')  AS "전체",
+      		(SELECT COUNT(CATEGORY) FROM OAO_INQUIRY_BBS WHERE USE_AT = 'Y'  AND CATEGORY = '2') AS "보상",
+      		(SELECT COUNT(CATEGORY) FROM OAO_INQUIRY_BBS WHERE USE_AT = 'Y'  AND CATEGORY = '3') AS "계약",
+      		(SELECT COUNT(CATEGORY) FROM OAO_INQUIRY_BBS WHERE USE_AT = 'Y'  AND CATEGORY = '4') AS "홈페이지",
+      		(SELECT COUNT(CATEGORY) FROM OAO_INQUIRY_BBS WHERE USE_AT = 'Y'  AND CATEGORY = '5') AS "장학사업",
+      		(SELECT COUNT(CATEGORY) FROM OAO_INQUIRY_BBS WHERE USE_AT = 'Y'  AND CATEGORY = '6') AS "기타"
+		FROM DUAL
+	</select>
+	
+	<!-- 고객문의 회원/비회원 통계 -->
+	<select id="KwaStatsMgrDAO.selectCustomerMemUserCount" resultClass="hashmap" remapResults="true">
+		SELECT 
+			COUNT(WRITER_ID) AS "회원",
+			COUNT(WRITER_NAME) AS "비회원"			
+  		FROM OAO_INQUIRY_BBS
+ 		WHERE USE_AT = 'Y'
+	</select>
+	
+	<!-- 고객문의 담당자 리스트-->
+	<select id="KwaStatsMgrDAO.selectStaggAuthId" resultClass="hashmap" remapResults="true">
+		SELECT
+			DISTINCT AUTH_ID
+			, AUTH_NAME
+		FROM HP_MENU_AUTH
+	</select>
+	
+	<!-- 고객문의 담당자별 처리건수 통계 -->
+	<select id="KwaStatsMgrDAO.selectCustomerManagerProcessCount" resultClass="int" parameterClass="string">
+		SELECT 
+			COUNT(REPLY_AT)
+  		FROM 
+  			OAO_INQUIRY_BBS
+ 		WHERE 
+   			REPLY_ID = #auth_id#
+   			AND REPLY_AT = 'Y'
+	</select>
+	
+	<!-- 증명서 발급 통계 조회 -->
+	<select id="KwaStatsMgrDAO.selectCertificateStatus" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+			<isEqual property="sc" compareValue="y">
+				PUB_Y AS S_ID,
+				PUB_Y,
+       			SUM(PUBLISH_CNT) AS CNT
+			</isEqual>
+			<isEqual property="sc" compareValue="m">
+				PUB_YM AS S_ID,
+				PUB_YM,
+       			SUM(PUBLISH_CNT) AS CNT
+			</isEqual>
+			<isEqual property="sc" compareValue="d">
+				PUBLISH_YMD AS S_ID,
+				PUBLISH_YMD,
+       			SUM(PUBLISH_CNT) AS CNT
+			</isEqual>
+ 		FROM (
+ 				SELECT 
+ 					SUBSTR(PUBLISH_YMD, 1, 4) AS PUB_Y,
+              		SUBSTR(PUBLISH_YMD, 1, 6) AS PUB_YM,
+               		PUBLISH_YMD,
+               		PUBLISH_CNT,
+               		PUBLISH_SAWON_NO,
+               		SHEET_KIND_CD
+          		FROM 
+          			CTMG20@KOTMASDB
+        		WHERE 
+        			PUBLISH_SAWON_NO = 'Internet'
+        			<isEqual property="sheetCd" compareValue="1">
+        				AND SHEET_KIND_CD LIKE '1'
+        			</isEqual>
+        			<isEqual property="sheetCd" compareValue="2">
+        				AND SHEET_KIND_CD LIKE '2'
+        			</isEqual>
+        			<isEqual property="sheetCd" compareValue="3">
+        				AND SHEET_KIND_CD LIKE '3'
+        			</isEqual>
+        			<isEqual property="sheetCd" compareValue="5">
+        				AND SHEET_KIND_CD LIKE '5'
+        			</isEqual>
+           			AND INSTR(PUBLISH_YMD , '0000' ) = 0
+           			<isEqual property="sc" compareValue="m" prepend="AND">
+				        SUBSTR(PUBLISH_YMD, 1, 4) = #year#
+			    	</isEqual>
+			    	<isEqual property="sc" compareValue="d" prepend="AND" >
+					    SUBSTR(PUBLISH_YMD, 1, 6) =  #year#||#month#
+			    	</isEqual>
+           		)
+         <isEqual property="sc" compareValue="y" >
+			GROUP BY PUB_Y
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="m" >
+			GROUP BY PUB_YM
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="d" >
+			GROUP BY PUBLISH_YMD
+	   	</isEqual>
+	</select>
+	
+	<!-- 회원 통계 조회 -->
+	<select id="KwaStatsMgrDAO.selectMemUserStatus" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+	    	<isEqual property="sc" compareValue="y" >
+				YEAR as S_ID,
+				YEAR,
+       			COUNT(ID) AS CNT
+	    	</isEqual>
+	    	<isEqual property="sc" compareValue="m" >
+				YEAR_MONTH as S_ID ,
+				YEAR_MONTH,
+				COUNT(ID) AS CNT
+	    	</isEqual>
+		   	<isEqual property="sc" compareValue="d" >
+				OCCRRNC_DE as S_ID ,
+				OCCRRNC_DE,
+				COUNT(ID) AS CNT
+		   	</isEqual>
+		FROM(
+			<isEqual property="regi" compareValue="Y">
+			    SELECT 
+			   		TO_CHAR(UNREGISTER_DT, 'yyyy') AS YEAR,
+	               	TO_CHAR(UNREGISTER_DT, 'yyyyMM') AS YEAR_MONTH,
+	              	TO_CHAR(UNREGISTER_DT, 'yyyyMMDD') AS OCCRRNC_DE,
+	              	ID
+			    FROM TB_MEMBER 
+			    WHERE UNREGISTER_YN = 'Y'
+			    <isEqual property="sc" compareValue="m" prepend="AND">
+				        TO_CHAR(UNREGISTER_DT,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" prepend="AND" >
+				        TO_CHAR(UNREGISTER_DT,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+		    </isEqual>
+		    <isEqual property="regi" compareValue="N">
+		    	SELECT 
+			   		TO_CHAR(JOINDATE, 'yyyy') AS YEAR,
+	               	TO_CHAR(JOINDATE, 'yyyyMM') AS YEAR_MONTH,
+	              	TO_CHAR(JOINDATE, 'yyyyMMDD') AS OCCRRNC_DE,
+	              	ID
+			    FROM TB_MEMBER 
+		    	WHERE UNREGISTER_YN = 'N'
+		    	<isEqual property="sc" compareValue="m" prepend="AND">
+				        TO_CHAR(JOINDATE,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" prepend="AND" >
+				        TO_CHAR(JOINDATE,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+	    	 </isEqual>
+	    	 <isEqual property="human" compareValue="Y">
+		    	SELECT 
+			   		TO_CHAR(HUMAN_DT, 'yyyy') AS YEAR,
+	               	TO_CHAR(HUMAN_DT, 'yyyyMM') AS YEAR_MONTH,
+	              	TO_CHAR(HUMAN_DT, 'yyyyMMDD') AS OCCRRNC_DE,
+	              	ID
+			    FROM TB_MEMBER 
+		    	WHERE HUMAN_YN = 'Y'
+		    	<isEqual property="sc" compareValue="m" prepend="AND">
+				        TO_CHAR(HUMAN_DT,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d" prepend="AND" >
+				        TO_CHAR(HUMAN_DT,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+	    	 </isEqual>
+		)
+	   	<isEqual property="sc" compareValue="y" >
+			GROUP BY YEAR
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="m" >
+			GROUP BY YEAR_MONTH
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="d" >
+			GROUP BY OCCRRNC_DE
+	   	</isEqual>
+	</select>
+	
+	<!-- 총 방문자수 조회 -->
+	<select id="KwaStatsMgrDAO.selectVisitStatus" resultClass="hashmap" parameterClass="hashmap" remapResults="true">
+		SELECT 
+	    	<isEqual property="sc" compareValue="y" >
+				YEAR as S_ID,
+				YEAR,
+       			COUNT(RQESTER_IP) AS CNT
+	    	</isEqual>
+	    	<isEqual property="sc" compareValue="m" >
+				YEAR_MONTH as S_ID ,
+				YEAR_MONTH,
+				COUNT(RQESTER_IP) AS CNT
+	    	</isEqual>
+		   	<isEqual property="sc" compareValue="d" >
+				OCCRRNC_DE as S_ID ,
+				OCCRRNC_DE,
+				COUNT(RQESTER_IP) AS CNT
+		   	</isEqual>
+		FROM(
+			    SELECT 
+			    	DISTINCT RQESTER_IP
+			    	<isEqual property="sc" compareValue="y">
+               			,TO_CHAR(OCCRRNC_DE, 'YYYY') AS YEAR 
+               		</isEqual>
+               		<isEqual property="sc" compareValue="m">
+               			,TO_CHAR(OCCRRNC_DE, 'YYYYMM') AS YEAR_MONTH 
+               		</isEqual>
+               		<isEqual property="sc" compareValue="d">
+               			,TO_CHAR(OCCRRNC_DE, 'YYYYMMDD') AS OCCRRNC_DE 
+          			</isEqual>
+          		FROM 
+          			COMTNWEBLOG
+			    <isEqual property="sc" compareValue="m">
+				        WHERE TO_CHAR(OCCRRNC_DE,'yyyy') = #year#
+		    	</isEqual>
+		    	<isEqual property="sc" compareValue="d">
+				        WHERE TO_CHAR(OCCRRNC_DE,'yyyyMM') =  #year#||#month#
+		    	</isEqual>
+		)
+	   	<isEqual property="sc" compareValue="y" >
+			GROUP BY YEAR
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="m" >
+			GROUP BY YEAR_MONTH
+	   	</isEqual>
+	   	<isEqual property="sc" compareValue="d" >
+			GROUP BY OCCRRNC_DE
+	   	</isEqual>
+	</select>
+	
+	<!-- 사용자 환경 - PC & MOBILE -->
+	<select id="KwaStatsMgrDAO.selectVisitConPcMobile" resultClass="hashmap" remapResults="true">
+		SELECT
+			( SELECT SUM(RDCNT) FROM COMTSWEBLOGSUMMARY where INSTR( url ,'/com/' ) = 0 AND INSTR( url ,'/cmm/' ) = 0 AND INSTR( url ,'/m/' ) = 0 ) AS HP_PC,
+			( SELECT SUM(RDCNT) FROM COMTSWEBLOGSUMMARY where INSTR( url ,'/com/' ) = 0 AND INSTR( url ,'/cmm/' ) = 0 AND INSTR( url ,'/m/' ) = 1 ) AS HP_M
+		FROM DUAL
+	</select>
+	
+	<!-- 사용자 환경 - BROWSER -->
+	<select id="KwaStatsMgrDAO.selectVisitConBrow" resultClass="hashmap" remapResults="true">
+		SELECT 
+			(SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE REQUEST_BROWSER = 'Mise') AS Mise,
+       		(SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE REQUEST_BROWSER = 'Chrome') AS Chrome,
+     	    (SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE REQUEST_BROWSER = 'Opera') AS Opera,
+       		(SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE REQUEST_BROWSER = 'iPhone') AS iPhone,
+       		(SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE REQUEST_BROWSER = 'Android') AS Android
+  		FROM DUAL
+	</select>
+	
+	<!-- 사용자 환경 - OS -->
+	<select id="KwaStatsMgrDAO.selectVisitConOs" resultClass="hashmap" remapResults="true">
+		SELECT 
+			(SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE INSTR(REQUEST_OS, 'Windows')=1) AS Windows,
+       		(SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE REQUEST_OS = 'Linux') AS Linux,
+       		(SELECT COUNT(DISTINCT RQESTER_IP) FROM COMTNWEBLOG WHERE REQUEST_OS = 'Macintosh') AS Macintosh
+  		FROM DUAL
+	</select>
+</sqlMap>

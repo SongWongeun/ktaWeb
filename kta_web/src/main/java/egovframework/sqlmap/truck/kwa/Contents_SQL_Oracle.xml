@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Contents">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<typeAlias  alias="conSearchVO" type="kr.or.truck.kwa.contentsmgr.service.ContentsSearchVO"/>
+	
+	<typeAlias  alias="customBoardVO" type="kr.or.truck.kwa.contentsmgr.service.CustomBoardVO"/>
+	
+	<!-- 게시판 목록조회 -->
+	<select id="contentsDAO.getBoardMasterList" resultClass="hashMap">
+	SELECT * 
+	FROM
+		HP_BOARD_MASTER
+	WHERE 
+		USE_YN ='Y'
+    AND 
+   		HP_BOARD_MASTER_NO NOT IN(15,9,7,6)
+	</select>
+	<!-- 게시판 목록조회(메뉴관리자용) -->
+	<select id="contentsDAO.getBoardMasterListM" resultClass="hashMap" parameterClass="hashMap">
+		SELECT 
+			hbm.HP_BOARD_MASTER_NO AS HP_BOARD_MASTER_NO
+			,BOARD_NM
+			,BOARD_DESC
+			,BOARD_TYPE
+			,USE_COMMENT_YN
+			,USE_REPLY_YN
+			,USE_ADMIN_YN
+			,USE_FILE_YN
+			,USE_CATEGORY_YN
+			,FILE_UPLOAD_LIMIT_SIZE
+			,FILE_UPLOAD_AVAIL_NUMBER
+			,hbm.USE_YN AS USE_YN
+			,USING_TABLE_NAME
+			,DISPLAY_TYPE 
+		FROM
+			HP_BOARD_MASTER hbm
+	  LEFT OUTER JOIN
+	  	HP_MENU hm
+	  ON
+	  	hm.HP_BOARD_MASTER_NO = hbm.HP_BOARD_MASTER_NO
+		WHERE 
+			hbm.USE_YN ='Y'
+	  AND 
+	   	hbm.HP_BOARD_MASTER_NO NOT IN(15,9,7,6)
+	  AND
+	  	hm.HP_MENU_NO IN (<iterate property="authMenuList" conjunction=",">#authMenuList[]#</iterate>)
+	</select>
+	
+	<!-- 게시글 목록 조회 -->
+	<select id="contentsDAO.selectBoardArticles" parameterClass="conSearchVO" resultClass="hashMap" remapResults="true" >
+	SELECT *	
+	FROM (
+		SELECT  ROWNUM RNUM, A.*
+		FROM (
+			SELECT *
+			FROM 
+				$searchKeyword$
+			WHERE USE_AT ='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				((TITLE LIKE '%' || #searchWord# || '%')
+				OR
+				(CONTENT_TEXT LIKE '%' || #searchWord# || '%')) AND USE_AT='Y' 
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchWord# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchWord# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="3">
+				WRITER_NAME LIKE '%' || #searchWord# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="4">
+				TITLE LIKE '%' || #searchWord# || '%'  /*입찰공고에서 사용*/
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="5">
+				BID_NAME LIKE '%' || #searchWord# || '%' /*입찰공고에서 사용*/
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="6">
+				WRITER_NAME LIKE '%' || #searchWord# || '%'  /*입찰공고에서 사용*/
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="7">
+				SITE_NAME LIKE '%' || #searchWord# || '%'  /*관련사이트에서 사용*/
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="8">
+				SITE_URL LIKE '%' || #searchWord# || '%'  /*관련사이트에서 사용*/
+			</isEqual>
+			<isNotEmpty prepend="AND" property="category">
+				CATEGORY LIKE '%' || #category# || '%'  /*관련사이트에서 사용*/
+			</isNotEmpty>
+			ORDER BY
+				ARTICLE_NO DESC)A
+				)
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- total count -->
+	<select id="contentsDAO.selectBoardCount" parameterClass="conSearchVO" resultClass="Int" remapResults="true" >
+	SELECT COUNT(*) TOTCNT
+	FROM
+		( SELECT * FROM $searchKeyword$ )
+	WHERE USE_AT='Y'	
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			((TITLE LIKE '%' || #searchWord# || '%')
+			OR
+			(CONTENT_TEXT LIKE '%' || #searchWord# || '%')) AND USE_AT='Y' 
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			TITLE LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			CONTENT_TEXT LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="3">
+			WRITER_NAME LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="4">
+			TITLE LIKE '%' || #searchWord# || '%'  /*입찰공고에서 사용*/
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="5">
+			BID_NAME LIKE '%' || #searchWord# || '%' /*입찰공고에서 사용*/
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="6">
+			WRITER_NAME LIKE '%' || #searchWord# || '%'  /*입찰공고에서 사용*/
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="7">
+			SITE_NAME LIKE '%' || #searchWord# || '%'  /*관련사이트에서 사용*/
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="8">
+			SITE_URL LIKE '%' || #searchWord# || '%'  /*관련사이트에서 사용*/
+		</isEqual>
+		<isNotEmpty prepend="AND" property="category">
+			CATEGORY LIKE '%'  || #category# ||  '%'  /*관련사이트에서 사용*/
+		</isNotEmpty>
+	</select>
+	
+	<!-- 게시글 상세조회  -->
+	<select id="contentsDAO.selectBoard" parameterClass="hashMap" resultClass="hashMap" remapResults="true" >
+	SELECT 
+	*
+	FROM $TABLE$
+	WHERE ARTICLE_NO=#ARTICLE_NO#
+	</select>
+	
+	<!-- CustomBoard Count -->
+	<select id="contentsDAO.selectCustomBoardCount"  parameterClass="conSearchVO" resultClass="Int" >
+	SELECT COUNT(*) TOTCNT
+	FROM
+		( SELECT * FROM HP_CUSTOM_BOARD WHERE HP_BOARD_MASTER_NO = #searchKeyword#)
+	WHERE USE_AT='Y'	
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			((TITLE LIKE '%' || #searchWord# || '%')
+			OR
+			(CONTENT_TEXT LIKE '%' || #searchWord# || '%')) AND USE_AT='Y' 
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			TITLE LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			CONTENT_TEXT LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="3">
+			REGIST_NAME LIKE '%' || #searchWord# || '%'
+		</isEqual>		
+		<isNotEmpty prepend="AND" property="category">
+			CATEGORY LIKE '%'  || #category# ||  '%'  /*관련사이트에서 사용*/
+		</isNotEmpty>
+	</select>
+	
+	<!-- CustomBoard List -->
+	<select id="contentsDAO.selectCustomBoardList" parameterClass="conSearchVO" resultClass="hashmap" >
+	SELECT 
+		HP_CUSTOM_BOARD_NO AS ARTICLE_NO, 
+		TITLE, 
+		REGIST_ID AS WRITER_NAME,
+		REGIST_DATE AS CREATE_TIME,
+		READ_COUNT AS RDCOUNT,
+		CATEGORY AS CATEGORY
+	FROM 
+		HP_CUSTOM_BOARD
+	WHERE
+		HP_BOARD_MASTER_NO = #searchKeyword#
+	AND
+		USE_AT='Y'		
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			((TITLE LIKE '%' || #searchWord# || '%')
+			OR
+			(CONTENT_TEXT LIKE '%' || #searchWord# || '%')) AND USE_AT='Y' 
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			TITLE LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			CONTENT_TEXT LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="3">
+			REGIST_NAME LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isNotEmpty prepend="AND" property="category">
+			CATEGORY LIKE '%'  || #category# ||  '%'  /*관련사이트에서 사용*/
+		</isNotEmpty>
+	ORDER BY HP_CUSTOM_BOARD_NO DESC
+	</select>
+	
+	<!-- CustomBoard select  -->
+	<select id='contentsDAO.selectCustomBoard' parameterClass='hashmap' resultClass='hashmap'>
+	SELECT 
+		HP_CUSTOM_BOARD_NO		 	AS		HP_CUSTOM_BOARD_NO	,
+		NVL(TITLE, ' ') 			AS 		TITLE				,
+		NVL(CONTENT_HTML, ' ')		AS		CONTENT_HTML		,
+		NVL(CONTENT_TEXT, ' ')		AS		CONTENT_TEXT		,
+		NVL(READ_COUNT, '0')		AS		READ_COUNT			,
+		REGIST_DATE,
+		NVL(REGIST_ID, ' ')			AS		REGIST_ID			,	
+		MODIFY_DATE,
+		NVL(MODIFY_ID, ' ')			AS		MODIFY_ID			,
+		NVL(ATCH_FILE_ID, ' ')		AS		ATCH_FILE_ID		,
+		NVL(REPLY_CONTENT_HTML, ' ')AS		REPLY_CONTENT_HTML	,
+		NVL(REPLY_CONTENT_TEXT, ' ')AS		REPLY_CONTENT_TEXT	,
+		REPLY_REGIST_DATE,
+		NVL(REPLY_REGIST_ID, ' ')	AS		REPLY_REGIST_ID		,
+		REPLY_MODIFY_DATE,
+		NVL(REPLY_MODIFY_ID, ' ')	AS		REPLY_MODIFY_ID		,
+		USE_AT,
+		NVL(CATEGORY, ' ')			AS		CATEGORY			,
+		HP_BOARD_MASTER_NO
+	FROM 
+		HP_CUSTOM_BOARD
+	WHERE
+		HP_BOARD_MASTER_NO = #boardNo#
+	AND
+		HP_CUSTOM_BOARD_NO = #ARTICLE_NO#
+	AND
+		USE_AT='Y'
+	</select>
+		
+	<!-- CustomBoard Insert -->
+	<insert id="contentsDAO.insertCustomBoard" parameterClass="customBoardVO">
+	INSERT INTO
+		HP_CUSTOM_BOARD
+	VALUES(
+	HP_CUSTOM_BOARD_NO_SEQ.NEXTVAL,
+	#title#,
+	#contentHtml#,
+	#contentText#,
+	0,
+	SYSDATE,
+	#writerId#,
+	SYSDATE,
+	#writerId#,
+	#atchFileId#,
+	'',
+	'',
+	SYSDATE,
+	NULL,
+	SYSDATE,
+	NULL,
+	'Y',
+	#category#,
+	#bmstNo#,
+	#writerName#
+	)
+	</insert>
+	
+	<!-- CustomBoard Update -->
+	<update id="contentsDAO.updateCustomBoard" parameterClass="customBoardVO">
+	UPDATE 
+		HP_CUSTOM_BOARD
+	SET
+		TITLE = #title#,
+		CONTENT_HTML = #contentHtml#,
+		CONTENT_TEXT = #contentText#,
+		MODIFY_DATE = SYSDATE,
+		MODIFY_ID = #writerId#,
+		ATCH_FILE_ID = #atchFileId#,
+		REPLY_CONTENT_HTML = #reply_contentHtml#,
+		REPLY_CONTENT_TEXT = #reply_contentText#,
+		CATEGORY = #category#
+	WHERE
+		HP_BOARD_MASTER_NO = #bmstNo#
+	AND
+		HP_CUSTOM_BOARD_NO = #articleNo#
+	</update>
+	
+	<!-- CustomBoard Delete -->
+	<update id="contentsDAO.deleteCustomBoard" parameterClass="customBoardVO">
+	UPDATE 
+		HP_CUSTOM_BOARD
+	SET
+		USE_AT = 'N'
+	WHERE
+		HP_BOARD_MASTER_NO = #searchKeyword#
+	AND
+		HP_CUSTOM_BOARD_NO = #articleNo#
+	</update>
+	
+	<select id="contentsDAO.selectCustomBoardFileId" parameterClass="hashMap" resultClass="string" remapResults="true" >
+	SELECT 
+		HP_CUSTOM_BOARD_NO		
+	FROM 
+		HP_CUSTOM_BOARD
+	WHERE
+		HP_BOARD_MASTER_NO = #boardNo#
+	AND
+		ATCH_FILE_ID = #ATCH_FILE_ID#
+	</select>
+	
+	<select id="contentsDAO.selectBoardFileId" parameterClass="hashMap" resultClass="string" remapResults="true" >
+	SELECT 
+		ARTICLE_NO
+	FROM 
+		$TABLE$
+	WHERE ATCH_FILE_ID=#ATCH_FILE_ID#
+	</select>
+	
+	
+</sqlMap>

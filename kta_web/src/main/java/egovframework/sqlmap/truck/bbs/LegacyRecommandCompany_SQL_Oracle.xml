@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RecommandCompany">
+
+	<typeAlias  alias="recommandCompanySearchVO" type="kr.or.truck.infolounge.datacenter.service.RecommandCompanySearchVO"/>
+
+
+	<select id="RecommandCompanyLegacyDAO.selectRepairCompany" parameterClass="recommandCompanySearchVO" resultClass="hashmap" >
+		
+			 SELECT * 
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					select 
+							B.REP_SHOP_CODE    REP_SHOP_CODE, 
+				             B.rep_shop_nm      code_nm, 
+				             B.zip_code         zip_code, 
+				             B.home_no          home_no, 
+				             F_ZIP_NM(b.ZIP_CODE) zip_name, 
+				             b.tel_dom          tel_dom, 
+				             b.tel_no           tel_no
+				             /*, 
+				             a.DD_NM_1          DD_NM_1, 
+				             a.DD_HDPHN_1       DD_HDPHN_1*/ 
+				      from   cpaf04 B, cpaf05 a 
+				      where  B.rep_shop_nm like '%' || #searchKeyword# || '%'
+				      and    b.stats_code = '0' 
+				      and    b.REP_SHOP_CODE = a.REP_SHOP_CODE 
+				      and    a.COORP_YN = '1'  
+				      and    trim(DD_HDPHN_1) is not null
+ 					  and    trim(a.dd_nm_1) is not null
+					  and	 F_ZIP_NM(b.ZIP_CODE) like #searchDirect# ||'%'/* 지역 searchDirect */
+					   
+					ORDER BY b.ZIP_CODE asc, code_nm asc
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="RecommandCompanyLegacyDAO.selectRepairCompany_S" parameterClass="recommandCompanySearchVO" resultClass="int" >
+
+			SELECT COUNT(*) totCnt
+			from   cpaf04 B, cpaf05 a 
+		      where  B.rep_shop_nm like '%' || #searchKeyword# || '%'
+		      and    b.stats_code = '0' 
+		      and    b.REP_SHOP_CODE = a.REP_SHOP_CODE 
+		      and    a.COORP_YN = '1' 
+		      and    trim(DD_HDPHN_1) is not null
+			  and    trim(a.dd_nm_1) is not null
+			  and	 F_ZIP_NM(b.ZIP_CODE) like #searchDirect#||'%' /* 지역 searchDirect */
+	</select>
+</sqlMap>

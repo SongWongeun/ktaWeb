@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AccDeductInquiry">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>	
+	<typeAlias  alias="accDeductInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	<typeAlias  alias="accDeductInquiryVO" type="kr.or.truck.netcounter.inquiryservice.service.AccDeductInquiryVO"/>
+	
+	<resultMap id="accDeductInquiry" class="kr.or.truck.netcounter.inquiryservice.service.AccDeductInquiryVO">	
+		<result property="cnt" column="CNT"/>
+		<result property="car_gaip_no" column="CAR_GAIP_NO"/>
+		<result property="car_no" column="CAR_NO"/>
+		<result property="car_kind_nm" column="CAR_KIND_NM"/>		
+		<result property="jaehae_gongje_nm" column="JAEHAE_GONGJE_NM"/>
+		<result property="jongsa_nm" column="JONGSA_NM"/>
+		<result property="jongsa_jumin_no" column="JONGSA_JUMIN_NO"/>
+		<result property="gyeyak_state_nm" column="GYEYAK_STATE_NM"/>
+		<result property="napip_gb" column="NAPIP_GB"/>
+		<result property="gaip_ymd" column="GAIP_YMD"/>
+		<result property="yuhyo_ymd" column="YUHYO_YMD"/>
+		<result property="next_bunnap_ymd" column="NEXT_BUNNAP_YMD"/>
+		<result property="next_bunnap_amt" column="NEXT_BUNNAP_AMT"/>
+		<result property="bosang" column="BOSANG"/>
+		<result property="bosang_chk" column="BOSANG_CHK"/>
+		
+		<result property="proper_wg" column="PROPER_WG"/>
+		<result property="car_nm" column="CAR_NM"/>
+		<result property="car_body_no" column="CAR_BODY_NO"/>
+		<result property="car_yy" column="CAR_YY"/>
+		<result property="tot_wg" column="TOT_WG"/>
+		<result property="sub_unit_tot" column="SUB_UNIT_TOT"/>
+		<result property="machine_unit_amt" column="MACHINE_UNIT_AMT"/>
+		<result property="top_tank_amt" column="TOP_TANK_AMT"/>
+		
+		<result property="tel_local_no" column="TEL_LOCAL_NO"/>
+		<result property="tel_no" column="TEL_NO"/>
+		<result property="mobile_com_no" column="MOBILE_COM_NO"/>
+		<result property="mobile_no" column="MOBILE_NO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="gyeyak_no" column="GYEYAK_NO"/>
+	</resultMap>
+	
+	
+	
+	<resultMap id="accDeductDetail" class="kr.or.truck.netcounter.inquiryservice.service.DetailVO">	
+		<result property="car_no" column="CAR_NO" nullValue="" />
+		<result property="gyeyak_no" column="GYEYAK_NO" nullValue="" />		
+		<result property="gyeyak_state_nm" column="GYEYAK_STATE_NM" nullValue="" />
+		<result property="bunnap_amt1" column="BUNNAP_AMT1" nullValue="" />
+		<result property="youngsu_ymd1" column="YOUNGSU_YMD1" nullValue="" />
+		<result property="bunnap_amt2" column="BUNNAP_AMT2" nullValue="" />
+		<result property="youngsu_ymd2" column="YOUNGSU_YMD2" nullValue="" />
+		<result property="bunnap_amt3" column="BUNNAP_AMT3" nullValue="" />
+		<result property="youngsu_ymd3" column="YOUNGSU_YMD3" nullValue="" />
+		<result property="bunnap_amt4" column="BUNNAP_AMT4" nullValue="" />
+		<result property="youngsu_ymd4" column="YOUNGSU_YMD4" nullValue="" />
+		<result property="bunnap_amt5" column="BUNNAP_AMT5" nullValue="" />
+		<result property="youngsu_ymd5" column="YOUNGSU_YMD5" nullValue="" />
+		<result property="bunnap_amt6" column="BUNNAP_AMT6" nullValue="" />
+		<result property="youngsu_ymd6" column="YOUNGSU_YMD6" nullValue="" />									
+	</resultMap>
+	
+	<select id="accDeductInquiryDAO.selectAccDeductTotCnt" parameterClass="accDeductInquirySearchVO" resultClass="integer" >		 
+		select count(*) as totCnt
+		  from ctgy06 a,
+		       ctgy07 b,
+		       ctgi01 c,
+		       ctgi05 d,
+		       ctgi09 e 
+		 where ((#agentcd#          = '1'           and
+		         c.saupja_no          = #saupja_no# and
+		         c.gyeyak_jibu_cd  like #gyeyak_jibu_cd#) or
+		        (#agentcd#         != '1'           /*	차량관리자가 여러업체 관리할 경우 조회가능하게 조건 삭제함.*/))
+		   and c.agent_no             = d.agent_no
+		   and c.saupjang_seq         = d.saupjang_seq
+		   and ((#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or
+		         d.carmgr_jumin_no like #jumin_no#)
+		   and d.car_gaip_no          = a.car_gaip_no
+		   and a.gyeyak_state_cd     in ('1', '2', '5')
+		   /* and a.gyeyak_state_cd != '8'  */
+		   and a.gyeyak_no            = b.gyeyak_no
+		   and a.bunnap_cnt           = b.bunnap_cnt
+		   and a.jongsa_jumin_no      = e.jongsa_jumin_no
+		   /* and a.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy06 temp where temp.car_gaip_no = a.car_gaip_no )*/
+			<isEqual property="searchCondition" compareValue="detail">
+				and a.car_gaip_no = #car_gaip_no#
+			</isEqual>
+	</select>		
+	
+	<select id="accDeductInquiryDAO.selectList" parameterClass="accDeductInquirySearchVO" resultMap="accDeductInquiry" >			 
+		select 
+				a.gyeyak_no,/*계약번호*/
+				d.car_nm,	/*차명*/
+				d.car_body_no,	/*차대번호*/
+				d.car_yy,	/*년식*/
+				d.tot_wg,	/*총중량*/
+				d.sub_unit_tot,	/*부속품합계액*/
+				d.machine_unit_amt,	/*기계가액*/
+				d.top_tank_amt,	/*탑및탱크가액*/
+		        d.proper_wg                                                       proper_wg,
+				
+				e.tel_local_no,
+				e.tel_no,
+				e.mobile_com_no,
+				e.mobile_no,
+				e.email,
+				
+				c.agent_nm                                                 agent_nm,
+		       d.car_gaip_no                                              car_gaip_no,
+		       decode(trim(d.car_no), null, d.car_body_no, d.car_no)      car_no,
+		       f_code_nm('1056', d.car_kind_cd)                           car_kind_nm,
+		       f_code_nm('1048', a.jaehae_gongje_cd)                      jaehae_gongje_nm,
+		       e.jongsa_nm                                                jongsa_nm,
+		       substr(e.jongsa_jumin_no, 1, 6) || '-*******'              jongsa_jumin_no,
+		       f_code_nm('1004', a.gyeyak_state_cd)                       gyeyak_state_nm,
+		       a.gyeyak_eymd                                              gyeyak_eymd,
+		       trim(a.bunnap_cnt) || '회 / ' || trim(a.napip_gb_cd) || '회' napip_gb,
+		       substr(a.gyeyak_symd, 1, 4) || '.' ||
+		       substr(a.gyeyak_symd, 5, 2) || '.' ||
+		       substr(a.gyeyak_symd, 7, 2) || '~' ||
+		       substr(a.gyeyak_eymd, 1, 4) || '.' ||
+		       substr(a.gyeyak_eymd, 5, 2) || '.' ||
+		       substr(a.gyeyak_eymd, 7, 2)                                gaip_ymd,
+		       substr(b.yuhyo_symd,  1, 4) || '.' ||
+		       substr(b.yuhyo_symd,  5, 2) || '.' ||
+		       substr(b.yuhyo_symd,  7, 2) || '~' ||
+		       substr(b.yuhyo_eymd,  1, 4) || '.' ||
+		       substr(b.yuhyo_eymd,  5, 2) || '.' ||
+		       substr(b.yuhyo_eymd,  7, 2)                                yuhyo_ymd,
+		       (case when a.bunnap_cnt = a.napip_gb_cd
+		             then ''
+		             else (select x.yuhyo_symd
+		                     from ctgy07 x
+		                    where x.gyeyak_no  = b.gyeyak_no
+		                      and x.bunnap_cnt = b.bunnap_cnt + '1')
+		       end)                                                       next_bunnap_ymd,
+		       (case when a.bunnap_cnt = a.napip_gb_cd
+		             then 0
+		             else (select y.bunnap_amt
+		                     from ctgy07 y
+		                    where y.gyeyak_no  = b.gyeyak_no
+		                      and y.bunnap_cnt = b.bunnap_cnt + '1')
+		       end)                                                       next_bunnap_amt,
+		       0                                                          cnt,
+		       '클릭'                                                     bosang,
+		       0                                                          bosang_chk
+		  from ctgy06 a,
+		       ctgy07 b,
+		       ctgi01 c,
+		       ctgi05 d,
+		       ctgi09 e 
+		 where 1=1
+		 	<isNotEmpty property="saupja_no">
+				and c.saupja_no      = #saupja_no#
+			</isNotEmpty>
+			<isNotEmpty property="gyeyak_jibu_cd">
+				and c.gyeyak_jibu_cd      = #gyeyak_jibu_cd#
+			</isNotEmpty>
+		   and c.agent_no             = d.agent_no
+		   and c.saupjang_seq         = d.saupjang_seq
+		   and ((#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or
+		         d.carmgr_jumin_no like #jumin_no#)
+		   and d.car_gaip_no          = a.car_gaip_no
+		   
+		   and a.gyeyak_state_cd     in ('1', '2', '5')
+		   /* and a.gyeyak_state_cd != '8' */
+		   /* and a.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy06 temp where temp.car_gaip_no = a.car_gaip_no ) 가장 최신 계약 */
+		   
+		   and a.gyeyak_no            = b.gyeyak_no
+		   and a.bunnap_cnt           = b.bunnap_cnt
+		   and a.jongsa_jumin_no      = e.jongsa_jumin_no
+		   
+		   and a.car_gaip_no = #car_gaip_no#
+		 order by d.car_no, b.gyeyak_no desc
+	
+						 
+	</select>		
+
+
+
+<select id="accDeductInquiryDAO.selectDetailList" parameterClass="accDeductInquirySearchVO" resultMap="accDeductDetail" >
+	select decode(trim(x.car_no), null, x.car_body_no, x.car_no) car_no, 
+       x.gyeyak_no,   
+       f_code_nm('1004', x.gyeyak_state_cd)                  gyeyak_state_nm,
+       x.bunnap_amt1,  
+       x.youngsu_ymd1, 
+       x.bunnap_amt2,  
+       x.youngsu_ymd2,  
+       x.bunnap_amt3,  
+       x.youngsu_ymd3, 
+       x.bunnap_amt4,  
+       x.youngsu_ymd4, 
+       x.bunnap_amt5,  
+       x.youngsu_ymd5, 
+       x.bunnap_amt6,  
+       x.youngsu_ymd6
+  from (
+        select a.car_no                                          car_no,
+               a.car_body_no                                     car_body_no,
+               b.gyeyak_no                                       gyeyak_no,    
+               max(b.gyeyak_state_cd)                            gyeyak_state_cd,
+                                                                 
+               max(decode(c.bunnap_cnt, '1', c.yuhyo_symd,  '')) yuhyo_symd1,
+               max(decode(c.bunnap_cnt, '1', c.yuhyo_eymd,  '')) yuhyo_eymd1,
+               max(decode(c.bunnap_cnt, '1', c.bunnap_amt,   0)) bunnap_amt1,
+               max(decode(c.bunnap_cnt, '1', c.youngsu_ymd, '')) youngsu_ymd1,
+                                                                 
+               max(decode(c.bunnap_cnt, '2', c.yuhyo_symd,  '')) yuhyo_symd2,
+               max(decode(c.bunnap_cnt, '2', c.yuhyo_eymd,  '')) yuhyo_eymd2,
+               max(decode(c.bunnap_cnt, '2', c.bunnap_amt,   0)) bunnap_amt2,
+               max(decode(c.bunnap_cnt, '2', c.youngsu_ymd, '')) youngsu_ymd2,
+                                                                 
+               max(decode(c.bunnap_cnt, '3', c.yuhyo_symd,  '')) yuhyo_symd3,
+               max(decode(c.bunnap_cnt, '3', c.yuhyo_eymd,  '')) yuhyo_eymd3,
+               max(decode(c.bunnap_cnt, '3', c.bunnap_amt,   0)) bunnap_amt3,
+               max(decode(c.bunnap_cnt, '3', c.youngsu_ymd, '')) youngsu_ymd3,
+                                                                 
+               max(decode(c.bunnap_cnt, '4', c.yuhyo_symd,  '')) yuhyo_symd4,
+               max(decode(c.bunnap_cnt, '4', c.yuhyo_eymd,  '')) yuhyo_eymd4,
+               max(decode(c.bunnap_cnt, '4', c.bunnap_amt,   0)) bunnap_amt4,
+               max(decode(c.bunnap_cnt, '4', c.youngsu_ymd, '')) youngsu_ymd4,
+
+               max(decode(c.bunnap_cnt, '5', c.yuhyo_symd,  '')) yuhyo_symd5,
+               max(decode(c.bunnap_cnt, '5', c.yuhyo_eymd,  '')) yuhyo_eymd5,
+               max(decode(c.bunnap_cnt, '5', c.bunnap_amt,   0)) bunnap_amt5,
+               max(decode(c.bunnap_cnt, '5', c.youngsu_ymd, '')) youngsu_ymd5,
+                                                                 
+               max(decode(c.bunnap_cnt, '6', c.yuhyo_symd,  '')) yuhyo_symd6,
+               max(decode(c.bunnap_cnt, '6', c.yuhyo_eymd,  '')) yuhyo_eymd6,
+               max(decode(c.bunnap_cnt, '6', c.bunnap_amt,   0)) bunnap_amt6,
+               max(decode(c.bunnap_cnt, '6', c.youngsu_ymd, '')) youngsu_ymd6
+          from ctgi05 a,
+               ctgy06 b,
+               ctgy07 c
+         where a.car_gaip_no      = #car_gaip_no#
+           and a.car_gaip_no      = b.car_gaip_no
+   
+		   /*and b.gyeyak_state_cd     in ('1', '2', '5')*/
+		   and b.gyeyak_state_cd != '8' 
+		   and b.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy06 temp where temp.car_gaip_no = b.car_gaip_no ) /* 가장 최신 계약 */
+   
+   
+           and b.gyeyak_no        = c.gyeyak_no
+         group by a.car_no, a.car_body_no, b.gyeyak_no
+       ) x
+ order by x.car_no, x.gyeyak_no desc
+</select>
+</sqlMap>

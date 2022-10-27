@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >
+	
+	<select id="LegacyCommonCodeDAO.getCode" parameterClass="string" resultClass="hashmap" >
+			SELECT 	CODE_NO, CODE_NAME
+			FROM 	CT_CODE01
+			WHERE	CODE_PART = #code_part#
+			AND		CODE_NO != '.'
+	</select>
+	
+	
+</sqlMap>

@@ -1,0 +1,142 @@
+@charset "utf-8";
+
+/* ---------------------------------------------------------------------------------
+        Name : KTA | 전국화물자동차운송사업자공제조합
+        PART : Reset & Common Style
+        Author : EUN NIM
+--------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------------- Reset --------------------------------------------------------------------------------- */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,a,address,em,img,strong,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,video {margin:0px;padding:0px;border:0px;}
+body {font-family:'NanumGothic','나눔고딕', 돋움, Dotum, Arial, tahoma, sans-serif;width:100%;height:100%;font-size:13px;color:#585858;max-height:100%;max-width:100%;}
+html:first-child select {padding-right:6px;height:25px;} /* Opera 9 & Below Fix */
+option {vertical-align:middle;padding:3px 0;} /* Firefox Fix */
+h1, h2, h3, h4, h5, h6 {font-weight:normal;font-size:13px;}
+img, fieldset, button {vertical-align:middle;#vertical-align:top;border:0;}
+iframe {padding:0px;margin:0px;border:0px;vertical-align:baseline}
+blockquote, q {quotes:none;}
+q:before, q:after {content:"";}
+ul, ol {list-style:none;}
+table {border-collapse:collapse;border-spacing:0;empty-cells:show;table-layout:fixed}
+address, em {font-style:normal;}
+hr {display:none;}
+caption {visibility:hidden;overflow:hidden;width:0;height:0;font-size:0;line-height:0;text-indent:-9999px;}
+legend {position:absolute;visibility:hidden;overflow:hidden;width:0px;height:0px;font-size:0px;line-height:0;text-indent:-9999px;}
+a {text-decoration:none;color:#464a5b;}
+a:hover, a:active, a:focus {text-decoration:none;}
+input, textarea, button {line-height: 1.2; /* 입력폼에서 춤추지 않는 최소 줄간 1.2 */ vertical-align: middle;}
+textarea {background:#ffffff;width:100%;height:100px;padding:4px 0 1px 0;color:#454545;vertical-align:middle;border:1px solid #e0e0e0;resize:none;}
+select {border:1px solid #e0e0e0;vertical-align:middle;line-height:24px;height:24px;padding:3px 3px 3px 4px;color:#585858;font-family:'NanumGothic','나눔고딕';}
+label {vertical-align:middle;}
+input[type="text"], input[type="password"] {background:#ffffff;height:22px;line-height:22px;padding:0px 5px;vertical-align:middle;border:1px solid #e0e0e0;color:#585858;font-family:'NanumGothic','나눔고딕';}
+input[type="file"] {vertical-align:middle;height:22px;width:80%;margin-right:6px;}
+input[type="checkbox"],input[type="radio"] {margin:0;padding:0;vertical-align:middle;width:13px;height:13px;line-height:13px;}
+
+/* --------------------------------------------------------------------------------- Common Style --------------------------------------------------------------------------------- */
+.skipMenu {position:absolute;top:-10000px;}
+.hide {position:absolute;visibility:hidden;overflow:hidden;width:0px;height:0px;font-size:0px;line-height:0;text-indent:-9999px;}
+.ellipsis {display:inline-block;overflow:hidden; white-space:nowrap;-o-text-overflow:ellipsis;-ms-text-overflow:ellipsis;text-overflow:ellipsis;word-wrap:normal !important}
+.txtBreak {
+	word-wrap:break-word !important; /* Internet Explorer 5.5+ */
+	white-space:pre-wrap !important; /* css-3 */
+	white-space:-moz-pre-wrap !important; /* Mozilla, since 1999 */
+	white-space:-pre-wrap !important; /* Opera 4-6 */
+	white-space:-o-pre-wrap !important; /* Opera 7 */
+	} /* td 안에 텍스트 줄바꿈을 시켜줍니다 */
+.txtNowrap {white-space:nowrap;} /* 줄바꿈 없음 */
+
+/* clear class */
+.clear {clear:both !important;}
+.clfix:after {content:'.';display:block;height:0px;clear:both;visibility:hidden;}
+.clfix {display:inline-block;}
+.clfix {display:block;}
+.clfix {zoom:1;} /*for ie 5.5-7*/
+* html .clfix {height:1%;} /* hides from ie-mac */
+
+/* align class */
+.flL {float:left !important;}
+.flL5 {float:left padding-right:5px !important;}
+.flR {float:right !important;}
+.clB {clear:both !important;}
+
+.alC {text-align:center !important;}
+.alL {text-align:left !important;}
+.alR {text-align:right !important;}
+.alJ {text-align:justify !important;}
+
+.vaT {vertical-align:top !important;}
+.vaM {vertical-align:middle !important;}
+.vaB {vertical-align:bottom !important;}
+
+/* font class */
+.normal {font-family:'NanumGothic' !important;}
+.bold {font-family:'NanumGothicBold' !important;}
+.exbold {font-family:'NanumGothicExtraBold' !important;}
+.f13{font-size:13px;}
+
+/* padding class */
+.pA0 {padding:0px !important;}
+
+.pT0 {padding-top:0 !important;}
+.pT5 {padding-top:5px !important;}
+.pT20 {padding-top:20px !important;}
+.pT25 {padding-top:25px !important;}
+.pT50 {padding-top:50px !important;}
+.pT65 {padding-top:65px !important;}
+
+.pL0 {padding-left:0px !important;}
+.pL5 {padding-left:5px !important;}
+.pL10 {padding-left:10px !important;}
+.pL16 {padding-left:16px !important;}
+.pL17 {padding-left:17px !important;}
+.pL25 {padding-left:25px !important;}
+.pL45 {padding-left:45px !important;}
+.pL68 {padding-left:68px !important;}
+.pL93 {padding-left:93px !important;}
+
+.pB0 {padding-bottom:0px !important;}
+.pB5 {padding-bottom:5px !important;}
+.pB10 {padding-bottom:10px !important;}
+.pB13 {padding-bottom:13px !important;}
+.pB20 {padding-bottom:20px !important;}
+.pB30 {padding-bottom:30px !important;}
+
+.pR5 {padding-right:5px !important;}
+.pR11 {padding-right:11px !important;}
+.pR25 {padding-right:25px !important;}
+.pR40 {padding-right:40px !important;}
+.pR45 {padding-right:45px !important;}
+
+/* margin class */
+.mT-27 {margin-top:-27px !important;}
+
+.mA0 {margin:5px !important;}
+.mT5 {margin-top:5px !important;}
+.mT10 {margin-top:10px !important;}
+.mT15 {margin-top:15px !important;}
+.mT25 {margin-top:25px !important;}
+.mT30 {margin-top:30px !important;}
+.mT35 {margin-top:35px !important;}
+.mT40 {margin-top:40px !important;}
+
+.mL0 {margin-left:0px !important;}
+.mL5 {margin-left:5px !important;}
+.mL10 {margin-left:10px !important;}
+.mL20 {margin-left:20px !important;}
+
+.mB0 {margin-bottom:0px !important;}
+.mB3 {margin-bottom:3px;}
+.mB5 {margin-bottom:5px !important;}
+.mB10 {margin-bottom:10px !important;}
+.mB15 {margin-bottom:15px;}
+.mB20 {margin-bottom:20px !important;}
+.mB25 {margin-bottom:25px !important;}
+.mB30 {margin-bottom:30px !important;}
+.mB40 {margin-bottom:40px !important;}
+.mB50 {margin-bottom:50px !important;}
+
+.mR0 {margin-right:0px !important;}
+.mR5 {margin-right:5px !important;}
+.mR20 {margin-right:20px !important;}
+
+

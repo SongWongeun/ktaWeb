@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >
+
+	<typeAlias  alias="carDeductInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	
+	<!-- 2017.01.03 [H] 추가 - 보상정보조회에서 차량의 계약상세 확인시 필요한 car_gaip_no, gyeyak_no -->
+	<select id="CarStatusInquiryDAO.selectCarInfo" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		SELECT
+			A.GYEYAK_NO
+			, E.CAR_GAIP_NO
+			, E.CAR_NO
+		FROM
+			CTGY01 A
+			, CTGI01 D
+			, CTGI05 E
+		WHERE
+			((#agentcd# = '1' AND D.SAUPJA_NO = #saupja_no# AND D.GYEYAK_JIBU_CD  like #gyeyak_jibu_cd#)
+				OR (#agentcd# != '1'  /*	차량관리자가 여러업체 관리할 경우 조회가능하게 조건 삭제함. 	*/))
+			AND D.AGENT_NO = E.AGENT_NO
+			AND D.SAUPJANG_SEQ = E.SAUPJANG_SEQ
+			AND ((#agentcd# = '1'  and trim(E.CARMGR_JUMIN_NO) is null) or E.CARMGR_JUMIN_NO like #jumin_no#)
+			AND E.CAR_GAIP_NO = A.CAR_GAIP_NO
+			AND A.GYEYAK_STATE_CD IN ('1','2')
+	</select>
+	
+	<!--현재 로그인 한 사람의   유효계약정보-->
+	<select id="CarStatusInquiryDAO.selectCarStatusTotCnt" parameterClass="carDeductInquirySearchVO" resultClass="integer" >
+		select
+				count(*) as tot_cnt
+	    from
+	        ctgy01 a,
+	        ctgy02 b,
+	        ctgy03 c,
+	        (select b1.agent_no,
+	              b1.saupjang_seq,
+	              b1.car_gaip_no,
+	              b1.car_no,
+	              b1.carmgr_jumin_no,
+	              b1.car_body_no
+	         from tb_member_saupno@kotmaswb a1,
+	              ctgi05 b1
+	        where a1.saupnum      = #saupja_no#
+	          and a1.agent_no     = b1.agent_no
+	          and a1.saupjang_seq = b1.saupjang_seq
+	       ) d
+	    where (#agentcd# = '1' or #agentcd# != '1')
+	        and (	(#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or d.carmgr_jumin_no like #jumin_no#)
+	        and d.car_gaip_no          = a.car_gaip_no 
+            and a.gyeyak_state_cd     in ( '1', '2' )
+	        /* and a.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy01 temp where temp.car_gaip_no = a.car_gaip_no )   가장 최신 계약 */
+	        <isEqual property= "napip_yn" compareValue ="Y" >
+	        	and b.dambo_kind_cd in ('1', '2')
+	        </isEqual>
+	        <isNotEqual property= "napip_yn" compareValue ="Y" >
+	        	and b.dambo_kind_cd = 1 /* 대인1 기준 */
+	        </isNotEqual>
+	        and a.gyeyak_no            = b.gyeyak_no    
+	        and b.gyeyak_no            = c.gyeyak_no    
+	        and b.dambo_kind_cd        = c.dambo_kind_cd    
+	        and b.bunnap_cnt           = c.bunnap_cnt  
+	        <isNotEmpty property="searchKeyword">
+		        and d.car_no like '%'||#searchKeyword#||'%'
+	        </isNotEmpty>
+	        <isNotEmpty property="searchStartDetailDate">
+	        	<isNotEmpty property="searchEndDetailDate">
+	        		<![CDATA[and ( #searchStartDetailDate# < b.dambo_gaip_eymd and #searchEndDetailDate# > b.dambo_gaip_symd )]]>
+				</isNotEmpty> 
+			</isNotEmpty>
+			<isNotEmpty property="napip_yn">
+				and b.napip_gb_cd != b.bunnap_cnt
+			</isNotEmpty>
+	</select>
+	
+	<!-- 
+		 * 통합계약 조회 , 계약조회의 차량리스트 (searchCondition = car_no )
+	 * 	- 대인I 기준으로 계약기간이 가장최신 데이터 조회
+	 * 	- 미도래 제외
+	 -->
+	<select id="CarStatusInquiryDAO.selectCar" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		SELECT * FROM (
+			SELECT  ROWNUM RNUM, S.*
+			FROM (
+			    select a.gyeyak_no,	/*계약번호*/
+				       d.car_gaip_no                                                     car_gaip_no,
+				       decode(trim(d.car_no), null, d.car_body_no, d.car_no)             car_no,
+				        nvl((
+				          select count(distinct bb04.acdnt_no)
+				           from cpaa03 aa03,
+				                cpaa04 bb04,
+                        		cpaa01 cc01
+				          where /*bb04.acdnt_no   >= to_char(sysdate, 'yyyy') - '1' || '00000' */
+                        		cc01.acdnt_ymd >= to_char(sysdate, 'yyyy') - '3' || to_char(sysdate, 'MMdd') 
+				            and bb04.car_gaip_no = a.car_gaip_no
+				            and bb04.acdnt_no    = aa03.acdnt_no
+                    		and cc01.acdnt_no = aa03.acdnt_no
+				            and aa03.dmbo_gb    in ('1', '2', '3')
+				          group by bb04.car_gaip_no
+				        ), 0)                                                              as bosang_cnt, /* 최근 3년 기준 보상건수*/
+				        f_code_nm('1004', b.gyeyak_state_cd)                              gyeyak_state_nm,
+				       substr(b.dambo_gaip_symd, 1, 4) || '. ' ||
+				       substr(b.dambo_gaip_symd, 5, 2) || '. ' ||
+				       substr(b.dambo_gaip_symd, 7, 2) || '~' ||
+				       substr(b.dambo_gaip_eymd, 1, 4) || '. ' ||
+				       substr(b.dambo_gaip_eymd, 5, 2) || '. ' ||
+				       substr(b.dambo_gaip_eymd, 7, 2)                                   dambo_gaip_ymd
+			    from
+			        ctgy01 a,
+			        ctgy02 b,
+			        ctgy03 c,
+			        (select b1.agent_no,
+			              b1.saupjang_seq,
+			              b1.car_gaip_no,
+			              b1.car_no,
+			              b1.carmgr_jumin_no,
+			              b1.car_body_no
+			         from tb_member_saupno@kotmaswb a1,
+			              ctgi05 b1
+			        where a1.saupnum      = #saupja_no#
+			          and a1.agent_no     = b1.agent_no
+			          and a1.saupjang_seq = b1.saupjang_seq
+			       ) d 
+			    where (#agentcd# = '1' or #agentcd# != '1')
+			        and (	(#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or d.carmgr_jumin_no like #jumin_no#)
+			        and d.car_gaip_no          = a.car_gaip_no 
+			        and a.gyeyak_state_cd     in ( '1', '2' )
+				    /* and a.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy01 temp where temp.car_gaip_no = a.car_gaip_no ) 가장 최신 계약 */
+			        <isEqual property= "napip_yn" compareValue ="Y" >
+			        	and b.dambo_kind_cd in ('1', '2')
+			        </isEqual>
+			        <isNotEqual property= "napip_yn" compareValue ="Y" >
+			        	and b.dambo_kind_cd = 1 /* 대인1 기준 */
+			        </isNotEqual>
+			        and a.gyeyak_no            = b.gyeyak_no    
+			        and b.gyeyak_no            = c.gyeyak_no    
+			        and b.dambo_kind_cd        = c.dambo_kind_cd    
+			        and b.bunnap_cnt           = c.bunnap_cnt
+			        <isNotEmpty property="searchKeyword">
+				        and d.car_no like '%'||#searchKeyword#||'%'
+			        </isNotEmpty>
+			        <isNotEmpty property="searchStartDetailDate">
+			        	<isNotEmpty property="searchEndDetailDate">
+	        				<![CDATA[and ( #searchStartDetailDate# < b.dambo_gaip_eymd and #searchEndDetailDate# > b.dambo_gaip_symd )]]>
+						</isNotEmpty> 
+					</isNotEmpty>
+					<!-- 
+					<isNotEmpty property="searchStartDetailDate">
+		        		<isNotEmpty property="searchEndDetailDate">
+		        			<![CDATA[and ( #searchStartDetailDate# < c.yuhyo_eymd and #searchEndDetailDate# > c.yuhyo_eymd )]]>
+						</isNotEmpty> 
+					</isNotEmpty> -->
+					<isNotEmpty property="napip_yn">
+						and b.napip_gb_cd != b.bunnap_cnt
+					</isNotEmpty>
+			    order by
+			    	<isNotEmpty property="napip_yn">
+						c.yuhyo_eymd,
+					</isNotEmpty>
+			        d.car_no,
+			        b.gyeyak_no desc,
+			        b.dambo_kind_cd
+			) S
+		) SS
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+	</select>
+
+	
+	<!-- 통합계약 상세조회 -->
+	<select id="CarStatusInquiryDAO.selectCarDeduct" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+			    select a.gyeyak_no,	/*계약번호*/
+						e.car_body_no,	/*차대번호*/
+						d.agent_nm                                                        agent_nm,
+				       e.car_gaip_no                                                     car_gaip_no,
+				       decode(trim(e.car_no), null, e.car_body_no, e.car_no)             car_no,
+				       e.car_nm ,/*차명*/
+				       f_code_nm('1056', e.car_kind_cd)                                  car_kind_nm,
+				       e.proper_wg                                                       proper_wg,
+				       b.dambo_kind_cd                                                   dambo_kind_cd,       
+				       f_code_nm('1008', b.dambo_kind_cd)                                dambo_kind_nm,
+				       decode(b.dambo_kind_cd, '1', '',
+				                               '2', decode(a.tukbyul_dae2_rate, '100', '', a.tukbyul_dae2_rate),
+				                               '3', decode(a.tukbyul_daemul_rate, '100', '', a.tukbyul_daemul_rate),
+				                               '4', decode(a.tukbyul_cha_rate, '100', '', a.tukbyul_cha_rate))     tukbyul_rate,
+				       decode(b.dambo_kind_cd, '1', '',
+				                               '2', '무한',
+				                               '3', f_code_nm('1010', b.dambo_hando_cd),
+				                               '4', f_code_nm('1010', b.dambo_hando_cd)) dambo_hando,
+				       f_code_nm('1004', b.gyeyak_state_cd)                              gyeyak_state_nm,
+				       trim(b.bunnap_cnt) || '회/' || trim(b.napip_gb_cd) || '회'        napip_gb,
+				       a.gyeyak_eymd  gyeyak_eymd,
+				       substr(b.dambo_gaip_symd, 1, 4) || '. ' ||
+				       substr(b.dambo_gaip_symd, 5, 2) || '. ' ||
+				       substr(b.dambo_gaip_symd, 7, 2) || '~' ||
+				       substr(b.dambo_gaip_eymd, 1, 4) || '. ' ||
+				       substr(b.dambo_gaip_eymd, 5, 2) || '. ' ||
+				       substr(b.dambo_gaip_eymd, 7, 2)                                   dambo_gaip_ymd,
+				       substr(c.yuhyo_symd,      1, 4) || '. ' ||
+				       substr(c.yuhyo_symd,      5, 2) || '. ' ||
+				       substr(c.yuhyo_symd,      7, 2) || '~' ||
+				       substr(c.yuhyo_eymd,      1, 4) || '. ' ||
+				       substr(c.yuhyo_eymd,      5, 2) || '. ' ||
+				       substr(c.yuhyo_eymd,      7, 2)                                   yuhyo_ymd,
+				       (case when b.bunnap_cnt = b.napip_gb_cd
+				             then ''
+				             else (select x.yuhyo_symd
+				                     from ctgy03 x
+				                    where x.gyeyak_no     = c.gyeyak_no
+				                      and x.dambo_kind_cd = c.dambo_kind_cd
+				                      and x.bunnap_cnt    = c.bunnap_cnt + '1')
+				       end)                                                              next_bunnap_ymd,
+				       (case when b.bunnap_cnt = b.napip_gb_cd
+				             then 0
+				             else (select y.bunnap_amt
+				                     from ctgy03 y
+				                    where y.gyeyak_no     = c.gyeyak_no
+				                      and y.dambo_kind_cd = c.dambo_kind_cd
+				                      and y.bunnap_cnt    = c.bunnap_cnt + '1')
+				       end)                                                              next_bunnap_amt,
+				       0                                                                 cnt,
+				       '클릭'                                                            bosang,
+				       0                                                                 bosang_chk
+			    from
+			        ctgy01 a,
+			        ctgy02 b,
+			        ctgy03 c,
+			        ctgi01 d,
+			        ctgi05 e   
+			    where ((#agentcd#          = '1'           and
+				         d.saupja_no          = #saupja_no# and
+				         d.gyeyak_jibu_cd  like #gyeyak_jibu_cd#) or
+				        (#agentcd#         != '1'           /*	차량관리자가 여러업체 관리할 경우 조회가능하게 조건 삭제함. */))
+			        and d.agent_no             = e.agent_no    
+			        and d.saupjang_seq         = e.saupjang_seq    
+			        and (	(#agentcd# = '1'  and trim(e.carmgr_jumin_no) is null) or
+		         			e.carmgr_jumin_no like #jumin_no#)
+			        and e.car_gaip_no          = a.car_gaip_no 
+			        <isEqual property= "searchCondition" compareValue ="car_no" >
+                         /*and a.gyeyak_state_cd != '8'*/
+                         and a.gyeyak_state_cd     in ( '1', '2', '5' )
+                    </isEqual>
+                    <isNotEqual property= "searchCondition" compareValue ="car_no" >
+                         and a.gyeyak_state_cd     in ( '1', '2', '5' )
+                    </isNotEqual>
+			        /* and b.dambo_kind_cd = 1  대인1 기준 */
+			        and a.gyeyak_no            = b.gyeyak_no    
+			        and b.gyeyak_no            = c.gyeyak_no    
+			        and b.dambo_kind_cd        = c.dambo_kind_cd    
+			        and b.bunnap_cnt           = c.bunnap_cnt
+		        <iterate property="car_gaip_no_array" open="and e.car_gaip_no in (" conjunction="," close=")">
+		        	#car_gaip_no_array[]#
+		        </iterate>
+		        <isNotEmpty property="searchStartDetailDate">
+		        	<isNotEmpty property="searchEndDetailDate">
+	        			<![CDATA[and ( #searchStartDetailDate# < b.dambo_gaip_eymd and #searchEndDetailDate# > b.dambo_gaip_symd )]]>
+					</isNotEmpty> 
+				</isNotEmpty>
+			    order by
+			        e.car_no,
+			        b.gyeyak_no desc,
+			        b.dambo_kind_cd	
+	</select>
+	
+	<!-- 통합계약 조회 Json 생성용-->
+	<select id="CarStatusInquiryDAO.selectCarDeductJson" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		select d.agent_nm                                                        agent_nm,
+		       e.car_gaip_no                                                     car_gaip_no,
+		       decode(trim(e.car_no), null, e.car_body_no, e.car_no)             car_no,
+		       f_code_nm('1056', e.car_kind_cd)                                  car_kind_nm,
+		       e.proper_wg                                                       proper_wg,
+		       b.dambo_kind_cd                                                   dambo_kind_cd,       
+		       f_code_nm('1008', b.dambo_kind_cd)                                dambo_kind_nm,
+		       decode(b.dambo_kind_cd, '1', '',
+		                               '2', decode(a.tukbyul_dae2_rate, '100', '', a.tukbyul_dae2_rate),
+		                               '3', decode(a.tukbyul_daemul_rate, '100', '', a.tukbyul_daemul_rate),
+		                               '4', decode(a.tukbyul_cha_rate, '100', '', a.tukbyul_cha_rate))     tukbyul_rate,
+		       decode(b.dambo_kind_cd, '1', '',
+		                               '2', '무한',
+		                               '3', f_code_nm('1010', b.dambo_hando_cd),
+		                               '4', f_code_nm('1010', b.dambo_hando_cd)) dambo_hando,
+		       f_code_nm('1004', b.gyeyak_state_cd)                              gyeyak_state_nm,
+		       trim(b.bunnap_cnt) || '회/' || trim(b.napip_gb_cd) || '회'        napip_gb,
+		       a.gyeyak_eymd  gyeyak_eymd,
+		       substr(b.dambo_gaip_symd, 1, 4) || '.' ||
+		       substr(b.dambo_gaip_symd, 5, 2) || '.' ||
+		       substr(b.dambo_gaip_symd, 7, 2) || '~' ||
+		       substr(b.dambo_gaip_eymd, 1, 4) || '.' ||
+		       substr(b.dambo_gaip_eymd, 5, 2) || '.' ||
+		       substr(b.dambo_gaip_eymd, 7, 2)                                   dambo_gaip_ymd,
+		       substr(c.yuhyo_symd,      1, 4) || '.' ||
+		       substr(c.yuhyo_symd,      5, 2) || '.' ||
+		       substr(c.yuhyo_symd,      7, 2) || '~' ||
+		       substr(c.yuhyo_eymd,      1, 4) || '.' ||
+		       substr(c.yuhyo_eymd,      5, 2) || '.' ||
+		       substr(c.yuhyo_eymd,      7, 2)                                   yuhyo_ymd,
+		       (case when b.bunnap_cnt = b.napip_gb_cd
+		             then ''
+		             else (select x.yuhyo_symd
+		                     from ctgy03@kotmasdb x
+		                    where x.gyeyak_no     = c.gyeyak_no
+		                      and x.dambo_kind_cd = c.dambo_kind_cd
+		                      and x.bunnap_cnt    = c.bunnap_cnt + '1')
+		       end)                                                              next_bunnap_ymd,
+		       (case when b.bunnap_cnt = b.napip_gb_cd
+		             then 0
+		             else (select y.bunnap_amt
+		                     from ctgy03@kotmasdb y
+		                    where y.gyeyak_no     = c.gyeyak_no
+		                      and y.dambo_kind_cd = c.dambo_kind_cd
+		                      and y.bunnap_cnt    = c.bunnap_cnt + '1')
+		       end)                                                              next_bunnap_amt,
+		       0                                                                 cnt,
+		       '클릭'                                                            bosang,
+		       0                                                                 bosang_chk
+		  from ctgy01 a,
+		       ctgy02 b,
+		       ctgy03 c,
+		       ctgi01 d,
+		       ctgi05 e 
+		 where ((#agentcd#          = '1'           and
+		         d.saupja_no          = #saupja_no# and
+		         d.gyeyak_jibu_cd  like #gyeyak_jibu_cd#) or
+		        (#agentcd#         <![CDATA[<>]]> '1'           and 
+		         d.agent_no           = #agent_no#  and
+		         d.saupjang_seq       = #saupjang_seq#))
+		   and d.agent_no             = e.agent_no
+		   and d.saupjang_seq         = e.saupjang_seq
+		   and ((#agentcd# = '1'  and trim(e.carmgr_jumin_no) is null) or
+		         e.carmgr_jumin_no like #jumin_no#)
+		   and e.car_gaip_no          = a.car_gaip_no
+		   and a.gyeyak_state_cd     in ('1', '2', '5')
+		   and a.gyeyak_no            = b.gyeyak_no
+		   and b.gyeyak_no            = c.gyeyak_no
+		   and b.dambo_kind_cd        = c.dambo_kind_cd
+		   and b.bunnap_cnt           = c.bunnap_cnt
+		 order by e.car_no, b.gyeyak_no desc, b.dambo_kind_cd
+	</select>
+		
+	<!-- 통합계약 분담금 조회 Json 생성용-->
+	<select id="CarStatusInquiryDAO.selectCarBundamJson" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+	select decode(trim(x.car_no), null, x.car_body_no, x.car_no) car_no,
+	       x.gyeyak_no,
+	       f_code_nm('1008', x.dambo_kind_cd)                    dambo_kind_nm,
+	       f_code_nm('1004', x.gyeyak_state_cd)                  gyeyak_state_nm,
+	       x.bunnap_amt1,
+	       x.youngsu_ymd1,
+	       x.bunnap_amt2,
+	       x.youngsu_ymd2,
+	       x.bunnap_amt3,
+	       x.youngsu_ymd3,
+	       x.bunnap_amt4,
+	       x.youngsu_ymd4,
+	       x.bunnap_amt5,
+	       x.youngsu_ymd5,
+	       x.bunnap_amt6,
+	       x.youngsu_ymd6,
+	       x.dambo_kind_cd,
+	       x.gyeyak_state_cd
+	  from (
+	        select a1.car_no                                                                                        car_no,
+	               a1.car_body_no                                                                                   car_body_no,
+	               d1.gyeyak_no                                                                                     gyeyak_no,
+	               d1.dambo_kind_cd                                                                                 dambo_kind_cd,
+	               max(c1.gyeyak_state_cd)                                                                          gyeyak_state_cd,
+	
+	               max(decode(d1.bunnap_cnt,  '1', d1.yuhyo_symd,  ''))                                             yuhyo_symd1,
+	               max(decode(d1.bunnap_cnt,  '1', d1.yuhyo_eymd,  ''))                                             yuhyo_eymd1,
+	               max(decode(d1.bunnap_cnt,  '1', d1.bunnap_amt,   0))                                             bunnap_amt1,
+	               max(decode(d1.bunnap_cnt,  '1', d1.youngsu_ymd, ''))                                             youngsu_ymd1,
+	
+	               max(decode(c1.napip_gb_cd, '2', '',             decode(d1.bunnap_cnt, '2', d1.yuhyo_symd,  ''))) yuhyo_symd2,
+	               max(decode(c1.napip_gb_cd, '2', '',             decode(d1.bunnap_cnt, '2', d1.yuhyo_eymd,  ''))) yuhyo_eymd2,
+	               max(decode(c1.napip_gb_cd, '2',  0,             decode(d1.bunnap_cnt, '2', d1.bunnap_amt,   0))) bunnap_amt2,
+	               max(decode(c1.napip_gb_cd, '2', '',             decode(d1.bunnap_cnt, '2', d1.youngsu_ymd, ''))) youngsu_ymd2,
+	
+	               max(decode(d1.bunnap_cnt,  '3', d1.yuhyo_symd,  ''))                                             yuhyo_symd3,
+	               max(decode(d1.bunnap_cnt,  '3', d1.yuhyo_eymd,  ''))                                             yuhyo_eymd3,
+	               max(decode(d1.bunnap_cnt,  '3', d1.bunnap_amt,   0))                                             bunnap_amt3,
+	               max(decode(d1.bunnap_cnt,  '3', d1.youngsu_ymd, ''))                                             youngsu_ymd3,
+	
+	               max(decode(c1.napip_gb_cd, '2', decode(d1.bunnap_cnt, '2', d1.yuhyo_symd,  ''),
+	                                               decode(d1.bunnap_cnt, '4', d1.yuhyo_symd,  '')))                 yuhyo_symd4,
+	               max(decode(c1.napip_gb_cd, '2', decode(d1.bunnap_cnt, '2', d1.yuhyo_eymd,  ''),
+	                                               decode(d1.bunnap_cnt, '4', d1.yuhyo_eymd,  '')))                 yuhyo_eymd4,
+	               max(decode(c1.napip_gb_cd, '2', decode(d1.bunnap_cnt, '2', d1.bunnap_amt,   0),
+	                                               decode(d1.bunnap_cnt, '4', d1.bunnap_amt,   0)))                 bunnap_amt4,
+	               max(decode(c1.napip_gb_cd, '2', decode(d1.bunnap_cnt, '2', d1.youngsu_ymd, ''),
+	                                               decode(d1.bunnap_cnt, '4', d1.youngsu_ymd, '')))                 youngsu_ymd4,
+	
+	               max(decode(d1.bunnap_cnt,  '5', d1.yuhyo_symd,  ''))                                             yuhyo_symd5,
+	               max(decode(d1.bunnap_cnt,  '5', d1.yuhyo_eymd,  ''))                                             yuhyo_eymd5,
+	               max(decode(d1.bunnap_cnt,  '5', d1.bunnap_amt,   0))                                             bunnap_amt5,
+	               max(decode(d1.bunnap_cnt,  '5', d1.youngsu_ymd, ''))                                             youngsu_ymd5,
+	
+	               max(decode(d1.bunnap_cnt,  '6', d1.yuhyo_symd,  ''))                                             yuhyo_symd6,
+	               max(decode(d1.bunnap_cnt,  '6', d1.yuhyo_eymd,  ''))                                             yuhyo_eymd6,
+	               max(decode(d1.bunnap_cnt,  '6', d1.bunnap_amt,   0))                                             bunnap_amt6,
+	               max(decode(d1.bunnap_cnt,  '6', d1.youngsu_ymd, ''))                                             youngsu_ymd6
+	          from ctgi05 a1,
+	               ctgy01 b1,
+	               ctgy02 c1,
+	               ctgy03 d1
+	         where a1.car_gaip_no      = #car_gaip_no#
+	           and a1.car_gaip_no      = b1.car_gaip_no
+	           and b1.gyeyak_state_cd in ('1', '2', '5')
+	           and b1.gyeyak_no        = c1.gyeyak_no
+	           and c1.gyeyak_no        = d1.gyeyak_no
+	           and c1.dambo_kind_cd    = '1'
+	           and c1.dambo_kind_cd    = d1.dambo_kind_cd
+	         group by a1.car_no, a1.car_body_no, d1.gyeyak_no, d1.dambo_kind_cd
+	
+	        union all
+	
+	        select a2.car_no                                           car_no,
+	               a2.car_body_no                                      car_body_no,
+	               d2.gyeyak_no                                        gyeyak_no,
+	               d2.dambo_kind_cd                                    dambo_kind_cd,
+	               max(c2.gyeyak_state_cd)                             gyeyak_state_cd,
+	
+	               max(decode(d2.bunnap_cnt, '1', d2.yuhyo_symd,  '')) yuhyo_symd1,
+	               max(decode(d2.bunnap_cnt, '1', d2.yuhyo_eymd,  '')) yuhyo_eymd1,
+	               max(decode(d2.bunnap_cnt, '1', d2.bunnap_amt,   0)) bunnap_amt1,
+	               max(decode(d2.bunnap_cnt, '1', d2.youngsu_ymd, '')) youngsu_ymd1,
+	
+	               max(decode(d2.bunnap_cnt, '2', d2.yuhyo_symd,  '')) yuhyo_symd2,
+	               max(decode(d2.bunnap_cnt, '2', d2.yuhyo_eymd,  '')) yuhyo_eymd2,
+	               max(decode(d2.bunnap_cnt, '2', d2.bunnap_amt,   0)) bunnap_amt2,
+	               max(decode(d2.bunnap_cnt, '2', d2.youngsu_ymd, '')) youngsu_ymd2,
+	
+	               max(decode(d2.bunnap_cnt, '3', d2.yuhyo_symd,  '')) yuhyo_symd3,
+	               max(decode(d2.bunnap_cnt, '3', d2.yuhyo_eymd,  '')) yuhyo_eymd3,
+	               max(decode(d2.bunnap_cnt, '3', d2.bunnap_amt,   0)) bunnap_amt3,
+	               max(decode(d2.bunnap_cnt, '3', d2.youngsu_ymd, '')) youngsu_ymd3,
+	
+	               max(decode(d2.bunnap_cnt, '4', d2.yuhyo_symd,  '')) yuhyo_symd4,
+	               max(decode(d2.bunnap_cnt, '4', d2.yuhyo_eymd,  '')) yuhyo_eymd4,
+	               max(decode(d2.bunnap_cnt, '4', d2.bunnap_amt,   0)) bunnap_amt4,
+	               max(decode(d2.bunnap_cnt, '4', d2.youngsu_ymd, '')) youngsu_ymd4,
+	
+	               max(decode(d2.bunnap_cnt, '5', d2.yuhyo_symd,  '')) yuhyo_symd5,
+	               max(decode(d2.bunnap_cnt, '5', d2.yuhyo_eymd,  '')) yuhyo_eymd5,
+	               max(decode(d2.bunnap_cnt, '5', d2.bunnap_amt,   0)) bunnap_amt5,
+	               max(decode(d2.bunnap_cnt, '5', d2.youngsu_ymd, '')) youngsu_ymd5,
+	
+	               max(decode(d2.bunnap_cnt, '6', d2.yuhyo_symd,  '')) yuhyo_symd6,
+	               max(decode(d2.bunnap_cnt, '6', d2.yuhyo_eymd,  '')) yuhyo_eymd6,
+	               max(decode(d2.bunnap_cnt, '6', d2.bunnap_amt,   0)) bunnap_amt6,
+	               max(decode(d2.bunnap_cnt, '6', d2.youngsu_ymd, '')) youngsu_ymd6
+	          from ctgi05 a2,
+	               ctgy01 b2,
+	               ctgy02 c2,
+	               ctgy03 d2
+	         where a2.car_gaip_no      = #car_gaip_no#
+	           and a2.car_gaip_no      = b2.car_gaip_no
+	           and b2.gyeyak_state_cd in ('1', '2', '5')
+	           and b2.gyeyak_no        = c2.gyeyak_no
+	           and c2.gyeyak_no        = d2.gyeyak_no
+	           and c2.dambo_kind_cd   <![CDATA[<>]]> '1'
+	           and c2.dambo_kind_cd    = d2.dambo_kind_cd
+	         group by a2.car_no, a2.car_body_no, d2.gyeyak_no, d2.dambo_kind_cd
+	       ) x
+	 order by x.car_no, x.gyeyak_no desc, x.dambo_kind_cd
+	</select>
+	
+	<!-- 
+		* 재해상세 조회
+	  -->
+	<select id="CarStatusInquiryDAO.selectAccDeduct" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		select a.gyeyak_no,/*계약번호*/
+			   c.agent_nm                                                 agent_nm,
+		       d.car_gaip_no                                              car_gaip_no,
+		       decode(trim(d.car_no), null, d.car_body_no, d.car_no)      car_no,
+		       f_code_nm('1056', d.car_kind_cd)                           car_kind_nm,
+		       f_code_nm('1048', a.jaehae_gongje_cd)                      jaehae_gongje_nm,
+		       e.jongsa_nm                                                jongsa_nm,
+		       substr(e.jongsa_jumin_no, 1, 6) || '-*******'              jongsa_jumin_no,
+		       f_code_nm('1004', a.gyeyak_state_cd)                       gyeyak_state_nm,
+		       a.gyeyak_eymd                                              gyeyak_eymd,
+		       trim(a.bunnap_cnt) || '회/' || trim(a.napip_gb_cd) || '회' napip_gb,
+		       substr(a.gyeyak_symd, 1, 4) || '. ' ||
+		       substr(a.gyeyak_symd, 5, 2) || '. ' ||
+		       substr(a.gyeyak_symd, 7, 2) || '~' ||
+		       substr(a.gyeyak_eymd, 1, 4) || '. ' ||
+		       substr(a.gyeyak_eymd, 5, 2) || '. ' ||
+		       substr(a.gyeyak_eymd, 7, 2)                                gaip_ymd,
+		       substr(b.yuhyo_symd,  1, 4) || '. ' ||
+		       substr(b.yuhyo_symd,  5, 2) || '. ' ||
+		       substr(b.yuhyo_symd,  7, 2) || '~' ||
+		       substr(b.yuhyo_eymd,  1, 4) || '. ' ||
+		       substr(b.yuhyo_eymd,  5, 2) || '. ' ||
+		       substr(b.yuhyo_eymd,  7, 2)                                yuhyo_ymd,
+		       (case when a.bunnap_cnt = a.napip_gb_cd
+		             then ''
+		             else (select x.yuhyo_symd
+		                     from ctgy07 x
+		                    where x.gyeyak_no  = b.gyeyak_no
+		                      and x.bunnap_cnt = b.bunnap_cnt + '1')
+		       end)                                                       next_bunnap_ymd,
+		       (case when a.bunnap_cnt = a.napip_gb_cd
+		             then 0
+		             else (select y.bunnap_amt
+		                     from ctgy07 y
+		                    where y.gyeyak_no  = b.gyeyak_no
+		                      and y.bunnap_cnt = b.bunnap_cnt + '1')
+		       end)                                                       next_bunnap_amt,
+		       0                                                          cnt,
+		       '클릭'                                                     bosang,
+		       0                                                          bosang_chk
+		  from ctgy06 a,
+		       ctgy07 b,
+		       ctgi01 c,
+		       ctgi05 d,
+		       ctgi09 e 
+		 where ((#agentcd#          = '1'           and
+		         c.saupja_no          = #saupja_no# and
+		         c.gyeyak_jibu_cd  like #gyeyak_jibu_cd#) or
+		        (#agentcd#         != '1'           /*	차량관리자가 여러업체 관리할 경우 조회가능하게 조건 삭제함. 	*/))
+		   and c.agent_no             = d.agent_no
+		   and c.saupjang_seq         = d.saupjang_seq
+		   and ((#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or
+		         d.carmgr_jumin_no like #jumin_no#)
+		   and d.car_gaip_no          = a.car_gaip_no 
+			<isEqual property= "searchCondition" compareValue ="car_no" >
+                and a.gyeyak_state_cd != '8'
+			</isEqual>
+			<isNotEqual property= "searchCondition" compareValue ="car_no" >
+			     and a.gyeyak_state_cd     in ( '1', '2', '5' )
+			</isNotEqual>
+		   and a.gyeyak_no            = b.gyeyak_no
+		   and a.bunnap_cnt           = b.bunnap_cnt
+		   and a.jongsa_jumin_no      = e.jongsa_jumin_no
+	        <iterate property="car_gaip_no_array" open="and d.car_gaip_no in (" conjunction="," close=")">
+	        	#car_gaip_no_array[]#
+	        </iterate>
+	        <isNotEmpty property="searchStartDetailDate">
+	        	<isNotEmpty property="searchEndDetailDate">
+	        		<![CDATA[ and ( #searchStartDetailDate# < a.gyeyak_eymd and #searchEndDetailDate# > a.gyeyak_symd )]]>
+				</isNotEmpty> 
+			</isNotEmpty>
+		 order by d.car_no, b.gyeyak_no desc
+	</select>
+	
+	<!-- 
+		 * 적재물 조회
+	 * 	- 계약기간이 가장최신 데이터 조회
+	 * 	- 미도래 제외
+	 -->
+	<select id="CarStatusInquiryDAO.selectCarryDeduct" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		select c.agent_nm                                                 agent_nm,
+				a.gyeyak_no													gyeyak_no,
+		       d.car_gaip_no                                              car_gaip_no, 
+		       decode(trim(d.car_no), null, d.car_body_no, d.car_no)      car_no,
+		       f_code_nm('1056', d.car_kind_cd)                           car_kind_nm,
+		       f_code_nm('1113', a.jukjaemul_gongje_cd)                   jukjaemul_bosang_hando,
+		       f_code_nm('1115', a.myunchaek_cd)                          myunchaek_amt,
+		       f_code_nm('1004', a.gyeyak_state_cd)                       gyeyak_state_nm,
+		       trim(a.bunnap_cnt) || '/' || trim(a.napip_gb_cd)           napip_gb,
+		       a.gyeyak_eymd                                              gyeyak_eymd,
+		       substr(a.gyeyak_symd, 1, 4) || '. ' ||
+		       substr(a.gyeyak_symd, 5, 2) || '. ' ||
+		       substr(a.gyeyak_symd, 7, 2) || '~' ||
+		       substr(a.gyeyak_eymd, 1, 4) || '. ' ||
+		       substr(a.gyeyak_eymd, 5, 2) || '. ' ||
+		       substr(a.gyeyak_eymd, 7, 2)                                gaip_ymd,
+		       substr(b.yuhyo_symd,  1, 4) || '. ' ||
+		       substr(b.yuhyo_symd,  5, 2) || '. ' ||
+		       substr(b.yuhyo_symd,  7, 2) || '~' ||
+		       substr(b.yuhyo_eymd,  1, 4) || '. ' ||
+		       substr(b.yuhyo_eymd,  5, 2) || '. ' ||
+		       substr(b.yuhyo_eymd,  7, 2)                                yuhyo_ymd,
+		       (case when a.bunnap_cnt = a.napip_gb_cd
+		             then ''
+		             else (select x.yuhyo_symd
+		                     from ctgy21 x
+		                    where x.gyeyak_no  = b.gyeyak_no
+		                      and x.bunnap_cnt = b.bunnap_cnt + '1')
+		       end)                                                       next_bunnap_ymd,
+		       (case when a.bunnap_cnt = a.napip_gb_cd
+		             then 0
+		             else (select y.bunnap_amt
+		                     from ctgy21 y
+		                    where y.gyeyak_no  = b.gyeyak_no
+		                      and y.bunnap_cnt = b.bunnap_cnt + '1')
+		       end)                                                       next_bunnap_amt,
+		       'O'                                                        tukyak_chogwa,
+		       case when a.napip_gb_cd > 1 then 'O' else '' end           tukyak_bunnap,
+		       (select decode(x1.tukyak_gubun_cd, 'A', 'O', '')
+		          from ctgy26 x1
+		         where x1.gyeyak_no = a.gyeyak_no
+		           and x1.tukyak_gubun_cd = 'A'
+		           and x1.tukyak_state_cd in ('1', '2', '5'))             tukyak_A,
+		       (select decode(x2.tukyak_gubun_cd, 'B', 'O', '')
+		          from ctgy26 x2
+		         where x2.gyeyak_no = a.gyeyak_no
+		           and x2.tukyak_gubun_cd = 'B'
+		           and x2.tukyak_state_cd in ('1', '2', '5'))             tukyak_B,
+		       (select decode(x3.tukyak_gubun_cd, 'C', 'O', '')
+		          from ctgy26 x3
+		         where x3.gyeyak_no = a.gyeyak_no
+		           and x3.tukyak_gubun_cd = 'C'
+		           and x3.tukyak_state_cd in ('1', '2', '5'))             tukyak_C,
+		       (select decode(x4.tukyak_gubun_cd, 'D', 'O', '')
+		          from ctgy26 x4
+		         where x4.gyeyak_no = a.gyeyak_no
+		           and x4.tukyak_gubun_cd = 'D'
+		           and x4.tukyak_state_cd in ('1', '2', '5'))             tukyak_D,
+		       (select decode(x5.tukyak_gubun_cd, 'E', 'O', '')
+		          from ctgy26 x5
+		         where x5.gyeyak_no = a.gyeyak_no
+		           and x5.tukyak_gubun_cd = 'E'
+		           and x5.tukyak_state_cd in ('1', '2', '5'))             tukyak_E,
+		       (select decode(x6.tukyak_gubun_cd, 'G', 'O', '')
+		          from ctgy26 x6
+		         where x6.gyeyak_no = a.gyeyak_no
+		           and x6.tukyak_gubun_cd = 'G'
+		           and x6.tukyak_state_cd in ('1', '2', '5'))             tukyak_G,
+		       0                                                          cnt,
+		       '클릭'                                                     bosang,
+		       0                                                          bosang_chk
+		  from ctgy20 a,
+		       ctgy21 b,
+		       ctgi01 c,
+		       ctgi05 d
+		 where ((#agentcd#          = '1'           and
+		         c.saupja_no          = #saupja_no# and
+		         c.gyeyak_jibu_cd  like #gyeyak_jibu_cd#) or
+		        (#agentcd#         != '1'           /*	차량관리자가 여러업체 관리할 경우 조회가능하게 조건 삭제함. 	*/))
+		   and c.agent_no             = d.agent_no
+		   and c.saupjang_seq         = d.saupjang_seq
+		   and ((#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or
+		         d.carmgr_jumin_no like #jumin_no#)
+		   and d.car_gaip_no          = a.car_gaip_no 
+			<isEqual property= "searchCondition" compareValue ="car_no" >
+                and a.gyeyak_state_cd != '8'
+			</isEqual>
+			<isNotEqual property= "searchCondition" compareValue ="car_no" >
+			     and a.gyeyak_state_cd     in ( '1', '2', '5' )
+			</isNotEqual>
+		   and a.gyeyak_no            = b.gyeyak_no
+		   and a.bunnap_cnt           = b.bunnap_cnt
+	        <iterate property="car_gaip_no_array" open="and d.car_gaip_no in (" conjunction="," close=")">
+	        	#car_gaip_no_array[]#
+	        </iterate>
+        	<isNotEmpty property="searchStartDetailDate">
+	        	<isNotEmpty property="searchEndDetailDate">
+	        		<![CDATA[and ( #searchStartDetailDate# < a.gyeyak_eymd and #searchEndDetailDate# > a.gyeyak_symd )]]>
+				</isNotEmpty> 
+			</isNotEmpty> 
+        	
+		 order by d.car_no, b.gyeyak_no desc
+	</select>
+	
+	<select id="CarStatusInquiryDAO.selectCarInquiry" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		select x1.agent_no,
+			   x1.saupjang_seq,
+			   f_agent_nm(x1.agent_no, x1.saupjang_seq) agent_nm,
+		       x1.car_no                                car_no,
+		       x1.car_gaip_no														car_gaip_no,
+		       x1.gyeyak_no                             gyeyak_no,
+		       f_code_nm('1004',max(x1.gyeyak_state_cd)) gyeyak_state_cd,
+		       max(x1.daein1_yn)                        daein1_yn,
+		       max(x1.daein2_yn)                        daein2_yn,
+		       max(x1.daemul_yn)                        daemul_yn,
+		       max(x1.cha_yn)                           cha_yn,
+		       max(x1.sin_yn)							sin_yn,
+		       max(x1.tekyak_yn)                        tekyak_yn,
+					 to_char(to_date(max(x1.gyeyak_symd),'yymmdd'),'yyyy.mm.dd') gyeyak_symd,
+			     to_char(to_date(max(x1.gyeyak_eymd),'yymmdd'),'yyyy.mm.dd') gyeyak_eymd,
+		       max(x1.bundam_amt)                       bundam_amt,
+		       max(x1.tot_napip_amt)                    tot_napip_amt,
+		       max(x1.bunnap_cnt)                       bunnap_cnt,
+		       max(x1.napip_gb_cd)                      napip_gb_cd,
+					 to_char(to_date(max(x1.yuhyo_symd),'yymmdd'),'yy.mm.dd')  yuhyo_symd,
+			     to_char(to_date(f_ct_wk_ymd('1', max(x1.yuhyo_symd)),'yymmdd'),'yy.mm.dd')     choigo_eymd,
+		       max(x1.bunnap_amt)                       bunnap_amt,
+		       nvl((select count(distinct bb04.acdnt_no)
+						      from cpaa03 aa03,
+						           cpaa04 bb04,
+		                	 cpaa01 cc01
+						     where cc01.acdnt_ymd  >= to_char(sysdate, 'yyyy') - '3' || to_char(sysdate, 'mmdd')
+						       and bb04.car_gaip_no = x1.car_gaip_no
+						       and bb04.acdnt_no    = aa03.acdnt_no
+		               and cc01.acdnt_no    = aa03.acdnt_no
+						       and aa03.dmbo_gb    in ('1', '2', '3')
+		             group by bb04.car_gaip_no), 0)            bosang_cnt  /* 최근 3년 기준 보상건수*/
+		  from (/* 조합원, 차량번호, 현재까지의 납입금액 등을 하나의 row로 생성 */
+		        select a.agent_no,
+		               a.saupjang_seq,
+		               a.car_gaip_no,
+		               a.car_no,
+		               b.gyeyak_no,
+		               max(b.gyeyak_state_cd)                                     gyeyak_state_cd,
+		               max(decode(b.gaip_dae1_yn,   1, 'Y', 'N'))                 daein1_yn,
+		               max(decode(b.gaip_dae2_yn,   1, 'Y', 'N'))                 daein2_yn,
+		               max(decode(b.gaip_daemul_yn, 1, 'Y', 'N'))                 daemul_yn,
+		               max(decode(b.gaip_cha_yn,    1, 'Y', 'N'))                 cha_yn,
+		               decode((select count(*) from ctgy02 where gyeyak_no = b.gyeyak_no and dambo_kind_cd = '8'), 1, 'Y', 'N') sin_yn,
+		               max(case when (c.dambo_kind_cd = '7' or c.dambo_kind_cd = '9') then 'Y' else 'N' end) tekyak_yn,
+		               max(b.gyeyak_symd)                                         gyeyak_symd,
+		               max(b.gyeyak_eymd)                                         gyeyak_eymd,
+		               sum(c.bundam_amt)                                          bundam_amt,
+		               sum(c.tot_napip_amt)                                       tot_napip_amt,
+		               max(decode(c.dambo_kind_cd, '2', c.bunnap_cnt,  '0'))      bunnap_cnt,
+		               max(decode(c.dambo_kind_cd, '2', c.napip_gb_cd, '0'))      napip_gb_cd,
+		               ''                                                         yuhyo_symd, 
+		               0                                                          bunnap_amt
+		          from (
+		                select b1.agent_no,
+		                       b1.saupjang_seq,
+		                       b1.car_gaip_no,
+		                       b1.car_no
+		                  from tb_member_saupno@kotmaswb a1,
+		                       ctgi05 b1
+		                 where 1=1
+		                   <isEmpty property="agent_no">
+								 <isNotEmpty property="agent_no_array">
+									<iterate property="agent_no_array" open="and a1.saupnum in (" conjunction="," close=")">
+										#agent_no_array[]#
+									</iterate> 
+								 </isNotEmpty>
+							 </isEmpty>
+							  <isEmpty property="agent_no">
+								 <isNotEmpty property="tb_agent_array">
+									<iterate property="tb_agent_array" open="and a1.agent_no||a1.saupjang_seq in (" conjunction="," close=")">
+										#tb_agent_array[]#
+									</iterate>
+								 </isNotEmpty>
+							 </isEmpty>
+					       <isNotEmpty property="agent_no">
+					       	<isNotEmpty property="saupjang_seq">
+							   and a1.agent_no         =  #agent_no#
+							   and a1.saupjang_seq     =  #saupjang_seq#
+				             </isNotEmpty>
+					       </isNotEmpty>
+					       <isNotEmpty property="id">
+		          			 and a1.id = #id#
+					       </isNotEmpty>
+		                   and a1.agent_no     = b1.agent_no
+		                   and a1.saupjang_seq = b1.saupjang_seq
+		               ) a,
+		               ctgy01 b,
+		               ctgy02 c
+		         where 1 = 1
+		           <isNotEmpty property="gyeyak_jibu_cd">
+						and b.gyeyak_jibu_cd = #gyeyak_jibu_cd#
+				   </isNotEmpty>
+		           and a.car_gaip_no        = b.car_gaip_no
+		           and b.gyeyak_state_cd   in ('1', '2', '5') 
+		           and b.gyeyak_no          = c.gyeyak_no
+		         group by a.agent_no, a.saupjang_seq, a.car_gaip_no, a.car_no, b.gyeyak_no
+		
+		         union all
+		
+		        /* 차회납입금 합계 계산 */
+		        select x.agent_no         agent_no,
+		               x.saupjang_seq     saupjang_seq,
+		               x.car_gaip_no      car_gaip_no,
+		               x.car_no           car_no,
+		               x.gyeyak_no        gyeyak_no,
+		               ''                 gyeyak_state_cd,
+		               ''                 daein1_yn,
+		               ''                 daein2_yn,
+		               ''                 daemul_yn,
+		               ''                 cha_yn,
+		               ''				  sin_yn,
+		               ''                 tekyak_yn,
+		               max(x.gyeyak_symd) gyeyak_symd,
+		               max(x.gyeyak_eymd) gyeyak_eymd,
+		               0                  bundam_amt,
+		               0                  tot_napip_amt,
+		               ''                 bunnap_cnt,
+		               ''                 napip_gb_cd,
+		               min(x.yuhyo_symd)  yuhyo_symd,
+		               sum(z.bunnap_amt)  bunnap_amt    
+		          from (
+		                select a.agent_no        agent_no,
+		                       a.saupjang_seq     saupjang_seq,
+		                       a.car_gaip_no      car_gaip_no,
+		                       a.car_no           car_no,
+		                       b.gyeyak_no        gyeyak_no,
+		                       max(b.gyeyak_symd) gyeyak_symd,
+		                       max(b.gyeyak_eymd) gyeyak_eymd,
+		                       min(d.yuhyo_symd)  yuhyo_symd   
+		                  from (
+		                        select b1.agent_no,
+		                               b1.saupjang_seq,
+		                               b1.car_gaip_no,
+		                               b1.car_no
+		                          from tb_member_saupno@kotmaswb a1,
+		                               ctgi05 b1
+		                         where 1=1
+		                           <isEmpty property="agent_no">
+				          			 <isNotEmpty property="agent_no_array">
+										<iterate property="agent_no_array" open="and a1.saupnum in (" conjunction="," close=")">
+											#agent_no_array[]#
+										</iterate> 
+				          			 </isNotEmpty>
+							       </isEmpty>
+							       
+							        <isEmpty property="agent_no">
+										 <isNotEmpty property="tb_agent_array">
+											<iterate property="tb_agent_array" open="and a1.agent_no||a1.saupjang_seq in (" conjunction="," close=")">
+												#tb_agent_array[]#
+											</iterate>
+										 </isNotEmpty>
+									 </isEmpty>
+									 
+								   <isNotEmpty property="id">
+				          			  and a1.id = #id#
+							       </isNotEmpty>
+									 
+							       <isNotEmpty property="agent_no">
+							       	<isNotEmpty property="saupjang_seq">
+									   and a1.agent_no         = 	#agent_no#
+									   and a1.saupjang_seq     =  #saupjang_seq#				       
+				                     </isNotEmpty>
+			                       </isNotEmpty>
+		                           and a1.agent_no     = b1.agent_no
+		                           and a1.saupjang_seq = b1.saupjang_seq
+		                       ) a,
+		                       ctgy01 b,
+		                       ctgy02 c,
+		                       ctgy03 d
+		                 where 1 = 1
+		                   <isNotEmpty property="gyeyak_jibu_cd">
+							  and d.gyeyak_jibu_cd = #gyeyak_jibu_cd#
+						   </isNotEmpty>
+		                   and a.car_gaip_no        = b.car_gaip_no
+		                   and b.gyeyak_state_cd   in ('1', '2', '5')  
+		                   and b.gyeyak_no          = c.gyeyak_no
+		                   and c.gyeyak_state_cd   in ('1', '2', '5')  
+		                   and c.napip_gb_cd       <![CDATA[<>]]> c.bunnap_cnt  
+		                   and c.gyeyak_no          = d.gyeyak_no
+		                   and c.dambo_kind_cd      = d.dambo_kind_cd
+		                   and trim(d.youngsu_ymd) is null        
+		                 group by a.agent_no, a.saupjang_seq, a.car_gaip_no, a.car_no, b.gyeyak_no
+		               ) x,
+		               ctgy02 y,
+		               ctgy03 z
+		         where 1 = 1
+		           and x.gyeyak_no        = y.gyeyak_no
+		           and y.gyeyak_state_cd in ('1', '2', '5')
+		           and y.gyeyak_no        = z.gyeyak_no
+		           and y.dambo_kind_cd    = z.dambo_kind_cd
+		           and z.yuhyo_symd       = x.yuhyo_symd 
+		         group by x.agent_no, x.saupjang_seq, x.car_no, x.gyeyak_no, x.car_gaip_no
+		       ) x1    
+		 where 1=1
+		 <isNotEmpty property="searchKeyword">
+		 	and x1.car_no like '%'||#searchKeyword#||'%'
+		 </isNotEmpty>
+		 <isNotEmpty property="start_acdnt_ymd">
+			<isNotEmpty property="end_acdnt_ymd">
+				<![CDATA[and ( #start_acdnt_ymd# < x1.gyeyak_eymd and #end_acdnt_ymd# > x1.gyeyak_symd )]]>
+			</isNotEmpty> 
+		</isNotEmpty>
+		 group by x1.agent_no, x1.saupjang_seq, x1.car_gaip_no, x1.car_no, x1.gyeyak_no
+		 order by f_agent_nm(x1.agent_no, x1.saupjang_seq), x1.car_gaip_no, x1.car_gaip_no, x1.gyeyak_no
+	</select>
+	
+	<select id="CarStatusInquiryDAO.selectCarInquiryCarmgr" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		select x1.agent_no             agent_no,
+	       x1.saupjang_seq         saupjang_seq,
+	       f_agent_nm(x1.agent_no, x1.saupjang_seq) agent_nm,
+	       x1.car_no                                car_no,
+	       x1.car_gaip_no							car_gaip_no,
+	       x1.gyeyak_no                             gyeyak_no,
+	       f_code_nm('1004',max(x1.gyeyak_state_cd))                   gyeyak_state_cd,
+	       max(x1.daein1_yn)                        daein1_yn,
+	       max(x1.daein2_yn)                        daein2_yn,
+	       max(x1.daemul_yn)                        daemul_yn,
+	       max(x1.cha_yn)                           cha_yn,
+	       max(x1.sin_yn)							sin_yn,
+	       max(x1.tekyak_yn)                        tekyak_yn,
+	       to_char(to_date(max(x1.gyeyak_symd),'yymmdd'),'yyyy.mm.dd') gyeyak_symd,
+	       to_char(to_date(max(x1.gyeyak_eymd),'yymmdd'),'yyyy.mm.dd') gyeyak_eymd,
+	       max(x1.bundam_amt)                       bundam_amt,
+	       max(x1.tot_napip_amt)                    tot_napip_amt,
+	       max(x1.bunnap_cnt)                       bunnap_cnt,
+	       max(x1.napip_gb_cd)                      napip_gb_cd,
+	       to_char(to_date(max(x1.yuhyo_symd),'yymmdd'),'yy.mm.dd')  yuhyo_symd,
+	       to_char(to_date(f_ct_wk_ymd('1', max(x1.yuhyo_symd)),'yymmdd'),'yy.mm.dd')     choigo_eymd,
+	       (case when max(x1.bunnap_amt) = 0 then null else max(x1.bunnap_amt) end) bunnap_amt,
+	       nvl((select count(distinct bb04.acdnt_no)
+					      from cpaa03 aa03,
+					           cpaa04 bb04,
+	                	 cpaa01 cc01
+					     where cc01.acdnt_ymd  >= to_char(sysdate, 'yyyy') - '3' || to_char(sysdate, 'mmdd')
+					       and bb04.car_gaip_no = x1.car_gaip_no
+					       and bb04.acdnt_no    = aa03.acdnt_no
+	               and cc01.acdnt_no    = aa03.acdnt_no
+					       and aa03.dmbo_gb    in ('1', '2', '3')
+	             group by bb04.car_gaip_no), 0)            bosang_cnt
+	  from (
+	        select a.agent_no,
+	               a.saupjang_seq,
+	               a.car_gaip_no,
+	               a.car_no,
+	               b.gyeyak_no,
+	               max(b.gyeyak_state_cd)                                     gyeyak_state_cd,
+	               max(decode(b.gaip_dae1_yn,   1, 'Y', 'N'))                 daein1_yn,
+	               max(decode(b.gaip_dae2_yn,   1, 'Y', 'N'))                 daein2_yn,
+	               max(decode(b.gaip_daemul_yn, 1, 'Y', 'N'))                 daemul_yn,
+	               max(decode(b.gaip_cha_yn,    1, 'Y', 'N'))                 cha_yn,
+	               decode((select count(*) from ctgy02 where gyeyak_no = b.gyeyak_no and dambo_kind_cd = '8'), 1, 'Y', 'N') sin_yn,
+		           max(case when (c.dambo_kind_cd = '7' or c.dambo_kind_cd = '9') then 'Y' else 'N' end) tekyak_yn,
+	               max(b.gyeyak_symd)                                         gyeyak_symd,
+	               max(b.gyeyak_eymd)                                         gyeyak_eymd,
+	               sum(c.bundam_amt)                                          bundam_amt,
+	               sum(c.tot_napip_amt)                                       tot_napip_amt,
+	               max(decode(c.dambo_kind_cd, '2', c.bunnap_cnt,  '0'))      bunnap_cnt,
+	               max(decode(c.dambo_kind_cd, '2', c.napip_gb_cd, '0'))      napip_gb_cd,
+	               ''                                                         yuhyo_symd,
+	               0                                                          bunnap_amt
+	          from (
+	                  select b1.agent_no,
+					         b1.saupjang_seq,
+					         b1.car_gaip_no,
+					         b1.car_no
+					    from tb_member@kotmaswb a1,
+					         ctgi05 b1, ctgi06 c1
+					   where 1=1
+					   and a1.carmgr_seq = c1.carmgr_seq
+					   and c1.carmgr_jumin_no = b1.carmgr_jumin_no
+				       <isNotEmpty property="jumin_no">
+				       	and b1.carmgr_jumin_no = #jumin_no#
+				       </isNotEmpty>
+	               ) a,
+	               ctgy01 b,
+	               ctgy02 c
+	         where 1 = 1
+	           <isNotEmpty property="gyeyak_jibu_cd">
+					and b.gyeyak_jibu_cd = #gyeyak_jibu_cd#
+			   </isNotEmpty>
+	           and a.car_gaip_no        = b.car_gaip_no
+	           and b.gyeyak_state_cd   in ('1', '2', '5')
+	           and b.gyeyak_no          = c.gyeyak_no
+	         group by a.agent_no, a.saupjang_seq, a.car_gaip_no, a.car_no, b.gyeyak_no
+	
+	         union all
+	
+	        select x.agent_no         agent_no,
+	               x.saupjang_seq     saupjang_seq,
+	               x.car_gaip_no      car_gaip_no,
+	               x.car_no           car_no,
+	               x.gyeyak_no        gyeyak_no,
+	               ''                 gyeyak_state_cd,
+	               ''                 daein1_yn,
+	               ''                 daein2_yn,
+	               ''                 daemul_yn,
+	               ''                 cha_yn,
+	               ''				  sin_yn,
+	               ''                 tekyak_yn,
+	               max(x.gyeyak_symd) gyeyak_symd,
+	               max(x.gyeyak_eymd) gyeyak_eymd,
+	               0                  bundam_amt,
+	               0                  tot_napip_amt,
+	               ''                 bunnap_cnt,
+	               ''                 napip_gb_cd,
+	               min(x.yuhyo_symd)  yuhyo_symd,
+	               sum(z.bunnap_amt)  bunnap_amt
+	          from (
+	                select a.agent_no        agent_no,
+	                       a.saupjang_seq     saupjang_seq,
+	                       a.car_gaip_no      car_gaip_no,
+	                       a.car_no           car_no,
+	                       b.gyeyak_no        gyeyak_no,
+	                       max(b.gyeyak_symd) gyeyak_symd,
+	                       max(b.gyeyak_eymd) gyeyak_eymd,
+	                       min(d.yuhyo_symd)  yuhyo_symd
+	                  from (
+			                  select b1.agent_no,
+							         b1.saupjang_seq,
+							         b1.car_gaip_no,
+							         b1.car_no
+							    from tb_member@kotmaswb a1,
+							         ctgi05 b1, ctgi06 c1
+							   where 1=1
+							   and a1.carmgr_seq = c1.carmgr_seq
+							   and c1.carmgr_jumin_no = b1.carmgr_jumin_no
+		                       <isNotEmpty property="jumin_no">
+						       	and b1.carmgr_jumin_no = #jumin_no#
+						       </isNotEmpty>
+	                       ) a,
+	                       ctgy01 b,
+	                       ctgy02 c,
+	                       ctgy03 d
+	                 where 1 = 1
+					   <isNotEmpty property="gyeyak_jibu_cd">
+						and d.gyeyak_jibu_cd = #gyeyak_jibu_cd#
+					   </isNotEmpty>
+	                   and a.car_gaip_no        = b.car_gaip_no
+	                   and b.gyeyak_state_cd   in ('1', '2', '5')
+	                   and b.gyeyak_no          = c.gyeyak_no
+	                   and c.gyeyak_state_cd   in ('1', '2', '5')
+	                   and c.napip_gb_cd       <![CDATA[<>]]> c.bunnap_cnt
+	                   and c.gyeyak_no          = d.gyeyak_no
+	                   and c.dambo_kind_cd      = d.dambo_kind_cd
+	                   and trim(d.youngsu_ymd) is null
+	                 group by a.agent_no, a.saupjang_seq, a.car_gaip_no, a.car_no, b.gyeyak_no
+	               ) x,
+	               ctgy02 y,
+	               ctgy03 z
+	         where 1 = 1
+	           and x.gyeyak_no        = y.gyeyak_no
+	           and y.gyeyak_state_cd in ('1', '2', '5')
+	           and y.gyeyak_no        = z.gyeyak_no
+	           and y.dambo_kind_cd    = z.dambo_kind_cd
+	           and z.yuhyo_symd       = x.yuhyo_symd
+	         group by x.agent_no, x.saupjang_seq, x.car_no, x.gyeyak_no, x.car_gaip_no
+	       ) x1
+	 where 1=1
+		<isNotEmpty property="searchKeyword">
+		 and car_no like '%'||#searchKeyword#||'%'
+		</isNotEmpty>
+		<isNotEmpty property="start_acdnt_ymd">
+			<isNotEmpty property="end_acdnt_ymd">
+				<![CDATA[and ( #start_acdnt_ymd# < gyeyak_eymd and #end_acdnt_ymd# > gyeyak_symd )]]>
+			</isNotEmpty> 
+		</isNotEmpty>
+	 group by x1.agent_no, x1.saupjang_seq, x1.car_gaip_no, x1.car_no, x1.gyeyak_no
+	 order by f_agent_nm(x1.agent_no, x1.saupjang_seq), x1.car_gaip_no, x1.car_gaip_no, x1.gyeyak_no
+
+	</select>
+
+	
+	<select id="CarStatusInquiryDAO.selectCarEndList" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		select x.agent_nm,
+		       x.car_no,
+		       x.gyeyak_no,
+		       x.yuhyo_ymd,
+		       x.day_count
+		  from (
+		        select f_agent_nm(a.agent_no, a.saupjang_seq) agent_nm,
+		               f_ct_car_no(1, a.car_gaip_no)          car_no,
+		               substr(a.connect_pk4, 1, 12)           gyeyak_no,
+		               to_char(to_date(a.yuhyo_symd, 'YYYYMMDD'), 'yyyy.mm.dd')                           yuhyo_ymd,
+		               (to_date(a.yuhyo_symd, 'yyyymmdd') -
+		                to_date(to_char(sysdate, 'yyyymmdd')) || ' 일')  day_count
+		          from ctbh33 a, tb_member_saupno@kotmaswb b
+		         where 1=1
+		           and a.job_gb = '01'
+		           and a.yuhyo_symd   between to_char(sysdate, 'yyyymmdd') and to_char(sysdate + 7, 'yyyymmdd')
+		           and a.dambo_kind_cd      = '1'
+		           and a.bunnap_cnt         = '1'
+		           and trim(a.youngsu_ymd) is null 
+          		   <isEmpty property="agent_no">
+          		   	<isNotEmpty property="agent_no_array">
+          			 		<iterate property="agent_no_array" open="and b.saupnum in (" conjunction="," close=")">
+	        					#agent_no_array[]#
+	        				</iterate>
+          			 </isNotEmpty>
+          		   </isEmpty>
+          		   
+          		    <isEmpty property="agent_no">
+						 <isNotEmpty property="tb_agent_array">
+							<iterate property="tb_agent_array" open="and a.agent_no||a.saupjang_seq in (" conjunction="," close=")">
+								#tb_agent_array[]#
+							</iterate>
+						 </isNotEmpty>
+					 </isEmpty>
+          		   
+          		   <isNotEmpty property="agent_no">
+			       	  <isNotEmpty property="saupjang_seq">
+					   and a.agent_no       = #agent_no#
+					   and a.saupjang_seq   = #saupjang_seq#				       
+                     </isNotEmpty>
+                   </isNotEmpty>
+                   and a.agent_no     = b.agent_no
+		           and a.saupjang_seq = b.saupjang_seq
+		           and rownum <![CDATA[<]]> 6
+		       ) x
+		 order by x.day_count, x.agent_nm, x.car_no
+	</select>
+	
+	<select id="CarStatusInquiryDAO.selectCarBunList" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		select x.agent_nm,
+		       x.car_no,
+		       x.gyeyak_no,
+		       x.bunnap_cnt,
+		       x.yuhyo_ymd,
+		       x.day_count
+		  from (
+		        select f_agent_nm(a.agent_no, a.saupjang_seq) agent_nm,
+		               f_ct_car_no(1, b.car_gaip_no)          car_no,
+		               b.gyeyak_no                            gyeyak_no,
+		               d.bunnap_cnt                           bunnap_cnt,
+		               to_char(to_date(d.yuhyo_symd, 'YYYYMMDD'), 'yyyy.mm.dd')                           yuhyo_ymd,
+		               (to_date(d.yuhyo_symd, 'yyyymmdd') -
+		                to_date(to_char(sysdate, 'yyyymmdd')) || ' 일')  day_count
+		          from ctgi05 a,
+		               ctgy01 b,
+		               ctgy02 c,
+		               ctgy03 d,
+		               tb_member_saupno@kotmaswb e
+		         where a.car_gaip_no       = b.car_gaip_no
+		           and b.gyeyak_state_cd  in ('1', '2', '5')
+		           and b.gyeyak_no         = c.gyeyak_no
+		           and c.dambo_kind_cd     = '2'
+		           and c.gyeyak_state_cd  in ('1', '2', '5')
+		           and c.gyeyak_no         = d.gyeyak_no     
+		           and c.dambo_kind_cd     = d.dambo_kind_cd
+		           and c.bunnap_cnt + '1'  = d.bunnap_cnt	
+          		   <isEmpty property="agent_no">
+          		   	<isNotEmpty property="agent_no_array">
+          			 		<iterate property="agent_no_array" open="and e.saupnum in (" conjunction="," close=")">
+	        					#agent_no_array[]#
+	        				</iterate>
+          			 </isNotEmpty>
+          		   </isEmpty>  
+          		   
+          		    <isEmpty property="agent_no">
+						 <isNotEmpty property="tb_agent_array">
+							<iterate property="tb_agent_array" open="and a.agent_no||a.saupjang_seq in (" conjunction="," close=")">
+								#tb_agent_array[]#
+							</iterate>
+						 </isNotEmpty>
+					 </isEmpty>
+          		     
+          		   <isNotEmpty property="agent_no">
+			       	  <isNotEmpty property="saupjang_seq">
+					   and a.agent_no       = #agent_no#
+					   and a.saupjang_seq   = #saupjang_seq#				       
+                     </isNotEmpty>
+                   </isNotEmpty>   
+                   and a.agent_no     = e.agent_no
+		           and a.saupjang_seq = e.saupjang_seq	         		   
+		           and d.yuhyo_symd   between to_char(sysdate, 'yyyymmdd') and to_char(sysdate + 7, 'yyyymmdd')
+		           and trim(d.youngsu_ymd) is null
+		           and rownum <![CDATA[<]]> 11
+		       ) x
+		 order by x.day_count, x.agent_nm, x.car_no
+	</select>
+
+	<select id="CarStatusInquiryDAO.selectSummaryInfo" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+			select x1.gyeyak_no,
+       x1.dambo_kind_cd,
+       f_code_nm('1004', f_ct_gyeyak_state('21', x1.gyeyak_no, x1.dambo_kind_cd)) gyeyak_state_cd,
+       decode(x1.dambo_kind_cd, '1', max((select bunnap_cnt || ' / ' || napip_gb_cd from ctgy02 where gyeyak_no = x1.gyeyak_no and dambo_kind_cd = x1.dambo_kind_cd)),
+                                '2', max((select bunnap_cnt || ' / ' || napip_gb_cd from ctgy02 where gyeyak_no = x1.gyeyak_no and dambo_kind_cd = x1.dambo_kind_cd)),
+                                '3', max((select f_code_nm('1010', dambo_hando_cd) from ctgy02 where gyeyak_no = x1.gyeyak_no and dambo_kind_cd = x1.dambo_kind_cd)),
+                                '4', max((select f_code_nm('1013', MYUNCHAEK_CD) from ctgy01 where gyeyak_no = x1.gyeyak_no)),
+                                '8', max((select f_code_nm('1009', dambo_hando_cd) from ctgy02 where gyeyak_no = x1.gyeyak_no and dambo_kind_cd = x1.dambo_kind_cd)),
+                                '9', max((select decode(substr(dambo_hando_cd,1,1), '1', '특약Ⅰ','2','특약Ⅱ','') from ctgy02 where gyeyak_no = x1.gyeyak_no and dambo_kind_cd = x1.dambo_kind_cd)),
+                                '') bunnap_cnt,
+       max(x1.yuhyo_symd1)  yuhyo_symd1,
+       max(x1.bunnap_amt1)  bunnap_amt1,
+       to_char(to_date(max(x1.youngsu_ymd1),'yyyymmdd'),'yy.mm.dd') youngsu_ymd1,
+       max(x1.yuhyo_symd2)  yuhyo_symd2,
+       max(x1.bunnap_amt2)  bunnap_amt2,
+       to_char(to_date(max(x1.youngsu_ymd2),'yyyymmdd'),'yy.mm.dd') youngsu_ymd2,
+       max(x1.yuhyo_symd3)  yuhyo_symd3,
+       max(x1.bunnap_amt3)  bunnap_amt3,
+       to_char(to_date(max(x1.youngsu_ymd3),'yyyymmdd'),'yy.mm.dd') youngsu_ymd3,
+       max(x1.yuhyo_symd4)  yuhyo_symd4,
+       max(x1.bunnap_amt4)  bunnap_amt4,
+       to_char(to_date(max(x1.youngsu_ymd4),'yyyymmdd'),'yy.mm.dd') youngsu_ymd4,
+       max(x1.yuhyo_symd5)  yuhyo_symd5,
+       max(x1.bunnap_amt5)  bunnap_amt5,
+       to_char(to_date(max(x1.youngsu_ymd5),'yyyymmdd'),'yy.mm.dd') youngsu_ymd5,
+       max(x1.yuhyo_symd6)  yuhyo_symd6,
+       max(x1.bunnap_amt6)  bunnap_amt6,
+       to_char(to_date(max(x1.youngsu_ymd6),'yyyymmdd'),'yy.mm.dd') youngsu_ymd6
+  from (
+        select a.gyeyak_no,
+               a.dambo_kind_cd,
+
+               decode(a.bunnap_cnt, '1', a.yuhyo_symd,  '') yuhyo_symd1,
+               decode(a.bunnap_cnt, '1', a.bunnap_amt,   0) bunnap_amt1,
+               decode(a.bunnap_cnt, '1', a.youngsu_ymd, '') youngsu_ymd1,
+
+               case when (b.napip_gb_ilban = '4' and b.napip_gb_dae1 = '2') or (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                    then ''
+                    else decode(a.bunnap_cnt, '2', a.yuhyo_symd,  '') 
+                    end  yuhyo_symd2,
+               case when (b.napip_gb_ilban = '4' and b.napip_gb_dae1 = '2') or (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                    then 0
+                    else decode(a.bunnap_cnt, '2', a.bunnap_amt,   0) 
+                    end  bunnap_amt2,
+               case when (b.napip_gb_ilban = '4' and b.napip_gb_dae1 = '2') or (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                    then ''
+                    else decode(a.bunnap_cnt, '2', a.youngsu_ymd, '') 
+                    end  youngsu_ymd2,
+
+               case when (b.napip_gb_ilban = '4' and b.napip_gb_dae1 = '2')    
+                    then decode(a.bunnap_cnt, '2', a.yuhyo_symd, '')
+                    else case when (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')  
+                              then ''
+                              else decode(a.bunnap_cnt, '3', a.yuhyo_symd, '') end    
+                    end  yuhyo_symd3,
+               case when (b.napip_gb_ilban = '4' and b.napip_gb_dae1 = '2')
+                    then decode(a.bunnap_cnt, '2', a.bunnap_amt,  0)
+                    else case when (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                              then 0
+                              else decode(a.bunnap_cnt, '3', a.bunnap_amt, 0) end
+                    end  bunnap_amt3,
+               case when (b.napip_gb_ilban = '4' and b.napip_gb_dae1 = '2')
+                    then decode(a.bunnap_cnt, '2', a.youngsu_ymd,  '')
+                    else case when (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                              then ''
+                              else decode(a.bunnap_cnt, '3', a.youngsu_ymd, '') end
+                    end  youngsu_ymd3,
+
+               case when (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                    then decode(a.bunnap_cnt, '2', a.yuhyo_symd,  '')
+                    else decode(a.bunnap_cnt, '4', a.yuhyo_symd,  '') end yuhyo_symd4,
+               case when (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                    then decode(a.bunnap_cnt, '2', a.bunnap_amt,   0)
+                    else decode(a.bunnap_cnt, '4', a.bunnap_amt,   0) end bunnap_amt4,
+               case when (b.napip_gb_ilban = '6' and b.napip_gb_dae1 = '2')
+                    then decode(a.bunnap_cnt, '2', a.youngsu_ymd, '')
+                    else decode(a.bunnap_cnt, '4', a.youngsu_ymd, '') end youngsu_ymd4,
+
+               decode(a.bunnap_cnt, '5', a.yuhyo_symd,  '') yuhyo_symd5,
+               decode(a.bunnap_cnt, '5', a.bunnap_amt,   0) bunnap_amt5,
+               decode(a.bunnap_cnt, '5', a.youngsu_ymd, '') youngsu_ymd5,
+   
+               decode(a.bunnap_cnt, '6', a.yuhyo_symd,  '') yuhyo_symd6,
+               decode(a.bunnap_cnt, '6', a.bunnap_amt,   0) bunnap_amt6,
+               decode(a.bunnap_cnt, '6', a.youngsu_ymd, '') youngsu_ymd6
+          from ctgy03 a,
+               (
+                select napip_gb_dae1, napip_gb_ilban
+                  from ctgy01
+                 where gyeyak_no = #gyeyak_no#
+               ) b
+         where a.gyeyak_no     = #gyeyak_no#
+           and a.dambo_kind_cd = '1'
+
+        union all
+
+        select gyeyak_no,
+               dambo_kind_cd,
+               decode(bunnap_cnt, '1', yuhyo_symd,  '') yuhyo_symd1,   
+               decode(bunnap_cnt, '1', bunnap_amt,   0) bunnap_amt1,
+               decode(bunnap_cnt, '1', youngsu_ymd, '') youngsu_ymd1,
+               decode(bunnap_cnt, '2', yuhyo_symd,  '') yuhyo_symd2,
+               decode(bunnap_cnt, '2', bunnap_amt,   0) bunnap_amt2,
+               decode(bunnap_cnt, '2', youngsu_ymd, '') youngsu_ymd2,
+               decode(bunnap_cnt, '3', yuhyo_symd,  '') yuhyo_symd3,
+               decode(bunnap_cnt, '3', bunnap_amt,   0) bunnap_amt3,
+               decode(bunnap_cnt, '3', youngsu_ymd, '') youngsu_ymd3,
+               decode(bunnap_cnt, '4', yuhyo_symd,  '') yuhyo_symd4,
+               decode(bunnap_cnt, '4', bunnap_amt,   0) bunnap_amt4,
+               decode(bunnap_cnt, '4', youngsu_ymd, '') youngsu_ymd4,
+               decode(bunnap_cnt, '5', yuhyo_symd,  '') yuhyo_symd5,
+               decode(bunnap_cnt, '5', bunnap_amt,   0) bunnap_amt5,
+               decode(bunnap_cnt, '5', youngsu_ymd, '') youngsu_ymd5,
+               decode(bunnap_cnt, '6', yuhyo_symd,  '') yuhyo_symd6,
+               decode(bunnap_cnt, '6', bunnap_amt,   0) bunnap_amt6,
+               decode(bunnap_cnt, '6', youngsu_ymd, '') youngsu_ymd6
+          from ctgy03
+         where gyeyak_no     = #gyeyak_no#
+           and dambo_kind_cd >= '2'
+       ) x1
+ group by x1.gyeyak_no, x1.dambo_kind_cd
+ order by x1.gyeyak_no, x1.dambo_kind_cd
+	</select>
+	
+	<!-- 증명서 발급 관련 -->
+	<select id="CarStatusInquiryDAO.selectGaipList" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		SELECT * FROM (
+			SELECT  ROWNUM RNUM, S.*
+			FROM (
+			    select a.gyeyak_no,	/*계약번호*/
+				       d.car_gaip_no                                                     car_gaip_no,
+				       decode(trim(d.car_no), null, d.car_body_no, d.car_no)             car_no,
+				        f_code_nm('1004', b.gyeyak_state_cd)                              gyeyak_state_nm,
+				       substr(b.dambo_gaip_symd, 1, 4) || '. ' ||
+				       substr(b.dambo_gaip_symd, 5, 2) || '. ' ||
+				       substr(b.dambo_gaip_symd, 7, 2) || '~' ||
+				       substr(b.dambo_gaip_eymd, 1, 4) || '. ' ||
+				       substr(b.dambo_gaip_eymd, 5, 2) || '. ' ||
+				       substr(b.dambo_gaip_eymd, 7, 2)                                   dambo_gaip_ymd
+			    from
+			    	(select b1.agent_no,
+			              b1.saupjang_seq,
+			              b1.car_gaip_no,
+			              b1.car_no,
+			              b1.carmgr_jumin_no,
+			              b1.car_body_no
+			         from tb_member_saupno@kotmaswb a1,
+			              ctgi05 b1
+			        where a1.saupnum      = #saupja_no#
+			          and a1.agent_no     = b1.agent_no
+			          and a1.saupjang_seq = b1.saupjang_seq
+			       ) d,
+			        ctgy01 a,
+			        ctgy02 b
+			        
+			    where (#agentcd# = '1' or #agentcd# != '1')
+			        and (	(#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or d.carmgr_jumin_no like #jumin_no#)
+			        and d.car_gaip_no          = a.car_gaip_no 
+			        and a.gyeyak_state_cd     in ( '1', '2' )
+			        and b.dambo_kind_cd = 1 /* 대인1 기준 */
+			        and a.gyeyak_no            = b.gyeyak_no    
+			        <isNotEmpty property="searchKeyword">
+				        and d.car_no like '%'||#searchKeyword#||'%'
+			        </isNotEmpty>
+			        <isNotEmpty property="searchStartDetailDate">
+			        	<isNotEmpty property="searchEndDetailDate">
+	        				<![CDATA[and ( #searchStartDetailDate# < b.dambo_gaip_eymd and #searchEndDetailDate# > b.dambo_gaip_symd )]]>
+						</isNotEmpty> 
+					</isNotEmpty>
+			    order by
+			        d.car_no,
+			        b.gyeyak_no desc,
+			        b.dambo_kind_cd
+			) S
+		) SS
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+	</select>
+	
+	<select id="CarStatusInquiryDAO.selectCarStatusTotCntCert" parameterClass="carDeductInquirySearchVO" resultClass="integer" >
+		select
+				count(*) as tot_cnt
+	    from
+	    	(select b1.agent_no,
+	              b1.saupjang_seq,
+	              b1.car_gaip_no,
+	              b1.car_no,
+	              b1.carmgr_jumin_no,
+	              b1.car_body_no
+	         from tb_member_saupno@kotmaswb a1,
+	              ctgi05 b1
+	        where a1.saupnum      = #saupja_no#
+	          and a1.agent_no     = b1.agent_no
+	          and a1.saupjang_seq = b1.saupjang_seq
+	       ) d,
+	        ctgy01 a,
+	        ctgy02 b
+	        
+	    where (#agentcd# = '1' or #agentcd# != '1')
+	        and (	(#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or d.carmgr_jumin_no like #jumin_no#)
+	        and d.car_gaip_no          = a.car_gaip_no 
+            and a.gyeyak_state_cd     in ( '1', '2' )
+	        and b.dambo_kind_cd = 1 /* 대인1 기준 */
+	        and a.gyeyak_no            = b.gyeyak_no      
+	        <isNotEmpty property="searchKeyword">
+		        and d.car_no like '%'||#searchKeyword#||'%'
+	        </isNotEmpty>
+	        <isNotEmpty property="searchStartDetailDate">
+	        	<isNotEmpty property="searchEndDetailDate">
+	        		<![CDATA[and ( #searchStartDetailDate# < b.dambo_gaip_eymd and #searchEndDetailDate# > b.dambo_gaip_symd )]]>
+				</isNotEmpty> 
+			</isNotEmpty>
+	</select>
+	
+	<!-- 증명서 발급  종사자재해 목록조회 -->
+	<select id="CarStatusInquiryDAO.selectPracticianList" parameterClass="carDeductInquirySearchVO" resultClass="hashmap">
+		SELECT * FROM (
+			SELECT  ROWNUM RNUM, S.*
+			FROM (
+				select a.gyeyak_no,	/*계약번호*/
+						d.car_gaip_no                                                     car_gaip_no,
+						decode(trim(d.car_no), null, d.car_body_no, d.car_no)             car_no,
+						f_code_nm('1004', a.gyeyak_state_cd)                              gyeyak_state_nm,
+						substr(a.gyeyak_symd, 1, 4) || '. ' ||
+						substr(a.gyeyak_symd, 5, 2) || '. ' ||
+						substr(a.gyeyak_symd, 7, 2) || '~' ||
+						substr(a.gyeyak_eymd, 1, 4) || '. ' ||
+						substr(a.gyeyak_eymd, 5, 2) || '. ' ||
+						substr(a.gyeyak_eymd, 7, 2)                                   dambo_gaip_ymd
+				from
+					(select b1.agent_no,
+			              b1.saupjang_seq,
+			              b1.car_gaip_no,
+			              b1.car_no,
+			              b1.carmgr_jumin_no,
+			              b1.car_body_no
+			         from tb_member_saupno@kotmaswb a1,
+			              ctgi05 b1
+			        where a1.saupnum      = #saupja_no#
+			          and a1.agent_no     = b1.agent_no
+			          and a1.saupjang_seq = b1.saupjang_seq
+			       ) d,
+			        ctgy06 a
+			        
+			    where (#agentcd# = '1' or #agentcd# != '1')
+			        and (	(#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or d.carmgr_jumin_no like #jumin_no#)
+			        and d.car_gaip_no          = a.car_gaip_no 
+			        and a.gyeyak_state_cd     in ( '1', '2' )
+			        <isNotEmpty property="searchKeyword">
+				        and d.car_no like '%'||#searchKeyword#||'%'
+			        </isNotEmpty>
+			        <isNotEmpty property="searchStartDetailDate">
+			        	<isNotEmpty property="searchEndDetailDate">
+	        				<![CDATA[and ( #searchStartDetailDate# < a.gyeyak_eymd and #searchEndDetailDate# > a.gyeyak_symd )]]>
+						</isNotEmpty> 
+					</isNotEmpty>
+			    order by d.car_no,  a.gyeyak_no desc
+			) S
+		) SS
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 
+	</select>
+	
+	<select id="CarStatusInquiryDAO.selectPracticianTotCnt" parameterClass="carDeductInquirySearchVO" resultClass="integer" >
+		select
+				count(*) as tot_cnt
+	    from
+	    	(select b1.agent_no,
+	              b1.saupjang_seq,
+	              b1.car_gaip_no,
+	              b1.car_no,
+	              b1.carmgr_jumin_no,
+	              b1.car_body_no
+	         from tb_member_saupno@kotmaswb a1,
+	              ctgi05 b1
+	        where a1.saupnum      = #saupja_no#
+	          and a1.agent_no     = b1.agent_no
+	          and a1.saupjang_seq = b1.saupjang_seq
+	       ) d,
+	        ctgy06 a
+	        
+	    where (#agentcd# = '1' or #agentcd# != '1')
+	        and (	(#agentcd# = '1'  and trim(d.carmgr_jumin_no) is null) or d.carmgr_jumin_no like #jumin_no#)
+	        and d.car_gaip_no          = a.car_gaip_no 
+            and a.gyeyak_state_cd     in ( '1', '2' )
+	        <isNotEmpty property="searchKeyword">
+		        and d.car_no like '%'||#searchKeyword#||'%'
+	        </isNotEmpty>
+	        <isNotEmpty property="searchStartDetailDate">
+	        	<isNotEmpty property="searchEndDetailDate">
+	        		<![CDATA[and ( #searchStartDetailDate# < a.gyeyak_eymd and #searchEndDetailDate# > a.gyeyak_symd )]]>
+				</isNotEmpty> 
+			</isNotEmpty>
+	</select>
+	
+</sqlMap>

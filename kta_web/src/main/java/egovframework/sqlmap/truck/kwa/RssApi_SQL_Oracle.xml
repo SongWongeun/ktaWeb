@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="RssApi">
+	
+	<!-- insert to HP_BOARD_MASTER  -->
+	<insert id="RssDAO.insertRssApi" parameterClass="hashMap">
+	
+		<selectKey keyProperty="RSS_SEQ" resultClass="Integer">
+			SELECT NVL(MAX(RSS_SEQ),0)+1 AS RSS_SEQ FROM M_NAVER_RSS_INFO@KOTMASDB
+    	</selectKey>
+	
+			INSERT INTO M_NAVER_RSS_INFO@KOTMASDB(
+				RSS_SEQ,
+				TITLE,
+				LINK,
+				DESCRIPTION,
+				PUBDATE,
+				REG_DT
+			)
+			VALUES (
+				#RSS_SEQ#,
+				#title#,
+				#link#,
+				#description#,
+				#pubDate#,
+				SYSDATE
+			)
+	</insert>
+	
+</sqlMap>

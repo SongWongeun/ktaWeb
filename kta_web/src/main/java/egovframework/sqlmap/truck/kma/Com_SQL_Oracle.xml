@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Com_SQL_Oracle">
+	
+	<!-- 메뉴권한정보) 메뉴별 권한 정보를 조회한다. -->
+	<select id="kta.com.selectMenuToAuthInfo" resultClass="hashmap">
+		SELECT T1.MENU_SEQ
+		     , T2.AUTH_CD
+		     , T2.WRTI_AUTH_YN
+		     , T2.READ_AUTH_YN
+		  FROM MENU_INFO T1
+		  LEFT OUTER JOIN 
+		       MENU_AUTH_REL_INFO T2
+		    ON T1.MENU_SEQ = T2.MENU_SEQ
+		 WHERE T1.MENU_SEQ = 0
+		   AND T1.USE_YN = 'N'
+	</select>
+	
+	<!-- 접속 정보 입력 -->
+	<insert id="kta.com.insertConnectInfo">
+		INSERT
+		  INTO M_CONNECT_INFO
+		     (
+		       USER_ID
+		     , CONNECT_SEQ
+		     , REGR_ID
+		     , REG_DT
+		     , EDTR_ID
+		     , EDT_DT
+		     , CONNECT_IP
+		     )
+		VALUES
+		     (
+		       #SESSION_ID#
+		     , #CONNECT_SEQ#
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , NVL(#CONNECT_IP#, '')
+		     )	
+	</insert>
+	
+	<!-- 요청 정보 입력 -->
+	<insert id="kta.com.insertRequestInfo">
+        <selectKey keyProperty="REQUEST_SEQ" resultClass="string">
+			SELECT NVL(MAX(A.REQUEST_SEQ),0)+1
+			  FROM M_REQUEST_INFO A
+        </selectKey>
+		INSERT
+		  INTO M_REQUEST_INFO
+		     (
+		       REQUEST_SEQ
+		     , REGR_ID
+		     , REG_DT
+		     , EDTR_ID
+		     , EDT_DT
+		     , REQUEST_MENU_NM
+		     , REQUEST_URL
+		     , JOB_GBN_CD
+		     , REQUEST_COMMENT
+		     )
+		VALUES
+		     (
+		       #REQUEST_SEQ#
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , #MENU_NM#
+		     , #REQUEST_URL#
+		     , #MENU_CRUD#
+		     , #MENU_CMT#
+		     )
+	</insert>
+	
+	<!-- 요청파라메터 정보입력 -->
+	<insert id="kta.com.insertReqParamInfo">
+		INSERT
+		  INTO M_REQ_PARAM_INFO
+		     (
+		       REQUEST_SEQ
+		     , PARAM_NM
+		     , REGR_ID
+		     , REG_DT
+		     , EDTR_ID
+		     , EDT_DT
+		     , PARAM_VALUE
+		     )
+		VALUES
+		     (
+		       #REQUEST_SEQ#
+		     , #PARAM_NM#
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , #PARAM_VALUE#
+		     )	
+	</insert>
+	
+	<!-- 접속 요청 관계정보 입력 -->
+	<insert id="kta.com.insertConnReqRelInfo">
+		INSERT
+		  INTO M_CONN_REQ_REL_INFO
+		     (
+		       USER_ID
+		     , CONNECT_SEQ
+		     , REQUEST_SEQ
+		     , REGR_ID
+		     , REG_DT
+		     , EDTR_ID
+		     , EDT_DT
+		     )
+		VALUES
+		     (
+		       #SESSION_ID#
+		     , #CONNECT_SEQ#
+		     , #REQUEST_SEQ#
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , #SESSION_ID#
+		     , SYSDATE
+		     )	
+	</insert>
+	
+	<!-- 접속 로그인 로그아웃 정보 입력 -->
+	<insert id="kta.com.insertLoginOutInfo">
+		INSERT
+		  INTO M_LOGIN_OUT_INFO
+		     (
+		       USER_ID
+		     , CONNECT_SEQ
+		     , CONNECT_GBN_CD
+		     , REGR_ID
+		     , REG_DT
+		     , EDTR_ID
+		     , EDT_DT
+		     )
+		VALUES
+		     (
+		       #SESSION_ID#
+		     , #CONNECT_SEQ#
+		     , #MENU_JOB#
+		     , #SESSION_ID#
+		     , SYSDATE
+		     , #SESSION_ID#
+		     , SYSDATE
+		     )
+	</insert>
+	
+	<!-- 현재의 셰션의 접속정보가 존재하는지 체크한다. -->
+	<select id="kta.com.getCountConnectBy" resultClass="int">
+		SELECT COUNT(*)
+		  FROM M_CONNECT_INFO
+		 WHERE USER_ID = #SESSION_ID#
+		   AND CONNECT_SEQ = #CONNECT_SEQ#
+	</select>
+	
+	<!-- 파일정보) 입력 -->
+	<insert id="kta.com.insertFile">
+        <selectKey keyProperty="_fileSeq" resultClass="int">
+			SELECT NVL(MAX(A.FILE_SEQ),0)+1
+			  FROM M_FILE_INFO A
+        </selectKey>
+		INSERT
+		  INTO M_FILE_INFO
+		     (
+		       FILE_SEQ
+		     , REGR_ID
+		     , REG_DT
+		     , EDTR_ID
+		     , EDT_DT
+		     , FILE_SIZE
+		     , FILE_ORG_NM
+		     , FILE_NM
+		     , FILE_URL
+		     , FILE_LAT
+		     , FILE_LON
+		     )
+		VALUES
+		     (
+		       #_fileSeq#
+		     , #_sessionId#
+		     , SYSDATE
+		     , #_sessionId#
+		     , SYSDATE
+		     , #_fileSize#
+		     , #_fileOrgNm#
+		     , #_fileNm#
+		     , #_fileUrl#
+		     , #_fileLat#
+		     , #_fileLon#
+		     )
+	</insert>
+	
+	<!-- 파일정보) 파일정보 목록 조회 -->
+	<select id="kta.com.selectListFileInfoByIn" resultClass="hashmap">
+		SELECT FILE_SEQ
+		     , FILE_URL
+		     , FILE_NM
+		  FROM M_FILE_INFO
+		 WHERE 0=0
+		   AND $_fileSeqs$
+	</select>
+	
+	<!-- 파일정보) 파일정보 삭제 -->
+	<delete id="kta.com.deleteFileInfoByIn">
+		DELETE FROM M_FILE_INFO
+		 WHERE 0=0
+		   AND $_fileSeqs$
+	</delete>
+	
+	<!-- 파일정보) 파일정보 삭제 -->
+	<delete id="kta.com.deleteFileInfoByIn2">
+		DELETE FROM M_FILE_INFO
+		 WHERE FILE_SEQ = #FILE_SEQ#
+	</delete>
+
+	<!-- 파일정보) 파일정보 목록 조회 -->
+	<select id="kta.com.selectFileInfoByIn" resultClass="hashmap">
+		SELECT FILE_SEQ
+		     , FILE_URL
+		     , FILE_NM
+		  FROM M_FILE_INFO
+		 WHERE 0=0
+		   AND FILE_SEQ = #_fileSeq#
+	</select>
+	
+	<!-- 공통코드) 공통코드 목록을 조회한다. -->
+	<select id="kta.com.selectListCtCode01" resultClass="hashmap">
+		SELECT A.CODE_NO   AS COM_CODE
+		     , A.CODE_NAME AS COM_NAME
+		  FROM CT_CODE01 A
+		 WHERE A.CODE_PART = #_codePart#
+		   AND A.CODE_NO <![CDATA[<>]]> '.'
+	</select>
+	
+	<!-- 파일정보) 파일정보 삭제 -->
+	<delete id="kta.com.deleteFileInfoBy">
+		DELETE FROM M_FILE_INFO
+		 WHERE 0=0
+		   AND FILE_SEQ = #fileSeq#
+	</delete>
+</sqlMap>

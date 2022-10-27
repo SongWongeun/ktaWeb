@@ -1,0 +1,12 @@
+[CLIP report Server - Report Key 75ae9b80e03f488ca660c43ae8f44671 Thread 432. | INFO 2017-02-10 09:51:32] : Report Read Time : TimeMillis : 22ms, HH:MM:SS : 00:00:00
+[CLIP report Server - Report Key 75ae9b80e03f488ca660c43ae8f44671 Thread 432. | INFO CODE=10 | 2017-02-10 09:51:32] : 리포트 생성을 시작합니다.
+[CLIP report Server - Report Key 75ae9b80e03f488ca660c43ae8f44671 Thread 432. | WARNING CODE=3150 | 2017-02-10 09:51:32] : [XMLDS2] Memo Data가 없습니다.
+[CLIP report Server - Report Key 75ae9b80e03f488ca660c43ae8f44671 Thread 432. | INFO CODE=11 | 2017-02-10 09:51:32] : 리포트 생성이 끝났습니다.
+[CLIP report Server - Report Key 75ae9b80e03f488ca660c43ae8f44671 Thread 432. | INFO 2017-02-10 09:51:32] : Report Build Time : TimeMillis : 17ms, HH:MM:SS : 00:00:00
+[CLIP report Server - Report Key 75ae9b80e03f488ca660c43ae8f44671 Thread 432. | INFO 2017-02-10 09:51:32] : Total Page Count saved!
+[CLIP report Server - Report Key 75ae9b80e03f488ca660c43ae8f44671 Thread 432. | INFO 2017-02-10 09:51:32] : Last Document saved!
+[CLIP report Server - Report Key 690d47e09a26451f9616f6453fa9486d Thread 107. | INFO 2017-02-10 16:52:56] : Report Read Time : TimeMillis : 218ms, HH:MM:SS : 00:00:00
+[CLIP report Server - Report Key 690d47e09a26451f9616f6453fa9486d Thread 107. | INFO CODE=10 | 2017-02-10 16:52:57] : 리포트 생성을 시작합니다.
+[CLIP report Server - Report Key 690d47e09a26451f9616f6453fa9486d Thread 107. | WARNING CODE=3150 | 2017-02-10 16:52:57] : [XMLDS1] Memo Data가 없습니다.
+[CLIP report Server - Report Key 690d47e09a26451f9616f6453fa9486d Thread 107. | INFO 2017-02-10 16:52:58] : Total Page Count saved!
+[CLIP report Server - Report Key 690d47e09a26451f9616f6453fa9486d Thread 107. | INFO 2017-02-10 16:52:58] : Last Document saved!

@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">405</span><span class="pyoName">자전거A 적색진입 자동차B 적색 진입 &#9312;&#9313;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본</td>
+                            <td class="alC bB3">A30</td>
+                            <td class="alC">B70</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="11" class="alC"><img src="/images/truck/jpg/405.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">간선도로</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">야간</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 좌측통행</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 현저한 과실</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 인근에 자전거도로가 있는 경우</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 교차로 사각 횡단</td>
+                            <td class="alC bB3">&#42;</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        
+                         <tr>
+                            <td class="bg1">A 어린이&#183;노인</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 현저한 과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	본 도표는 쌍방 모두 적색의 등화에 교차로에 진입한 경우이므로 양 차량 모두가 신호위반이 됨은 명백하다&#46; 다만&#44; 이러한 사고의 경우에 대개 자전거가 피해자가 되고&#44; 자전거의 경우에는 통상 저속으로 운행함으로 차량의 발견 및 사고회피가 용이하므로&#44; 따라서 자전거의 기본과실을 30&#37;로 적용하였다&#46;</p>
+                    <p class="txtPoint">&#9313;	쌍방 모두 적색의 등화에 진입한 경우라도 충돌지점&#44; 충돌부위 등에 비추어 어느 한편이 명백하게 선진입하였을 경우로 판명되는 경우에는 도로교통법 제25조제5항을 준용하여 그 차마의 과실을 10&#37; 정도 감산하는 것으로 수정하여 적용함이 타당하다&#46;</p>
+                    </div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 시행규칙 [별표2]&#91;신호기가 표시하는 신호의 종류 및 신호의 뜻&#40;제6조제2항관련&#41;&#93;</p>
+					<ul class="txtListst02">
+						<li>&#45; 적색의 등화  &#58; 차마는 정지선&#44; 횡단보도 및 교차로의 직전에서 정지하여야 한다&#46; 다만&#44; 신호에 따라 진행하는 다른 차마의 교통을 방해하지 아니하고 우회전할 수 있다&#46;</li>
+                        </ul>
+                      
+				  </div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

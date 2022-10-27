@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Board_SQL_Oracle">
+
+	<typeAlias alias="BbsCmd" type="kr.or.truck.kma.bbs.service.KmaBbsCommand" />
+	
+	<!-- clob문제로 인해  resultMap으로 추가함. 2013.07.15 -->
+	<resultMap id="Bbs_resultmap" class="kr.or.truck.kma.bbs.service.KmaBbsCommand">
+		<result property="BBS_MANAGER_ID" column="BBS_MANAGER_ID" />   
+		<result property="BBS_SEQ" column="BBS_SEQ" />   
+		<result property="PARENT_BBS_SEQ" column="PARENT_BBS_SEQ" />   
+		<result property="NOTICE_YN" column="NOTICE_YN" />   
+		<result property="WRITER_ID" column="WRITER_ID" />   
+		<result property="WRITER_NM" column="WRITER_NM" />   
+		<result property="WRITER_IP" column="WRITER_IP" />   
+		<result property="WRITE_TITLE" column="WRITE_TITLE" />   
+		<result property="WRITE_CONTENT" column="WRITE_CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="HIT_CNT" column="HIT_CNT" />   
+		<result property="LVL" column="LVL" />   
+		<result property="RN" column="RN" />   
+		<result property="FILE_CNT" column="FILE_CNT" />   
+	</resultMap> 
+	<resultMap id="Bbs_main_resultmap" class="kr.or.truck.kma.bbs.service.KmaBbsCommand">
+		<result property="BBS_MANAGER_ID" column="BBS_MANAGER_ID" />   
+		<result property="BBS_SEQ" column="BBS_SEQ" />   
+		<result property="PARENT_BBS_SEQ" column="PARENT_BBS_SEQ" />   
+		<result property="NOTICE_YN" column="NOTICE_YN" />   
+		<result property="WRITER_ID" column="WRITER_ID" />   
+		<result property="WRITER_IP" column="WRITER_IP" />   
+		<result property="WRITE_TITLE" column="WRITE_TITLE" />   
+		<result property="WRITE_CONTENT" column="WRITE_CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="HIT_CNT" column="HIT_CNT" />   
+	</resultMap>
+<!-- 
+A.BBS_MANAGER_ID
+				 , A.BBS_SEQ
+				 , A.REGR_ID
+				 , TO_CHAR(A.REG_DT,'YYYY.MM.DD') AS REG_DT
+				 , A.EDTR_ID
+				 , A.EDT_DT
+				 , A.PARENT_BBS_SEQ
+				 , A.NOTICE_YN
+				 , A.WRITER_ID
+				 , A.WRITER_IP
+				 , A.WRITE_TITLE
+				 , A.WRITE_CONTENT
+				 , A.HIT_CNT
+				 , A.DEL_YN
+				 , A.DEL_DT
+-->
+
+	<!-- 게시판관리정보) 아이디별 게시판 관리정보를 조회한다. -->
+	<select id="kta.bbs.selectBbsManagerInfo" resultClass="hashmap" parameterClass="String">
+		SELECT T1.BBS_MANAGER_ID
+		     , T1.BBS_NM
+		     , T1.REPLY_FORM_YN
+		     , T1.FILE_FN_USE_YN
+		     , T1.MEMO_FN_USE_YN
+		     , T1.NOTICE_FN_USE_YN
+		  FROM M_BBS_MANAGER_INFO T1
+		 WHERE T1.BBS_MANAGER_ID = #___bbsManagerId#
+		   AND T1.DEL_YN = 'N'
+	</select>
+	
+	<!-- 게시판정보) 각 게시판 목록을 조회한다. -->
+	<!-- clob문제로 인해 resultClass를 resultMap으로 수정함.  2013.07.15 -->
+	<select id="kta.bbs.selectListBbsInfo" resultMap="Bbs_resultmap">
+		SELECT T1.*
+		  FROM (
+		         SELECT /*+ FIRST_ROWS */
+		                QUERY.*
+		              , ROWNUM RN
+		           FROM (
+						 SELECT A.BBS_MANAGER_ID
+						      , A.BBS_SEQ
+						      , A.REGR_ID
+						      , TO_CHAR(A.REG_DT,'YYYY.MM.DD') AS REG_DT
+						      , A.EDTR_ID
+						      , TO_CHAR(A.EDT_DT,'YYYY.MM.DD') AS EDT_DT
+						      , A.PARENT_BBS_SEQ
+						      , A.NOTICE_YN
+						      , A.WRITER_ID
+						      , B.NAME AS WRITER_NM
+						      , A.WRITER_IP
+						      , A.WRITE_TITLE
+						      , A.WRITE_CONTENT 
+						      , A.HIT_CNT 
+						      , LEVEL AS LVL
+						      , (
+						         SELECT COUNT(*) FROM M_BBS_FILE_REL_INFO WHERE BBS_MANAGER_ID=A.BBS_MANAGER_ID AND BBS_SEQ = A.BBS_SEQ
+						        ) AS FILE_CNT
+						   FROM M_BBS_INFO A
+						  INNER JOIN
+						        CT_USER B
+						    ON A.WRITER_ID = B.USER_ID
+						  WHERE A.BBS_MANAGER_ID = #_bbs.BBS_MANAGER_ID#
+						    AND A.DEL_YN = 'N'
+						    AND A.NOTICE_YN = 'N'
+						    <isNotEmpty property="_searTerms">
+						    	<isEqual property="_searTerms" compareValue="TT">
+						    		AND A.WRITE_TITLE LIKE '%' || #_searField# || '%'
+						    	</isEqual>
+						    	<isEqual property="_searTerms" compareValue="CT">
+						    		AND A.WRITE_CONTENT LIKE '%' || #_searField# || '%'
+						    	</isEqual>
+						    	<isEqual property="_searTerms" compareValue="NA">
+						    		AND ( B.NAME LIKE '%' || #_searField# || '%' OR B.USER_ID LIKE '%' || #_searField# || '%' )
+						    	</isEqual>
+						    </isNotEmpty>
+						  START WITH A.PARENT_BBS_SEQ = '0'
+						CONNECT BY A.PARENT_BBS_SEQ = PRIOR (A.BBS_MANAGER_ID||A.BBS_SEQ)
+						  ORDER SIBLINGS BY A.BBS_MANAGER_ID, A.BBS_SEQ DESC
+		                 ) QUERY 
+		<![CDATA[
+		           WHERE ROWNUM <= (#_page# * #_pageSize#)
+		]]>
+		       ) T1
+		 WHERE T1.RN > ((#_page#-1) * #_pageSize#) 
+	</select>
+	
+	<select id="kta.bbs.selectNoticeListBbsInfo" resultMap="Bbs_resultmap">
+	SELECT T1.*
+		  FROM (
+		         SELECT /*+ FIRST_ROWS */
+		                QUERY.*
+		              , ROWNUM RN
+		           FROM (
+						 SELECT A.BBS_MANAGER_ID
+						      , A.BBS_SEQ
+						      , A.REGR_ID
+						      , TO_CHAR(A.REG_DT,'YYYY.MM.DD') AS REG_DT
+						      , A.EDTR_ID
+						      , TO_CHAR(A.EDT_DT,'YYYY.MM.DD') AS EDT_DT
+						      , A.PARENT_BBS_SEQ
+						      , A.NOTICE_YN
+						      , A.WRITER_ID
+						      , B.NAME AS WRITER_NM
+						      , A.WRITER_IP
+						      , A.WRITE_TITLE
+						      , A.WRITE_CONTENT 
+						      , A.HIT_CNT 
+						      , LEVEL AS LVL
+						      , (
+						         SELECT COUNT(*) FROM M_BBS_FILE_REL_INFO WHERE BBS_MANAGER_ID=A.BBS_MANAGER_ID AND BBS_SEQ = A.BBS_SEQ
+						        ) AS FILE_CNT
+						   FROM M_BBS_INFO A
+						  INNER JOIN
+						        CT_USER B
+						    ON A.WRITER_ID = B.USER_ID
+						  WHERE A.BBS_MANAGER_ID = #_bbs.BBS_MANAGER_ID#
+						    AND A.DEL_YN = 'N'
+						    AND A.NOTICE_YN = 'Y'
+						  START WITH A.PARENT_BBS_SEQ = '0'
+						CONNECT BY A.PARENT_BBS_SEQ = PRIOR (A.BBS_MANAGER_ID||A.BBS_SEQ)
+						  ORDER SIBLINGS BY A.BBS_MANAGER_ID, A.BBS_SEQ DESC
+		                 ) QUERY ) T1
+	</select>
+	
+	<!-- 게시판정보) 각 게시판 목록 총 갯수 -->
+	<select id="kta.bbs.getCountBbsInfo" resultClass="int">
+		 SELECT COUNT(A.BBS_SEQ)
+		   FROM M_BBS_INFO A
+		  INNER JOIN 
+		        CT_USER B
+		     ON A.WRITER_ID = B.USER_ID
+		  WHERE A.BBS_MANAGER_ID = #_bbs.BBS_MANAGER_ID#
+		    AND A.DEL_YN = 'N'
+		    AND A.NOTICE_YN = 'N'
+	    <isNotEmpty property="_searTerms">
+	    	<isEqual property="_searTerms" compareValue="TT">
+	    		AND A.WRITE_TITLE LIKE '%' || #_searField# || '%'
+	    	</isEqual>
+	    	<isEqual property="_searTerms" compareValue="CT">
+	    		AND A.WRITE_CONTENT LIKE '%' || #_searField# || '%'
+	    	</isEqual>
+	    	<isEqual property="_searTerms" compareValue="NA">
+	    		AND ( B.NAME LIKE '%' || #_searField# || '%' OR B.USER_ID LIKE '%' || #_searField# || '%' )
+	    	</isEqual>
+	    </isNotEmpty>
+		  START WITH A.PARENT_BBS_SEQ = '0' 
+		CONNECT BY A.PARENT_BBS_SEQ = PRIOR (A.BBS_MANAGER_ID||A.BBS_SEQ)
+		  ORDER SIBLINGS BY A.BBS_MANAGER_ID, A.BBS_SEQ DESC
+	</select>
+	
+	<!-- 메인화면) 메인화면에 나타낼 공지글 조회 -->
+	<!-- clob문제로 인해 resultClass를 resultMap으로 수정함.  2013.07.15 -->
+	<select id="kta.bbs.selectListBbsMain" resultMap="Bbs_main_resultmap">
+		SELECT A.BBS_MANAGER_ID
+				 , A.BBS_SEQ
+				 , A.REGR_ID
+				 , TO_CHAR(A.REG_DT,'YYYY.MM.DD') AS REG_DT
+				 , A.EDTR_ID
+				 , A.EDT_DT
+				 , A.PARENT_BBS_SEQ
+				 , A.NOTICE_YN
+				 , A.WRITER_ID
+				 , A.WRITER_IP
+				 , A.WRITE_TITLE
+				 , A.WRITE_CONTENT
+				 , A.HIT_CNT
+				 , A.DEL_YN
+				 , A.DEL_DT
+  		 FROM  (
+	         		 SELECT *
+	                   FROM M_BBS_INFO 
+	                 WHERE BBS_MANAGER_ID=#_bbsManagerId#
+	                     AND DEL_YN = 'N'
+	             ORDER BY BBS_SEQ DESC
+         	       )  A
+  	   WHERE  A.BBS_MANAGER_ID=#_bbsManagerId#
+  	<![CDATA[
+  	       AND  ROWNUM <= 2
+  	]]>
+  		<isNotEmpty property="_bbsSeq">
+  		   AND A.BBS_SEQ=#_bbsSeq#
+  		</isNotEmpty>
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="kta.bbs.updateBbsInfoByHitCnt">
+		UPDATE M_BBS_INFO
+		   SET HIT_CNT = HIT_CNT + 1
+		 WHERE BBS_MANAGER_ID = #_bbsManagerId#
+		   AND BBS_SEQ = #_bbsSeq#	
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<update id="kta.bbs.deleteBbsInfoBy">
+		UPDATE M_BBS_INFO
+		   SET DEL_YN = 'Y'
+		     , DEL_DT = SYSDATE
+		     , EDTR_ID = #_sessionId#
+		     , EDT_DT = SYSDATE
+		 WHERE BBS_MANAGER_ID = #_bbsManagerId#
+		   AND BBS_SEQ = #_bbsSeq#
+	</update>
+	
+	<!-- 게시판 번호를 체번한다. -->
+	<select id="kta.bbs.getBbsInfoByBbsSeq" resultClass="int">
+		SELECT NVL(MAX(BBS_SEQ),0) + 1
+		  FROM M_BBS_INFO
+		 WHERE BBS_MANAGER_ID = #bbsManagerId#
+	</select>
+	
+	<!-- 게시판 글 등록, 수정 -->
+	<insert id="kta.bbs.saveBbsInfo">
+        MERGE 
+         INTO M_BBS_INFO BBS
+        USING (
+                SELECT #BBS_MANAGER_ID# AS BBS_MANAGER_ID  
+                     , #BBS_SEQ#             AS BBS_SEQ
+                     , #REGR_ID#             AS SESSION_ID
+                     , #PARENT_BBS_SEQ#      AS PARENT_BBS_SEQ
+                     , NVL(#NOTICE_YN#,'N')  AS NOTICE_YN
+                     , #WRITER_IP#           AS WRITER_IP
+                     , #WRITE_TITLE#         AS WRITE_TITLE
+                     , #WRITE_CONTENT#       AS WRITE_CONTENT
+                     , 0                     AS HIT_CNT
+                  FROM DUAL
+              ) IM
+           ON (
+                BBS.BBS_MANAGER_ID||BBS.BBS_SEQ = IM.BBS_MANAGER_ID||IM.BBS_SEQ
+              )
+         WHEN MATCHED THEN
+        UPDATE
+          SET BBS.EDTR_ID       = IM.SESSION_ID
+            , BBS.EDT_DT        = SYSDATE
+            , BBS.NOTICE_YN     = IM.NOTICE_YN
+            , BBS.WRITER_ID     = IM.SESSION_ID
+            , BBS.WRITER_IP     = IM.WRITER_IP
+            , BBS.WRITE_TITLE   = IM.WRITE_TITLE
+            , BBS.WRITE_CONTENT = IM.WRITE_CONTENT
+         WHEN NOT MATCHED THEN
+        INSERT
+           (
+             BBS.BBS_MANAGER_ID
+           , BBS.BBS_SEQ
+           , BBS.REGR_ID
+           , BBS.REG_DT
+           , BBS.EDTR_ID
+           , BBS.EDT_DT
+           , BBS.PARENT_BBS_SEQ
+           , BBS.NOTICE_YN
+           , BBS.WRITER_ID
+           , BBS.WRITER_IP
+           , BBS.WRITE_TITLE
+           , BBS.WRITE_CONTENT
+           , BBS.HIT_CNT
+           )
+        VALUES
+           (
+             IM.BBS_MANAGER_ID
+           , IM.BBS_SEQ
+           , IM.SESSION_ID
+           , SYSDATE
+           , IM.SESSION_ID
+           , SYSDATE
+           , IM.PARENT_BBS_SEQ
+           , IM.NOTICE_YN
+           , IM.SESSION_ID
+           , IM.WRITER_IP
+           , IM.WRITE_TITLE
+           , IM.WRITE_CONTENT
+           , 0
+		   )	
+	</insert>
+	
+	<!-- 파일,게시판 관계정보) 파일, 관계정보를 입력한다. -->
+	<insert id="kta.bbs.insertBbsFileRelInfo">
+		INSERT 
+		  INTO M_BBS_FILE_REL_INFO
+		     (
+		       BBS_MANAGER_ID
+		     , BBS_SEQ
+		     , FILE_SEQ
+		     , REGR_ID
+		     , REG_DT
+		     , EDTR_ID
+		     , EDT_DT
+		     )
+		VALUES
+		     (
+		       #_bbsManagerId#
+		     , #_bbsSeq#
+		     , #_fileSeq#
+		     , #_sessionId#
+		     , SYSDATE
+		     , #_sessionId#
+		     , SYSDATE
+		     )
+	</insert>
+	
+	<!-- 게시판, 파일관계정보) 파일 목록을 조회한다. -->
+	<select id="kta.bbs.selectListBbsFileInfo" resultClass="hashmap">
+		SELECT A.FILE_SEQ
+		     , A.FILE_SIZE
+		     , A.FILE_ORG_NM
+		     , A.FILE_NM
+		     , A.FILE_URL
+		     , ROWNUM AS FILE_RN
+		  FROM M_FILE_INFO A
+		     , M_BBS_FILE_REL_INFO B
+		 WHERE A.FILE_SEQ = B.FILE_SEQ
+		   AND B.BBS_MANAGER_ID = #_bbsManagerId#
+		   AND B.BBS_SEQ = #_bbsSeq#	
+	</select>
+	
+	<!-- 게시판, 파일 관게정보 글 삭제 -->
+	<delete id="kta.bbs.deleteM_BbsFileRelInfo">
+		DELETE FROM M_BBS_FILE_REL_INFO 
+		 WHERE (BBS_MANAGER_ID,BBS_SEQ)=(
+				SELECT T2.BBS_MANAGER_ID, T2.BBS_SEQ
+				  FROM M_FILE_INFO T1
+				     , M_BBS_FILE_REL_INFO T2
+				 WHERE T1.FILE_SEQ = T2.FILE_SEQ
+				   AND T1.FILE_SEQ = #fileSeq#
+		 )
+	</delete>
+	
+	<!-- 버전업데이트 정보를 확인 -->
+	<select id="kta.bbs.selectUpdateInfo" resultClass="hashmap">
+	SELECT L.BBS_SEQ, 
+	       L.RVERSION, 
+	       M.FILE_SEQ, 
+	       M.FILENM 
+	  FROM 
+	       (SELECT BBS_SEQ, 
+	              WRITE_TITLE AS RVERSION, 
+	              BBS_MANAGER_ID 
+	         FROM M_BBS_INFO 
+	        WHERE BBS_MANAGER_ID = 'APP20120217001' 
+	              AND ROWNUM = 1 
+	              AND DEL_YN = 'N' 
+	     ORDER BY BBS_SEQ DESC 
+	       ) L, 
+	       (SELECT BBS_SEQ, 
+	              B.FILE_SEQ, 
+	              B.FILE_NM AS FILENM , 
+	              A.BBS_MANAGER_ID 
+	         FROM M_BBS_FILE_REL_INFO A, 
+	              M_FILE_INFO B 
+	        WHERE A.FILE_SEQ = B.FILE_SEQ 
+	       ) M 
+	 WHERE L.BBS_MANAGER_ID=M.BBS_MANAGER_ID 
+	       AND L.BBS_SEQ = M.BBS_SEQ		
+	</select>	
+</sqlMap>

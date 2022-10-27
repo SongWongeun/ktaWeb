@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">507</span><span class="pyoName">진행중 추돌사고 A 추돌차 B 피추돌차</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본&#9312;</td>
+                            <td class="alC bB3">A 100</td>
+                            <td class="alC">B 0</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="13" class="alC"><img src="/images/truck/jpg/507.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 제동등 고장&#9313;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 전용차로 위반</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">추월차선</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">&#42;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 이유없는 급정거&#9314;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">30</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">분기점&#183;출입로 부근</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 10㎞이상 속도위반</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 20㎞이상 속도위반</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="bg1">A 전용차로 위반</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 현저한 과실</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	모든차의 운전자는 선행차량이 갑자기 정지하는 경우 그 앞차와의 충돌을 피할 수 있는 필요한 거리를 확보해야 하며 이를 어겨 선행차량의 후미를 추돌한 경우 추돌차량&#40;A차량&#41;의 기본과실은 100&#37;로 본다&#46; 그러나&#44; B가 A를 놀라게 하기 위하여 고의로 급제동한 경우에는 면부책 판단사항으로 본 도표의 적용을 배제한다&#46;</p>
+                    <p class="txtPoint">&#9313;	선행차량의 제동등이 고장났거나 오물 등이 묻어 법정 밝기 이하의 경우에는 수정요소를 고려하여야 한다&#46;</p>
+                    <p class="txtPoint">&#9314;	이유없는 급정거라 함은 전방의 사고발생&#44; 차량정체&#44; 돌발상황이 발생하는 등 부득이한 사유로 차를 갑자기 정지시키거나 속도를 줄이는 등의 급제동 상황을 제외한 급정거를 말하며&#44; 예컨데 선행차가 뒷차를 놀래주려고 급정거하거나 브레이크 조작미숙으로 급정거한 경우 또는 우측차선이 아닌 곳에서 승객 또는 화물을 싣거나 내리기 위하여 급정거한 경우가 이에 해당한다&#46; 선행차가 사고를 고의로 유발하기 위하여 급정거한 경우에는 본 도표의 적용을 배제한다&#46;&#40;면부책 판단사항으로 보아야 한다&#41;</p>
+                    </div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 제19조&#91;안전거리확보 등&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 모든 차의 운전자는 같은 방향으로 가고 있는 앞차의 뒤를 따르는 때에는 앞차가 갑자기 정지하게 되는 경우 그 앞차와의 충돌을 피할 수 있는 필요한 거리를 확보하여야 한다&#46;</li>
+                        <li>&#9314; 모든 차의 운전자는 위험방지를 위한 경우와 그 밖의 부득이한 경우가 아니면 운전하는 차를 갑자기 정지시키거나 속도를 줄이는 등의 급제동을 하여서는 아니된다&#46;</li>
+                         </ul>
+					
+                 
+				</div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

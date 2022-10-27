@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CarDeductInquiry">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>	
+	<typeAlias  alias="carDeductInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	<typeAlias  alias="carDeductInquiryVO" type="kr.or.truck.netcounter.inquiryservice.service.CarDeductInquiryVO"/>
+	
+	<resultMap id="carDeductInquiry" class="kr.or.truck.netcounter.inquiryservice.service.CarDeductInquiryVO">	
+		<result property="cnt" column="CNT"/>
+		<result property="car_gaip_no" column="CAR_GAIP_NO"/>
+		<result property="car_no" column="CAR_NO"/>
+		<result property="car_kind_nm" column="CAR_KIND_NM"/>
+		<result property="proper_wg" column="PROPER_WG"/>
+		<result property="dambo_kind_nm" column="DAMBO_KIND_NM"/>
+		<result property="tukbyul_rate" column="TUKBYUL_RATE"/>
+		<result property="dambo_hando" column="DAMBO_HANDO"/>
+		<result property="gyeyak_state_nm" column="GYEYAK_STATE_NM"/>
+		<result property="napip_gb" column="NAPIP_GB"/>
+		<result property="dambo_gaip_ymd" column="DAMBO_GAIP_YMD"/>
+		<result property="yuhyo_ymd" column="YUHYO_YMD"/>
+		<result property="next_bunnap_ymd" column="NEXT_BUNNAP_YMD"/>
+		<result property="next_bunnap_amt" column="NEXT_BUNNAP_AMT"/>						
+		<result property="bosang" column="BOSANG"/>
+		<result property="bosang_chk" column="BOSANG_CHK"/>
+		<result property="gyeyak_eymd" column="GYEYAK_EYMD"/>
+		
+		<result property="car_nm" column="CAR_NM"/>
+		<result property="car_body_no" column="CAR_BODY_NO"/>
+		<result property="car_yy" column="CAR_YY"/>
+		<result property="tot_wg" column="TOT_WG"/>
+		<result property="sub_unit_tot" column="SUB_UNIT_TOT"/>
+		<result property="machine_unit_amt" column="MACHINE_UNIT_AMT"/>
+		<result property="top_tank_amt" column="TOP_TANK_AMT"/>
+		
+		<result property="tukbyul_rate1_cd" column="TUKBYUL_RATE1_CD"/>
+		<result property="tukbyul_rate1_nm" column="TUKBYUL_RATE1_NM"/>
+		<result property="tukbyul_rate2_cd" column="TUKBYUL_RATE2_CD"/>
+		<result property="tukbyul_rate2_nm" column="TUKBYUL_RATE2_NM"/>
+		<result property="tukbyul_rate3_cd" column="TUKBYUL_RATE3_CD"/>
+		<result property="tukbyul_rate3_nm" column="TUKBYUL_RATE3_NM"/>
+		<result property="car_amt" column="CAR_AMT"/>
+		<result property="total_car_amt" column="TOTAL_CAR_AMT"/>
+		
+		<result property="napip_gb_dae1" column="NAPIP_GB_DAE1"/>
+		<result property="napip_gb_ilban" column="NAPIP_GB_ILBAN"/>
+		
+		<result property="bundam_amt" column="BUNDAM_AMT"/>
+		<result property="dambo_kind_cd" column="DAMBO_KIND_CD"/>
+		<result property="napip_gb_cd" column="NAPIP_GB_CD"/>
+		<result property="carmgr_nm" column="CARMGR_NM"/>
+		<result property="carmgr_phone" column="CARMGR_PHONE"/>
+		
+		<result property="agent_no" column="AGENT_NO"/>
+		<result property="saupjang_seq" column="SAUPJANG_SEQ"/>
+		<result property="gyeyak_no" column="GYEYAK_NO"/>
+		<result property="gyeyak_jibu_cd" column="GYEYAK_JIBU_CD"/>
+		<result property="saupja_no" column="SAUPJA_NO"/>
+		
+		<result property="dae1" column="DAE1"/>
+		<result property="ilban" column="ILBAN"/>
+		<result property="tukbyul" column="TUKBYUL"/>
+		
+	</resultMap>
+	
+	<resultMap id="carDeductManager" class="kr.or.truck.netcounter.inquiryservice.service.ManagerVO">	
+		<result property="jibu_nm" column="JIBU_NM"/>
+		<result property="tel_no" column="TEL_NO"/>
+		<result property="sawon_nm" column="SAWON_NM"/>								
+	</resultMap>
+	
+	<resultMap id="carDeductDetail" class="kr.or.truck.netcounter.inquiryservice.service.DetailVO">	
+		<result property="car_no" column="CAR_NO" nullValue="" />
+		<result property="gyeyak_no" column="GYEYAK_NO" nullValue="" />
+		<result property="dambo_kind_nm" column="DAMBO_KIND_NM" nullValue="" />
+		<result property="gyeyak_state_nm" column="GYEYAK_STATE_NM" nullValue="" />
+		<result property="bunnap_amt1" column="BUNNAP_AMT1" nullValue="" />
+		<result property="youngsu_ymd1" column="YOUNGSU_YMD1" nullValue="" />
+		<result property="bunnap_amt2" column="BUNNAP_AMT2" nullValue="" />
+		<result property="youngsu_ymd2" column="YOUNGSU_YMD2" nullValue="" />
+		<result property="bunnap_amt3" column="BUNNAP_AMT3" nullValue="" />
+		<result property="youngsu_ymd3" column="YOUNGSU_YMD3" nullValue="" />
+		<result property="bunnap_amt4" column="BUNNAP_AMT4" nullValue="" />
+		<result property="youngsu_ymd4" column="YOUNGSU_YMD4" nullValue="" />
+		<result property="bunnap_amt5" column="BUNNAP_AMT5" nullValue="" />
+		<result property="youngsu_ymd5" column="YOUNGSU_YMD5" nullValue="" />
+		<result property="bunnap_amt6" column="BUNNAP_AMT6" nullValue="" />
+		<result property="youngsu_ymd6" column="YOUNGSU_YMD6" nullValue="" />									
+	</resultMap>
+	
+	<select id="carDeductInquiryDAO.selectList" parameterClass="carDeductInquirySearchVO" resultMap="carDeductInquiry" >			 
+		select 
+				
+				e.car_nm,	/*차명*/
+				e.car_body_no,	/*차대번호*/
+				e.car_yy,	/*년식*/
+				e.tot_wg,	/*총중량*/
+				a.sub_unit_tot,	/*부속품합계액*/
+				a.machine_unit_amt,	/*기계가액*/
+				a.top_tank_amt,	/*탑및탱크가액*/
+				
+				a.tukbyul_rate1_cd,	/*특별요율1코드*/
+				f_code_nm('1011',a.tukbyul_rate1_cd) as tukbyul_rate1_nm,
+				a.tukbyul_rate2_cd,	/*특별요율2코드*/
+				f_code_nm('1011',a.tukbyul_rate2_cd) as tukbyul_rate2_nm,
+				a.tukbyul_rate3_cd,	/*특별요율3코드*/
+				f_code_nm('1011',a.tukbyul_rate3_cd) as tukbyul_rate3_nm,
+				a.CAR_AMT , /*자차공제가액  -> 차량가액(분담금계산용)*/
+				a.sub_unit_tot + a.machine_unit_amt + a.top_tank_amt + a.car_amt as total_car_amt, /*자차공제총가액*/
+				
+				a.napip_gb_dae1,/*납입구분코드_대인i*/
+				a.napip_gb_ilban,/*납입구분코드_일반*/
+				
+				b.bundam_amt, /*분담금액*/
+				
+			   d.agent_nm                                                       agent_nm,
+		       e.car_gaip_no                                                     car_gaip_no,
+		       a.gyeyak_no                                                       gyeyak_no,
+		       d.agent_no														 agent_no,
+		       d.saupjang_seq													 saupjang_seq,
+		       d.gyeyak_jibu_cd                                                 gyeyak_jibu_cd,
+		       d.saupja_no														 saupja_no,
+		       decode(trim(e.car_no), null, e.car_body_no, e.car_no)             car_no,
+		       f_code_nm('1056', e.car_kind_cd)                                  car_kind_nm,/* 차종 */
+		       e.proper_wg                                                       proper_wg,
+		       b.dambo_kind_cd                                                   dambo_kind_cd,       
+		       f_code_nm('1008', b.dambo_kind_cd)                                dambo_kind_nm,
+		       decode(b.dambo_kind_cd, '1', '',
+		                               '2', decode(a.tukbyul_dae2_rate, '100', '', a.tukbyul_dae2_rate),
+		                               '3', decode(a.tukbyul_daemul_rate, '100', '', a.tukbyul_daemul_rate),
+		                               '4', decode(a.tukbyul_cha_rate, '100', '', a.tukbyul_cha_rate))     tukbyul_rate,
+		       decode(b.dambo_kind_cd, '1', '자배법에서 정한 금액',
+		                               '2', '무한',
+		                               '3', '1사고당 '||f_code_nm('1010', b.dambo_hando_cd),
+		                               '4', (select f_code_nm('1013', MYUNCHAEK_CD) from ctgy01 where gyeyak_no = b.gyeyak_no),
+		                               '8', f_code_nm('1009', b.dambo_hando_cd),
+		                               '9', decode(substr(trim(b.dambo_hando_cd),1,1), '1', '긴급출동서비스 특약Ⅰ','2','긴급출동서비스 특약Ⅱ', '')) dambo_hando,
+		       f_code_nm('1004', b.gyeyak_state_cd)                              gyeyak_state_nm,
+		       b.napip_gb_cd 														napip_gb_cd, /*납입구분코드*/
+		       trim(b.bunnap_cnt) || '회 / ' || trim(b.napip_gb_cd) || '회'        napip_gb,
+		       a.gyeyak_eymd  gyeyak_eymd,
+		       substr(b.dambo_gaip_symd, 1, 4) || '.' ||
+		       substr(b.dambo_gaip_symd, 5, 2) || '.' ||
+		       substr(b.dambo_gaip_symd, 7, 2) || '~' ||
+		       substr(b.dambo_gaip_eymd, 1, 4) || '.' ||
+		       substr(b.dambo_gaip_eymd, 5, 2) || '.' ||
+		       substr(b.dambo_gaip_eymd, 7, 2)                                   dambo_gaip_ymd,
+		       substr(c.yuhyo_symd,      1, 4) || '.' ||
+		       substr(c.yuhyo_symd,      5, 2) || '.' ||
+		       substr(c.yuhyo_symd,      7, 2) || '~' ||
+		       substr(c.yuhyo_eymd,      1, 4) || '.' ||
+		       substr(c.yuhyo_eymd,      5, 2) || '.' ||
+		       substr(c.yuhyo_eymd,      7, 2)                                   yuhyo_ymd,
+		       (case when b.bunnap_cnt = b.napip_gb_cd
+		             then ''
+		             else (select x.yuhyo_symd
+		                     from ctgy03 x
+		                    where x.gyeyak_no     = c.gyeyak_no
+		                      and x.dambo_kind_cd = c.dambo_kind_cd
+		                      and x.bunnap_cnt    = c.bunnap_cnt + '1')
+		       end)                                                              next_bunnap_ymd,
+		       (case when b.bunnap_cnt = b.napip_gb_cd
+		             then 0
+		             else (select y.bunnap_amt
+		                     from ctgy03 y
+		                    where y.gyeyak_no     = c.gyeyak_no
+		                      and y.dambo_kind_cd = c.dambo_kind_cd
+		                      and y.bunnap_cnt    = c.bunnap_cnt + '1')
+		       end)                                                              next_bunnap_amt,
+		       0                                                                 cnt,
+		       '클릭'                                                            bosang,
+		       0                                                                 bosang_chk,
+		       f.carmgr_nm as carmgr_nm,
+		       trim(replace(f.mobile_com_no||f.mobile_no,' ','')) as carmgr_phone,
+		       PYOJUN_DAE1_RATE  DAE1, PYOJUN_ILBAN_RATE ILBAN, TUKBYUL_ADD_RATE TUKBYUL
+		   
+		  from ctgy01 a,
+		       ctgy02 b,
+		       ctgy03 c,
+		       ctgi01 d,
+		       ctgi05 e,
+		       ctgi06 f 
+		 where ((#agentcd#          = '1'           and
+		         d.saupja_no          = #saupja_no# and
+		         d.gyeyak_jibu_cd  like #gyeyak_jibu_cd#) or
+		        (<![CDATA[#agentcd#         <> '1'         ]]>  and 
+		         d.agent_no           = #agent_no#  and
+		         d.saupjang_seq       = #saupjang_seq#))
+		   and d.agent_no             = e.agent_no
+		   and d.saupjang_seq         = e.saupjang_seq
+		   and ((#agentcd# = '1'  and trim(e.carmgr_jumin_no) is null) or
+		         e.carmgr_jumin_no like #jumin_no#)
+		   and e.car_gaip_no          = a.car_gaip_no
+		   and e.carmgr_jumin_no = f.carmgr_jumin_no(+)
+		   /*and a.gyeyak_state_cd     in (
+		       '1', '2', '5'
+		   )*/
+		   and a.gyeyak_state_cd != '8' 
+		   /* and a.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy01 temp where temp.car_gaip_no = a.car_gaip_no ) 가장 최신 계약 */
+		   and a.gyeyak_no            = b.gyeyak_no
+		   and b.gyeyak_no            = c.gyeyak_no
+		   and b.dambo_kind_cd        = c.dambo_kind_cd
+		   and b.bunnap_cnt           = c.bunnap_cnt
+		   
+		   and a.car_gaip_no = #car_gaip_no#
+		   and a.gyeyak_no = #gyeyak_no#
+		 order by e.car_no, b.gyeyak_no desc, b.dambo_kind_cd
+	</select>		
+
+
+	<select id="carDeductInquiryDAO.selectDetailList" parameterClass="carDeductInquirySearchVO" resultMap="carDeductDetail" >
+			select decode(trim(x.car_no), null, x.car_body_no, x.car_no) car_no,
+			       x.gyeyak_no,   
+			       f_code_nm('1008', x.dambo_kind_cd)                    dambo_kind_nm,
+			       f_code_nm('1004', x.gyeyak_state_cd)                  gyeyak_state_nm,
+			       x.bunnap_amt1,  
+			       x.youngsu_ymd1, 
+			       x.bunnap_amt2,  
+			       x.youngsu_ymd2,  
+			       x.bunnap_amt3,  
+			       x.youngsu_ymd3, 
+			       x.bunnap_amt4,  
+			       x.youngsu_ymd4, 
+			       x.bunnap_amt5,  
+			       x.youngsu_ymd5, 
+			       x.bunnap_amt6,  
+			       x.youngsu_ymd6,
+			       x.dambo_kind_cd,
+			       x.gyeyak_state_cd
+			  from (
+			        select a1.car_no car_no,
+       a1.car_body_no car_body_no,
+       d1.gyeyak_no gyeyak_no,
+       d1.dambo_kind_cd dambo_kind_cd,
+       max(c1.gyeyak_state_cd) gyeyak_state_cd,
+       
+       max(decode(d1.bunnap_cnt,  '1', d1.yuhyo_symd,  '')) yuhyo_symd1,
+       max(decode(d1.bunnap_cnt,  '1', d1.yuhyo_eymd,  '')) yuhyo_eymd1,
+       max(decode(d1.bunnap_cnt,  '1', d1.bunnap_amt,   0)) bunnap_amt1,
+       max(decode(d1.bunnap_cnt,  '1', d1.youngsu_ymd, '')) youngsu_ymd1,
+       
+       max(case when b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '2' then d1.yuhyo_symd  else  '' end ) yuhyo_symd2,
+       max(case when b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '2' then d1.yuhyo_eymd  else  '' end ) yuhyo_eymd2,
+       max(case when b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '2' then d1.bunnap_amt  else   0 end ) bunnap_amt2,
+       max(case when b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '2' then d1.youngsu_ymd else  '' end ) youngsu_ymd2,
+ 
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '3')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '4' and d1.bunnap_cnt = '2') then d1.yuhyo_symd  else  '' end ) yuhyo_symd3,
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '3')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '4' and d1.bunnap_cnt = '2') then d1.yuhyo_eymd  else  '' end ) yuhyo_eymd3,
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '3')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '4' and d1.bunnap_cnt = '2') then d1.bunnap_amt  else   0  end ) bunnap_amt3,
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '3')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '4' and d1.bunnap_cnt = '2') then d1.youngsu_ymd  else  '' end ) youngsu_ymd3,
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '4')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '6' and d1.bunnap_cnt = '2') then d1.yuhyo_symd  else  '' end ) yuhyo_symd4,
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '4')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '6' and d1.bunnap_cnt = '2') then d1.yuhyo_eymd  else  '' end ) yuhyo_eymd4,
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '4')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '6' and d1.bunnap_cnt = '2') then d1.bunnap_amt  else   0  end ) bunnap_amt4,
+       max(case when ( b1.NAPIP_GB_DAE1 = b1.NAPIP_GB_ILBAN  and d1.bunnap_cnt = '4')
+          or ( b1.NAPIP_GB_DAE1 = '2' and b1.NAPIP_GB_ILBAN = '6' and d1.bunnap_cnt = '2') then d1.youngsu_ymd  else  '' end ) youngsu_ymd4,
+ 
+       max(decode(d1.bunnap_cnt,  '5', d1.yuhyo_symd,  '')) yuhyo_symd5,
+       max(decode(d1.bunnap_cnt,  '5', d1.yuhyo_eymd,  '')) yuhyo_eymd5,
+       max(decode(d1.bunnap_cnt,  '5', d1.bunnap_amt,   0)) bunnap_amt5,
+       max(decode(d1.bunnap_cnt,  '5', d1.youngsu_ymd, '')) youngsu_ymd5,
+       max(decode(d1.bunnap_cnt,  '6', d1.yuhyo_symd,  '')) yuhyo_symd6,
+       max(decode(d1.bunnap_cnt,  '6', d1.yuhyo_eymd,  '')) yuhyo_eymd6,
+       max(decode(d1.bunnap_cnt,  '6', d1.bunnap_amt,   0)) bunnap_amt6,
+       max(decode(d1.bunnap_cnt,  '6', d1.youngsu_ymd, '')) youngsu_ymd6
+ 
+       from ctgi05 a1,
+            ctgy01 b1,
+            ctgy02 c1,
+            ctgy03 d1
+            
+       where a1.car_gaip_no = #car_gaip_no#
+       and d1.gyeyak_no = #gyeyak_no#
+       and a1.car_gaip_no      = b1.car_gaip_no
+                    /*and b1.gyeyak_state_cd in ('1', '2', '5')*/
+       and b1.gyeyak_state_cd != '5'
+                    /* and b1.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy01 temp where temp.car_gaip_no = a1.car_gaip_no ) 가장 최신 계약 */
+       and b1.gyeyak_no = c1.gyeyak_no
+       and c1.gyeyak_no = d1.gyeyak_no
+       and c1.dambo_kind_cd = '1'
+       and c1.dambo_kind_cd = d1.dambo_kind_cd
+       
+       group by a1.car_no, a1.car_body_no, d1.gyeyak_no, d1.dambo_kind_cd
+			        
+			        union all
+			        
+			        select a2.car_no                                           car_no,       
+			               a2.car_body_no                                      car_body_no,
+			               d2.gyeyak_no                                        gyeyak_no,    
+			               d2.dambo_kind_cd                                    dambo_kind_cd,
+			               max(c2.gyeyak_state_cd)                             gyeyak_state_cd,
+			               
+			               max(decode(d2.bunnap_cnt, '1', d2.yuhyo_symd,  '')) yuhyo_symd1,
+			               max(decode(d2.bunnap_cnt, '1', d2.yuhyo_eymd,  '')) yuhyo_eymd1,
+			               max(decode(d2.bunnap_cnt, '1', d2.bunnap_amt,   0)) bunnap_amt1,
+			               max(decode(d2.bunnap_cnt, '1', d2.youngsu_ymd, '')) youngsu_ymd1,
+			        
+			               max(decode(d2.bunnap_cnt, '2', d2.yuhyo_symd,  '')) yuhyo_symd2,
+			               max(decode(d2.bunnap_cnt, '2', d2.yuhyo_eymd,  '')) yuhyo_eymd2,
+			               max(decode(d2.bunnap_cnt, '2', d2.bunnap_amt,   0)) bunnap_amt2,
+			               max(decode(d2.bunnap_cnt, '2', d2.youngsu_ymd, '')) youngsu_ymd2,
+			        
+			               max(decode(d2.bunnap_cnt, '3', d2.yuhyo_symd,  '')) yuhyo_symd3,
+			               max(decode(d2.bunnap_cnt, '3', d2.yuhyo_eymd,  '')) yuhyo_eymd3,
+			               max(decode(d2.bunnap_cnt, '3', d2.bunnap_amt,   0)) bunnap_amt3,
+			               max(decode(d2.bunnap_cnt, '3', d2.youngsu_ymd, '')) youngsu_ymd3,
+			        
+			               max(decode(d2.bunnap_cnt, '4', d2.yuhyo_symd,  '')) yuhyo_symd4,
+			               max(decode(d2.bunnap_cnt, '4', d2.yuhyo_eymd,  '')) yuhyo_eymd4,
+			               max(decode(d2.bunnap_cnt, '4', d2.bunnap_amt,   0)) bunnap_amt4,
+			               max(decode(d2.bunnap_cnt, '4', d2.youngsu_ymd, '')) youngsu_ymd4,
+			        
+			               max(decode(d2.bunnap_cnt, '5', d2.yuhyo_symd,  '')) yuhyo_symd5,
+			               max(decode(d2.bunnap_cnt, '5', d2.yuhyo_eymd,  '')) yuhyo_eymd5,
+			               max(decode(d2.bunnap_cnt, '5', d2.bunnap_amt,   0)) bunnap_amt5,
+			               max(decode(d2.bunnap_cnt, '5', d2.youngsu_ymd, '')) youngsu_ymd5,
+			        
+			               max(decode(d2.bunnap_cnt, '6', d2.yuhyo_symd,  '')) yuhyo_symd6,
+			               max(decode(d2.bunnap_cnt, '6', d2.yuhyo_eymd,  '')) yuhyo_eymd6,
+			               max(decode(d2.bunnap_cnt, '6', d2.bunnap_amt,   0)) bunnap_amt6,
+			               max(decode(d2.bunnap_cnt, '6', d2.youngsu_ymd, '')) youngsu_ymd6
+			          from ctgi05 a2,
+			               ctgy01 b2,
+			               ctgy02 c2,
+			               ctgy03 d2
+			         where a2.car_gaip_no      = #car_gaip_no#
+			           and d2.gyeyak_no = #gyeyak_no#
+			           and a2.car_gaip_no      = b2.car_gaip_no
+			           /*and b2.gyeyak_state_cd in ('1', '2', '5')*/
+			           
+					   and b2.gyeyak_state_cd != '5' 
+					   /* and b2.gyeyak_symd = ( select max(temp.gyeyak_symd) from ctgy01 temp where temp.car_gaip_no = a2.car_gaip_no ) 가장 최신 계약 */
+					   
+			           and b2.gyeyak_no        = c2.gyeyak_no
+			           and c2.gyeyak_no        = d2.gyeyak_no
+			           and c2.dambo_kind_cd   != '1'
+			           and c2.dambo_kind_cd    = d2.dambo_kind_cd
+			         group by a2.car_no, a2.car_body_no, d2.gyeyak_no, d2.dambo_kind_cd
+			       ) x         
+			 order by x.car_no, x.gyeyak_no desc, x.dambo_kind_cd
+	</select>
+	
+	<select id="carDeductInquiryDAO.selectCtgi06JuminCnt" parameterClass="carDeductInquirySearchVO" resultClass="Integer">
+		select count(*) from ctgi06 where CARMGR_JUMIN_NO =#jumin1#||#jumin2#
+	</select>
+	<update id="carDeductInquiryDAO.updateCarmgrInfo" parameterClass="carDeductInquirySearchVO" >
+		update ctgi05 set CARMGR_JUMIN_NO = #jumin1#||#jumin2# where car_gaip_no =#car_gaip_no#
+	</update>
+</sqlMap>

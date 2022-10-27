@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+/* ---------------------------------------------------------------------------------
+        Name : KTA | 전국화물자동차운송사업자공제조합
+        PART : Home page Web Font Style
+--------------------------------------------------------------------------------- */
+
+@font-face{
+    font-family:'NanumGothic';
+    src:url("/css/truck/font/NanumGothic.eot");
+    src:local(※),
+    url("/css/truck/font/NanumGothic.woff") format('woff'),
+    url("/css/truck/font/NanumGothic.ttf") format('truetype');
+}
+
+@font-face{
+    font-family:'NanumGothicBold';
+    src:url("/css/truck/font/NanumGothicBold.eot");
+    src:local(※),
+    url("/css/truck/font/NanumGothicBold.woff") format('woff'),
+    url("/css/truck/font/NanumGothicBold.ttf") format('truetype');
+}
+
+@font-face{
+    font-family:'NanumGothicExtraBold';
+    src:url("/css/truck/font/NanumGothicExtraBold.eot");
+    src:local(※),
+    url("/css/truck/font/NanumGothicExtraBold.woff") format('woff'),
+    url("/css/truck/font/NanumGothicExtraBold.ttf") format('truetype');
+}
+
+@font-face{
+    font-family:'Daum_Regular';
+    src:url("/css/truck/font/Daum_Regular.eot");
+    src:local(※),
+    url("/css/truck/font/Daum_Regular.woff") format('woff'),
+    url("/css/truck/font/Daum_Regular.ttf") format('truetype');
+}

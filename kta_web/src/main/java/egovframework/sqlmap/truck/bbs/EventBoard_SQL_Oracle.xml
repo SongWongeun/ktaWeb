@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EventBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="eventBoardSearchVO" type="kr.or.truck.cyberpr.event.service.EventBoardSearchVO"/>
+	<typeAlias  alias="eventBoardVO" type="kr.or.truck.cyberpr.event.service.EventBoardVO"/>
+	
+	<resultMap id="eventBoardPreNex" class="kr.or.truck.cyberpr.event.service.EventBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="eventBoard" class="kr.or.truck.cyberpr.event.service.EventBoardVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String" nullValue=""/>
+		<result property="contentText" column="CONTENT_TEXT" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId" column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName" column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime" column="MODIFY_TIME" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="thumbFileId" column="THUMB_FILE_ID" nullValue=""/>
+		<result property="imageFileId" column="IMAGE_FILE_ID" nullValue=""/>
+		<result property="imageFileName" column="IMAGE_FILE_NAME" nullValue=""/>
+	</resultMap>
+
+
+	<insert id="eventBoardDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO EVENT_NOTICE(
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CONTENT_HTML,
+			CONTENT_TEXT,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			THUMB_FILE_ID,
+			IMAGE_FILE_ID,
+			IMAGE_FILE_NAME,
+			USE_AT
+			)
+		 
+		VALUES (
+		'EVENT_NOTICE',
+		'행사안내 게시판',
+		#articleNo#,
+		#title#,
+		#contentHtml#,
+		#contentText#,
+		sysdate,
+		0,
+		#writerId#,
+		#writerName#,
+		#writerId#,
+		#writerName#,
+		sysdate,
+		#atchFileId#,
+		#atchFileName#,
+		#thumbFileId#,
+		#imageFileId#,
+		#imageFileName#,
+		'Y'
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="eventBoardDAO.updateBoard_S" parameterClass="eventBoardVO">
+		<![CDATA[
+			UPDATE EVENT_NOTICE 
+			SET MODIFY_ID = #modifyId#,
+				MODIFY_NAME = #modifyName#,
+				TITLE = #title#,
+				CONTENT_HTML = #contentHtml#,
+				CONTENT_TEXT = #contentText#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#,
+			    THUMB_FILE_ID = #thumbFileId#,
+			    IMAGE_FILE_ID = #imageFileId#,
+			    IMAGE_FILE_NAME = #imageFileName#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="eventBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE EVENT_NOTICE 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="eventBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE EVENT_NOTICE   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="eventBoardDAO.selectBoard_S" resultMap="eventBoard" >
+		<![CDATA[
+			SELECT 
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+				THUMB_FILE_ID,
+				IMAGE_FILE_ID,
+				IMAGE_FILE_NAME,
+				USE_AT
+			FROM EVENT_NOTICE 
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="eventBoardDAO.selectBoardList_D" parameterClass="EventBoardSearchVO" resultMap="eventBoard" >
+			 
+			SELECT 
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+				THUMB_FILE_ID,
+				IMAGE_FILE_ID,
+				IMAGE_FILE_NAME,
+				USE_AT
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM EVENT_NOTICE 
+					WHERE 1=1 AND USE_AT='Y'
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY CREATE_TIME DESC, ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="eventBoardDAO.selectBoardListTotCnt_S" parameterClass="eventBoardSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM EVENT_NOTICE
+			WHERE 1=1 AND USE_AT='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+	
+	
+	<update id="eventBoardDAO.checkFileInfo" parameterClass="eventBoardVO">
+		<![CDATA[
+			UPDATE EVENT_NOTICE 
+			SET ATCH_FILE_ID = NULL
+			WHERE ARTICLE_NO=#articleNo# AND USE_AT='N'
+		]]>
+	</update>
+	
+	<select id="eventBoardDAO.selectPreArticle" resultMap="eventBoardPreNex" >
+		<![CDATA[	 
+			select next_ARTICLE_NO as ARTICLE_NO, next_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lead(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) next_ARTICLE_NO,
+			    lead(TITLE,1,'이전글이 없습니다') over (order by ARTICLE_NO) next_TITLE
+			    from EVENT_NOTICE WHERE USE_AT='Y'
+			) 
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="eventBoardDAO.selectNexArticle" resultMap="eventBoardPreNex" >
+		<![CDATA[ 		
+			select pre_ARTICLE_NO as ARTICLE_NO, pre_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lag(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) pre_ARTICLE_NO,
+			    lag(title,1,'다음글이 없습니다') over (order by ARTICLE_NO) pre_TITLE
+			    from EVENT_NOTICE WHERE USE_AT='Y'
+			)
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+</sqlMap>

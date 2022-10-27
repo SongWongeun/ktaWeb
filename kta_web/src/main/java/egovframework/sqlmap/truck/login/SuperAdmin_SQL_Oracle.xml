@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Member">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="SuperAdminVO" type="kr.or.truck.login.service.impl.SuperAdminVO"/>
+	
+	 		<!-- 2016.12.02 [H] IMSI -->
+	 		
+	 	<!-- WebMember Total count-->
+	<select id="superAdminDAO.selectWebMemberListTotCnt" parameterClass="SuperAdminVO" resultClass="Int">
+			SELECT COUNT(*) totcnt 
+			FROM (
+			<isEqual property="category" compareValue="1">
+				SELECT
+         				 				  TM.AGENTCD,
+					                       TM.AGENT_NO,
+					                       TM.ID,
+					                       NULL, <!-- f_jibu_nm(TM.GYEYAK_JIBU||'01') Gyeyak_Jibu_nm,-->
+					                       CT01.DAEPYOJA_NM AS DAEPYOJANM,
+					                       CT01.AGENT_NM AS AGENTNM,
+					                       TM.SAUPNUM,
+					                       TM.GYEYAK_JIBU,
+					                       TM.JOINDATE,
+					                       TM.UNREGISTER_YN
+                 					 FROM TB_MEMBER TM, CTGI01@KOTMASDB CT01
+                					WHERE TM.AGENT_NO = CT01.AGENT_NO
+					                   AND TM.SAUPJANG_SEQ = CT01.SAUPJANG_SEQ 
+					                   AND TM.SAUPNUM = CT01.SAUPJA_NO
+					                   <isNotEmpty property="array_employ">
+											<iterate property="array_employ" open="and tm.saupnum in (" conjunction="," close=")">
+									        	#array_employ[]#
+									    	</iterate>
+									   </isNotEmpty>
+									   <isNotEmpty prepend="AND" property="jicguebCheck">
+											ct01.gyeyak_jibu_cd = #gyeyak_jibu#
+									   </isNotEmpty>
+		                </isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="2">
+		                SELECT 
+		                		TM.AGENTCD,
+		                       TM.AGENT_NO,
+		                       TM.ID,
+		                       NULL,
+		                       CT06.CARMGR_NM AS DAEPYOJANM,
+		                       CT06.COMPANY_NM AS AGENTNM,
+		                       TM.SAUPNUM,
+		                       TM.GYEYAK_JIBU,
+		                       TM.JOINDATE,
+		                       TM.UNREGISTER_YN
+                  		FROM TB_MEMBER TM, CTGI06@KOTMASDB CT06
+                 		WHERE TM.CARMGR_SEQ = CT06.CARMGR_SEQ
+		                </isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="3">
+		                SELECT 
+		                		distinct TM.AGENT_NO,
+                               TM.AGENTCD,
+		                       TM.ID,
+		                       NULL,
+		                       AD05.PRESI_NM AS DAEPYOJANM,
+		                       AD05.CUST_NM AS AGENTNM,
+		                       TM.SAUPNUM,
+		                       TM.GYEYAK_JIBU,
+		                       TM.JOINDATE,
+		                       TM.UNREGISTER_YN
+		                 FROM TB_MEMBER TM, ACSD05@KOTMASDB AD05                       
+		                 WHERE TM.AGENT_NO = AD05.CUST_CD
+		                 
+		                 </isEqual> )
+			WHERE 1=1
+			<isEqual property="adminCheck" compareValue="1">
+				AND NOT UNREGISTER_YN='Y'
+				<!-- <isEqual prepend="AND" property="category" compareValue="0">
+					AGENTCD is not null
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="1">
+					AGENTCD = '1'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="2">
+					AGENTCD = '2'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="3">
+					AGENTCD = '3'
+				</isEqual> -->
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					( DAEPYOJANM like '%'||  #searchKeyword# ||'%'  or AGENTNM like '%'||  #searchKeyword# ||'%' ) 
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					SAUPNUM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+			</isEqual>
+			<isEqual property="adminCheck" compareValue="0">
+				AND NOT UNREGISTER_YN='Y'
+				<!-- <isEqual prepend="AND" property="category" compareValue="0">
+					AGENTCD is not null
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="1">
+					AGENTCD = '1'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="2">
+					AGENTCD = '2'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="3">
+					AGENTCD = '3'
+				</isEqual> -->
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					( DAEPYOJANM like '%'||  #searchKeyword# ||'%'  or AGENTNM like '%'||  #searchKeyword# ||'%' )
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					SAUPNUM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<!-- AND AGENTCD = '3' -->
+			</isEqual>
+	</select>
+	
+	<!-- 웹회원 리스트 검색 -->
+	 	<select id="superAdminDAO.selectWebMember" parameterClass="SuperAdminVO" resultClass="hashMap" >
+			
+		 	SELECT 
+		 		AGENTCD AS agentCd ,
+		       AGENT_NO AS agentNo ,
+		       ID AS id ,
+		       GYEYAK_JIBU_NM AS gyeyakJibuNm ,
+		       DAEPYOJA_NM AS daepyojaNm ,
+		       AGENT_NM AS agentNm ,
+		       SAUPNUM AS saupjaNo ,
+		       GYEYAK_JIBU AS gyeyakJibuCd ,
+		       TO_CHAR(JOINDATE, 'YYYY.MM.DD') joinDate,
+		       UNREGISTER_YN AS unregister_yn
+  			FROM (SELECT ROWNUM RNUM, S.*
+         				 FROM (
+         				 <isEqual property="category" compareValue="1">
+	         				 SELECT
+	         				 				  TM.AGENTCD,
+						                       TM.AGENT_NO,
+						                       TM.ID,
+						                       f_jibu_nm(TM.GYEYAK_JIBU||'01') as Gyeyak_Jibu_nm,
+						                       CT01.DAEPYOJA_NM,
+						                       CT01.AGENT_NM,
+						                       TM.SAUPNUM,
+						                       TM.GYEYAK_JIBU,
+						                       TM.JOINDATE,
+						                       TM.UNREGISTER_YN
+	                 					 FROM TB_MEMBER TM, CTGI01@KOTMASDB CT01
+	                					WHERE TM.AGENT_NO = CT01.AGENT_NO
+						                   AND TM.SAUPJANG_SEQ = CT01.SAUPJANG_SEQ 
+						                   AND TM.SAUPNUM = CT01.SAUPJA_NO
+						                   <isNotEmpty property="array_employ">
+												<iterate property="array_employ" open="and tm.saupnum in (" conjunction="," close=")">
+										        	#array_employ[]#
+										    	</iterate>
+										   </isNotEmpty>
+										   <isNotEmpty prepend="AND" property="jicguebCheck">
+												ct01.gyeyak_jibu_cd = #gyeyak_jibu#
+										   </isNotEmpty>
+						                 <isNotEmpty property="orderByCriteria">
+						                 	<isEqual property="orderByCriteria" compareValue="1">
+						                 		<isEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY CT01.DAEPYOJA_NM DESC
+							                 	</isEqual>
+							                 	<isNotEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY CT01.DAEPYOJA_NM ASC
+							                 	</isNotEqual>
+							                 </isEqual>
+							                 <isEqual property="orderByCriteria" compareValue="2">
+							                 	<isEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY CT01.AGENT_NM DESC
+							                 	</isEqual>
+							                 	<isNotEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY CT01.AGENT_NM ASC
+							                 	</isNotEqual>
+							                 </isEqual>
+							                 <isEqual property="orderByCriteria" compareValue="3">
+							                 	<isEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY TM.SAUPNUM DESC
+							                 	</isEqual>
+							                 	<isNotEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY TM.SAUPNUM ASC
+							                 	</isNotEqual>
+							                 </isEqual>
+							                 <isEqual property="orderByCriteria" compareValue="4">
+							                 	<isEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY Gyeyak_Jibu_nm DESC
+							                 	</isEqual>
+							                 	<isNotEqual property="orderBy" compareValue="DESC">
+							                 		ORDER BY Gyeyak_Jibu_nm ASC
+							                 	</isNotEqual>
+							                 </isEqual>
+						                 </isNotEmpty>  
+						</isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="2">
+			                SELECT 
+			                		TM.AGENTCD,
+			                       TM.AGENT_NO,
+			                       TM.ID,
+			                       NULL as Gyeyak_Jibu_nm,
+			                       CT06.CARMGR_NM AS DAEPYOJA_NM,
+			                       CT06.COMPANY_NM AS AGENT_NM,
+			                       TM.SAUPNUM,
+			                       TM.GYEYAK_JIBU,
+			                       TM.JOINDATE,
+			                       TM.UNREGISTER_YN
+	                  		FROM TB_MEMBER TM, CTGI06@KOTMASDB CT06
+	                 		WHERE TM.CARMGR_SEQ = CT06.CARMGR_SEQ	  
+	                 		<isNotEmpty property="orderByCriteria">
+			                 	<isEqual property="orderByCriteria" compareValue="1">
+			                 		<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY DAEPYOJA_NM DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY DAEPYOJA_NM ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+				                 <isEqual property="orderByCriteria" compareValue="2">
+				                 	<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY AGENT_NM DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY AGENT_NM ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+				                 <isEqual property="orderByCriteria" compareValue="3">
+				                 	<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY TM.SAUPNUM DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY TM.SAUPNUM ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+				                 <isEqual property="orderByCriteria" compareValue="4">
+				                 	<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY Gyeyak_Jibu_nm DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY Gyeyak_Jibu_nm ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+			                 </isNotEmpty>          
+		                </isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="3">
+			                SELECT 
+			                		distinct TM.AGENT_NO,
+	                               TM.AGENTCD,
+			                       TM.ID,
+			                       NULL as Gyeyak_Jibu_nm,
+			                       AD05.PRESI_NM AS DAEPYOJA_NM,
+			                       AD05.CUST_NM AS AGENT_NM,
+			                       TM.SAUPNUM,
+			                       TM.GYEYAK_JIBU,
+			                       TM.JOINDATE,
+			                       TM.UNREGISTER_YN
+			                 FROM TB_MEMBER TM, ACSD05@KOTMASDB AD05                       
+			                 WHERE TM.AGENT_NO = AD05.CUST_CD
+			                   AND AD05.DEL_GB = 'N' 
+			                 <isNotEmpty property="orderByCriteria">
+			                 	<isEqual property="orderByCriteria" compareValue="1">
+			                 		<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY DAEPYOJA_NM DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY DAEPYOJA_NM ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+				                 <isEqual property="orderByCriteria" compareValue="2">
+				                 	<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY AGENT_NM DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY AGENT_NM ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+				                 <isEqual property="orderByCriteria" compareValue="3">
+				                 	<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY TM.SAUPNUM DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY TM.SAUPNUM ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+				                 <isEqual property="orderByCriteria" compareValue="4">
+				                 	<isEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY Gyeyak_Jibu_nm DESC
+				                 	</isEqual>
+				                 	<isNotEqual property="orderBy" compareValue="DESC">
+				                 		ORDER BY Gyeyak_Jibu_nm ASC
+				                 	</isNotEqual>
+				                 </isEqual>
+			                 </isNotEmpty>  
+		                 </isEqual>              
+        		    ) S
+						WHERE 1=1
+						<isEqual property="adminCheck" compareValue="1">
+							AND NOT UNREGISTER_YN='Y'
+							<!-- <isEqual prepend="AND" property="category" compareValue="0">
+								AGENTCD IS NOT NULL
+							</isEqual>
+							<isEqual prepend="AND" property="category" compareValue="1">
+								AGENTCD = '1' 
+							</isEqual>
+							<isEqual prepend="AND" property="category" compareValue="2">
+								AGENTCD = '2' 
+							</isEqual>
+							<isEqual prepend="AND" property="category" compareValue="3">
+								AGENTCD = '3' 
+							</isEqual> -->
+							<isEqual prepend="AND" property="searchCondition" compareValue="1">
+								ID like '%'|| #searchKeyword# ||'%'
+							</isEqual>
+							<isEqual prepend="AND" property="searchCondition" compareValue="2">
+								( DAEPYOJA_NM like '%'||  #searchKeyword# ||'%'  or AGENT_NM like '%'||  #searchKeyword# ||'%' )
+							</isEqual>
+							<isEqual prepend="AND" property="searchCondition" compareValue="3">
+								SAUPNUM like '%'|| #searchKeyword# ||'%'
+							</isEqual>
+						</isEqual>
+						<isEqual property="adminCheck" compareValue="0">
+							AND NOT UNREGISTER_YN='Y'
+							<!-- <isEqual prepend="AND" property="category" compareValue="0">
+								AGENTCD IS NOT NULL
+							</isEqual>
+							<isEqual prepend="AND" property="category" compareValue="1">
+								AGENTCD = '1'  
+							</isEqual>
+							<isEqual prepend="AND" property="category" compareValue="2">
+								AGENTCD = '2' 
+							</isEqual>
+							<isEqual prepend="AND" property="category" compareValue="3">
+								AGENTCD = '3' 
+							</isEqual> -->
+							<isEqual prepend="AND" property="searchCondition" compareValue="1">
+								ID like '%'|| #searchKeyword# ||'%'
+							</isEqual>
+							<isEqual prepend="AND" property="searchCondition" compareValue="2">
+								( DAEPYOJA_NM like '%'||  #searchKeyword# ||'%'  or AGENT_NM like '%'||  #searchKeyword# ||'%' )
+							</isEqual>
+							<isEqual prepend="AND" property="searchCondition" compareValue="3">
+								SAUPNUM like '%'|| #searchKeyword# ||'%'
+							</isEqual>
+							<!-- AGENTCD = '3'  -->
+						</isEqual>
+									 ) A
+			<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 웹회원 상세조회 -->
+	<select id="superAdminDAO.selectMemberDetail" parameterClass="SuperAdminVO" resultClass="hashMap">
+	<isEqual property="category" compareValue="1">
+			SELECT
+				TM.ID
+				, TM.PASSWD
+			FROM
+				TB_MEMBER TM
+			WHERE
+				TM.ID = #id#
+				AND NOT TM.UNREGISTER_YN = 'Y'
+		</isEqual>
+		<isNotEqual property="category" compareValue="1">
+			SELECT 
+				 ID
+				 , PASSWD 
+			FROM 
+				TB_MEMBER
+			WHERE
+				ID = #id#
+				AND NOT UNREGISTER_YN='Y'
+		</isNotEqual>
+	</select>
+	
+	<!-- 패스워드 초기화 -->
+	<update id="superAdminDAO.memberPasswdReset"  parameterClass="SuperAdminVO" >
+		UPDATE 
+			TB_MEMBER
+		SET 
+			PASSWD = damo.hash_str_data(#id#)
+			, UPDATE_PASSWD_DT=SYSDATE
+		WHERE 				
+			ID = #id#
+	</update>
+		<!-- 2016.12.02 [H] IMSI END -->
+	 
+<!-- 2016.12.02 [H] 주석처리함
+ 	<select id="superAdminDAO.selectWebMember" parameterClass="SuperAdminVO" resultClass="hashMap" >
+			
+		 	SELECT gb, ID, PASSWD, SAUPNUM, sec_Jumin1, sec_JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,TO_CHAR(Joindate, 'YYYY.MM.DD') Joindate, Gyeyak_Jibu_nm,	MAIL_YN, Sms_Yn,	Info_Yn
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					Select 
+					'조합원' as gb, ID, PASSWD, SAUPNUM, sec_Jumin1, sec_JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+					Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,Joindate, f_jibu_nm(Gyeyak_Jibu||'01') Gyeyak_Jibu_nm,	MAIL_YN, Sms_Yn,	Info_Yn
+					From Mem_Table_damo
+					Where 1=1
+					<isNotEmpty property="array_employ">
+						<iterate property="array_employ" open="and saupnum in (" conjunction="," close=")">
+				        	#array_employ[]#
+				    	</iterate>
+					</isNotEmpty>
+					<isNotEmpty prepend="AND" property="jicguebCheck">
+						Gyeyak_Jibu = #gyeyak_jibu#
+					</isNotEmpty>
+					Union All 
+					Select '차량관리자' as gb, USERID as ID,PASSWD,	SAUPNUM,sec_Jumin1,	sec_JUMIN2,	Name,null,Post1,Post2,null,	PHONE1,
+					Phone2,	Phone3,	CELL1,	CELL2,	Cell3,	MAIL,Joindate,null,	MAIL_YN,Sms_Yn,	Info_Yn
+					From Member_damo
+					Union All
+					Select 	'거래처' as gb, ID,	PASSWD,	SAUPNUM,sec_Jumin1,	sec_JUMIN2,	NAME,Comname,Post1,Post2,COMJUSO,PHONE1,Phone2,	Phone3,
+					CELL1,CELL2,Cell3,MAIL,	Joindate,null,MAIL_YN,Sms_Yn,Info_Yn 
+					From Mem_Partner_damo          
+				) S	
+			WHERE 1=1
+			<isEqual property="adminCheck" compareValue="1">
+				<isEqual prepend="AND" property="category" compareValue="0">
+					gb is not null
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="1">
+					gb ='조합원' 
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="2">
+					gb ='차량관리자'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="3">
+					gb ='거래처'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					( NAME like '%'||  #searchKeyword# ||'%'  or comname like '%'||  #searchKeyword# ||'%' )
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					SAUPNUM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+			</isEqual>
+			<isEqual property="adminCheck" compareValue="0">
+				<isEqual prepend="AND" property="category" compareValue="0">
+					gb is not null
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="1">
+					gb ='조합원' 
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="2">
+					gb ='차량관리자'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="3">
+					gb ='거래처'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					( NAME like '%'||  #searchKeyword# ||'%'  or comname like '%'||  #searchKeyword# ||'%' )
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					SAUPNUM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				AND gb = '거래처'
+			</isEqual>
+			 ) A
+			<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+			 
+	</select>
+	
+	
+	<select id="superAdminDAO.selectWebMemberListTotCnt" parameterClass="SuperAdminVO" resultClass="Int">
+			SELECT COUNT(*) totcnt FROM
+			( Select 
+			'조합원' as gb, ID, PASSWD, SAUPNUM, sec_Jumin1, sec_JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+			From Mem_Table_damo
+			Where 1=1
+			<isNotEmpty property="array_employ">
+				<iterate property="array_employ" open="and saupnum in (" conjunction="," close=")">
+		        	#array_employ[]#
+		    	</iterate>
+			</isNotEmpty> 
+			Union All 
+			Select '차량관리자' as gb, USERID as ID,PASSWD,	SAUPNUM,sec_Jumin1,	sec_JUMIN2,	Name,null,Post1,Post2,null,	PHONE1,
+			Phone2,	Phone3,	CELL1,	CELL2,	Cell3,	MAIL,Joindate,null,	MAIL_YN,Sms_Yn,	Info_Yn
+			From Member_damo
+			Union All
+			Select 	'거래처' as gb, ID,	PASSWD,	SAUPNUM,sec_Jumin1,	sec_JUMIN2,	NAME,Comname,Post1,Post2,COMJUSO,PHONE1,Phone2,	Phone3,
+			CELL1,CELL2,Cell3,MAIL,	Joindate,null,MAIL_YN,Sms_Yn,Info_Yn 
+			From Mem_Partner_damo)
+			WHERE 1=1
+			<isEqual property="adminCheck" compareValue="1">
+				<isEqual prepend="AND" property="category" compareValue="0">
+					gb is not null
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="1">
+					gb ='조합원' 
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="2">
+					gb ='차량관리자'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="3">
+					gb ='거래처'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					( NAME like '%'||  #searchKeyword# ||'%'  or comname like '%'||  #searchKeyword# ||'%' )
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					SAUPNUM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+			</isEqual>
+			<isEqual property="adminCheck" compareValue="0">
+				<isEqual prepend="AND" property="category" compareValue="0">
+					gb is not null
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="1">
+					gb ='조합원' 
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="2">
+					gb ='차량관리자'
+				</isEqual>
+				<isEqual prepend="AND" property="category" compareValue="3">
+					gb ='거래처'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					( NAME like '%'||  #searchKeyword# ||'%'  or comname like '%'||  #searchKeyword# ||'%' )
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					SAUPNUM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				AND gb = '거래처'
+			</isEqual>
+	</select>
+
+	 <select id="superAdminDAO.selectMemberDetail" parameterClass="SuperAdminVO" resultClass="hashMap">
+	SELECT gb, ID, PASSWD, SAUPNUM, sec_Jumin1, sec_JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,TO_CHAR(Joindate, 'YYYY.MM.DD') Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					Select 
+			'조합원' as gb, ID, PASSWD, SAUPNUM, sec_Jumin1, sec_JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+			From Mem_Table_damo 
+			Union All 
+			Select '차량관리자' as gb, USERID as ID,PASSWD,	SAUPNUM, sec_Jumin1, sec_JUMIN2,	Name,null,Post1,Post2,null,	PHONE1,
+			Phone2,	Phone3,	CELL1,	CELL2,	Cell3,	MAIL,Joindate,null,	MAIL_YN,Sms_Yn,	Info_Yn
+			From Member_damo
+			Union All
+			Select 	'거래처' as gb, ID,	PASSWD,	SAUPNUM,sec_Jumin1,	sec_JUMIN2,	NAME,Comname,Post1,Post2,COMJUSO,PHONE1,Phone2,	Phone3,
+			CELL1,CELL2,Cell3,MAIL,	Joindate,null,MAIL_YN,Sms_Yn,Info_Yn 
+			From Mem_Partner_Damo          
+				) S	
+			WHERE 1=1 AND ID = #id#
+			
+			 ) A
+	</select> -->
+	
+	<!-- 2016.12.05 [H] 주석처리함
+	<update id="superAdminDAO.memberPasswdReset"  parameterClass="SuperAdminVO" >
+		UPDATE 
+			MEM_TABLE_DAMO
+		SET 
+			PASSWD = damo.hash_str_data(id)
+		WHERE 				
+			ID = #id#
+	</update>
+	
+	<update id="superAdminDAO.memberCeoPasswdReset"  parameterClass="SuperAdminVO" >
+		UPDATE 
+			MEMBER_DAMO
+		SET 
+			PASSWD = damo.hash_str_data(id)
+		WHERE 				
+			ID = #id#
+	</update>
+	
+	<update id="superAdminDAO.partnerPasswdReset"  parameterClass="SuperAdminVO" >
+		UPDATE 
+			MEM_PARTNER_DAMO
+		SET 
+			PASSWD = damo.hash_str_data(id)
+		WHERE 				
+			ID = #id#
+	</update> -->
+	
+	<update id="superAdminDAO.updateAlterCeoMemTable"  parameterClass="SuperAdminVO" >
+		UPDATE 
+			MEM_TABLE_DAMO
+		SET 
+			NAME = #name#,
+			SEC_JUMIN1 = damo.enc_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', #jumin1#),
+			SEC_JUMIN2 = damo.enc_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', #jumin2#)
+		WHERE 				
+			ID = #id#
+	</update>
+	
+	<update id="superAdminDAO.updateAlterMember"  parameterClass="SuperAdminVO" >
+		UPDATE 
+			Member_damo
+		SET 
+			NAME = #name#,
+			SEC_JUMIN1 = damo.enc_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', #jumin1#),
+			SEC_JUMIN2 = damo.enc_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', #jumin2#)
+		WHERE 				
+			ID = #id#
+	</update>				
+	
+	<update id="superAdminDAO.updateAlterMemPartner"  parameterClass="SuperAdminVO" >
+		UPDATE 
+			Mem_Partner_damo
+		SET 
+			NAME = #name#,
+			SEC_JUMIN1 = damo.enc_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', #jumin1#),
+			SEC_JUMIN2 = damo.enc_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', #jumin2#)
+		WHERE 				
+			ID = #id#
+	</update>
+	
+</sqlMap>

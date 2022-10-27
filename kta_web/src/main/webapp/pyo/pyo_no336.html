@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">336</span><span class="pyoName">이륜차A 동일방향 좌회전&#40;대로&#41; 자동차B 직진&#40;소로&#41;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율4 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+					<caption>과실비율에 대해서 나타낸 표</caption>
+					<colgroup>
+						<col style="width:50%;" />
+						<col style="width:26%;" />
+						<col style="width:12%;" />
+						<col style="width:12%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">사고상황</th>
+							<td class="bg1">기본</td>
+							<td class="alC bB3">A45</td>
+							<td class="alC">B55</td>
+						</tr>
+						<tr>
+							<td rowspan="13" class="alC"><img src="/images/truck/jpg/336.jpg" alt="사고상황이미지" /></td>
+							<td colspan="3" class="alC">수정 요소</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 서행불이행</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 좌회전금지 위반</td>
+							<td class="alC bB3">20</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 대좌회전 &#9312;</td>
+							<td class="alC bB3">5</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 현저한 과실&#183;중과실</td>
+							<td class="alC bB3">5&#126;10</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 명확한 선진입</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 대형차</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">5</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 명확한 선진입</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 기좌회전</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">20</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 서행불이행 &#9313;</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">5</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 10㎞ 이상 속도위반</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 20㎞ 이상 속도위반</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">20</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 기타 현저한 과실&#183;중과실</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10&#126;20</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312; 소좌회전의 경우는 대부분 불법 기좌회전한 경우가 많고 충돌형태도 추돌형태가 되어 기좌회전한 경우와 상충되므로 수정요소에서 제외한다&#46;</p>
+					<p class="txtPoint">&#9313; 본 사고유형은 기본과실에 직진차가 서행하고 있는 것을 전제로 하고 있기 때문에 직진차가 서행을 하지 않은 경우에는 직진차에게 가산적용한다&#46; 다만&#44; 직진차가 제한속도를 초과한 과실이 있는 경우에는 서행불이행과 속도위반과실을 중복하여 적용하지 아니한다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827; 도로교통법 제2조&#91;정의&#93;</p>
+					<ul class="txtListst02">
+						<li>&#45; 제26호  &#58; &#34;서행&#34;이라 함은 운전자가 차를 즉시 정지시킬 수 있는 정도의 느린 속도로 진행하는 것을 말한다&#46;</li>
+					</ul>
+					<p class="txtPoint">&#9827; 도로교통법 제26조&#91;교통정리가 없는 교차로에서의 양보운전&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 교통정리가 행하여지고 있지 아니하는 교차로에 들어가고자 하는 차의 운전자는 이미교차로에 들어가 있는 차가 있는 때에는 그 차에 진로를 양보하여야 한다&#46;</li>
+						<li>&#9313; 교통정리가 행하여지고 있지 아니하는 교차로에 들어가고자 하는 차의 운전자는 해당차가 통행하고 있는 도로의 폭보다 교차하는 도로의 폭이 넓은 경우에는 서행하여야 하며&#44; 폭이 넓은 도로로부터 교차로에 들어가려고 하는 다른 차가 있는 때에는 그 차에 진로를 양보하여야 한다&#46;</li>
+						<li>&#9314; 우선순위가 같은 차가 동시에 교통정리가 행하여지고 있지 아니하는 교차로에 들어가고자 하는 때에는 우측도로의 차에 진로를 양보하여야 한다&#46;</li>
+						<li>&#9315; 교통정리가 행하여지고 있지 아니하는 교차로에서 좌회전하려고 하는 차의 운전자는 그교차로에서 직진하거나 우회전하려는 다른 차가 있는 때에는 그 차에 진로를 양보하여야 한다&#46;</li>
+					</ul>
+				</div>
+				
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">130</span><span class="pyoName">&#91;보행자&#93; 도로에 누워 있음</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+					<caption>과실비율에 대해서 나타낸 표</caption>
+					<colgroup>
+						<col style="width:50%;" />
+						<col style="width:25%;" />
+						<col style="width:25%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">사고상황</th>
+							<td class="bg1">기본</td>
+							<td class="alC">40 &#9313;</td>
+						</tr>
+						<tr>
+							<td rowspan="09" class="alC"><img src="/images/truck/jpg/130.jpg" alt="사고상황이미지" /></td>
+							<td colspan="2" class="alC">수정 요소</td>
+						</tr>
+						<tr>
+							<td class="bg1">야간&#183;기타시야장애&#9314;</td>
+							<td class="alC">20 </td>
+						</tr>
+						<tr>
+							<td class="bg1">간선도로</td>
+							<td class="alC">10</td>
+						</tr>
+                       <tr>
+							<td class="bg1">주택&#183;상점가&#183;학교</td>
+							<td class="alC">&#45;10 </td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인보호구역</td>
+							<td class="alC">&#45;15 </td>
+						</tr>
+						
+						<tr>
+							<td class="bg1">차의 현저한 과실</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">차의 중대한 과실</td>
+							<td class="alC">&#45;10</td>
+						</tr>
+						<tr>
+							<td class="bg1">밝은장소</td>
+							<td class="alC">&#45;10</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	도로교통법 제68조제3항에 따라 도로에서 술에 취해 갈팡질팡하는 행위&#44; 교통에 방해되는 방법으로 눕거나 앉거나 서 있는 행위&#44; 교통이 빈번한 도로에서 놀이를 하는 행위가 금지되므로 그 경우에 적용한다&#46;</p>
+                    	<p class="txtPoint">&#9313;	도로에 누워 있는 자&#40;노상유희자&#41;의 경우 주간과 야간을 구분할 필요없이 기본과실을 40&#37;로 적용한다&#46;</p>
+                        	<p class="txtPoint">&#9314;	야간 또는 기타시야장애가 있는 경우에는 20&#37;를 가산적용한다&#46;</p>
+					</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 제8조&#91;보행자의 통행&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 보행자는 보도와 차도가 구분된 도로에서는 언제나 보도로 통행하여야 한다&#46; 다만&#44; 차도를 횡단하는 경우&#44; 도로공사 등으로 보도의 통행이 금지된 경우나 그 밖의 부득이한 경우에는 그러하지 아니하다&#46;</li>
+                        <li>&#9313; 보행자는 보도와 차도가 구분되지 아니한 도로에서는 도로의 좌측 또는 길가장자리구역으로 통행하여야 한다&#46;</li>
+					</ul>
+                    <p class="txtPoint">&#9827;도로교통법 제68조&#91;도로에서의 금지행위 등&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9314; 누구든지 다음 각 호의 어느 하나에 해당하는 행위를 하여서는 아니된다&#46;</li>
+					   <li>1&#46; 도로에서 술에 취하여 갈팡질팡하는 행위</li>
+                        <li>2&#46; 도로에서 교통에 방해되는 방법으로 눕거나 앉거나 서있는 행위</li>
+                         <li>3&#46; 교통이 빈번한 도로에서 공놀이 또는 썰매타기 등의 놀이를 하는 행위</li>
+                    
+                    </ul>
+                   
+					
+				</div>
+				<!-- 참고판례 -->
+			
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >
+	
+	<select id="MailDAO.selectUserInfo" parameterClass="hashmap" resultClass="hashmap">
+	SELECT 
+		AGENT_NO, 
+		SAUPJANG_SEQ, 
+		AGENT_NM, 
+		SAUPJA_NO, 
+		EMAIL, 
+		EMAIL_APPLY_SYMD, 
+		EMAIL_OK_YN, 
+		RPHONE1, 
+		RPHONE2, 
+		RPHONE3, 
+		SMS_YN, 
+		EMAIL_DAMDANG, 
+		JOHAP_REL 
+	FROM 
+		CTEMAIL01
+	WHERE 
+		SAUPJA_NO = #SAUPJA_NO#
+	AND 
+		EMAIL = #EMAIL#
+	</select> 
+	
+	<select id="MailDAO.selectUserInfoForUpdate" parameterClass="hashmap" resultClass="hashmap">
+	SELECT 
+		AGENT_NO, 
+		SAUPJANG_SEQ, 
+		AGENT_NM, 
+		EMAIL, 
+		EMAIL_APPLY_SYMD, 
+		EMAIL_APPLY_EYMD, 
+		PROCESS_YMD, 
+		EMAIL_DAMDANG, 
+		JOHAP_REL
+	FROM 
+		CTEMAIL01
+	WHERE 
+		SAUPJA_NO = #SAUPJA_NO#
+	AND 
+		EMAIL = #EMAIL#
+	</select>
+	
+	<select id="MailDAO.selectMaxSeq" parameterClass="hashmap" resultClass="Int">
+	SELECT 
+		NVL(MAX(SEQ), 0)+1 as SEQ
+	FROM 
+		CTEMAIL02 
+	WHERE 
+		AGENT_NO=#AGENT_NO# 
+	AND 
+		SAUPJANG_SEQ=#SAUPJANG_SEQ#
+	</select> 
+	
+	<update id="MailDAO.updateMailPassword" parameterClass="hashmap">
+	UPDATE 
+		CTEMAIL01 
+	SET 
+		PASSWD = #PASSWORD# ,
+		PROCESS_YMD = TO_CHAR(SYSDATE, 'YYYYMMDD')
+	WHERE 
+		SAUPJA_NO = #SAUPJA_NO# 
+	AND 
+		EMAIL = #EMAIL#	
+	</update>
+	
+	<insert id="MailDAO.insertCTMAIL02" parameterClass="hashmap">
+	INSERT INTO CTEMAIL02 (
+		AGENT_NO, 
+		SAUPJANG_SEQ, 
+		SEQ, 
+		AGENT_NM, 
+		EMAIL, 
+		EMAIL_APPLY_SYMD, 
+		EMAIL_APPLY_EYMD, 
+		BEF_APPLY_YMD, 
+		CUR_APPLY_YMD, 
+		DATA_GB_CD, 
+		PROCESS_YMD, 
+		EMAIL_DAMDANG, 
+		JOHAP_REL
+	)
+	VALUES (
+	#AGENT_NO#,
+	#SAUPJANG_SEQ#,
+	#SEQ#,
+	#AGENT_NM#,
+	#EMAIL#,
+	TO_CHAR(SYSDATE,'YYYYMMDD'),
+	99991231,
+	#EMAIL_APPLY_SYMD#,
+	TO_CHAR(SYSDATE,'YYYYMMDD'),
+	20,
+	TO_CHAR(SYSDATE,'YYYYMMDD'),
+	#EMAIL_DAMDANG#,
+	#JOHAP_REL#)	
+	
+	</insert>
+	
+	
+	
+</sqlMap>

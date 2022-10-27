@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">211</span><span class="pyoName">&#91;A&#93; 황색진입&#40;직진&#41; &#91;B&#93; 녹색진입&#40;황색신호의 좌회전&#41;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본 &#9312;</td>
+                            <td class="alC bB3">A 40</td>
+                            <td class="alC">B 60</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="11" class="alC"><img src="/images/truck/jpg/211.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 서행불이행</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 급좌회전</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 소좌회전&#183;대좌회전</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 대형차</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실 또는 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC"> 5&#126;10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 10km 이상의 속도위반</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 20km 이상의 속도위반</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 기좌회전의 경우</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td  class="bg1">A 교차로 정체중 진입</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td  class="bg1">A 기타 현저한 과실 또는 중과실</td>
+                            <td class="alC bB3">10&#126;20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312; 이러한 경우에는 직진차 좌회전차 모두 신호위반 사고이나&#44; 직진차의 경우 비록 황색신호에 교차로에 진입하여 신호위반을 하였더라도 좌회전차의 신호위반 내용에 비추어 과실의 정도가 적다고 볼 수 있기 때문에 기본과실을 직진차에게 유리하게 적용한 것이다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827; 도로교통법 시행규칙 &#91;별표2&#93;  &#91;신호기가 표시하는 신호의 종류 및 신호의 뜻&#40;제6조제2항 관련&#41;&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9674; 황색의 등화  &#58; 1&#46; 차마는 정지선이 있거나 횡단보도가 있을 때에는 그 직전이나 교차로의 직전에 정지하여야 하며&#44; 이미 교차로에 진입하고 있는 경우에는 신속히 교차로 밖으로 진행하여야 한다&#46; 2&#46; 차마는 우회전을 할 수 있고 우회전하는 경우에는 보행자의 횡단을 방해하지 못한다&#46;</li>
+						<li>&#9674; 적색의 등화  &#58; 차마는 정지선&#44; 횡단보도 및 교차로의 직전에서 정지하여야 한다&#46; 다만&#44; 신호에 따라 진행하는 다른 차마의 교통을 방해하지 아니하고 우회전할 수 있다&#46;</li>
+                    </ul>
+					<p class="txtPoint">&#9827; 도로교통법 시행규칙 &#91;별표5&#93; &#91;신호등의 신호순서&#40;제7조제2항관련&#41;&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9674; 적색&#183;황색&#183;녹색화살표&#183;녹색의 사색등화 &#58;적색 및 녹색화살표 &#8594; 황색 &#8594; 녹색 &#8594; 황색 &#8594; 적색</li>
+                       <li>&#9674; 적색&#183;황색&#183;녹색&#40;녹색화살표&#41;의 삼색등화 &#58;녹색&#40;적색 및 녹색화살표&#41; &#8594; 황색 &#8594; 적색</li>
+                        <li>&#9674; 보행등의 적색 및 녹색의 이색등화 &#58;녹색 &#8594; 녹색 점멸 &#8594; 적색</li>
+					</ul>
+				</div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

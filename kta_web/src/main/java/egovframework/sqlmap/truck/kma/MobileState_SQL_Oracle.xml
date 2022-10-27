@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MobileState_SQL_Oracle">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<typeAlias  alias="stateSearchVO" type="kr.or.truck.kma.mobileState.service.StateSearchVO"/>
+	
+	<!-- 비로그인 사용자 리스트 -->
+	<select id="mobileStateDAO.getNotLoginList" resultClass="hashMap" parameterClass="stateSearchVO">
+			SELECT 
+				USER_ID,
+				NAME
+			FROM(
+				SELECT 
+					ROWNUM RNUM, A.*
+				FROM(
+					select USER_ID, f_id_nm(user_id) AS NAME from M_USER_ETC_INFO where permission_gbn_cd = 'P'
+					minus
+					select USER_ID,  f_id_nm(user_id) AS NAME from M_CONNECT_INFO group by USER_ID
+				) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 비로그인 사용자 리스트 총 카운트 -->	
+	<select id="mobileStateDAO.getNotLoginListCnt" resultClass="Int" parameterClass="stateSearchVO">
+			SELECT 
+				COUNT(*)
+			FROM(
+				SELECT 
+					ROWNUM RNUM, A.*
+				FROM(
+					select USER_ID, f_id_nm(user_id) AS NAME from M_USER_ETC_INFO where permission_gbn_cd = 'P'
+					minus
+					select USER_ID,  f_id_nm(user_id) AS NAME from M_CONNECT_INFO group by USER_ID
+				) A
+			) S
+	</select>
+	
+	<!-- 당일 로그인 사용자 리스트 -->
+	<select id="mobileStateDAO.getTodayLoginList" resultClass="hashMap" parameterClass="stateSearchVO">
+			SELECT 
+				USER_ID,
+				NAME,
+				LOGIN_COUNT
+			FROM(
+				SELECT 
+					ROWNUM RNUM, A.*
+				FROM(
+					SELECT USER_ID, F_ID_NM(USER_ID) AS NAME,COUNT(USER_ID) LOGIN_COUNT
+					FROM M_LOGIN_OUT_INFO
+					WHERE CONNECT_GBN_CD = 1 AND TO_CHAR(reg_dt,'yyyymmdd') = TO_CHAR(sysdate,'yyyymmdd')
+					<isEqual prepend="AND" property="searchCondition" compareValue="">
+						(F_ID_NM(USER_ID) like '%'|| #searchKeyword# ||'%' or USER_ID like '%'|| #searchKeyword# ||'%') 
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						F_ID_NM(USER_ID) like '%'|| #searchKeyword# ||'%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						USER_ID like '%'|| #searchKeyword# ||'%'
+					</isEqual>
+					GROUP BY USER_ID
+				) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 당일 로그인 사용자 리스트 총 카운트 -->	
+	<select id="mobileStateDAO.getTodayLoginListCnt" resultClass="Int" parameterClass="stateSearchVO">
+			SELECT 
+				COUNT(*)
+			FROM(
+				SELECT 
+					ROWNUM RNUM, A.*
+				FROM(
+					SELECT USER_ID, F_ID_NM(USER_ID) AS NAME,COUNT(USER_ID) LOGIN_COUNT
+					FROM M_LOGIN_OUT_INFO
+					WHERE CONNECT_GBN_CD = 1 AND TO_CHAR(reg_dt,'yyyymmdd') = TO_CHAR(sysdate,'yyyymmdd')
+					<isEqual prepend="AND" property="searchCondition" compareValue="">
+						(F_ID_NM(USER_ID) like '%'|| #searchKeyword# ||'%' or USER_ID like '%'|| #searchKeyword# ||'%') 
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						F_ID_NM(USER_ID) like '%'|| #searchKeyword# ||'%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						USER_ID like '%'|| #searchKeyword# ||'%'
+					</isEqual>
+					GROUP BY USER_ID
+				) A
+			) S
+	</select>
+	
+	<!-- 기간별 매뉴 사용 리스트 -->
+	<select id="mobileStateDAO.getDaysUseList" resultClass="hashMap" parameterClass="stateSearchVO">
+		SELECT 
+			REQUEST_MENU_NM, COUNT(REQUEST_MENU_NM) AS COUNT FROM M_REQUEST_INFO
+		WHERE TO_CHAR(REG_DT,'YYYYMMDD') BETWEEN #startDt# AND #endDt#
+		GROUP BY REQUEST_MENU_NM
+	</select>
+	
+	<!-- 기간별 로그인 횟수 리스트 -->
+	<select id="mobileStateDAO.getDaysLoginList" resultClass="hashMap" parameterClass="stateSearchVO">
+			SELECT 
+				REG_DT,
+				USER_ID,
+				NAME,
+				LOGIN_COUNT
+			FROM(
+				SELECT 
+					ROWNUM RNUM, A.*
+          FROM(
+				select REG_DT, NAME, USER_ID, LOGIN_COUNT  from (
+				
+				select to_char(reg_dt, 'yyyymmdd') reg_dt , f_id_nm(user_id) AS NAME, user_id, count(user_id) login_count
+				  from M_LOGIN_OUT_INFO
+				where connect_gbn_cd = 1
+				 and to_char(reg_dt,'yyyymmdd') between #startDt# AND #endDt#
+				 <isEqual prepend="AND" property="searchCondition" compareValue="">
+						(f_id_nm(user_id) like '%'|| #searchKeyword# ||'%' or USER_ID like '%'|| #searchKeyword# ||'%') 
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						f_id_nm(user_id) like '%'|| #searchKeyword# ||'%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						USER_ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				group by user_id , to_char(reg_dt, 'yyyymmdd')
+				)
+				order by reg_dt desc
+			) A )  S
+			<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 기간별 로그인 횟수 리스트 건수 -->
+	<select id="mobileStateDAO.getDaysLoginListCnt" resultClass="Int" parameterClass="stateSearchVO">
+			SELECT 
+				COUNT(*)
+			FROM(
+				SELECT 
+					ROWNUM RNUM, A.*
+          FROM(
+				select REG_DT, NAME, USER_ID, LOGIN_COUNT  from (
+				
+				select to_char(reg_dt, 'yyyymmdd') reg_dt , f_id_nm(user_id) AS NAME, user_id, count(user_id) login_count
+				  from M_LOGIN_OUT_INFO
+				where connect_gbn_cd = 1
+				 and to_char(reg_dt,'yyyymmdd') between #startDt# AND #endDt#
+				<isEqual prepend="AND" property="searchCondition" compareValue="">
+						(f_id_nm(user_id) like '%'|| #searchKeyword# ||'%' or USER_ID like '%'|| #searchKeyword# ||'%') 
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						f_id_nm(user_id) like '%'|| #searchKeyword# ||'%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						USER_ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				group by user_id , to_char(reg_dt, 'yyyymmdd')
+				)
+			) A )  S
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >
+	<typeAlias  alias="JoinVO" type="kr.or.truck.join.service.impl.JoinVO"/>
+	
+	
+	<resultMap id="telcoinEvent" class="kr.or.truck.customer.event.service.TelcoinEventVO">
+		<result property="caseYN" column="case" nullValue="" />
+		<result property="agentNo" column="agent_no" nullValue=""/>
+		<result property="saupjangSeq" column="saupjang_seq" nullValue=""/>
+		<result property="agentNm" column="agent_nm" nullValue=""/>
+		<result property="carGaipNo" column="car_gaip_no" nullValue=""/>
+		<result property="gyeyakNo" column="gyeyak_no" nullValue=""/>
+		<result property="gyeyakSYMD" column="gyeyak_symd" nullValue=""/>
+		<result property="jibuCD" column="gyeyak_jibu_cd" nullValue=""/>
+	</resultMap>
+	
+	<select id="telcoinEventDAO.checkCarNo" parameterClass="kr.or.truck.customer.event.service.TelcoinEventVO" resultMap="telcoinEvent">
+		select case when count(b.gyeyak_no)> 0 then 'Y' else 'N' end case,
+			max(a.agent_no) agent_no, 
+			max(a.saupjang_seq) saupjang_seq, 
+			f_agent_nm(max(a.agent_no),	max(a.saupjang_seq)) agent_nm, 
+       		max(a.car_gaip_no) car_gaip_no, 
+       		max(b.gyeyak_no) gyeyak_no, 
+       		max(b.gyeyak_symd) gyeyak_symd,
+       		max(b.gyeyak_jibu_cd || '01') gyeyak_jibu_cd
+  		from ctgi05 a, ctgy01 b
+ 		where a.car_no = #carNo#
+   			and a.car_gaip_no = b.car_gaip_no
+			and a.car_gaip_no = b.car_gaip_no                         
+   			and b.gyeyak_state_cd in ('1','2','5')
+   			and b.gyeyak_symd = (
+				select max(b.gyeyak_symd)
+				from ctgi05 a, ctgy01 b
+				where a.car_no = #carNo#
+				and a.car_gaip_no = b.car_gaip_no
+				and b.gyeyak_state_cd in ('1','2','5')
+				)                                 
+	</select>
+	
+	<insert id="telcoinEventDAO.insertTelcoinEvent" parameterClass="kr.or.truck.customer.event.service.TelcoinEventVO">
+		<![CDATA[
+		INSERT INTO TAB_EVENT@kotmaswb
+		(
+			SEQ,
+			NAME,
+			PHONE,
+			CAR_NO,
+			DI,
+			AGENT_NO,
+			SAUPJANG_SEQ,
+			AGENT_NM,
+			JIBU_CD,
+			GYEYAK_NO,
+			CAR_GAIP_NO,
+			GYEYAK_SYMD,
+			INSERT_DATE,
+			SMS_YN		
+			
+			)
+		 
+		VALUES (
+		(SELECT NVL(MAX(SEQ)+1, 1) FROM TAB_EVENT@kotmaswb),
+		#name#,
+		#phone#,
+		#carNo#,
+		#DI#,
+		#agentNo#,
+		#saupjangSeq#,
+		#agentNm#,
+		#jibuCD#,
+		#gyeyakNo#,
+		#carGaipNo#,
+		#gyeyakSYMD#,
+		sysdate,
+		#smsYN#	
+		)
+		
+		]]>
+	</insert>
+	
+	<select id="telcoinEventDAO.duplicateCheck" parameterClass="kr.or.truck.customer.event.service.TelcoinEventVO" resultClass="integer">
+		select
+		nvl(count(*), 0) 
+		from TAB_EVENT@kotmaswb 
+		where DI =  #DI# 
+		or CAR_NO = #carNo#       
+	</select>
+	
+	
+	<select id="LegacyJoinDAO.selectCtgi01Cnt" resultClass="integer" >
+			select 
+			        count(*)
+			from 	CTGI01
+			where 	JOHAPWON_JUMIN_NO = #jumin1#||#jumin2#
+			  and	SAUPJA_NO = #saupnum#
+			  and	GYEYAK_JIBU_CD = #gyeyak_jibu#
+	</select>
+	
+	<select id="LegacyJoinDAO.selectCtgi05Cnt" resultClass="integer" >
+			SELECT
+					count(*)
+			FROM	CTGI05
+			where 	CARMGR_JUMIN_NO = #jumin1#||#jumin2#
+
+	</select>
+	
+	<select id="LegacyJoinDAO.selectAcsd05Cnt" resultClass="integer" >
+			select
+					count(*)
+			from	ACSD05
+			where 	CUST_CD = #saupnum#
+			  and	PRESI_JUMINNO = #jumin1#||#jumin2#
+	</select>
+	
+	<select id="LegacyJoinDAO.selectCtgi01" resultClass="integer" >
+			select 
+			        count(*)
+			from 	CTGI01
+			where 	JOHAPWON_JUMIN_NO = #jumin1#||#jumin2#
+			  and	SAUPJA_NO = #saupnum#
+			  and	GYEYAK_JIBU_CD = #gyeyak_jibu#
+	</select>
+	
+	<select id="LegacyJoinDAO.selectCtgi05" resultClass="integer" >
+			SELECT
+					count(*)
+			FROM	CTGI05
+			where 	CARMGR_JUMIN_NO = #jumin1#||#jumin2#
+
+	</select>
+	
+	<select id="LegacyJoinDAO.selectAcsd05" resultClass="integer" >
+			select
+					count(*)
+			from	ACSD05
+			where 	CUST_CD = #saupnum#
+			  and	PRESI_JUMINNO = #jumin1#||#jumin2#
+	</select>
+	
+</sqlMap>

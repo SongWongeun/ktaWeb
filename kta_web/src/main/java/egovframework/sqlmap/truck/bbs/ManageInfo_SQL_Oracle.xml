@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ManageInfo">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="manageInfoSearchVO" type="kr.or.truck.associntroduce.introduce.service.ManageInfoSearchVO"/>
+	<typeAlias  alias="manageInfoVO" type="kr.or.truck.associntroduce.introduce.service.ManageInfoVO"/>
+	
+	
+	<resultMap id="manageInfo" class="kr.or.truck.associntroduce.introduce.service.ManageInfoVO">
+		<result property="BBS_ID" 			 column="BBS_ID" 			/>
+		<result property="BBS_NAME"          column="BBS_NAME"           />
+		<result property="ARTICLE_NO"        column="ARTICLE_NO"         />
+		<result property="BBS_YEAR"          column="BBS_YEAR"           />
+		<result property="YUDONG_JASAN"      column="YUDONG_JASAN"       />
+		<result property="DANGJUA_JASAN"     column="DANGJUA_JASAN"      />
+		<result property="HYUNGUM_JASAN"     column="HYUNGUM_JASAN"      />
+		<result property="DANGI_GUMYUNG"     column="DANGI_GUMYUNG"      />
+		<result property="ETC_YUDONG_JASAN"  column="ETC_YUDONG_JASAN"   />
+		<result property="NOT_YUDNG_JASANG"  column="NOT_YUDNG_JASANG"   />
+		<result property="TOOJA_JASAN"       column="TOOJA_JASAN"        />
+		<result property="JANGI_GUMYUNG"     column="JANGI_GUMYUNG"      />
+		<result property="ETC_TOOJA_JASAN"   column="ETC_TOOJA_JASAN"    />
+		<result property="YOOHYUNG_JASAN"    column="YOOHYUNG_JASAN"     />
+		<result property="JASAN_AMT"         column="JASAN_AMT"          />
+		<result property="YUDONG_BOOCHAE"    column="YUDONG_BOOCHAE"     />
+		<result property="NOT_YUDNG_BOOCHAE" column="NOT_YUDNG_BOOCHAE"  />
+		<result property="CHAECKIM_JUNBI"    column="CHAECKIM_JUNBI"     />
+		<result property="BOOCHAE_AMT"       column="BOOCHAE_AMT"        />
+		<result property="JABONE_AMT"        column="JABONE_AMT"         />
+		<result property="BISANG_AMT"        column="BISANG_AMT"         />
+		<result property="ETC_JUNBI"         column="ETC_JUNBI"          />
+		<result property="EICK_AMT"          column="EICK_AMT"           />
+		<result property="JABONE_TOT_AMT"    column="JABONE_TOT_AMT"     />
+		<result property="TOTAL_AMT"         column="TOTAL_AMT"          />
+	    <result property="USE_AT"            column="USE_AT"           	/>
+	</resultMap>
+
+	<insert id="manageInfoDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO MANAGE_INFO_BBS
+			 
+		VALUES (
+			'MANAGE_INFO',
+			'경영정보',
+			#ARTICLE_NO#,
+			#BBS_YEAR#,
+			#YUDONG_JASAN#,
+			#DANGJUA_JASAN#,
+			#HYUNGUM_JASAN#,
+			#DANGI_GUMYUNG#,
+			#ETC_YUDONG_JASAN#,
+			#NOT_YUDNG_JASANG#,
+			#TOOJA_JASAN#,
+			#JANGI_GUMYUNG#,
+			#ETC_TOOJA_JASAN#,
+			#YOOHYUNG_JASAN#,
+			#JASAN_AMT#,
+			#YUDONG_BOOCHAE#,
+			#NOT_YUDNG_BOOCHAE#,
+			#CHAECKIM_JUNBI#,
+			#BOOCHAE_AMT#,
+			#JABONE_AMT#,
+			#BISANG_AMT#,
+			#ETC_JUNBI#,
+			#EICK_AMT#,
+			#JABONE_TOT_AMT#,
+			#TOTAL_AMT#,
+			'Y'
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="manageInfoDAO.updateBoard_S" parameterClass="manageInfoVO">
+		<![CDATA[
+			UPDATE MANAGE_INFO_BBS 
+			SET BBS_YEAR = #BBS_YEAR#,				
+				YUDONG_JASAN = #YUDONG_JASAN#,     
+				DANGJUA_JASAN = #DANGJUA_JASAN#,    
+				HYUNGUM_JASAN = #HYUNGUM_JASAN#,    
+				DANGI_GUMYUNG = #DANGI_GUMYUNG#,    
+				ETC_YUDONG_JASAN = #ETC_YUDONG_JASAN#, 
+				NOT_YUDNG_JASANG = #NOT_YUDNG_JASANG#, 
+				TOOJA_JASAN = #TOOJA_JASAN#,      
+				JANGI_GUMYUNG = #JANGI_GUMYUNG#,    
+				ETC_TOOJA_JASAN = #ETC_TOOJA_JASAN#,  
+				YOOHYUNG_JASAN = #YOOHYUNG_JASAN#,   
+				JASAN_AMT = #JASAN_AMT#,        
+				YUDONG_BOOCHAE = #YUDONG_BOOCHAE#,   
+				NOT_YUDNG_BOOCHAE = #NOT_YUDNG_BOOCHAE#,
+				CHAECKIM_JUNBI = #CHAECKIM_JUNBI#,   
+				BOOCHAE_AMT = #BOOCHAE_AMT#,      
+				JABONE_AMT = #JABONE_AMT#,       
+				BISANG_AMT = #BISANG_AMT#,       
+				ETC_JUNBI = #ETC_JUNBI#,        
+				EICK_AMT = #EICK_AMT#,         
+				JABONE_TOT_AMT = #JABONE_TOT_AMT#,   
+				TOTAL_AMT = #TOTAL_AMT#
+			WHERE ARTICLE_NO=#ARTICLE_NO#
+		]]>
+	</update>
+	
+	<update id="manageInfoDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE MANAGE_INFO_BBS   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#ARTICLE_NO#
+		]]>
+	</update>
+	
+	<select id="manageInfoDAO.selectBoard_S" resultMap="manageInfo" >
+		<![CDATA[
+			SELECT 
+				BBS_ID, 			
+				BBS_NAME,         
+				ARTICLE_NO,       
+				BBS_YEAR,         
+				YUDONG_JASAN,     
+				DANGJUA_JASAN,    
+				HYUNGUM_JASAN,    
+				DANGI_GUMYUNG,    
+				ETC_YUDONG_JASAN, 
+				NOT_YUDNG_JASANG, 
+				TOOJA_JASAN,      
+				JANGI_GUMYUNG,    
+				ETC_TOOJA_JASAN,  
+				YOOHYUNG_JASAN,   
+				JASAN_AMT,        
+				YUDONG_BOOCHAE,   
+				NOT_YUDNG_BOOCHAE,
+				CHAECKIM_JUNBI,   
+				BOOCHAE_AMT,      
+				JABONE_AMT,       
+				BISANG_AMT,       
+				ETC_JUNBI,        
+				EICK_AMT,         
+				JABONE_TOT_AMT,   
+				TOTAL_AMT,        
+				USE_AT           
+			FROM MANAGE_INFO_BBS 
+			WHERE ARTICLE_NO=#ARTICLE_NO#
+		]]>
+	</select>
+	
+	
+	<!-- 경영정보조회 -->
+	<select id="manageInfoDAO.selectInfomation" parameterClass="String" resultClass="hashMap">
+	SELECT 
+		BBS_ID ,
+		BBS_NAME ,
+		ARTICLE_NO ,
+		BBS_YEAR ,
+		YUDONG_JASAN ,
+		DANGJUA_JASAN ,
+		HYUNGUM_JASAN ,
+		DANGI_GUMYUNG ,
+		ETC_YUDONG_JASAN ,
+		NOT_YUDNG_JASANG ,
+		TOOJA_JASAN ,
+		JANGI_GUMYUNG ,
+		ETC_TOOJA_JASAN ,
+		YOOHYUNG_JASAN ,
+		JASAN_AMT ,
+		YUDONG_BOOCHAE ,
+		NOT_YUDNG_BOOCHAE ,
+		CHAECKIM_JUNBI ,
+		BOOCHAE_AMT ,
+		JABONE_AMT ,
+		BISANG_AMT ,
+		ETC_JUNBI ,
+		EICK_AMT ,
+		JABONE_TOT_AMT ,
+		TOTAL_AMT ,
+		USE_AT
+	FROM (
+			SELECT
+			BBS_ID ,
+			BBS_NAME ,
+			ARTICLE_NO ,
+			BBS_YEAR ,
+			YUDONG_JASAN ,
+			DANGJUA_JASAN ,
+			HYUNGUM_JASAN ,
+			DANGI_GUMYUNG ,
+			ETC_YUDONG_JASAN ,
+			NOT_YUDNG_JASANG ,
+			TOOJA_JASAN ,
+			JANGI_GUMYUNG ,
+			ETC_TOOJA_JASAN ,
+			YOOHYUNG_JASAN ,
+			JASAN_AMT ,
+			YUDONG_BOOCHAE ,
+			NOT_YUDNG_BOOCHAE ,
+			CHAECKIM_JUNBI ,
+			BOOCHAE_AMT ,
+			JABONE_AMT ,
+			BISANG_AMT ,
+			ETC_JUNBI ,
+			EICK_AMT ,
+			JABONE_TOT_AMT ,
+			TOTAL_AMT ,
+			USE_AT
+		FROM 
+			MANAGE_INFO_BBS 
+		WHERE 
+			BBS_YEAR= (SELECT MAX(BBS_YEAR-#YEAR#) FROM MANAGE_INFO_BBS WHERE USE_AT = 'Y')
+		AND
+			USE_AT = 'Y'
+		ORDER BY SUBSTR(ARTICLE_NO, 8) DESC)
+		WHERE ROWNUM = 1
+		
+	</select>
+	
+	
+	<select id="manageInfoDAO.selectBoardList_D" parameterClass="manageInfoSearchVO" resultMap="manageInfo" >
+			 
+			 SELECT * 
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM MANAGE_INFO_BBS 
+					WHERE 1=1 AND USE_AT='Y'
+					AND BBS_ID = 'MANAGE_INFO'
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						BBS_YEAR LIKE '%' || #searchKeyword# || '%'
+					</isEqual>					
+					ORDER BY ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="manageInfoDAO.selectBoardListTotCnt_S" parameterClass="manageInfoSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totCnt
+			FROM MANAGE_INFO_BBS
+			WHERE 1=1 AND USE_AT='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				BBS_YEAR LIKE '%' || #searchKeyword# || '%'
+			</isEqual>					
+	</select>
+</sqlMap>

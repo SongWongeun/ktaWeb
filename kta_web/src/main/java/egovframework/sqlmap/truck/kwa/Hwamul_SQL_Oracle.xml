@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Hwamul">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<typeAlias  alias="kwaHwamulSearchVO" type="kr.or.truck.kwa.hwamulMgr.service.KwaHwamulSearchVO"/>
+	
+	<typeAlias  alias="kwaHwamulBoardVO" type="kr.or.truck.kwa.hwamulMgr.service.KwaHwamulBoardVO"/>
+	
+	<resultMap id="hwamulCustomerList" class="kr.or.truck.kwa.hwamulMgr.service.KwaHwamulBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="car_no" column="CAR_NO" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="replyAt" column="REPLY_AT" nullValue=""/>
+		<result property="forwardId" column="FORWARD_ID" nullValue=""/>
+		<result property="forwardName" column="FORWARD_NAME" nullValue=""/>
+		<result property="replyTime" column="REPLY_TIME" nullValue=""/>
+				
+	</resultMap>
+	
+	<resultMap id="hwamulCustomerDetail" class="kr.or.truck.kwa.hwamulMgr.service.KwaHwamulBoardVO">
+		<result property="articleNo"				column="ARTICLE_NO" nullValue=""/>
+		<result property="title" 					column="TITLE" nullValue=""/>
+		<result property="createTime" 				column="CREATE_TIME" nullValue=""/>
+		<result property="writerId" 				column="WRITER_ID" nullValue=""/>
+		<result property="writerName" 				column="WRITER_NAME" nullValue=""/>
+		<result property="contentHtml" 				column="CONTENT_HTML" nullValue=""/>
+		<result property="phone" 					column="PHONE" nullValue=""/>
+		<result property="email" 					column="EMAIL" nullValue=""/>
+		<result property="useAt" 					column="USE_AT" nullValue=""/>
+		<result property="phone_yn" 				column="PHONE_YN" nullValue=""/>
+		<result property="email_yn" 				column="EMAIL_YN" nullValue=""/>
+		<result property="car_no" 					column="CAR_NO" nullValue=""/>		
+		<result property="car_category"				column="CAR_CATEGORY"/>
+		<result property="carry_capacity"			column="CARRY_CAPACITY"/>
+		<result property="person1_coverage"			column="PERSON1_COVERAGE"/>
+		<result property="person2_coverage"			column="PERSON2_COVERAGE"/>
+		<result property="object_coverage"			column="OBJECT_COVERAGE"/>
+		<result property="selfbody_coverage"		column="SELFBODY_COVERAGE"/>
+		<result property="selfcar_coverage"			column="SELFCAR_COVERAGE"/>
+		<result property="emergency_call"			column="EMERGENCY_CALL"/>
+		<result property="law_expense"				column="LAW_EXPENSE"/>
+		<result property="luggage_coverage"			column="LUGGAGE_COVERAGE"/>
+		<result property="assocication_join"		column="ASSOCICATION_JOIN"/>
+		<result property="expire_date"				column="EXPIRE_DATE"/>
+		<result property="extra_charge"				column="EXTRA_CHARGE"/>
+		<result property="essential_notice1"		column="ESSENTIAL_NOTICE1"/>
+		<result property="essential_notice2"		column="ESSENTIAL_NOTICE2"/>
+		<result property="essential_notice3"		column="ESSENTIAL_NOTICE3"/>
+		<result property="essential_notice4"		column="ESSENTIAL_NOTICE4"/>
+		<result property="essential_notice5"		column="ESSENTIAL_NOTICE5"/>
+		<result property="essential_notice6"		column="ESSENTIAL_NOTICE6"/>
+		<result property="essential_notice7"		column="ESSENTIAL_NOTICE7"/>
+		<result property="forwardId" 				column="FORWARD_ID" nullValue=""/>
+		<result property="forwardTime" 				column="FORWARD_TIME"/>
+		<result property="replyAt" 					column="REPLY_AT" nullValue=""/>
+		<result property="replyTime" 				column="REPLY_TIME" nullValue=""/>
+		<result property="procTime" 				column="PROC_TIME" nullValue=""/>
+		<result property="totalProcTime" 			column="TOTAL_PROC_TIME" nullValue=""/>
+		<result property="replyContentText" 		column="REPLY_CONTENT_TEXT" nullValue=""/>
+				<result property="replyContentHtml" column="REPLY_CONTENT_HTML" nullValue=""/>
+	</resultMap>
+	
+	<!-- 개인화물 상담관리 게시판 권한 종류 조회 -->
+	<select id="hwamulDAO.getQnaAuthCodeList" resultClass="String" parameterClass="String">
+		SELECT
+			CODE
+		FROM
+			COMTCCMMNDETAILCODE
+		WHERE
+			CODE_ID = 'TRU002'
+		AND
+			CODE LIKE 'qna%'
+	</select>
+		
+	<!-- 개인화물 상담관리 게시판 목록조회 -->
+	<select id="hwamulDAO.getHwamulCustomerList" resultMap="hwamulCustomerList" parameterClass="KwaHwamulSearchVO">
+		SELECT
+			ARTICLE_NO,
+			CAR_NO,
+			CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			REPLY_AT,
+			FORWARD_ID,
+			FORWARD_NAME,
+			REPLY_TIME
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT
+					ARTICLE_NO,
+					CAR_NO,
+					TO_CHAR(CREATE_TIME, 'yyyy.mm.dd') as CREATE_TIME,
+					WRITER_ID,
+					WRITER_NAME,
+					REPLY_AT,
+					FORWARD_ID,
+					(SELECT DISTINCT HANGEUL_NM FROM HRPE02@kotmasdb WHERE SAWON_NO = FORWARD_ID) AS FORWARD_NAME,
+					REPLY_TIME,
+					TITLE,
+					CONTENT_TEXT
+				FROM
+					CONSULATION_BBS cd
+				WHERE 1=1 
+				<dynamic prepend="AND">
+					<isNotEmpty property="searchCondition" prepend="and">
+						CATEGORY = #searchCondition#
+					</isNotEmpty>
+					<isNotEmpty property="searchCondition2" prepend="and">
+						REPLY_AT = #searchCondition2#
+					</isNotEmpty>
+					<isEqual property="searchCondition3" prepend="and" compareValue="1">
+						CAR_NO like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="2">
+						CONTENT_TEXT like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="3">
+						WRITER_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="menuAuthCondition" prepend="and" compareValue="d">
+						JIBU_CD = (SELECT DISTINCT CATEGORY FROM HP_MENU_AUTH WHERE AUTH_ID = #forwardId# AND HP_MENU_NO = '1030101')
+					</isEqual>
+				</dynamic>
+				ORDER BY create_time DESC, article_no DESC
+				) A
+				<dynamic prepend="WHERE">
+					<isEqual property="searchCondition3" prepend="and" compareValue="4">
+						FORWARD_NAME like '%'||#searchKeyword#||'%'
+					</isEqual>
+					<isEqual property="searchCondition3" prepend="and" compareValue="0" >
+						(CAR_NO like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%' OR FORWARD_NAME like '%'||#searchKeyword#||'%')
+					</isEqual>
+				</dynamic>
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+		
+	<!-- 개인화물 상담관리 목록 총 카운트 -->	
+	<select id="hwamulDAO.getHwamulCustomerListCnt" resultClass="Int" parameterClass="KwaHwamulSearchVO">
+		SELECT
+			COUNT(ARTICLE_NO)
+		FROM
+			( SELECT B.*, 
+					(SELECT DISTINCT HANGEUL_NM FROM HRPE02@kotmasdb WHERE SAWON_NO = FORWARD_ID) AS FORWARD_NAME
+				FROM CONSULATION_BBS B
+			)
+			WHERE 1=1
+			<dynamic prepend="AND">
+				<isNotEmpty property="searchCondition2" prepend="AND">
+					REPLY_AT = #searchCondition2#
+				</isNotEmpty>
+				<isEqual property="searchCondition3" prepend="AND" compareValue="0" >
+					(CAR_NO like '%'||#searchKeyword#||'%' OR WRITER_NAME like '%'||#searchKeyword#||'%' OR CONTENT_TEXT like '%'||#searchKeyword#||'%' OR FORWARD_NAME like '%'||#searchKeyword#||'%')
+				</isEqual>
+				<isEqual property="searchCondition3" prepend="AND" compareValue="1">
+					CAR_NO like '%'||#searchKeyword#||'%'
+				</isEqual>
+				<isEqual property="searchCondition3" prepend="AND" compareValue="2">
+					CONTENT_TEXT like '%'||#searchKeyword#||'%'
+				</isEqual>
+				<isEqual property="searchCondition3" prepend="AND" compareValue="3">
+					WRITER_NAME like '%'||#searchKeyword#||'%'
+				</isEqual>
+				<isEqual property="searchCondition3" prepend="AND" compareValue="4">
+					FORWARD_NAME like '%'||#searchKeyword#||'%'
+				</isEqual>
+				<isEqual property="menuAuthCondition" prepend="AND" compareValue="d">
+					JIBU_CD = (SELECT DISTINCT CATEGORY FROM HP_MENU_AUTH WHERE AUTH_ID = #forwardId# AND HP_MENU_NO = '1030101')
+				</isEqual>
+			</dynamic>
+	</select>
+	
+	<!-- 개인화물 공제가입 게시판 상세보기-->	
+	<select id="hwamulDAO.getHwamulCustomerDetail" resultMap="hwamulCustomerDetail" parameterClass="KwaHwamulBoardVO">
+		SELECT
+			ARTICLE_NO,
+			TITLE,
+			TO_CHAR(CREATE_TIME, 'yyyy-mm-dd') as CREATE_TIME,
+			WRITER_ID,
+			WRITER_NAME,
+			CONTENT_HTML,
+			PHONE,
+          	EMAIL,
+          	USE_AT,
+			EMAIL_YN,
+			PHONE_YN,
+			CAR_NO,
+			CAR_CATEGORY,
+			CARRY_CAPACITY,
+			PERSON1_COVERAGE,
+			PERSON2_COVERAGE,
+			OBJECT_COVERAGE,
+			SELFBODY_COVERAGE,
+			SELFCAR_COVERAGE,
+			EMERGENCY_CALL,
+			LAW_EXPENSE,
+			LUGGAGE_COVERAGE,
+			ASSOCICATION_JOIN,
+			TO_CHAR(TO_DATE(EXPIRE_DATE),'yyyy"년 "mm"월 "dd"일"') EXPIRE_DATE,
+			EXTRA_CHARGE,
+			ESSENTIAL_NOTICE1,
+			ESSENTIAL_NOTICE2,
+			ESSENTIAL_NOTICE3,
+			ESSENTIAL_NOTICE4,
+			ESSENTIAL_NOTICE5,
+			ESSENTIAL_NOTICE6,
+			ESSENTIAL_NOTICE7,
+			FORWARD_ID,
+			TO_CHAR(FORWARD_TIME, 'yyyy-mm-dd hh24:mi:ss') as FORWARD_TIME,
+			REPLY_AT,
+			TO_CHAR(REPLY_TIME, 'yyyy-mm-dd hh24:mi:ss') as REPLY_TIME,
+			PROC_TIME,
+			TOTAL_PROC_TIME,
+			REPLY_CONTENT_TEXT,
+			REPLY_CONTENT_HTML
+		FROM
+			CONSULATION_BBS
+		WHERE
+			use_at = 'Y'
+		AND	
+			ARTICLE_NO = #articleNo#
+	</select>
+	
+	<update id="hwamulDAO.updateReplyContent" parameterClass="KwaHwamulBoardVO">
+		UPDATE 
+			CONSULATION_BBS
+		SET
+			REPLY_CONTENT_HTML = #replyContentHtml#,
+			REPLY_CONTENT_TEXT = #replyContentText#,
+			REPLY_ID = #replyId#,
+			REPLY_NAME = #replyName#,
+			REPLY_AT = 'Y',
+			REPLY_TIME = SYSDATE,
+			TOTAL_PROC_TIME = (
+							SELECT
+							  	TRUNC(SYSDATE - A.CREATE_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									CREATE_TIME
+							    FROM 
+							    	CONSULATION_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			),
+			PROC_TIME =(
+							SELECT
+							  	TRUNC(SYSDATE - A.FORWARD_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									FORWARD_TIME
+							    FROM 
+							    	CONSULATION_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			)
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<update id="hwamulDAO.updateReplyContent2" parameterClass="KwaHwamulBoardVO">
+		UPDATE 
+			CONSULATION_BBS
+		SET
+			REPLY_CONTENT_HTML = #replyContentHtml#,
+			REPLY_CONTENT_TEXT = #replyContentText#,
+			REPLY_MODIFY_ID = #replyId#,
+			REPLY_MODIFY_NAME = #replyName#,
+			REPLY_AT = 'Y',
+			REPLY_MODIFY_TIME = SYSDATE,
+			TOTAL_PROC_TIME = (
+							SELECT
+							  	TRUNC(SYSDATE - A.CREATE_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									CREATE_TIME
+							    FROM 
+							    	CONSULATION_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			),
+			PROC_TIME =(
+							SELECT
+							  	TRUNC(SYSDATE - A.FORWARD_TIME + 1)|| ' 일 '
+							FROM (
+								SELECT 
+									FORWARD_TIME
+							    FROM 
+							    	OAO_INQUIRY_BBS 
+							    WHERE 
+							    	ARTICLE_NO=#articleNo#
+							        ) A
+			
+			)
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	<update id="hwamulDAO.updateReplyRepContent" parameterClass="KwaHwamulBoardVO">
+		UPDATE 
+			CONSULATION_BBS
+		SET
+			FORWARD_ID = #forwardId#,
+			FORWARD_TIME = SYSDATE
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	
+	<select id="hwamulDAO.selectWriterIdAgentCd" parameterClass="String" resultClass="String">
+		select agentcd from tb_member where id= #writerId# and rownum = '1' 
+	</select>
+	
+	<select id="hwamulDAO.selectWriterIdNameCtgi06" parameterClass="String" resultClass="String">
+		select 
+        	CARMGR_NM as name 
+   		from tb_member tb inner join ctgi06@kotmasdb c6
+   		on tb.agent_no = c6.carmgr_seq
+    	where tb.id=#writerId# and rownum ='1'
+	</select>
+	
+	<select id="hwamulDAO.selectWriterIdNameAcsd05" parameterClass="String" resultClass="String">
+		select 
+       		PRESI_NM as name
+    	from tb_member tb left outer join Acsd05@kotmasdb a5
+    	on tb.agent_no = a5.cust_cd
+    	where tb.id=#writerId# and rownum ='1'
+	</select>
+	
+	<select id="hwamulDAO.selectWriterIdNameCtgi01" parameterClass="String" resultClass="String">
+		 select 
+        	c1.daepyoja_nm as name 
+     	from tb_member tb inner join ctgi01@kotmasdb c1 
+     	on tb.agent_no = c1.agent_no 
+     	and tb.saupjang_seq = c1.saupjang_seq 
+     	where tb.id =#writerId# and rownum ='1'
+	</select>
+	
+	<select id="hwamulDAO.getMailAddr" parameterClass="string" resultClass="string">
+		SELECT
+			email
+		FROM
+			employee@gw
+		WHERE
+			emp_code = #id#
+	</select>
+	
+	<select id="hwamulDAO.getPhoneAddr_h" parameterClass="string" resultClass="string">
+		SELECT
+			replace(mobile, '-', '') mobile
+		FROM
+			employee@gw
+		WHERE
+			emp_code = #id#
+	</select>
+	
+
+	
+</sqlMap>

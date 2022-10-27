@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>	   
+    
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyCarDeductInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyAccDeductInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyCarryDeductInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyAccountInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyDivideInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyCarAccidentInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyNetCounterManager_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyCarStatusInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyCertServiceInquiry_SQL_Oracle.xml" />
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyMember_SQL_Oracle.xml" />	
+		
+	<sqlMap resource="egovframework/sqlmap/truck/netCounter/LegacyContract_SQL_Oracle.xml" />	
+</sqlMapConfig>

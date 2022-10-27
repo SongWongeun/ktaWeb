@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">446</span><span class="pyoName">자동차가 자전거를 추돌한 경우</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                               <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본</td>
+                            <td class="alC bB3">A0</td>
+                            <td class="alC">B100</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="11" class="alC"><img src="/images/truck/jpg/446.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                      <tr>
+                            <td class="bg1">A 진로급변경</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>                 
+                      <tr>
+                            <td class="bg1">인근에 자전거도로가 있는 경우</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                     <tr>
+                            <td class="bg1">A 우측 가장자리로 가지 않음</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>  
+                     
+                      <tr>
+                            <td class="bg1">A 선행차 이유없는 급정거 &#9314;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>  
+                      <tr>
+                            <td class="bg1">A 현저한 과실&#9312;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">A 어린이&#183;노인</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="bg1">B 현저한 과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                         <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                           <tr>
+                            <td class="bg1">B 제동등 고장</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">&#42;</td>
+                        </tr>
+                      
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					   <p class="txtPoint">&#9312;	자전거이용활성화에관한법률 제16조가 1999&#46; 1&#46; 21자로 삭제되었으므로 자전거의 후면에 반사기재를 부착하는 것이 법정의무는 아니나&#44; 이러한 반사기재를 부착하지 않은 경우 야간에 후행차량이 자전거를 발견하기 용이하지 않기 때문에 현저한 과실로 본다&#46; 그러나 이 수정 요소는 야간이나 악천후 등으로 시계가 불량한 경우에만 적용하여야 한다&#46;</p>   
+                         <p class="txtPoint">&#9314;	이유없는 급정거라 함은 선행차가 뒷차를 놀래주려고 급정거하거나 브레이크 조작미숙으로 급정거한 경우 또는 우측차선이 아닌 곳에서 승객 또는 화물을 싣거나 내리기 위하여 급정거한 경우 등을 이른다&#46; 선행차가 사고를 고의로 유발하기 위하여 급정거한 경우에는 본 도표의 적용을 배제한다&#46; &#40;면부책 판단사항으로 보아야 한다&#41; </p>
+                         </div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	자전거이용활성화에관한법률 제15조&#91;자전거의 통행방법 등&#93;</p>
+					<ul class="txtListst02">
+						<li> &#9313; 자전거의 운전자는 자전거도로를 통행하여야 한다&#46; 다만&#44; 자전거도로가 설치되지 아니한 도로에서는 다른 법령에 통행방법이 따로 규정되어 있는 경우를 제외하고는 보행자에 주의하면서 도로&#40;차도와 보도가 구분된 도로에서는 차도를 말한다&#41;의 우측 가장자리 부분으로 통행하여야 한다&#46;</li>
+                   </ul>    
+                  </div>
+		<!-- 참고판례 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">참고판례</h3>
+					<p class="txtPoint">&#9827;	서울고등법원 1987&#46; 4&#46; 23&#46;선고 86나 4069 판결</p>
+					<ul class="txtListst02">
+						<li>편도 2차선에서 피고 트럭이 경적등을 울림이 없이 2차선의 우측변으로 선행중인 원고 자전거를 추월하려다가 트럭 우측 방향지시등 부분으로 충격한 사고에서 자전거운전자의 무과실을 인정하였다&#46;</li>
+					</ul>
+					<p class="txtPoint">&#9827;	서울고등법원 1987&#46; 1&#46; 22&#46;선고 86나 2621 판결</p>
+					<ul class="txtListst02">
+						<li>비포장도로 부분이 있는 편도1차선인 폭3&#46;5미터의 포장도로인 산업도로에서 앞서서 도로우측 끝을 따라 진행하던 자전거가 우선통행권이 있는 뒤의 트럭에 진로를 양보하여 비포장의 도로 가장자리부분으로 피양하여야 함에도 이를 하지 않음으로 인해 트럭에 받친 사고에서 원고 자전거에게 20&#37;의 과실을 인정하였다&#46;</li>
+					</ul>
+                    	<p class="txtPoint">&#9827;	서울고등법원 1988&#46; 5&#46; 12&#46;선고 87나 5058 판결</p>
+					<ul class="txtListst02">
+						<li>야간에 노폭 14m인 도로 우측변에 미등 및 차폭등을 켜지 않은 상태에서 주차한 차량을 피해자가 음주상태에서 과속으로 자전거를 주행하다가 추돌한 사고에서 자전거운전자에게 80&#37; 과실을 인정하였다
+</li>
+					</ul>
+				</div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

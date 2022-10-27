@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >	
+
+	<typeAlias  alias="JoinVO" type="kr.or.truck.join.service.impl.JoinVO"/>
+	<typeAlias  alias="LoginVO" type="egovframework.com.cmm.LoginVO"/>
+	
+	<!-- 조합원 회원정보 조회  -->
+	<select id="MemberPageDAO.selectMemTable" parameterClass="LoginVO" resultClass="hashmap">
+		 SELECT
+		 	rownum
+		 	,T1.ID AS ID
+			,T1.SAUPNUM AS SAUPNUM
+			,C1.DAEPYOJA_NM AS NAME 
+			,C1.AGENT_NM AS COMNAME
+			,C2.ZIP1||C2.ZIP2 AS POST1 
+			,C2.ADDR1||C2.ADDR2 AS COMJUSO 
+			,C1.MOBILE_COM_NO as PHONE1
+			,SUBSTR(C1.MOBILE_NO,1,4) as PHONE2
+			,SUBSTR(C1.MOBILE_NO,5,8) as PHONE3
+			,C2.TEL_LOCAL_NO as CELL1
+			,SUBSTR(C2.TEL_NO,1,4) as CELL2 
+			,SUBSTR(C2.TEL_NO,5,8) as CELL3 
+			,T1.MAIL as MAIL
+			,NVL(T1.MAIL_YN,'N') as MAIL_YN
+			,NVL(T1.SMS_YN,'N') as SMS_YN 
+			,T1.INFO_YN 
+			,'' as NEW_JUSO
+		FROM 
+		TB_MEMBER T1 LEFT OUTER JOIN CTGI01@KOTMASDB C1 ON T1.AGENT_NO = C1.AGENT_NO AND T1.SAUPJANG_SEQ = C1.SAUPJANG_SEQ
+		LEFT OUTER JOIN CTGI02@KOTMASDB C2 ON T1.AGENT_NO = C2.AGENT_NO AND T1.SAUPJANG_SEQ = C2.SAUPJANG_SEQ AND C1.ADDR_GB_CD = C2.ADDR_GB_CD
+		LEFT OUTER JOIN TB_MEMBER_SAUPNO TBS ON T1.AGENT_NO = TBS.AGENT_NO AND T1.SAUPJANG_SEQ = TBS.SAUPJANG_SEQ
+
+		WHERE T1.AGENTCD = '1' AND rownum ='1'  AND TBS.DEFAULT_YN ='Y'
+		<isNotEmpty property="ipinDi">
+			 	AND T1.IPIN_DI  =  #ipinDi#
+		</isNotEmpty>
+		<isEmpty property="ipinDi">
+			 	AND T1.ID = #id#
+		</isEmpty>
+	</select>
+	
+	<!-- 차량관리자 회원정보 조회  -->
+	<select id="MemberPageDAO.selectMember" parameterClass="LoginVO" resultClass="hashmap">
+		SELECT
+			  rownum 
+		     ,T1.ID AS ID
+	         ,T1.SAUPNUM
+	         ,C6.CARMGR_NM AS NAME
+	         ,C6.ZIP2||C6.ZIP2 AS POST1
+	         ,C6.ADDR1||C6.ADDR2 AS COMJUSO
+	         ,C6.MOBILE_COM_NO AS PHONE1
+	         ,SUBSTR(C6.MOBILE_NO,1,4) AS PHONE2
+	         ,SUBSTR(C6.MOBILE_NO,5,8) AS PHONE3
+	         ,C6.TEL_LOCAL_NO AS CELL1
+	         ,SUBSTR(C6.TEL_NO,1,4) AS CELL2
+	         ,SUBSTR(C6.TEL_NO,5,8) AS CELL3
+	         ,T1.MAIL AS MAIL
+	         ,NVL(T1.MAIL_YN,'N') as MAIL_YN 
+	         ,NVL(T1.SMS_YN,'N') as SMS_YN
+	         ,T1.INFO_YN     
+	         ,'' AS NEW_JUSO  
+        FROM TB_MEMBER T1 inner join CTGI06@KOTMASDB C6 ON T1.CARMGR_SEQ = C6.CARMGR_SEQ
+        WHERE T1.AGENTCD='2'  AND rownum ='1'
+		<isNotEmpty property="ipinDi">
+			 	AND T1.IPIN_DI  =  #ipinDi#
+		</isNotEmpty>
+		<isEmpty property="ipinDi">
+			 	AND T1.ID = #id#
+		</isEmpty>
+	</select>
+	
+	<!-- 거래처 회원정보 조회  -->
+	<select id="MemberPageDAO.selectMemPartner" parameterClass="LoginVO" resultClass="hashmap">
+		SELECT
+		 	  rownum
+			  ,T1.ID AS ID
+              ,T1.SAUPNUM AS SAUPNUM
+              ,A5.PRESI_NM AS NAME
+              ,A5.CUST_NM AS COMNAME
+              ,A5.PRESI_ZIPCD AS POST1
+              ,A5.PRESI_JUSO1||A5.PRESI_JUSO2 AS COMJUSO 
+              ,'' AS PHONE1
+              ,'' AS PHONE2
+              ,'' AS PHONE3
+              ,SUBSTR(A5.PRESI_TELNO,1,3) AS CELL1
+              ,SUBSTR(A5.PRESI_TELNO,4,3) AS CELL2
+              ,SUBSTR(A5.PRESI_TELNO,7,4) AS CELL3
+              ,T1.MAIL AS MAIL
+              ,NVL(MAIL_YN,'N') as MAIL_YN
+              ,NVL(SMS_YN,'N') as SMS_YN
+              ,T1.INFO_YN
+              ,'' AS NEW_JUSO
+              FROM TB_MEMBER T1 LEFT OUTER JOIN acsd05@KOTMASDB A5 
+              ON T1.AGENT_NO = A5.CUST_CD
+         WHERE AGENTCD = '3' AND rownum = '1'
+		<isNotEmpty property="ipinDi">
+			 	AND T1.IPIN_DI  =  #ipinDi#
+		</isNotEmpty>
+		<isEmpty property="ipinDi">
+			 	AND T1.ID = #id#
+		</isEmpty>
+	</select>
+	
+	
+	<!-- 조합원 비밀번호 수정-->
+	<update id="MemberPageDAO.updateMemTableInfo" parameterClass="JoinVO">
+		UPDATE 	TB_MEMBER
+		SET		PASSWD = damo.hash_str_data(#password#),
+		 		UPDATE_PASSWD_DT=SYSDATE
+		WHERE 	ID = #id#
+	</update>
+	
+	<!-- 차량관리자  비밀번호 수정-->
+	<update id="MemberPageDAO.updateMemberInfo" parameterClass="JoinVO">
+		UPDATE 	TB_MEMBER
+		SET		PASSWD = damo.hash_str_data(#password#),
+			 	UPDATE_PASSWD_DT=SYSDATE
+		WHERE 	USERID = #id#
+	</update>
+	
+	<!-- 거래처  비밀번호 수정-->
+	<update id="MemberPageDAO.updateMemPartnerInfo" parameterClass="JoinVO">
+		UPDATE 	TB_MEMBER
+		SET		PASSWD = damo.hash_str_data(#password#),
+			 	UPDATE_PASSWD_DT=SYSDATE
+		WHERE 	ID = #id#
+	</update>
+	
+	<!-- 조합원확인 비밀번호확인 -->
+	<select id="MemberPageDAO.selectIdPwMemTable" parameterClass="LoginVO" resultClass="integer" >
+		select
+				count(*)
+		from 	TB_MEMBER
+		where	ID = #id# 
+		and		PASSWD = damo.hash_str_data(#password#)
+	</select>
+	
+	<!-- 조합원확인 사업자번호확인 -->
+	<select id="MemberPageDAO.selectIdPwSaupnumMemTable" parameterClass="LoginVO" resultClass="integer" >
+		select
+				count(*)
+		from 	TB_MEMBER
+		where	ID = #id# 
+		and		SAUPNUM = #saupjaNoConfirm#
+	</select>
+	
+	<update id="MemberPageDAO.updateContractConfirm" parameterClass="LoginVO">
+		UPDATE	MEM_TABLE_DAMO
+		SET	
+			SEC_JUMIN1 = damo.enc_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', #jumin1#),
+			SEC_JUMIN2 = damo.enc_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', #jumin2#),
+			NAME = #nameConfirm#
+		WHERE
+			ID = #id# 
+		AND	
+			PASSWD =damo.hash_str_data(#password#)
+		AND
+			SAUPNUM = #saupjaNoConfirm#
+	</update>
+	
+	
+	<!-- 조합원 회원정보 수정-->
+	<update id="MemberPageDAO.updateMemTable" parameterClass="JoinVO">
+		UPDATE 	MEM_TABLE_DAMO
+		SET	
+			POST1 = #post1#, 
+			POST2 = #post2#, 
+			COMJUSO = #comjuso#, 
+			PHONE1 = #phone1#, 
+			PHONE2 = #phone2#, 
+			PHONE3 = #phone3#, 
+			CELL1 = #cell1#, 
+			CELL2 = #cell2#, 
+			CELL3 = #cell3#, 
+			MAIL = #mail#, 
+			MAIL_YN = #mail_yn#, 
+			SMS_YN = #sms_yn#, 
+			INFO_YN = #info_yn#, 
+			NEW_JUSO = #new_juso#
+		
+		WHERE
+		<isNotEmpty property="ipin_di">
+			 	IPIN_DI  =  #ipin_di#
+		</isNotEmpty>
+		<isEmpty property="ipin_di">
+			 	ID = #id#
+		</isEmpty>
+	</update>
+	
+	<!-- 차량관리자  회원정보 수정-->
+	<update id="MemberPageDAO.updateMember" parameterClass="JoinVO">
+		UPDATE 	MEMBER_DAMO
+		SET		
+			POST1 = #post1#, 
+			POST2 = #post2#, 
+			JUSO = #comjuso#, 
+			PHONE1 = #phone1#, 
+			PHONE2 = #phone2#, 
+			PHONE3 = #phone3#, 
+			CELL1 = #cell1#, 
+			CELL2 = #cell2#, 
+			CELL3 = #cell3#, 
+			MAIL = #mail#, 
+			MAIL_YN = #mail_yn#, 
+			SMS_YN = #sms_yn#, 
+			INFO_YN = #info_yn#, 
+			NEW_JUSO = #new_juso#
+		
+		WHERE 	
+		<isNotEmpty property="ipin_di">
+			 	IPIN_DI  =  #ipin_di#
+		</isNotEmpty>
+		<isEmpty property="ipin_di">
+			 	USERID = #id#
+		</isEmpty>
+	</update>
+	
+	<!-- 거래처  회원정보 수정-->
+	<update id="MemberPageDAO.updateMemPartner" parameterClass="JoinVO">
+		UPDATE 	MEM_PARTNER_DAMO
+		SET		
+			POST1 = #post1#, 
+			POST2 = #post2#, 
+			COMJUSO = #comjuso#, 
+			PHONE1 = #phone1#, 
+			PHONE2 = #phone2#, 
+			PHONE3 = #phone3#, 
+			CELL1 = #cell1#, 
+			CELL2 = #cell2#, 
+			CELL3 = #cell3#, 
+			MAIL = #mail#, 
+			MAIL_YN = #mail_yn#, 
+			SMS_YN = #sms_yn#, 
+			INFO_YN = #info_yn#, 
+			NEW_JUSO = #new_juso#
+		WHERE 	
+		<isNotEmpty property="ipin_di">
+			 	IPIN_DI  =  #ipin_di#
+		</isNotEmpty>
+		<isEmpty property="ipin_di">
+			 	ID = #id#
+		</isEmpty>
+	</update>
+	
+	<select id="MemberPageDAO.selectChangeMonthFromMemTable" parameterClass="LoginVO" resultClass="string">
+		SELECT TO_CHAR(
+        MONTHS_BETWEEN(SYSDATE,
+        UPDATE_PASSWD_DT),'FM999990')   
+		FROM TB_MEMBER
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</select>
+	
+	<select id="MemberPageDAO.selectChangeMonthFromMember" parameterClass="LoginVO" resultClass="string">
+		SELECT TO_CHAR(
+        MONTHS_BETWEEN(SYSDATE,
+        UPDATE_PASSWD_DT),'FM999990')   
+		FROM TB_MEMBER
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</select>
+	
+	<select id="MemberPageDAO.selectChangeMonthFromMemPartner" parameterClass="LoginVO" resultClass="string">
+		SELECT TO_CHAR(
+        MONTHS_BETWEEN(SYSDATE,
+        UPDATE_PASSWD_DT),'FM999990')   
+		FROM TB_MEMBER
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</select>
+	
+	<select id="MemberPageDAO.selectUpdatePasswdDtMemTable" parameterClass="LoginVO" resultClass="string">
+		SELECT UPDATE_PASSWD_DT
+		FROM TB_MEMBER
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</select>
+	
+	<select id="MemberPageDAO.selectUpdatePasswdDtMember" parameterClass="LoginVO" resultClass="string">
+		SELECT UPDATE_PASSWD_DT
+		FROM TB_MEMBER
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</select>
+	
+	<select id="MemberPageDAO.selectUpdatePasswdDtMemPartner" parameterClass="LoginVO" resultClass="string">
+		SELECT UPDATE_PASSWD_DT
+		FROM TB_MEMBER
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</select>
+	
+	<update id="MemberPageDAO.updatePasswdDtMemTable" parameterClass="LoginVO">
+		UPDATE TB_MEMBER
+		SET UPDATE_PASSWD_DT = SYSDATE
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</update>
+	
+	<update id="MemberPageDAO.updatePasswdDtMember" parameterClass="LoginVO">
+		UPDATE TB_MEMBER
+		SET UPDATE_PASSWD_DT = SYSDATE
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</update>
+	
+	<update id="MemberPageDAO.updatePasswdDtMemPartner" parameterClass="LoginVO">
+		UPDATE TB_MEMBER
+		SET UPDATE_PASSWD_DT = SYSDATE
+		WHERE ID=#id#
+		<!-- AND PASSWD=damo.hash_str_data(#password#) -->
+	</update>
+	<select id="MemberPageDAO.selectRecentIpDt" parameterClass="LoginVO" resultClass="LoginVO">
+		SELECT
+    
+        RECENT_IP AS recent_ip     
+        ,substr(recent_dt,1,8) as recent_dt           
+        ,substr(recent_dt,9,8) as recent_tm 
+    FROM
+        TB_MEMBER  
+    WHERE
+        id =  #id#      
+        AND passwd = #password#
+	</select>
+	<select id="MemberPageDAO.selectManagerList" parameterClass="LoginVO" resultClass="LoginVO">
+			SELECT trim ( PN_NM ) as pn_nm,trim ( PHONE_NO1 ) as phone_no1,cmt1,snd_cd_cmt  as pn_no
+			
+			FROM CTGI12@kotmasdb a , ctgi03@kotmasdb b
+
+			where b.FIRST_CD ='30' and b.SND_CD ='01'
+
+			and b.agent_no =#agentNo# and b.saupjang_seq =#saupjangSeq#
+
+			and a.pn_kind_cd =b.first_cd_cmt and a.pn_no = b.snd_cd_cmt
+	</select>
+	<select id="MemberPageDAO.selectCheckManager" parameterClass="LoginVO" resultClass="String">
+			SELECT PN_NO AS RESULT FROM CTGI12@KOTMASDB
+			WHERE PN_NM=#pn_nm# AND PHONE_NO1 = #phone_no1#
+			and rownum = 1
+	</select>
+	<select id="MemberPageDAO.selectCtgi12SndCdCmt" parameterClass="LoginVO" resultClass="String">
+			select to_number(max(pn_no))+1 as pn_no from 
+			ctgi12@kotmasdb c12 where pn_no like to_char(sysdate,'yyyy')||#gyeyakJibuCd#||'%' and pn_kind_cd ='01'
+	</select>
+	<insert id="MemberPageDAO.insertManagerInfoCtgi12" parameterClass="LoginVO">
+		<selectKey keyProperty="pn_no" resultClass="String">
+			select to_number(nvl(max(pn_no), 0))+1 as pn_no from 
+			ctgi12@kotmasdb c12 where pn_no like to_char(sysdate,'yyyy')||#gyeyakJibuCd#||'%' and pn_kind_cd ='01'
+		</selectKey>
+		
+		insert into ctgi12@kotmasdb(
+                pn_kind_cd
+               ,pn_no
+               ,pn_nm
+               ,phone_no1
+               ,gyeyak_jibu_cd
+               ,process_ymd
+               ,process_id
+               ,cmt1
+               
+        )values(
+               '01'
+              ,#pn_no#
+              ,#pn_nm#
+              ,#phone_no1#
+              ,#gyeyakJibuCd#
+              ,to_char(sysdate,'yyyymmdd')
+              ,#id#
+              ,#cmt1#
+        )
+	</insert>
+	<insert id="MemberPageDAO.insertManagerInfoCtgi03"  parameterClass="LoginVO">
+			insert into ctgi03@kotmasdb(
+             first_cd
+             ,snd_cd
+             ,third_cd
+             ,agent_no
+             ,saupjang_seq
+             ,apply_ymd
+             ,first_cd_cmt
+             ,snd_cd_cmt
+             ,process_ymd
+             ,process_id
+             ,process_pgm
+             
+              )values(
+              
+              '30'
+             ,'01'
+             ,#third_cd#
+             ,#agentNo#
+             ,#saupjangSeq#
+             ,to_char(sysdate,'yyyymmdd')
+             ,'01'
+             ,#pn_no#
+             ,to_char(sysdate,'yyyymmdd')
+             ,#id#
+             ,'homepage'
+             )
+	</insert>
+	<select id='MemberPageDAO.selectThirdCd' parameterClass="LoginVO" resultClass="String">
+			select lpad(to_number(max(third_cd)+1),3,0) as third_cd from ctgi03@kotmasdb where agent_no=#agentNo# and saupjang_seq=#saupjangSeq#
+			and first_cd = '30' and snd_cd='01'
+	</select>
+	<delete id="MemberPageDAO.deleteManager" parameterClass="LoginVO">
+			delete from ctgi03@kotmasdb 
+ 			where FIRST_CD ='30' and SND_CD ='01'
+			and agent_no =#agentNo# and saupjang_seq =#saupjangSeq#
+			and snd_cd_cmt = #pn_no#
+	</delete>
+	<select id="MemberPageDAO.selectEncryptPw"  parameterClass="LoginVO" resultClass="String">
+			select passwd from tb_member
+			where id=#id# and passwd=damo.hash_str_data(#passwordChk#)
+	</select>
+	<update id="MemberPageDAO.changeEmail" parameterClass="JoinVO">
+		update tb_member set mail=#mail# where id=#id#
+	</update>
+	
+	<select id="MemberPageDAO.selectChangeCode" resultClass="Integer" parameterClass="LoginVO">
+		 select max(change_yn) from tb_member_saupno where id=#id#
+	</select>
+	<select id="MemberPageDAO.defaultYnCnt" resultClass="Integer" parameterClass="LoginVO">
+		 select count(*) from tb_member_saupno where id=#id# and use_yn='Y'and default_yn='Y'
+	</select>
+	<select id="MemberPageDAO.canUseynInfo" resultClass="LoginVO" parameterClass="LoginVO">
+		select 
+				agent_no as agentNo
+				,saupjang_seq as saupjangSeq
+				,saupnum as saupjaNo
+				,gyeyak_jibu as gyeyakJibuCd 
+				,id
+		from tb_member_saupno where id=#id# and use_yn='Y' and rownum = 1 order by agent_no desc
+	</select>
+	<select id="MemberPageDAO.selectJuminNo" resultClass="String" parameterClass="LoginVO">
+		  select johapwon_jumin_no from ctgi01@kotmasdb 
+	   where
+        	agent_no =  #agentNo#      
+        	and saupjang_seq =  #saupjangSeq#
+	</select>
+	<select id="MemberPageDAO.updateChangeDefaultYn" parameterClass="LoginVO">
+		  update tb_member_saupno set default_yn = ''
+  				where id = #id#
+	</select>
+	<select id="MemberPageDAO.updateChangeDefaultYnY" parameterClass="LoginVO">
+		 update tb_member_saupno set default_yn = 'Y'
+ 			where agent_no = #agentNo# 
+  			and saupjang_seq = #saupjangSeq#     
+  			and saupnum = #saupjaNo#
+ 			and gyeyak_jibu = #gyeyakJibuCd#
+ 			and id = #id#
+	</select>
+	<select id="MemberPageDAO.updateChangeDefaultInfo" parameterClass="LoginVO">
+			 update tb_member set 
+        			agent_no = #agentNo#
+        			,saupjang_seq = #saupjangSeq#
+        			,saupnum = #saupjaNo#
+        			,gyeyak_jibu = #gyeyakJibuCd#
+        			,ipin_di= #ipinDi#
+ 			  where id = #id#
+	</select>
+	<delete id="MemberPageDAO.deleteTbMember" parameterClass="LoginVO">
+			delete from tb_member where id=#id#
+	</delete>
+	<delete id="MemberPageDAO.deleteTbMemberSaupno" parameterClass="LoginVO">
+			delete from tb_member_saupno where id=#id#
+	</delete>
+</sqlMap>

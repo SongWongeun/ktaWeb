@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="RecommandSite">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="recommandSiteSearchVO" type="kr.or.truck.infolounge.datacenter.service.RecommandSiteSearchVO"/>
+	<typeAlias  alias="recommandSiteVO" type="kr.or.truck.infolounge.datacenter.service.RecommandSiteVO"/>
+	
+	
+	<resultMap id="recommandSite" class="kr.or.truck.infolounge.datacenter.service.RecommandSiteVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>		
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="siteCategory" column="CATEGORY" nullValue=""/>
+		<result property="siteName" column="SITE_NAME" nullValue=""/>
+		<result property="siteURL" column="SITE_URL" nullValue=""/>
+	</resultMap>
+
+
+	<insert id="recommandSiteDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO RECOMMAND_SITE
+			 
+		VALUES (
+		'RECOMMAND_SITE',
+		'관련사이트',
+		#articleNo#,		
+		sysdate,
+		#siteCategory#,
+		#siteName#,
+		#siteURL#,
+		'Y'
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="recommandSiteDAO.updateBoard_S" parameterClass="recommandSiteVO">
+		<![CDATA[
+			UPDATE RECOMMAND_SITE 
+			SET CATEGORY=#siteCategory#,			
+				SITE_NAME = #siteName#,
+				SITE_URL = #siteURL#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	
+	<update id="recommandSiteDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE RECOMMAND_SITE   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="recommandSiteDAO.selectBoard_S" resultMap="recommandSite" >
+		<![CDATA[
+			SELECT 
+				BBS_ID, 
+				BBS_NAME,
+				ARTICLE_NO, 
+				CREATE_TIME, 
+				CATEGORY,
+				SITE_NAME, 
+				SITE_URL
+			FROM RECOMMAND_SITE 
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="recommandSiteDAO.selectBoardList_D" parameterClass="recommandSiteSearchVO" resultMap="recommandSite" >
+			 
+			 SELECT
+				BBS_ID, 
+				BBS_NAME,
+				ARTICLE_NO, 
+				CREATE_TIME, 
+				CATEGORY,
+				SITE_NAME, 
+				SITE_URL 
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM RECOMMAND_SITE 
+					WHERE 1=1 AND USE_AT='Y'
+					AND BBS_ID = 'RECOMMAND_SITE'
+					<isEqual prepend="AND" property="searchKeyword" compareValue="johapwon">
+						CATEGORY LIKE 'johapwon'
+					</isEqual>
+					<isEqual prepend="AND" property="searchKeyword" compareValue="federation">
+						CATEGORY LIKE 'federation'
+					</isEqual>
+					<isEqual prepend="AND" property="searchKeyword" compareValue="gov">
+						CATEGORY LIKE 'gov'
+					</isEqual>
+					<isEqual prepend="AND" property="searchKeyword" compareValue="group">
+						CATEGORY LIKE 'group'
+					</isEqual>
+					<isEqual prepend="AND" property="searchKeyword" compareValue="speech">
+						CATEGORY LIKE 'speech'
+					</isEqual>
+					<isEqual prepend="AND" property="searchKeyword" compareValue="cooperative">
+						CATEGORY LIKE 'cooperative'
+					</isEqual>
+					<isEqual prepend="AND" property="searchKeyword" compareValue="traffic">
+						CATEGORY LIKE 'traffic'
+					</isEqual>					
+					ORDER BY ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="recommandSiteDAO.selectBoardListTotCnt_S" parameterClass="recommandSiteSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totCnt
+			FROM RECOMMAND_SITE
+			WHERE 1=1 AND USE_AT='Y'
+			<isEqual prepend="AND" property="searchKeyword" compareValue="johapwon">
+				CATEGORY LIKE 'johapwon'
+			</isEqual>
+			<isEqual prepend="AND" property="searchKeyword" compareValue="federation">
+				CATEGORY LIKE 'federation'
+			</isEqual>
+			<isEqual prepend="AND" property="searchKeyword" compareValue="gov">
+				CATEGORY LIKE 'gov'
+			</isEqual>
+			<isEqual prepend="AND" property="searchKeyword" compareValue="group">
+				CATEGORY LIKE 'group'
+			</isEqual>
+			<isEqual prepend="AND" property="searchKeyword" compareValue="speech">
+				CATEGORY LIKE 'speech'
+			</isEqual>
+			<isEqual prepend="AND" property="searchKeyword" compareValue="cooperative">
+				CATEGORY LIKE 'cooperative'
+			</isEqual>
+			<isEqual prepend="AND" property="searchKeyword" compareValue="traffic">
+				CATEGORY LIKE 'traffic'
+			</isEqual>					
+	</select>
+</sqlMap>

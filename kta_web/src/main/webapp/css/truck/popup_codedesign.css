@@ -1,0 +1,166 @@
+@charset "utf-8";
+
+/* ---------------------------------------------------------------------------------
+        Name : KTA | 전국화물자동차운송사업자공제조합
+        PART : Pop-up Design Style
+        Author : EUN NIM
+--------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------------- 팝업 --------------------------------------------------------------------------------- */
+/* 레이어팝업 */
+#popupLayer {background:url("/images/truck/com/overlay.png") repeat 0% 0%;position:fixed;left:0px;top:0px;text-align:center;z-index:90000;width:100%;height:100%}
+.layerBox {width:440px;position:absolute;top:25%;left:50%;margin-left:-220px;z-index:1000;}
+.layerContents {background-color:#ffffff;border:1px solid #686868;width:438px;padding-bottom:25px;}
+.layerContents .topClose {height:18px;background-color:#efefef;border-bottom:1px solid #dadada;text-align:right;padding:10px 10px 0px 10px;}
+.layerContents .layerTit {color:#343434;font-size:18px;font-family:'NanumGothicBold';padding:16px 0px;}
+.layerContents .layerTxt {line-height:19px;}
+.layerContents .layerA {clear:both;position:relative;padding:15px 0px 0px 0px}
+
+/* 우편번호검색 */
+.zipName{height:42px;line-height:42px;font-weight:bold;color:#fff;font-size:22px;background:#3a93cb;padding:0 20px;}
+.zipWrap {clear:both;position:relative;padding:20px;}
+.searchZip {position:relative;display:inline-block;padding:15px 0px;width:100%;text-align:center;vertical-align:middle}
+.searchZip input {height:21px;}
+.searchZip select {height:28px;}
+.zipIcon {display:inline-block;margin-right:5px;}
+.zipHelp {padding:5px;margin:10px 0px}
+.zipHelp h3 {color:#2c3539;padding-left:21px;background:url("/images/truck/com/icon_point_05.gif") no-repeat 0% 0%;padding-bottom:5px;}
+.zipHelp p {padding-bottom:5px;}
+.tbZip {width:100%;letter-spacing:-0.5px;border-collapse:separate;#border-collapse:collapse;border-spacing:0px;font-size:13px;border-top:2px solid #2f485c;}
+.tbZip th {color:#2c3539;font-weight:normal;text-align:center;padding:10px 0px;border-bottom:1px solid #a5a4a4;}
+.tbZip td {text-align:left;padding:10px 10px;border-bottom:1px solid #e6e6e6;line-height:20px;}
+
+/*유형별과실비율 팝업*/
+.pyoBox {position:relative;}
+.pyoTitle {position:relative;background:#ff854c;width:100%}
+.pyoTitle h2 {width:850px;margin:0 auto;height:42px;padding:10px 0px;color:#fff;}
+.pyoTitle .pyoNum {display:inline-block;font-size:26px;font-weight:bold;line-height:42px;padding-right:10px;vertical-align:middle;}
+.pyoTitle .pyoName {display:inline-block;font-size:16px;line-height:42px;vertical-align:middle;}
+.pyoTitle .pyoName2 {display:inline-block;font-size:15px;line-height:20px;vertical-align:middle;width:788px;letter-spacing:-1px;}
+.pyoArea {width:850px;margin:15px auto 30px;}
+.tbPop {width:100%;border-collapse:separate;#border-collapse:collapse;border-spacing:0px;border-top:3px solid #c7ced1;border-right:1px solid #e4ebee;border-bottom:1px solid #e4ebee;border-left:1px solid #e4ebee;}
+.tbPop th {font-weight:normal;font-family:'NanumGothicBold';color:#2d2e2f;border-bottom:1px solid #e4ebee;border-right:1px solid #e4ebee;line-height:33px;background-color:#f7f7f7;padding:0px 0px;}
+.tbPop td {text-align:left;padding:0px 10px;border-bottom:1px solid #e4ebee;border-right:1px solid #e4ebee;line-height:33px;}
+.tbPop img {width:90%;}
+.tbPop img.wAuto {width:auto;}
+.tbPop .lineH26 {line-height:26px !important;}
+.tbPop .alC {padding:0px 0px !important;}
+.tbPop .bg1 {background-color:#f7f7f7;color:#2d2e2f;}
+.tbPop .bgLine {background-color:#f7f7f7;border-top:2px solid #c7ced1 !important;border-bottom:2px solid #c7ced1 !important;}
+.tbPop .bB1 {border-bottom:1px solid #e4ebee !important;}
+.tbPop .bB2 {border-bottom:2px solid #c7ced1 !important;}
+.tbPop .bB3 {border-right:none !important;}
+.tbPop .bB4 {border-bottom:none !important;}
+.pyoArea .txtContent {clear:both;position:relative;margin-top:25px;}
+
+/*고객정보보호방법안내 팝업*/
+#guidePop {position:relative;width:100%;height:480px;overflow-x:hidden;}
+.pinfoTit {position:relative;}
+.pinfoTit h2 {height:42px;line-height:42px;padding:0px 20px;color:#fff;font-size:22px;font-family:'NanumGothicBold';background-color:#3a93cb;}
+.pinfoBox {position:relative;padding:20px;}
+.pinfoArea {position:relative;padding:15px 20px;display:inline-block;background:url("/images/truck/com/icon_popup.gif") no-repeat 20px center;height:53px}
+.pinfoArea p {color:#2c3539;font-size:14px;padding-left:75px;line-height:18px;}
+.pinfoLi {padding:0px 25px;}
+.pinfoLi li {color:#5b5e60;background:url("/images/truck/com/icon_point_06.gif") no-repeat left center;line-height:16px;margin-bottom:10px;padding-left:20px}
+
+/* 약도 프린트 팝업*/
+#mapPop {position:relative;width:970px;}
+#mapPop .mapTit {position:relative;padding:10px 0px 5px 0px;vertical-align:middle;}
+#mapPop .mapTit h2 {float:left;display:block;padding-left:5px}
+#mapPop .mapInfo {padding:15px 5px 0px 5px;}
+#mapPop .mapInfo h3 {padding-bottom:10px;}
+
+
+
+/* ---------------------------------------------------------------------------------
+        Name : KTA | 전국화물자동차운송사업자공제조합
+        PART : Pop-up Design Style
+        Author : MI HEE
+--------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------------- 팝업 --------------------------------------------------------------------------------- */
+#popUp {position:relative;width:100%;overflow-x:hidden;}
+
+/* 우수협력업체 지도보기*/
+.rcName{height:42px;line-height:42px;font-weight:bold;color:#fff;font-size:22px;background:#364e5f;padding:0 14px;}
+.rcmArea{width:100%;height:469px;}
+.rcmInfo{background:#f1f3f4;line-height:24px;font-size:15px;color:#555;padding:14px 13px;overflow:hidden;vertical-align:middle;}
+.rcmInfo span{float:left;font-weight:bold;padding:6px 0 6px 45px;}
+.rcmInfo span.add{background:url(/images/truck/info/rcm_icon_01.gif) no-repeat scroll 0% 0% transparent;margin-right:35px;max-width:580px;}
+.rcmInfo span.tel{background:url(/images/truck/info/rcm_icon_02.gif) no-repeat scroll 0% 0% transparent;}
+
+/* 상해급수 뼈구조 보기*/
+.bonesName{height:42px;line-height:42px;font-weight:bold;color:#fff;font-size:22px;background:#ff854c;padding:0 14px;}
+.bonesArea{width:100%;}
+
+ /* 행사안내 view */
+.eventView {display:block;background:url("/images/truck/cyber/event_con_bg_middle.jpg") repeat-y left top;}
+.eventViewcont {display:block;padding:42px 50px 0 242px;background:url("/images/truck/cyber/event_con_bg_top.jpg") no-repeat left top;min-height:368px;}
+.eventViewpn{display:block;padding:0 50px 0 242px;background:url("/images/truck/cyber/event_con_bg_bottom.jpg") no-repeat left bottom;min-height:325px;}
+
+.tbView_event {width:679px;letter-spacing:-0.5px;}
+.tbView_event thead th {color:#3e3e3e;text-align:center;background:url("/images/truck/board/th_bar.gif") no-repeat right center;height:34px;line-height:34px;border-top:3px solid #3e3e3e;border-bottom:3px solid #3e3e3e;font-family:'NanumGothicBold';font-weight:normal;}
+.tbView_event thead td {display:table-cell;color:#565656;text-align:left;border-top:3px solid #3e3e3e;border-bottom:3px solid #3e3e3e;padding:0px 10px 0px 10px;}
+.tbView_event tbody td.subject {padding:13px 22px;line-height:22px;color:#565656;letter-spacing:0px;}
+
+.nextprevBox_event {clear:both;overflow:hidden;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;}
+.nextprevBox_event dl {overflow:hidden;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;}
+.nextprevBox_event dl dt, .nextprevBox_event dl dd {float:left;overflow:hidden;line-height:35px;}
+.nextprevBox_event dl dt {width:100px;color:#3e3e3e;}
+.nextprevBox_event dl dd {width:558px}
+.nextprevBox_event dl dd a {color:#565656;}
+.nextprevBox_event .btn_prev, .nextprevBox_event .btn_next {height:35px;display:inline-block;padding:0px 0px 0px 20px;}
+.nextprevBox_event .btn_prev {background:url("/images/truck/cyber/bbs_up_event.gif") no-repeat 80px center;}
+.nextprevBox_event .lineFrist {border-top:2px solid #3e3e3e;border-bottom:1px solid #d3d3d3;}
+.nextprevBox_event .btn_next {background:url("/images/truck/cyber/bbs_down_event.gif") no-repeat 80px center;}
+.nextprevBox_event .lineLast {border-bottom:2px solid #3e3e3e;}
+
+.eventbtnboxR {clear:both;position:relative;margin-top:11px;text-align:right;}
+.eventBtn_list{display:inline-block;background:url("/images/truck/cyber/eventBtn_list.gif") no-repeat;padding:0 11px 0 25px;}
+.eventBtn_list span{height:27px;line-height:27px;}
+
+/* 회원정보입력 */
+#infochgPopupLayer{
+	background: url("/images/truck/com/overlay.png") repeat 0% 0%;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	text-align: center;
+	z-index: 90000;
+	width: 100%;
+	height: 100%;
+}
+#infochgPopupLayer .tbIn_st01 th{padding-left:28px;text-align:left;}
+
+#infodelPopupLayer{
+	background: url("/images/truck/com/overlay.png") repeat 0% 0%;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	text-align: center;
+	z-index: 90000;
+	width: 100%;
+	height: 100%;
+}
+#infodelPopupLayer .tbIn_st01 th{padding-left:28px;text-align:left;}
+
+/* 분담금 납입정보 팝업 */
+.layerBox02 {width:970px;position:absolute;top:25%;left:50%;margin-left:-485px;z-index:1000;}
+.layerBox02 .layerContents{width:100%;}
+
+/* 계약만료 & 분납금 팝업 */
+.layerBox3 {width:550px;position:absolute;top:25%;left:50%;margin-left:-250px;z-index:1000;}
+.layerContents3 {background-color:#ffffff;border:1px solid #686868;width:548px;padding-bottom:25px;}
+.layerContents3 .topClose {height:18px;background-color:#efefef;border-bottom:1px solid #dadada;text-align:right;padding:10px 10px 0px 10px;}
+.layerContents3 .layerTit {color:#343434;font-size:18px;font-family:'NanumGothicBold';padding:16px 0px;}
+.layerContents3 .layerB {clear:both;position:relative;padding:15px 0px 0px 0px}
+.layerContents3 .layerB .tbIn_st01 {
+	width: 530px;
+    letter-spacing: -0.5px;
+    border-top: 1px solid #89a4b0;
+    border-left: 1px solid #e4ebee;
+    border-right: 1px solid #e4ebee;
+    font-size:12px;
+    margin: 10px;
+}
+.layerContents3 .layerB .tbIn_st01 td {text-align:center;}

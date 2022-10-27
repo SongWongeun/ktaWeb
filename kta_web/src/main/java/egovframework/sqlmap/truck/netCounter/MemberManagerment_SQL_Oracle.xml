@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >	
+	<typeAlias  alias="MemberManagermentVO" type="kr.or.truck.netcounter.membermanagerment.service.MemberManagermentVO"/>
+	<typeAlias  alias="carDeductInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	<select id="MemberManagermentDAO.selectSaupMemberList" parameterClass="MemberManagermentVO" resultClass="MemberManagermentVO">
+		select       c1.daepyoja_nm               as daepyoja_nm
+      		,c1.agent_nm                  as agent_nm
+      		,ts.agent_no                  as agent_no
+      		,ts.saupjang_seq              as saupjang_seq
+      		,default_yn
+      		,f_jibu_nm(gyeyak_jibu||'01') as gyeyak_jibu_nm
+      		,gyeyak_jibu
+            ,c1.saupja_no                 as saupnum
+		from tb_member_saupno ts left outer join ctgi01@kotmasdb c1
+		on ts.agent_no = c1.agent_no and ts.saupjang_seq = c1.saupjang_seq
+        where ts.id = #id#
+        and use_yn='Y'
+	</select>
+	
+	<select id="MemberManagermentDAO.selectSaupMemberList2" parameterClass="MemberManagermentVO" resultClass="MemberManagermentVO">
+        select ts.saupnum as saupnum
+		from tb_member_saupno ts
+        where ts.id = #id#
+        group by ts.saupnum
+	</select>
+	
+	<select id="MemberManagermentDAO.selectCarmgr_Seq" parameterClass="MemberManagermentVO" resultClass="String">
+        select tb.carmgr_seq
+		from tb_member tb
+        where tb.id = #id#
+	</select>
+	
+	<select id="MemberManagermentDAO.selectCarNo" parameterClass="MemberManagermentVO" resultClass="String">
+        select a.car_no
+		from ctgi05@kotmasdb a, ctgi06@kotmasdb b
+		where b.carmgr_seq = #carmgr_Seq#
+		and a.carmgr_jumin_no = b.carmgr_jumin_no
+	</select>
+	
+	<select id="MemberManagermentDAO.selectSaupMemberListPaging" parameterClass="MemberManagermentVO" resultClass="MemberManagermentVO">
+	SELECT * FROM (
+			SELECT  ROWNUM RNUM, S.*
+			FROM (
+		select       c1.daepyoja_nm               as daepyoja_nm
+      		,c1.agent_nm                  as agent_nm
+      		,ts.agent_no                  as agent_no
+      		,ts.saupjang_seq              as saupjang_seq
+      		,default_yn
+      		,f_jibu_nm(gyeyak_jibu||'01') as gyeyak_jibu_nm
+      		,gyeyak_jibu
+            ,c1.saupja_no                 as saupnum
+		from tb_member_saupno ts left outer join ctgi01@kotmasdb c1
+		on ts.agent_no = c1.agent_no and ts.saupjang_seq = c1.saupjang_seq
+        where ts.id = #id#
+        and use_yn='Y'
+        			)S
+        		)SS
+        <![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> 	
+	</select>
+	
+	<select id="MemberManagermentDAO.checkMemberCtgi01Cnt" parameterClass="MemberManagermentVO" resultClass="Integer">
+			select 
+			        count(*)
+			from 	CTGI01@KOTMASDB
+			where 	JOHAPWON_JUMIN_NO = #jumin1#||#jumin2#
+			  and	SAUPJA_NO = #saupnum#
+			  and	GYEYAK_JIBU_CD = #gyeyak_jibu#
+	</select>
+		
+	<select id="MemberManagermentDAO.checkMemberCnt" parameterClass="MemberManagermentVO" resultClass="Integer">
+			SELECT COUNT(*) from tb_member_saupno
+			WHERE SAUPNUM =#saupnum# AND GYEYAK_JIBU = #gyeyak_jibu# AND USE_YN='Y'
+			AND AGENT_NO = #agent_no# AND SAUPJANG_SEQ = #saupjang_seq#
+	</select>
+	
+	<select id="MemberManagermentDAO.checkMemberCtgi01" parameterClass="MemberManagermentVO" resultClass="MemberManagermentVO">
+			select 
+			        agent_no,saupjang_seq
+			from 	CTGI01@KOTMASDB
+			where 	JOHAPWON_JUMIN_NO = #jumin1#||#jumin2#
+			  and	SAUPJA_NO = #saupnum#
+			  and	GYEYAK_JIBU_CD = #gyeyak_jibu#
+	</select>
+	
+	<insert id="MemberManagermentDAO.memberManagermentInsert" parameterClass="MemberManagermentVO">
+			 insert into tb_member_saupno(
+             
+              ID
+             ,DEFAULT_YN
+             ,AGENT_NO
+             ,SAUPJANG_SEQ
+             ,JOINDATE
+             ,USE_YN
+             ,DEL_DT
+             ,GYEYAK_JIBU
+             ,SAUPNUM
+             
+             )values(
+             
+             #id#
+             ,''
+             ,#agent_no#
+             ,#saupjang_seq#
+             ,sysdate
+             ,'Y'
+             ,''
+             ,#gyeyak_jibu#
+             ,#saupnum#)
+	</insert>
+	
+	<update id="MemberManagermentDAO.memberManagermentUpdateY" parameterClass="MemberManagermentVO">
+		  update tb_member_saupno set default_yn = 'Y'
+ 			 where agent_no = #u_agent_no# 
+  			and saupjang_seq = #u_saupjang_seq#     
+  			and saupnum = #u_saupnum#
+ 			and gyeyak_jibu = #u_gyeyak_jibu#
+ 			and id = #id#
+	</update>
+	
+	<update id="MemberManagermentDAO.memberManagermentUpdate" parameterClass="MemberManagermentVO">
+			  update tb_member_saupno set default_yn = ''
+  				where id = #id#
+	</update>
+	
+	<select id="MemberManagermentDAO.selectJuminNo" parameterClass="MemberManagermentVO" resultClass="String">
+	   select johapwon_jumin_no from ctgi01@kotmasdb 
+	   where
+        	agent_no =  #u_agent_no#      
+        	and saupjang_seq =  #u_saupjang_seq#
+        	<isNotEmpty property="u_saupnum">
+        		and saupja_no =  #u_saupnum#
+        	</isNotEmpty>     
+        	<isNotEmpty property="u_gyeyak_jibu">
+        		and gyeyak_jibu_cd =  #u_gyeyak_jibu#
+        	</isNotEmpty>     
+	</select>
+	
+	<update id="MemberManagermentDAO.memberInfoUpdate" parameterClass="MemberManagermentVO">
+			  update tb_member set 
+        			agent_no = #u_agent_no#
+        			,saupjang_seq = #u_saupjang_seq#
+        			,saupnum = #u_saupnum#
+        			,gyeyak_jibu = #u_gyeyak_jibu#
+        			,ipin_di= #ipin_di#
+ 			  where id = #id#
+	</update>
+	
+	<update id="MemberManagermentDAO.MemberManagermentDelete" parameterClass="MemberManagermentVO">
+ 		 update tb_member_saupno set
+        		del_dt = sysdate 
+       			,use_yn = 'N'
+  		 where agent_no = #d_agent_no# 
+  		 and saupjang_seq = #d_saupjang_seq#     
+ 		 and saupnum = #d_saupnum#
+ 		 and gyeyak_jibu = #d_gyeyak_jibu#
+ 		 and id = #id#
+	</update>
+	
+	<select id="MemberManagermentDAO.selectUse_yn" parameterClass="MemberManagermentVO" resultClass="Integer">
+		 select count(*) from tb_member_saupno
+  	     where agent_no = #agent_no# 
+  	     and saupjang_seq = #saupjang_seq#     
+  		 and saupnum = #saupnum#
+  		 and gyeyak_jibu = #gyeyak_jibu#
+  		 and id = #id#
+  		 and use_yn='N'
+	</select>
+	
+	<update id="MemberManagermentDAO.memberManagermentInsertUpdate">
+		  update tb_member_saupno set
+        	del_dt = '' 
+       		,use_yn = 'Y'
+  		  where agent_no = #agent_no# 
+  		  and saupjang_seq = #saupjang_seq#     
+  		  and saupnum = #saupnum#
+  		  and gyeyak_jibu = #gyeyak_jibu#
+  		  and id = #id#
+	</update>
+	<select id="MemberManagermentDAO.selectCarDeductNeedInfo" parameterClass="carDeductInquirySearchVO" resultClass="MemberManagermentVO">
+			select 
+    			saupnum
+    			,gyeyak_jibu
+    			,agent_no
+    			,saupjang_seq 
+           	from tb_member_saupno 
+   			where agent_no=#agent_no# and saupjang_seq=#saupjang_seq#
+	</select>
+	<select id="MemberManagermentDAO.selectCheckList" parameterClass="MemberManagermentVO" resultClass="MemberManagermentVO">
+        SELECT     
+            distinct
+      		c1.agent_nm                         as agent_nm
+            ,f_jibu_nm(c1.gyeyak_jibu_cd||'01') as gyeyak_jibu_nm
+            ,c1.daepyoja_nm                     as daepyoja_nm
+            ,c1.agent_no                        as agent_no
+      		,c1.saupjang_seq                    as saupjang_seq
+      		,c1.gyeyak_jibu_cd                  as gyeyak_jibu
+            ,c1.saupja_no                       as saupnum
+		FROM tb_member_saupno ts right OUTER JOIN ctgi01@kotmasdb c1
+		ON ts.agent_no = c1.agent_no AND ts.saupjang_seq = c1.saupjang_seq
+        WHERE c1.JOHAPWON_JUMIN_NO =#jumin1#||#jumin2# AND c1.saupja_no=#saupnum#
+        and c1.agent_no||c1.saupjang_seq not in  
+        (select c1.agent_no||c1.saupjang_seq  FROM tb_member_saupno ts right OUTER JOIN ctgi01@kotmasdb c1
+            ON ts.agent_no = c1.agent_no AND ts.saupjang_seq = c1.saupjang_seq
+            WHERE ts.agent_no = #agent_no# and ts.saupjang_seq = #saupjang_seq#
+            and use_yn='Y'
+        )
+	</select>
+	<update id="MemberPageDAO.updateChangeCodeZero" parameterClass="LoginVO">
+		update tb_member_saupno set change_yn ='0' where id=#id#
+	</update>
+</sqlMap>

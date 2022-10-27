@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CommonZip_SQL">
+
+	<typeAlias  alias="CommonZipVO" type="kr.or.truck.common.zip.ZipVO"/>
+
+ 	<select id="CommonZipDAO.getJibunList" parameterClass="CommonZipVO" resultClass="hashmap" >
+ 		<![CDATA[
+			SELECT 
+				ZIP,
+				SN,
+				JUSO,
+				SIDO_NM,
+				SIGUNGU_NM,
+				EUPMUNDONG_NM,
+				LI_NM,
+				BUILDING_NM
+			FROM 
+				JIBUN_ZIP
+			WHERE
+				EUPMUNDONG_NM LIKE #jiyeok_name#||'%'
+			ORDER BY
+				ZIP ASC, ST_M_BUNGI ASC
+ 		]]>
+ 	</select>
+ 	
+ 	<select id="CommonZipDAO.getDoroList" parameterClass="CommonZipVO" resultClass="hashmap" >
+ 		<![CDATA[
+			SELECT
+				ZIP,
+				SN,
+				SIDO_NM, 
+				SIGUNGU_NM, 
+				DOROMUNG_NM, 
+				BUILDING_M_NUM, 
+				BUILDING_S_NUM, 
+				DONG_NM, 
+				SIGUNGU_BUILDING_NM
+			FROM
+				$table_name$ 
+			WHERE 
+				SIGUNGU_NM LIKE '%'||#road_gungu#||'%' 
+			AND 
+				DOROMUNG_NM LIKE #road_doro#||'%' 
+ 		]]>
+ 		<isNotEmpty property="road_building_num">
+			AND 
+				BUILDING_M_NUM = #road_building_num#
+		</isNotEmpty>
+		<isNotEmpty property="road_building_nm"> 
+			AND 
+				SIGUNGU_BUILDING_NM LIKE #road_building_nm#||'%'
+		</isNotEmpty>
+ 	</select>
+ 	
+ 	<select id="CommonZipDAO.getJibunToDoromung" parameterClass="CommonZipVO" resultClass="hashmap" >
+ 		<![CDATA[
+			SELECT
+				ZIP,
+				SIDO_NM,
+				SIGUNGU_NM,
+				EUPMUN_NM,
+				DOROMUNG_NM,
+				BUILDING_M_NUM,
+				BUILDING_S_NUM,
+				SIGUNGU_BUILDING_NM,
+				DONG_NM,
+				JIBUN_M_NUM,
+				JIBUN_S_NUM
+			FROM
+				$table_name$ 
+			WHERE
+				SIDO_NM = #j_sido# 
+			AND 
+				SIGUNGU_NM = #j_sigungu# 
+			AND 
+				(DONG_NM = #j_eupmungdong#	OR	(EUPMUN_NM = #j_eupmungdong# and LI_NM = #j_li#) )
+ 		]]>
+ 		<isNotEmpty property="j_jibun_m_num">
+			AND
+				JIBUN_M_NUM =#j_jibun_m_num#
+		</isNotEmpty>
+ 		<isNotEmpty property="j_jibun_s_num">
+			AND
+				JIBUN_S_NUM = #j_jibun_s_num#
+		</isNotEmpty>
+ 		<isNotEmpty property="j_san_yn">
+			AND
+				SAN_YN = #j_san_yn#
+		</isNotEmpty>
+ 	</select>
+ 	
+ 	<select id="CommonZipDAO.getJibunToDoromungBuilding" parameterClass="CommonZipVO" resultClass="hashmap" >
+ 		<![CDATA[
+			SELECT
+				ZIP,
+				SIDO_NM,
+				SIGUNGU_NM,
+				EUPMUN_NM,
+				DOROMUNG_NM,
+				BUILDING_M_NUM,
+				BUILDING_S_NUM,
+				SIGUNGU_BUILDING_NM,
+				DONG_NM,
+				JIBUN_M_NUM,
+				JIBUN_S_NUM
+			FROM
+				$table_name$ 
+			WHERE
+				SIDO_NM = #j_sido# 
+			AND 
+				SIGUNGU_NM = #j_sigungu# 
+ 		]]>
+ 		<isNotEmpty property="j_building_nm">
+			AND
+				DELIVERY_NUM = #j_building_nm#
+		</isNotEmpty>
+ 	</select>
+ 	
+ 	<select id="CommonZipDAO.getDoromungToJibun" parameterClass="CommonZipVO" resultClass="hashmap" >
+ 		<![CDATA[
+			SELECT
+				ZIP,
+				SN,
+				SIDO_NM, 
+				SIGUNGU_NM, 
+				DOROMUNG_NM, 
+				BUILDING_M_NUM, 
+				BUILDING_S_NUM, 
+				DONG_NM, 
+				SIGUNGU_BUILDING_NM,
+				JIBUN_M_NUM,
+				JIBUN_S_NUM
+			FROM
+				$table_name$ 
+			WHERE 
+				SIGUNGU_NM= #d_sigungu# 
+			AND 
+				DOROMUNG_NM = #d_doromung# 
+			AND 
+				BUILDING_M_NUM = #d_building_m_num#
+			AND 
+				BUILDING_S_NUM = #d_building_s_num#
+ 		]]>
+ 	</select>
+ 	
+</sqlMap>

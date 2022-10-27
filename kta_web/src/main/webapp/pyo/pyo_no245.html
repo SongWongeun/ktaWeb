@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">245</span><span class="pyoName">&#91;A&#93; 추돌차 &#91;B&#93; 피추돌차 &#9313;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+                <table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본</td>
+                            <td class="alC bB3">A80</td>
+                            <td class="alC">B20 &#9314;</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="14" class="alC"><img src="/images/truck/jpg/245.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">야간&#44; 악천후 시계불량 &#9315;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">추월차선</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 전용차로 위반</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 피양불능 상황 &#9316;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">20</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 피양불능 상황 &#9317;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 주&#183;정차에 과실 없음 &#9318;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 안전표지판 등 설치 &#9319;</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 10km 이상 속도위반</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 20km 이상 속도위반</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 현저한 과실</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 중과실</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312; 고속도로가 아닌 일반 도로에서 선행사고&#40;1차사고&#41;가 발생하였는데 선행사고의 사고 뒤 처리가 완료되기 전에 후행사고&#40;2차사고&#41;가 발생하는 경우를 말한다&#46; 고속도로에서의 사고&#40;도표 505 등&#41;를 준용하되&#44; 추돌차에 고속도로 사고에서의 기본과실보다 20&#37;를 가산한 80&#37;를 적용하고&#44; 나머지는 수정요소로 가감한다&#46;</p>
+					<p class="txtPoint">&#9313; 피추돌차는 선행사고로 인하여 도로 상에 주&#183;정차하게 된 차를 말한다&#46;&#40;시간적인 간격이 없는 연속추돌사고는 도표 253도를 적용한다&#46;&#41;</p>
+					<p class="txtPoint">&#9314; 일반도로에서의 추돌사고는 대개 피추돌차량의 전방주시의무 위반과 차량간 안전거리 미확보&#40;도로교통법 제19조제1항&#41;로 인해 발생하므로&#44; 고속도로 상에서의 사고의 비해 추돌차량의 과실을 강화하였다&#46;</p>
+					<p class="txtPoint">&#9315; 야간&#44; 악천후 등 시계가 불량한 곳&#40;급회전지역 포함&#41;에서는 A가 B를 발견하기가 용이치 않다&#46;</p>
+					<p class="txtPoint">&#9316; 선행사고로 인해 주&#183;정차한 B차량이 여러 차로에 걸쳐 주정차하고 있다는 등 여러 사유로 A차량이 피양할 수 없는 경우를 말한다&#46;</p>
+					<p class="txtPoint">&#9317; 차량의 고장 정도가 심하여 갓길로 옮길 수 없는 경우 또는 갓길로 옮기고 있는 중이거나 차량을 미처 갓길로 옮길 여유가 없는 경우를 말한다&#46;</p>
+					<p class="txtPoint">&#9318; 차로에 주정차하게 된 것에 대하여 과실이 없는 경우로서&#44; 예컨대 앞에 발생한 사고를 보고 주정차하는 등 과실이 없이 부득이하게 주정차하게 된 경우를 말한다&#46;</p>
+					<p class="txtPoint">&#9319; 도로 상에서 차량 고장 등을 이유로 주&#183;정차하게 된 경우에는 도로교통법 제66조와 도로교통법시행규칙 제40조에 의하여 100&#126;200미터 후방에 고장표시기를 설치하여야 하는 바&#44; 이러한 고장표시가 설치되어 있을 경우 A가 B를 발견하기 용이하기 때문에 수정요소로 감안하여야 한다&#46; 고장표시기를 설치할 시간적 여유가 없는 경우&#40;정차 직전&#183;후&#41;&#44; 비상등의 점멸도 고장표시기설치로 간주한다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+                <div class="txtContent">
+                    <h3 class="decuh4Tit">관련법규</h3>
+                    <p class="txtPoint">&#9827; 도로교통법 제32조&#91;정차 및 주차의 금지&#93;</p>
+                    <ul class="txtListst02">
+                        <li>모든 차의 운전자는 다음 각 호의 어느 하나에 해당하는 곳에서는 차를 정차 또는 주차시켜서는아니된다&#46; 다만&#44; 이 법이나 이 법에 의한 명령 또는 경찰공무원의 지시에 의한 경우와 위험 방지를 위하여 일시정지하는 경우에는 그러하지 아니하다&#46;</li>
+                        <li>1&#46; 교차로&#183;횡단보도&#183;건널목이나 보도와 차도가 구분된 도로의 보도&#40;&#39;주차장법&#39;에 의하여 차도와 보도에 걸쳐서 설치된 노상주차장을 제외한다&#41;</li>
+                        <li>2&#46; 교차로의 가장자리 또는 도로의 모퉁이로부터 5미터 이내의 곳</li>
+                        <li>3&#46; 안전지대가 설치된 도로에서는 그 안전지대의 사방으로부터 각각 10미터 이내의 곳</li>
+                        <li>4&#46; 버스여객자동차의 정류를 표시하는 기둥이나 판 또는 선이 설치된 곳으로부터 10미터 이내의 곳&#46; 다만&#44; 버스여객자동차의 운전자가 그 버스여객자동차의 운행시간 중에 운행노선에 따르는 정류장에서 승객을 태우거나 내리기 위하여 차를 정차 또는 주차시키는 때에는 그러하지 아니하다&#46;</li>
+                        <li>5&#46; 건널목의 가장자리 또는 횡단보도로부터 10미터 이내의 곳</li>
+                        <li>6&#46; 지방경찰청장이 도로에서의 위험을 방지하고 교통의 안전과 원활한 소통을 확보하기 위하여 필요하다고 인정하여 지정한 곳</li>
+                    </ul>
+                    <p class="txtPoint">&#9827; 도로교통법 제33조&#91;주차금지의 장소&#93;</p>
+                    <ul class="txtListst02">
+                        <li>모든 차의 운전자는 다음 각호의 어느 하나에 해당하는 곳에서 차를 주차시켜서는 아니된다&#46;</li>
+                        <li>1&#46; 터널 안 및 다리 위</li>
+                        <li>2&#46; 화재경보기로부터 3미터 이내의 곳</li>
+                        <li>3&#46; 다음 각 목의 곳으로부터 5미터 이내의 곳
+                            <ul class="txtListst01 mL10 pB0">
+                                <li>가&#46; 소방용기계&#183;기구가 설치된 곳</li>
+                                <li>나&#46; 소방용방화물품</li>
+                                <li>다&#46; 소화전 또는 소화용방화물품의 흡수구나 흡수관을 넣는 구멍</li>
+                                <li>라&#46; 도로공사를 하고 있는 경우에는 그 공사구역의 양쪽 가장자리</li>
+                            </ul>
+                        </li>
+                        <li>4&#46; 지방경찰청장이 도로에서의 위험을 방지하고 교통의 안전과 원활한 소통을 확보하기 위하여 필요하다고 인정하여 지정한 곳</li>
+                    </ul>
+                    <p class="txtPoint">&#9827; 도로교통법 제64조&#91;고속도로등에서의 정차 및 주차의 금지&#93;</p>
+                    <ul class="txtListst02">
+                        <li>자동차의 운전자는 고속도로등에서 차를 정차 또는 주차시켜서는 아니된다&#46; 다만&#44; 각 호의 어느하나에 해당하는 경우에는 그러하지 아니하다&#46;</li>
+                        <li>1&#46; 법령의 규정 또는 경찰공무원&#40;자치경찰공무원을 제외한다&#41;의 지시에 따르거나 위험을 방지하 기 위하여 일시정차 또는 주차시키는 경우</li>
+                        <li>2&#46; 정차 또는 주차할 수 있도록 안전표지를 설치한 곳이나 정류장에서 정차 또는 주차시키는 경우</li>
+                        <li>3&#46; 고장이나 그 밖의 부득이한 사유로 길가장자리구역&#40;갓길을 포함한다&#41;에 정차 또는 주차시키는 경우</li>
+                        <li>4&#46; 통행료를 지불하기 위하여 통행료를 받는 곳에서 정차하는 경우</li>
+                        <li>5&#46; 도로의 관리자가 고속도로등을 보수&#183;유지 또는 순회하기 위하여 정차 또는 주차시키는 경우</li>
+                        <li>6&#46; 경찰용 긴급자동차가 고속도로등에서 범죄수사&#183;교통단속이나 그 밖의 경찰임무의 수행을 위하여 정차 또는 주차시키는 경우</li>
+                        <li>7&#46; 교통이 밀리거나 그 밖의 부득이한 사유로 움직일 수 없는 때에 고속도로등의 차로에 일시 정차 또는 주차시키는 경우</li>
+                    </ul>
+                    <p class="txtPoint">&#9827; 도로교통법 제66조&#91;고장등의 조치&#93;</p>
+                    <ul class="txtListst02">
+                        <li>자동차의 운전자는 고장이나 그 밖의 사유로 고속도로등에서 자동차를 운행할 수 없게 된 때에는 행정자치부령이 정하는 표지&#40;이하&#34;고장자동차의 표지&#34;라 한다&#41;를 설치하여야 하며&#44; 그 자동차를 고속도로등 외의 곳으로 이동하는 등의 필요한 조치를 하여야 한다&#46;</li>
+                    </ul>
+                    <p class="txtPoint">&#9827; 도로교통법 시행규칙 제40조&#91;고장자동차의 표지&#93;</p>
+                    <ul class="txtListst02">
+                        <li>&#9312; 법 제66조에 따른 고장자동차의 표지는 별표15와 같다</li>
+                        <li>&#9313; 밤에는 제1항에 따른 표지와 함께 사방 500미터 지점에서 식별할 수 있는 적색의 섬광신호&#183;전기제등 또는 불꽃신호를 추가로 설치하여야 한다&#46;</li>
+                        <li>&#9314; 제1항에 따른 표지는 그 자동차로부터 100미터 이상의 뒤쪽 도로상에&#44; 제2항에 따른 표지는 그</li>
+                    </ul>
+                </div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

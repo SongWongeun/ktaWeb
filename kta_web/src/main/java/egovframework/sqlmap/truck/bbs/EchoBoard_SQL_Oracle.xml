@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="EchoBoard">
+
+	<typeAlias  alias="echoEgovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="echoBoardSearchVO" type="kr.or.truck.cyberpr.truckecho.service.EchoBoardSearchVO"/>
+	<typeAlias  alias="echoBoardVO" type="kr.or.truck.cyberpr.truckecho.service.EchoBoardVO"/>
+	
+	<resultMap id="echoBoardPreNex" class="kr.or.truck.cyberpr.truckecho.service.EchoBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="echoBoard" class="kr.or.truck.cyberpr.truckecho.service.EchoBoardVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String" nullValue=""/>
+		<result property="contentText" column="CONTENT_TEXT" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId" column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName" column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime" column="MODIFY_TIME" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="thumbFileId" column="THUMB_FILE_ID" nullValue=""/>
+		<result property="publicDate" column="PUBLIC_DATE" nullValue=""/>
+	</resultMap>
+
+
+	<insert id="echoBoardDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO ECHO_NOTICE(
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CONTENT_HTML,
+			CONTENT_TEXT,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			THUMB_FILE_ID,
+			PUBLIC_DATE,
+			USE_AT
+			)
+		 
+		VALUES (
+		'ECHO_NOTICE',
+		'트럭메아리 게시판',
+		#articleNo#,
+		#title#,
+		#contentHtml#,
+		#contentText#,
+		sysdate,
+		0,
+		#writerId#,
+		#writerName#,
+		#writerId#,
+		#writerName#,
+		sysdate,
+		#atchFileId#,
+		#atchFileName#,
+		#thumbFileId#,
+		#publicDate#,
+		'Y'
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="echoBoardDAO.updateBoard_S" parameterClass="echoBoardVO">
+		<![CDATA[
+			UPDATE ECHO_NOTICE 
+			SET MODIFY_ID = #modifyId#,
+				MODIFY_NAME = #modifyName#,
+				TITLE = #title#,
+				CONTENT_HTML = #contentHtml#,
+				CONTENT_TEXT = #contentText#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#,
+			    THUMB_FILE_ID = #thumbFileId#,
+			    PUBLIC_DATE = #publicDate#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="echoBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE ECHO_NOTICE 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="echoBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE ECHO_NOTICE   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="echoBoardDAO.selectBoard_S" resultMap="echoBoard" >
+		<![CDATA[
+			SELECT 
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+		        THUMB_FILE_ID,
+		        PUBLIC_DATE
+			FROM ECHO_NOTICE
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="echoBoardDAO.selectBoardList_D" parameterClass="EchoBoardSearchVO" resultMap="echoBoard" >
+			 
+			 SELECT 
+			 	BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM ECHO_NOTICE 
+					WHERE 1=1 AND USE_AT='Y'
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						PUBLIC_DATE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY PUBLIC_DATE DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	
+	<select id="echoBoardDAO.selectBoardList_C" parameterClass="EchoBoardSearchVO" resultMap="echoBoard" >
+			 
+			 SELECT *
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM ECHO_NOTICE 
+					WHERE 1=1 AND USE_AT='Y'
+					AND
+					PUBLIC_DATE LIKE '%'|| #searchRecentDate# ||'%'
+					ORDER BY PUBLIC_DATE ASC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= 6 ]]>
+	</select>
+	
+	<select id="echoBoardDAO.selectBoardRecent" parameterClass="echoBoardSearchVO" resultMap="echoBoard">
+		    SELECT *
+		       	 FROM (
+			       SELECT  ROWNUM RNUM, S.*
+				   FROM (
+						SELECT
+							* 
+						FROM ECHO_NOTICE 
+						WHERE 1=1 AND USE_AT='Y'
+						ORDER BY PUBLIC_DATE DESC , CREATE_TIME DESC
+					) S
+				 ) A
+	    <![CDATA[   WHERE ROWNUM <= 1 ]]>
+	</select>
+	
+	
+	<select id="echoBoardDAO.selectBoardListTotCnt_S" parameterClass="echoBoardSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM ECHO_NOTICE
+			WHERE 1=1 AND USE_AT='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+	
+	
+	<update id="echoBoardDAO.checkFileInfo" parameterClass="echoBoardVO">
+		<![CDATA[
+			UPDATE ECHO_NOTICE 
+			SET ATCH_FILE_ID = NULL
+			WHERE ARTICLE_NO=#articleNo# AND USE_AT='N'
+		]]>
+	</update>
+	
+	<select id="echoBoardDAO.selectPreArticle" resultMap="echoBoardPreNex" >
+		<![CDATA[	 
+			select next_ARTICLE_NO as ARTICLE_NO, next_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lead(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) next_ARTICLE_NO,
+			    lead(TITLE,1,'이전글이 없습니다') over (order by ARTICLE_NO) next_TITLE
+			    from ECHO_NOTICE WHERE USE_AT='Y'
+			) 
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="echoBoardDAO.selectNexArticle" resultMap="echoBoardPreNex" >
+		<![CDATA[ 		
+			select pre_ARTICLE_NO as ARTICLE_NO, pre_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lag(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) pre_ARTICLE_NO,
+			    lag(title,1,'다음글이 없습니다') over (order by ARTICLE_NO) pre_TITLE
+			    from ECHO_NOTICE WHERE USE_AT='Y'
+			)
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="echoBoardDAO.selectMainPdfId" resultMap="echoBoard" >
+	SELECT 
+			*
+			FROM ECHO_NOTICE
+			WHERE PUBLIC_DATE=#publicDate#
+			AND USE_AT='Y'
+	</select>
+	
+	<select id="echoBoardDAO.selectTotalPdfId" resultMap="echoBoard" >
+	SELECT 
+			*
+			FROM ECHO_NOTICE
+			WHERE PUBLIC_DATE=#publicDate#
+			AND USE_AT='Y'
+	</select>
+</sqlMap>

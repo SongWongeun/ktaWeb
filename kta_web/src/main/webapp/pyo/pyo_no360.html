@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">360</span><span class="pyoName">이륜차A 후행 직진 자동차B 선행 우회전&#40;좌회전 포함&#41;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율4 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+					<caption>과실비율에 대해서 나타낸 표</caption>
+					<colgroup>
+						<col style="width:50%;" />
+						<col style="width:26%;" />
+						<col style="width:12%;" />
+						<col style="width:12%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">사고상황</th>
+							<td class="bg1">기본</td>
+							<td class="alC bB3">A40</td>
+							<td class="alC">B60 &#9313;</td>
+						</tr>
+						<tr>
+							<td rowspan="8" class="alC"><img src="/images/truck/jpg/360.jpg" alt="사고상황이미지" /></td>
+							<td colspan="3" class="alC">수정 요소</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 현저한 전방 부주의 &#9314;</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 10㎞ 이상 속도위반</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">A 20㎞ 이상 속도위반</td>
+							<td class="alC bB3">20</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1">동일차로가 아닌 경우 &#9315;</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">20</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 진로변경 신호불이행&#183;지연 &#9316;</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 서행 불이행</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+						</tr>
+						<tr>
+							<td class="bg1">B 기타 현저한 과실</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312; 선행차는 차량이 좌우로 회전할 경우 변경하는 방향의 모든 차량에 대한 주의의무가 있고 후속차량에게도 전방을 주시하여 선행차량의 좌&#40;우&#41;회전에 주의를 기울여야 할 의무가 있으나 선행하는 차량의 과실이 크다 할 것이고 후속차량이 선행차를 추월하여 방향전환을한 경우 후속차량의 과실을 중하게 정한다&#46; 또한&#44; 신호대기로 이륜차&#183;자동차 모두 정지하고 있다가 동시에 출발한 경우에도 본 도표를 적용한다&#46;</p>
+					<p class="txtPoint">&#9313; 도로교통법 제19조제2항에 따라 모든 차의 운전자는 진로를 변경하고자 하는 경우에 그 변경하고자 하는 방향으로 오고 있는 다른 차의 정상적인 통행에 장애를 줄 우려가 있는 때에는 진로를 변경하여서는 아니되고&#44; 사실 우측차선은 이륜차의 주행차선이라고 할 수 있는점 등을 고려한다면 이륜차의 과실은 비교적 적은 것이 타당하다&#46;</p>
+					<p class="txtPoint">&#9314; 이륜차 운전자가 머리를 내밀고 앞을 전혀 보지 않은 경우나 옆으로 돌아보며 뒤에 동승한 탑승자와 이야기하고 있던 경우 등이 고려될 수 있다&#46;</p>
+					<p class="txtPoint">&#9315; 도로교통법 제38조에 따라 진로변경차는 적법한 진로변경신호를 이행하여야 하고 적법하게 진로변경신호를 한다는 것은 후행 이륜차에게 주의를 하게 하는데 중요하므로&#44; 자동차가 이를 태만히 한 경우에는 이륜차에 대하여 감산적용한다&#46; 또한 좌회전하는 차량의 좌측에 1차로 정도의 여유가 있는 경우에도 적용한다&#46;</p>
+					<p class="txtPoint">&#9316; 편도 1차선도로나 이면도로가 아닌 2차선 이상의 도로에서 차선이 다른 경우 좌회전&#40;우회전&#41;차량에게 감속내지 다른 차선에 진행해오는 차량이 있는지를 확인할 주의의무가 있으므로 회전차의 과실을 가산적용한다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827; 도로교통법 제19조&#91;안전거리확보 등&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9313; 모든 차의 운전자는 차의 진로를 변경하고자 하는 경우에 그 변경하고자 하는 방향으로 오고 있는 다른 차의 정상적인 통행에 장애를 줄 우려가 있는 때에는 진로를 변경하여서는 아니된다&#46;</li>
+					</ul>
+					<p class="txtPoint">&#9827; 도로교통법 제38조&#91;차의 신호&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 모든 차의 운전자는 좌회전∙우회전∙횡단∙유턴∙서행정지 또는 후진을 하거나 같은방향으로 진행하면서 진로를 바꾸려고 하는 때에는 손이나 방향지시기 또는 등화로써그 행위가 끝날 대까지 신호를 하여야 한다&#46;</li>
+						<li>&#9313; 제1항의 신호를 하는 시기 및 방법은 대통령령으로 정한다&#46;</li>
+					</ul>
+					<p class="txtPoint">&#9827; 도로교통법시행령 제21조&#91;신호의 시기 및 방법&#93;</p>
+					<ul class="txtListst02">
+						<li>법 제38조제1항에 따른 신호의 시기 및 방법은 별표2와 같다&#46;</li>
+						<li>&#9674; 우회전 또는 동일방향으로 진행하면서 진로를 오른쪽으로 바꾸고자 할 때&#8594;〈신호를 행할 시기〉그 행위를 하고자 하는 지점&#40;우회전 할 경우에는 그 교차로의 가장자리&#41;에 이르기 전 30m&#40;고속도로의 경우 100m&#41;이상의 지점에 이르렀을 때</li>
+					</ul>
+				</div>
+				
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

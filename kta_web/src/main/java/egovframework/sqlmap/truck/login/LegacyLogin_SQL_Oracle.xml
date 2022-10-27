@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >
+
+	<typeAlias  alias="LoginVO" type="egovframework.com.cmm.LoginVO"/>
+	<typeAlias  alias="AdminLoginVO" type="kr.or.truck.kwa.common.AdminLoginVO"/>
+	
+	
+	<select id="LegacyLoginDAO.Agent1Chk" resultClass="Integer" >
+		SELECT 
+			A.CNT +B.CNT AS CNT
+		FROM
+			(SELECT COUNT(*) AS CNT FROM CTGI01 WHERE SAUPJA_NO = #saupjaNo# AND GYEYAK_JIBU_CD LIKE #gyeyakJibuCd#) A,
+			(SELECT COUNT(*) AS CNT FROM CTGI01 WHERE SAUPJA_NO = #saupjaNo# AND JOHAPWON_JUMIN_NO = #juminNo# AND GYEYAK_JIBU_CD LIKE #gyeyakJibuCd#) B
+	</select>
+	<select id="LegacyLoginDAO.contractConfirm" resultClass="Integer" >
+		SELECT 
+			COUNT(*) AS CNT
+		FROM
+			CTGI01
+		WHERE 
+			SAUPJA_NO = #saupjaNoConfirm# 
+		AND 
+			JOHAPWON_JUMIN_NO = #juminNo#
+		AND
+			DAEPYOJA_NM = #nameConfirm#
+	</select>
+	
+	<select id="LegacyLoginDAO.selectCtgi01" resultClass="LoginVO" >
+		select * from (  
+			select 
+			       c1.AGENT_NO 		as agentNo, 
+			        c1.SAUPJA_NO 		as saupjaNo , 
+			        c1.AGENT_NM 		as agentNm,   
+			        c1.DAEPYOJA_NM		as daepyojaNm,
+			        '1' 			as agentCd , 
+			        c1.BUPIN_NO		as bupinNo,
+			        c1.SAUPJANG_SEQ	as saupjangSeq,
+			        c1.gyeyak_jibu_cd	as gyeyakJibuCd,
+			        c1.JOHAPWON_JUMIN_NO as juminNo,
+			        c1.ADDR_GB_CD as addrGbCd,
+			        c2.ADDR1||c2.ADDR2 as addr,
+			        c1.email as email
+			from 	CTGI01 c1  inner join CTGI02 c2
+			on c1.agent_no = c2.agent_no and c1.saupjang_seq = c2.saupjang_seq 
+			where 	JOHAPWON_JUMIN_NO = #juminNo#
+			  and	SAUPJA_NO = #saupjaNo#
+			  and	gyeyak_jibu_cd like #gyeyakJibuCd#
+			  and   c1.agent_no = #agentNo#
+			  and   RETIRE_YN = 0
+		     
+		)
+		where rownum =1 
+	</select>
+	
+	<select id="LegacyLoginDAO.selectEmployeeTable" resultClass="int">
+			SELECT 
+					COUNT(ID) 
+			FROM ct_user
+			WHERE 	user_id = #id#
+			AND		pass_word = #password#
+	</select>
+	
+	<select id="LegacyLoginDAO.selectCtgi05" resultClass="LoginVO" >
+		select * from (  
+			SELECT
+					a.CAR_GAIP_NO		as carGaipNo,
+					a.UPJONG_CD		as upjongCd,
+					a.CAR_KIND_CD		as carKindCd,
+					a.CAR_NO			as carNo,
+					a.CAR_BODY_NO		as carBodyNo,
+					a.CAR_NM			as carNm,
+					a.CAR_NM_CD		as carNmCd,
+					a.CARMGR_JUMIN_NO as juminNo,
+					a.AGENT_NO		as agentNo,
+					a.SAUPJANG_SEQ	as saupjangSeq,
+			        '2' 			as agentCd
+			        ,b.CARMGR_NM		as carmgrNm
+			        ,b.ADDR1||b.ADDR2 as addr
+			        ,b.email as email
+			FROM	CTGI05 a
+        	INNER join CTGI06 b ON a.CARMGR_JUMIN_NO = b.CARMGR_JUMIN_NO
+			where 	a.CARMGR_JUMIN_NO = #juminNo#
+		     
+		)
+		where rownum =1 
+
+	</select>
+	
+	<select id="LegacyLoginDAO.selectAcsd05" resultClass="LoginVO" >
+			select
+					CUST_CD			as custCd,
+					CUST_CD			as saupjaNo,
+					JIBU_CD			as jibuCd,
+					BUBIN_NO		as bubinNo,
+					CUST_GB			as custGb,
+					TRD_GB			as trdGb,
+					CUST_NM			as custNm,
+					CUST_CALLNM		as custCallnm,
+					PRESI_NM		as presiNm,
+					PRESI_JUMINNO	as juminNo,
+			        '3' 			as agentCd
+			        ,PRESI_JUSO1||PRESI_JUSO2 as addr
+			from	ACSD05
+			where 	CUST_CD = #saupjaNo#
+			  and	PRESI_JUMINNO = #juminNo#
+			  and 	ins_ymd = (select max(ins_ymd) from ACSD05 where CUST_CD = #saupjaNo# and	PRESI_JUMINNO = #juminNo#) 
+			  /* 확인필요. ACSD05에 JIBU_CD별로 데이터가 들어있음. 어떤 jibu_cd를 사용해야하는지 확인필요.*/
+	</select>
+	
+	<select id="LegacyLoginDAO.selectCtuser" resultClass="AdminLoginVO" >
+		<![CDATA[ 		
+			select 
+					a.user_id ,
+					a.pass_word,  
+					a.name, 
+					a.dept_code, 
+					a.wk_place_code,  
+					a.grade_code,
+					a.grade_name,
+					a.jicwi_cd,
+					f_code_nm('3026', a.jicwi_cd) jicwi_nm,
+					a.jicgeub_cd,
+					a.upmu_cd,
+					substr(b.jibu_cd, 0, 2) jibu_cd,
+					b.jibu_nm
+					
+			  from 	ct_user a, 
+			       	hrpe01  b
+			       	
+			 where 	a.user_id		= #user_id# 
+			   and 	a.pass_word		= #pass_word# 
+			   and 	a.wk_place_code	= b.jibu_cd			
+		]]>
+	</select>
+	
+	<select id="LegacyLoginDAO.selectCtuserPicture" parameterClass="string" resultClass="hashmap" >
+		<![CDATA[ 		
+			select 
+					SAWON_NO,
+					IMAGI_PIC
+			  from 	HRPE14
+			 where 	sawon_no		= #sawon_no# 
+		]]>
+	</select>
+	
+	<select id="LegacyLoginDAO.selectEmployeeList" resultClass="String" >
+		<![CDATA[ 		
+			select b.saupja_no
+			from ctex03  a,
+			     ctgi01  b
+			where a.agent_no = b.agent_no
+			and a.damdang_sabun = #user_id#
+		]]>
+	</select>
+	
+	<select id="LegacyLoginDAO.selectEmployeeListJicgeub" resultClass="String" >
+		<![CDATA[ 		
+			select b.saupja_no
+			from ctex03  a,
+			     ctgi01  b
+			where a.agent_no = b.agent_no
+			and b.gyeyak_jibu_cd = #jibu_cd#
+		]]>
+	</select>
+	
+	<select id="LegacyLoginDAO.selectEmployeeList2" resultClass="String" >
+		<![CDATA[ 		
+			select c.carmgr_jumin_no
+			from ctex03  a,
+			     ctgi01  b,
+			     ctgi05  c
+			where a.agent_no = b.agent_no
+			and b.agent_no = c.agent_no
+			and trim(c.carmgr_jumin_no) is not null
+			and a.damdang_sabun = #user_id#
+		]]>
+	</select>
+	
+</sqlMap>

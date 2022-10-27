@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">127</span><span class="pyoName">&#91;보행자&#93;도로의 측단 보행</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+					<caption>과실비율에 대해서 나타낸 표</caption>
+					<colgroup>
+						<col style="width:50%;" />
+						<col style="width:25%;" />
+						<col style="width:25%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">사고상황</th>
+							<td class="bg1">기본</td>
+							<td class="alC">0 &#9312;</td>
+						</tr>
+						<tr>
+							<td rowspan="10" class="alC"><img src="/images/truck/jpg/127.jpg" alt="사고상황이미지" /></td>
+							<td colspan="2" class="alC">수정 요소</td>
+						</tr>
+						<tr>
+							<td class="bg1">야간&#183;기타시야장애</td>
+							<td class="alC">10 </td>
+						</tr>
+						<tr>
+							<td class="bg1">간선도로</td>
+							<td class="alC">10</td>
+						</tr>
+                        <tr>
+							<td class="bg1">사행</td>
+							<td class="alC">10</td>
+						</tr>
+						
+						<tr>
+							<td class="bg1">주택&#183;상점가&#183;학교</td>
+							<td class="alC">&#45;5 </td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인보호구역</td>
+							<td class="alC">&#45;15 </td>
+						</tr>
+						<tr>
+							<td class="bg1">집단보행</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">차의 현저한 과실</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">차의 중대한 과실</td>
+							<td class="alC">&#45;10</td>
+						</tr>
+						
+					</tbody>
+				</table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	보도와 차도가 구분이 없는 도로에서&#44; 진행하는 차량과 동일한 방향으로 통행하고 있는지 반대방향으로 통행하고 있는지를 가리지 않고 모두 보행자 과실을 0&#37;로 한다&#46; 다만&#44; 가산요소의 적용을 상향한다&#46; 도로의 좌측단&#44; 우측단을 기준으로 기본과실비율을 달리하게 되면 도로의 좌측단으로&#44; 즉 차량과 마주보는 형태로 통행하도록 강요하는 셈이 되고 그럴 경우 과실비율 때문에 보행자로 하여금 도로를 횡단하라는 것과 다를 바 없기 때문이다&#46;</p>
+					</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 제8조&#91;보행자의 통행&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 보행자는 보도와 차도가 구분된 도로에서는 언제나 보도로 통행하여야 한다&#46; 다만&#44; 차도를 횡단하는 경우&#44; 도로공사 등으로 보도의 통행이 금지된 경우나&#44; 그밖의 부득이한 경우에는 그러하지 아니한다&#46;</li>
+                        <li>&#9313; 보행자는 보도와 차도가 구분되지 아니한 도로에서는 도로의 좌측 또는 길가장자리구역을 통행하여야 한다&#46;\
+</li>
+					</ul>
+                    <p class="txtPoint">&#9827;	도로교통법 제2조&#91;정의&#93;</p>
+					<ul class="txtListst02">
+						<li>&#45;제10호  &#58; &#34;길가장자리 구역&#34;이라 함은 보도와 차도가 구분되지 아니한 도로에서 보행자의 안전을 확보하기 위하여 안전표지 등으로 그 경계를 표시한 도로의 가장자리 부분을 말한다&#46;
+</li>
+					</ul>
+                    <p class="txtPoint">&#9827;	도로교통법 제9조&#91;행렬 등의 통행&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 학생의 대열과 그 밖에 보행자의 통행에 지장을 줄 우려가 있다고 인정하여 대통령령이 정하는 사람이나 행렬&#40;이하&#34;행렬 등&#34;이라 한다&#41;은 제8조제1항 본문의 규정에 불구하고 차도를 통행할 수 있다&#46; 이 경우 행렬 등은 차도의 우측으로 통행하여야 한다&#46;</li>
+                        <li>&#9313; 행렬 등은 사회적으로 중요한 행사에 따라 시가를 행진하는 경우에는 도로의 중앙을 통행할 수 있다&#46;</li>
+					</ul>
+                    <p class="txtPoint">
+
+&#9827;	도로교통법 시행령 제7조&#91;차도를 통행할 수 있는 사람 또는 행렬&#93;</p>
+					<ul class="txtListst02">
+						<li>법 제9조제1항에 따라 학생의 대열 외에 차도를 통행할 수 있는 사람 또는 행렬은 다음 각호의 어느 하나와 같다&#46;</li>
+                    	<li>1&#46; 말∙소 등의 큰 동물을 몰고 가는 사람</li>
+                        <li>2&#46; 사다리∙목재나 그 밖에 보행자의 통행에 지장을 줄 우려가 있는 물건을 운반중인 사람</li>
+                        <li>3&#46; 도로의 청소 또는 보수 등 도로에서 작업중인 사람</li>
+                        <li>4&#46; 군부대 그 밖에 이에 준하는 단체의 행렬</li>
+                        <li>5&#46; 기 또는 현수막 등을 휴대한 행렬 및 장의행렬</li>
+					</ul>
+					
+				</div>
+				<!-- 참고판례 -->
+			
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

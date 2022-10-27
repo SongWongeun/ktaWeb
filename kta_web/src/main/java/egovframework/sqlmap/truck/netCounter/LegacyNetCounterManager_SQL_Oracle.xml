@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="NetCounterManager">	
+	<typeAlias alias="contractInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	<resultMap id="netCounterManager" class="kr.or.truck.netcounter.inquiryservice.service.ManagerVO">	
+		<result property="jibu_nm" column="JIBU_NM"/>
+		<result property="tel_no" column="TEL_NO"/>
+		<result property="sawon_nm" column="SAWON_NM"/>
+		
+		<result property="fax_no" column="FAX_NO"/>
+		<result property="jicgeub_cd" column="JICGEUB_CD"/>
+		<result property="jicgeub_nm" column="JICGEUB_NM"/>
+		<result property="jicwi_cd" column="JICWI_CD"/>
+		<result property="jicwi_nm" column="JICWI_NM"/>
+		<result property="sawon_nm" column="SAWON_NM"/>
+		<result property="damdang_sabun" column="DAMDANG_SABUN"/>
+		<result property="damdang_jibu_cd" column="DAMDANG_JIBU_CD"/>
+		<result property="jibu_cd" column="jibu_cd"/>
+	</resultMap>		
+
+<select id="managerDAO.selectManager" parameterClass="contractInquirySearchVO" resultMap="netCounterManager" >
+	select b.jibu_nm                jibu_nm,
+	       d.TEL_LOCAL_NO || '-' ||
+	       DECODE(d.TEL_NO, NULL, '',  SUBSTR(TRIM(d.TEL_NO), 1, LENGTH(TRIM(d.TEL_NO)) - 4))  ||  '-' ||
+	       DECODE(d.TEL_NO, NULL, '',  SUBSTR(TRIM(d.TEL_NO), LENGTH(TRIM(d.TEL_NO)) - 3))           tel_no,
+	       f_id_nm(c.damdang_sabun) sawon_nm,
+	       d.MOBILE_COM_NO || '-' ||
+	       DECODE(d.MOBILE_NO, NULL, '',  SUBSTR(TRIM(d.MOBILE_NO), 1, LENGTH(TRIM(d.MOBILE_NO)) - 4))  ||  '-' ||
+	       DECODE(d.MOBILE_NO, NULL, '',  SUBSTR(TRIM(d.MOBILE_NO), LENGTH(TRIM(d.MOBILE_NO)) - 3)) fax_no,
+	       e.jicgeub_cd,
+	       f_code_nm('3002', e.jicgeub_cd) jicgeub_nm,
+	       e.jicwi_cd,
+	       f_code_nm('3026', e.jicwi_cd) jicwi_nm,
+	       c.damdang_sabun,
+	       c.damdang_jibu_cd,
+           e.jibu_cd
+  	from   ctgi01 a, 
+	       hrpe01 b,  
+	       ctex03 c,
+	       ctgi12 d,
+	       hrpe02 e
+ 	where 	1=1
+   	<isEmpty property="agent_no">
+		 <isNotEmpty property="tb_agent_array">
+			<iterate property="tb_agent_array" open="and a.agent_no||a.saupjang_seq in (" conjunction="," close=")">
+				#tb_agent_array[]#
+			</iterate>
+		 </isNotEmpty>
+	</isEmpty>
+	<isNotEmpty property="agent_no">
+	  	<isNotEmpty property="saupjang_seq">
+			   and a.agent_no       = #agent_no#
+			   and a.saupjang_seq   = #saupjang_seq#				       
+       	</isNotEmpty>
+    </isNotEmpty>
+	and 	a.gyeyak_chuljang_cd = b.jibu_cd
+	and 	a.agent_no           = c.agent_no
+    and 	a.saupjang_seq       = c.saupjang_seq
+    and 	c.damdang_sabun = e.SAWON_NO
+    and     d.pn_kind_cd = '11'
+    and     d.pn_no= b.jibu_cd
+    and 	rownum = 1
+</select>
+
+<select id="managerDAO.selectManagerPicture" parameterClass="contractInquirySearchVO" resultClass="hashmap" >
+	select 
+			/*b.jibu_nm                jibu_nm,
+		       b.depyo_tel_no           tel_no,
+		       f_id_nm(c.damdang_sabun) sawon_nm,
+		       c.damdang_sabun,*/
+		       
+			d.IMAGI_PIC
+  	
+  	from 	ctgi01 a, 
+       		hrpe01 b,  
+       		ctex03 c,
+       		HRPE14 d
+       		
+ 	where 	a.agent_no           = #agent_no#
+  	  and 	a.saupjang_seq       = #saupjang_seq#
+	  and 	a.gyeyak_chuljang_cd = b.jibu_cd
+   	  and 	a.agent_no           = c.agent_no
+  	  and 	a.saupjang_seq       = c.saupjang_seq
+      and 	c.damdang_sabun = d.SAWON_NO
+</select>
+
+<select id="managerDAO.selectManagerEfax" parameterClass="contractInquirySearchVO" resultMap="netCounterManager" >
+	SELECT  jibu_nm, 
+			DECODE(REPLACE(tel_no2,'-',''),NULL,tel_no, tel_no2) tel_no,
+			sawon_nm,
+			DECODE(REPLACE(efax,'-',''),NULL,fax_no,efax) fax_no,
+			jicgeub_cd, jicgeub_nm, jicwi_cd, jicwi_nm, damdang_sabun, damdang_jibu_cd, jibu_cd
+	FROM(
+		SELECT  b.jibu_nm jibu_nm,
+				d.TEL_LOCAL_NO || '-' || DECODE(d.TEL_NO, NULL, '',  SUBSTR(TRIM(d.TEL_NO), 1, LENGTH(TRIM(d.TEL_NO)) - 4)) || '-' || DECODE(d.TEL_NO, NULL, '',  SUBSTR(TRIM(d.TEL_NO), LENGTH(TRIM(d.TEL_NO)) - 3)) tel_no,
+				(SELECT DECODE(gi.tel_local_no,   null, '' , gi.tel_local_no) || '-' ||
+						DECODE(gi.tel_no, null, '',   substr(trim(gi.tel_no), 1, length(trim(gi.tel_no)) - 4)) || '-' ||
+						DECODE(gi.tel_no, null, '',   substr(trim(gi.tel_no), length(trim(gi.tel_no)) - 3)) telno
+				 FROM ctex03 ct, hrpe02 hr, ctgi12 gi
+ 				 WHERE ct.agent_no = a.agent_no
+				   AND ct.saupjang_seq = a.saupjang_seq
+				   AND gi.pn_kind_cd   = '13'
+				   AND ct.damdang_sabun = hr.sawon_no
+				   AND hr.sawon_no = gi.pn_no) tel_no2,
+				f_id_nm(c.damdang_sabun) sawon_nm,         
+				d.MOBILE_COM_NO || '-' || DECODE(d.MOBILE_NO, NULL, '',  SUBSTR(TRIM(d.MOBILE_NO), 1, LENGTH(TRIM(d.MOBILE_NO)) - 4))||  '-' || DECODE(d.MOBILE_NO, NULL, '',  SUBSTR(TRIM(d.MOBILE_NO), LENGTH(TRIM(d.MOBILE_NO)) - 3)) fax_no,
+				(SELECT DECODE(hr.fax_no, NULL, '',  SUBSTR(TRIM(hr.fax_no), 1, LENGTH(TRIM(hr.fax_no)) - 7))  || '-' ||
+						DECODE(hr.fax_no, NULL, '',  SUBSTR(TRIM(hr.fax_no), 5, LENGTH(TRIM(hr.fax_no)) - 8))  || '-' ||
+						DECODE(hr.fax_no, NULL, '',  SUBSTR(TRIM(hr.fax_no), 8, LENGTH(TRIM(hr.fax_no)) - 7)) 
+  				 FROM ctex03 ct, hrpe04 hr 
+  				 WHERE ct.agent_no = a.agent_no and ct.saupjang_seq = a.saupjang_seq and ct.damdang_sabun = hr.sawon_no) efax,
+				e.jicgeub_cd,f_code_nm('3002', e.jicgeub_cd) jicgeub_nm,
+				e.jicwi_cd,  f_code_nm('3026', e.jicwi_cd) jicwi_nm,
+				c.damdang_sabun, 
+				c.damdang_jibu_cd,
+				e.jibu_cd
+		FROM   ctgi01 a, hrpe01 b, ctex03 c, ctgi12 d, hrpe02 e
+		WHERE  1=1
+		<isEmpty property="agent_no">
+			<isNotEmpty property="tb_agent_array">
+				<iterate property="tb_agent_array" open="and a.agent_no||a.saupjang_seq in (" conjunction="," close=")">
+					#tb_agent_array[]#
+				</iterate>
+			</isNotEmpty>
+		</isEmpty>
+		<isNotEmpty property="agent_no">
+			<isNotEmpty property="saupjang_seq">
+			   and a.agent_no       = #agent_no#
+			   and a.saupjang_seq   = #saupjang_seq#
+			</isNotEmpty>
+		</isNotEmpty>
+		AND  a.gyeyak_chuljang_cd = b.jibu_cd
+		AND  a.agent_no           = c.agent_no
+		AND  a.saupjang_seq       = c.saupjang_seq
+		AND  c.damdang_sabun      = e.SAWON_NO
+		AND  d.pn_kind_cd = '11'
+		AND  d.pn_no= b.jibu_cd
+		AND  rownum = 1 
+	)
+</select>
+</sqlMap>

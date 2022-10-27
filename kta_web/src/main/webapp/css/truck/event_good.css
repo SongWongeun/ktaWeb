@@ -1,0 +1,96 @@
+@charset "utf-8";
+
+/* ---------------------------------------------------------------------------------
+        Name : KTA | 전국화물자동차운송사업자공제조합
+        PART : event Style
+        Author : ysj
+--------------------------------------------------------------------------------- */
+
+/* base */
+*{box-sizing:border-box;}
+label{cursor:pointer;}
+input[type=text]{height:33px;font-size:13px;line-height:33px;border:1px solid #c9d5de;}
+button{cursor:pointer;background:none;}
+i{font-style:normal;}
+
+.ess{display:inline-block;font-size:0;vertical-align:middle;}
+.ess::after{color:#d72d28;font-size:13px;content:'*';}
+.i_ess{display:inline-block;margin-left:2px;color:#ff0000;font-weight:700;}
+
+.checkbox{display:inline-block;position:relative;vertical-align:middle;}
+.checkbox input{position:absolute;left:0;top:0;width:0;height:0;opacity:0;}
+.checkbox span{display:inline-block;position:relative;height:20px;padding-left:28px;font-size:17px;line-height:20px;}
+.checkbox span::before{position:absolute;left:0;top:0;width:16px;height:16px;border:2px solid #d0cece;content:'';background:#fff;}
+.checkbox input:focus + span{outline:1px dotted gray;}
+.checkbox input:checked + span::before{border-color:#020dd9;background:#020dd9;}
+.checkbox input:checked + span::after{position:absolute;left:0;top:0;width:5px;height:10px;margin:2px 0 0 7px;transform:rotate(45deg);border-bottom:2px solid #fff;border-right:2px solid #fff;content:'';}
+
+/* btn */
+.btn_box{margin-top:15px; margin-bottom:30px; text-align:center;}
+.btn{display:inline-block;min-width:220px;padding:0 14px;color:#fff;font-size:17px;text-align:center;line-height:42px;border-radius:4px;vertical-align:middle;box-sizing:border-box;}
+.btn.blue{background:#275cab;}
+
+/* 굿 드라이버 */
+#wrap_event{max-width:970px;margin:0 auto;font-size:13px;}
+#wrap_event h1{text-align:center;}
+#wrap_event h1 img{width:100%;}
+
+.cont_event{padding:30px 10px 30px;}
+.cont_event h3{margin-bottom:15px;color:#333;font-size:17px;font-weight:700;}
+.cont_event h3 .checkbox span{font-size:17px;}
+
+.agree_box{margin-bottom:35px;padding:20px 14px;background:#f6f6f6;}
+.agree_box li{display:flex;justify-content:space-between;color:#333;}
+.agree_box li + li{margin-top:20px;}
+.agree_box li button{padding:4px 12px;font-size:15px;border:1px solid #ccc;background:#fff;}
+.agree_all{margin-bottom:35px;color:#333;font-size:17px;text-align:center;}
+
+.event_table{width:100%;table-layout:fixed;margin-bottom:30px;border-top:2px solid #0053ff;}
+.event_table th,.event_table td{height:52px;padding:8px 10px;text-align:left;border-bottom:1px solid #f2f2f3;}
+.event_table th{color:#333;font-size:16px;font-weight:400;}
+.event_table td{color:#333;font-size:13px;}
+.event_table button{height:33px;padding:0 22px;font-size:13px;line-height:33px;border:1px solid #c9d5de;background:#f2f2f2;}
+.event_table .inp_box p{margin-top:6px;color:#7a7888;font-size:12px;}
+.event_table .inp_carnum{width:160px;}
+
+.info_li{padding:20px 15px;background:#fbf3e6;}
+.info_li li{position:relative;padding-left:8px;font-size:16px;}
+.info_li li::before{position:absolute;left:0;top:0;content:'-';}
+.info_li li + li{margin-top:8px;}
+.info_li li.add::before{position:absolute;left:0;top:0;content:'';}
+
+.info_li li2::before{position:absolute;left:0;top:0;}
+.info_li li + li2{margin-top:8px;}
+
+
+.modal{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:9997;}
+.modal::before{position:absolute;left:0;top:0;bottom:0;right:0;background:#000;opacity: 0.5;z-index:1;content:'';}
+.modal_wrap{display:flex;justify-content:center;align-items:center;width:100%;height:100%;}
+.modal_inner{position:relative;width:640px;background:#fff;z-index:10;}
+
+.modal_header{position:relative;z-index:100;border-bottom:1px solid #d9d9d9;background:#fff;}
+#wrap_event .modal_header h1{padding:0 25px;font-size:17px;font-weight:500;line-height:55px;text-align:left;}
+#wrap_event .modal_header h1 .i_ess{font-size:17px;font-weight:500;}
+.modal_header .close{position:absolute;top:0;right:0;width:55px;height:55px;font-size:0;}
+.modal_header .close::before,.modal_header .close::after{position:absolute;top:50%;left:50%;width:26px;height:1px;margin:-1px 0 0 -15px;background:#05141f;content: '';}
+.modal_header .close::before{-webkit-transform:rotate(-45deg);transform:rotate(-45deg);}
+.modal_header .close::after{-webkit-transform:rotate(45deg);transform:rotate(45deg);}
+.modal_conts{overflow-y:auto;height:calc(100% - 56px);padding:25px;}
+.modal_conts .pre{overflow-y:auto;height:calc(100% - 50px);line-height:18px;}
+
+.agree_list li + li{margin-top:10px;}
+.agree_list dd{position:relative;padding-left:24px;}
+.agree_list dd::before{position:absolute;left:16px;top:0;content:'-';}
+.agree_list .adv{position:relative;padding-left:14px;}
+.agree_list .adv::before{position:absolute;left:0;top:0;content:'※';}
+
+@media screen and (max-width:540px){
+	.event_table .inp_carnum{width:100%;max-width:100%;}
+	.event_table .inp_carnum + button{margin-top:6px;}
+
+	.modal_inner{width:100%;height:100%;}
+}
+@media screen and (max-width:1024px){
+
+	.modal_inner{width:100%;height:100%;}
+}

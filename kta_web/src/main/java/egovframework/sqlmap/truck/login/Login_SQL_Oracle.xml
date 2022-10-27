@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap >
+
+	<typeAlias  alias="LoginVO" type="egovframework.com.cmm.LoginVO"/>
+	<typeAlias  alias="JoinVO" type="kr.or.truck.join.service.impl.JoinVO"/>
+	
+		<!-- 2016.12.01 HYEON IMSI -->
+	<select id="LoginDAO.memberSelect" resultClass="LoginVO" >
+		SELECT
+               TM.ID  AS id     
+               ,TM.PASSWD AS password     
+               ,TM.SAUPNUM AS saupjaNo     
+               ,TM.GYEYAK_JIBU AS gyeyakJibuCd    
+               ,TM.AGENT_NO AS agentNo     
+               ,TM.AGENTCD AS agentCd     
+               ,TM.SAUPJANG_SEQ AS saupjangSeq     
+               ,TM.RECENT_IP AS recent_ip     
+               ,substr(TM.recent_dt,1,8) as recent_dt           
+               ,substr(TM.recent_dt,9,8) as recent_tm 
+               ,TM.HUMAN_YN AS human_yn
+	    FROM
+	        TB_MEMBER  TM
+			<isEqual property="certType" compareValue="IDPW">
+				<isEqual property="agentCd" compareValue="1">
+					, TB_MEMBER_SAUPNO TMS
+					WHERE
+						NOT TM.PASSWD_ERR = 'Y'
+						AND NOT TM.UNREGISTER_YN = 'Y'
+						AND TM.ID = TMS.ID
+						AND TM.AGENT_NO = TMS.AGENT_NO
+						AND TM.SAUPJANG_SEQ = TMS.SAUPJANG_SEQ
+						AND TM.ID = #id#
+						<isEqual property="employeeYn" compareValue="Y">
+							AND passwd = #password#			
+						</isEqual>
+						<isNotEqual property="employeeYn" compareValue="Y">
+							AND passwd = damo.hash_str_data(#password#)	
+						</isNotEqual>
+				</isEqual>
+				<isNotEqual property="agentCd" compareValue="1">
+					WHERE NOT PASSWD_ERR='Y'
+						AND NOT UNREGISTER_YN='Y'
+						AND id = #id#
+						<isEqual property="employeeYn" compareValue="Y">
+							AND passwd = #password#			
+						</isEqual>
+						<isNotEqual property="employeeYn" compareValue="Y">
+							AND passwd = damo.hash_str_data(#password#)	
+						</isNotEqual>
+				</isNotEqual>
+			</isEqual>
+			<isNotEqual property="certType" compareValue="IDPW">
+				<isEqual property="certType" compareValue="CERT">
+					<isNotEmpty property="juminNo">
+						WHERE 	CI01.JOHAPWON_JUMIN_NO = #juminNo#			
+					</isNotEmpty>
+					<isNotEmpty property="saupjaNo">
+						WHERE 	TM.SAUPNUM = #saupjaNo#			
+					</isNotEmpty>
+				</isEqual>
+				<isNotEqual property="certType" compareValue="CERT">
+					WHERE 	ipin_di = #ipinDi#
+							<isNotEmpty property="ipinCi" >
+							  and 	ipin_ci = #ipinCi#
+							</isNotEmpty>
+							<isEmpty property="ipinCi" >
+							  and 	( ipin_ci is null or ipin_ci = '' )
+							</isEmpty>				
+				</isNotEqual>
+			</isNotEqual>
+	</select>
+	
+	<select id="LoginDAO.selectMem_id"  resultClass="hashMap" >
+	SELECT 
+		ID AS ID,
+		f_jibu_nm(GYEYAK_JIBU || '01') as gyeyakJibuCd
+	FROM 
+		TB_MEMBER 
+	WHERE 	
+		SAUPNUM = #saupnum#
+	AND
+		AGENTCD = #agent_cd#	
+	</select>
+	
+	<select id="LoginDAO.selectMem_pw"  parameterClass="JoinVO" resultClass="String">
+	SELECT 
+		ID
+	FROM 
+		TB_MEMBER
+	WHERE 	
+		SAUPNUM = #saupnum#	
+	AND
+		ID = #id#
+	</select>
+	
+	<update id="LoginDAO.updateMem_pw"  parameterClass="JoinVO" >
+	UPDATE 
+		TB_MEMBER
+	SET 
+		PASSWD = damo.hash_str_data(#newPasswd#)
+		, UPDATE_PASSWD_DT=SYSDATE
+	WHERE 	
+		AGENTCD = #agent_cd#			
+	AND
+		SAUPNUM = #saupnum#	
+	AND
+		ID = #id#
+	</update>
+	
+	<select id="LoginDAO.selectMemberJumin" parameterClass="LoginVO" resultClass="string">
+			<isEqual property="agentCd" compareValue="1">
+			SELECT
+				CT01.JOHAPWON_JUMIN_NO AS juminNo
+			FROM 
+				TB_MEMBER TM, CTGI01@KOTMASDB CT01
+			WHERE 
+				TM.ID = #id#
+			    AND TM.AGENT_NO = CT01.AGENT_NO
+			    AND TM.SAUPJANG_SEQ = CT01.SAUPJANG_SEQ
+			</isEqual>
+			<isEqual property="agentCd" compareValue="2">
+			SELECT
+				CT06.CARMGR_JUMIN_NO AS juminNo
+			FROM 
+				TB_MEMBER TM, CTGI06@KOTMASDB CT06
+			WHERE
+				TM.ID = #id# AND TM.CARMGR_SEQ = CT06.CARMGR_SEQ
+			</isEqual>
+			<!-- <isEqual property="agentCd" compareValue="3">
+			SELECT
+				AD05.PRESI_JUMINNO AS juminNo
+			FROM 
+				TB_MEMBER TM, ACSD05@KOTMASDB AD05
+			WHERE
+				TM.ID = #id# AND TM.AGENT_NO = AD05.CUST_CD
+			</isEqual> -->
+	</select>
+	<select id="LoginDAO.selectJumin" parameterClass="LoginVO" resultClass="string">
+			SELECT
+				AD05.PRESI_JUMINNO AS juminNo
+			FROM 
+				TB_MEMBER TM, ACSD05@KOTMASDB AD05
+			WHERE
+				TM.ID = #id# AND TM.AGENT_NO = AD05.CUST_CD
+				AND AD05.PRESI_JUMINNO is not null
+	</select>
+	
+	<update id="LoginDAO.updatePasswdErr"  parameterClass="string" >
+	UPDATE 
+		TB_MEMBER
+	SET 
+		PASSWD_ERR = 'Y'
+		, PASSWD = damo.hash_str_data(#id#)
+		, UPDATE_PASSWD_DT=SYSDATE
+	WHERE 	
+		ID = #id#
+	</update>
+	
+	<update id="LoginDAO.updateHumanYn"  parameterClass="LoginVO" >
+		UPDATE 
+			TB_MEMBER
+		SET 
+			HUMAN_YN = 'N'
+			, HUMAN_DT = ''
+		WHERE 	
+			ID = #id#
+			AND AGENT_NO = #agentNo#
+			AND SAUPJANG_SEQ = #saupjangSeq#
+	</update>
+	
+	<select id="LoginDAO.selectMemberDetail" parameterClass="string" resultClass="int">
+	SELECT 
+		 COUNT(ID) 
+	FROM 
+		TB_MEMBER
+	WHERE
+		NOT UNREGISTER_YN='Y'
+		AND ID = #id#
+	</select>
+	
+	<select id="LoginDAO.selectPasswdErr" parameterClass="string" resultClass="string">
+		SELECT
+			PASSWD_ERR AS passwdErr
+		FROM 
+			TB_MEMBER
+		WHERE
+			ID = #id#
+	</select>
+	
+		<!-- 2016.12.12 [H] IMSI -->
+	<select id="LoginDAO.selectCheckId" resultClass="int">
+		SELECT 
+			COUNT(ID) 
+		FROM 
+			TB_MEMBER
+		WHERE 
+			PASSWD = damo.hash_str_data(#passwordChk#)
+			AND ID = #id#
+	</select>
+	
+	<!-- 2016.12.12 [H] IMSI -->
+	<update id="LoginDAO.updateUnregister" parameterClass="loginVO">
+		UPDATE 
+			TB_MEMBER
+		SET 
+			UNREGISTER_YN = 'Y'
+			,UNREGISTER_DT = SYSDATE
+		WHERE 	
+			ID = #id#
+	</update>
+	
+	<update id="LoginDAO.updateUnregisterSaupno" parameterClass="loginVO">
+		UPDATE 
+			TB_MEMBER_SAUPNO
+		SET 
+			USE_YN = 'N'
+			,DEL_DT = SYSDATE
+		WHERE 	
+			ID = #id#
+	</update>
+	
+		<!-- 2016.12.01 HYEON IMSI END -->
+		
+	<!-- <select id="LoginDAO.selectMemberTable" resultClass="LoginVO" >
+			SELECT 
+					id 				as id, 
+					passwd 			as PASSWORD , 
+					saupnum 		as saupjaNo , 
+					NAME 			as name, 
+					comname 		as companyNm,   
+					mail 			as email   , 
+					'1' 			as agentCd,
+					damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2)	as juminNo,
+					gyeyak_jibu		as gyeyakJibuCd
+			FROM MEM_TABLE_DAMO 
+			<isEqual property="certType" compareValue="IDPW">
+			WHERE 	id = #id#
+			AND passwd = damo.hash_str_data(#password#)
+			/*AND		substr(id,1,3) != 'ID_' 'ID_'가 prefix인 경우 본인인증하여 회원가입한 사용자 */
+			</isEqual>
+			<isNotEqual property="certType" compareValue="IDPW">
+				<isEqual property="certType" compareValue="CERT">
+					<isNotEmpty property="juminNo">
+						WHERE 	damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2) = #juminNo#			
+					</isNotEmpty>
+					<isNotEmpty property="saupjaNo">
+						WHERE 	saupnum = #saupjaNo#			
+					</isNotEmpty>
+				</isEqual>
+				<isNotEqual property="certType" compareValue="CERT">
+					WHERE 	ipin_di = #ipinDi#
+							<isNotEmpty property="ipinCi" >
+							  and 	ipin_ci = #ipinCi#
+							</isNotEmpty>
+							<isEmpty property="ipinCi" >
+							  and 	( ipin_ci is null or ipin_ci = '' )
+							</isEmpty>				
+				</isNotEqual>
+			</isNotEqual>
+	</select> 
+	
+	<select id="LoginDAO.selectMember" resultClass="LoginVO" >
+			SELECT 
+					userid 			as id , 
+					passwd 			as PASSWORD , 
+					saupnum 		as saupjaNo , 
+					NAME 			as name,  
+					'' 				as companyNm,   
+					mail 			as email  , 
+					'2' 			as agentCd,
+					damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', SEC_JUMIN2)	as juminNo
+			FROM MEMBER_DAMO
+			<isEqual property="certType" compareValue="IDPW">
+			WHERE 	userid = #id#
+			AND passwd = damo.hash_str_data(#password#)
+			/*AND		substr(userid,1,3) != 'ID_' 'ID_'가 prefix인 경우 본인인증하여 회원가입한 사용자 */
+			</isEqual>
+			<isNotEqual property="certType" compareValue="IDPW">
+				<isEqual property="certType" compareValue="CERT">
+					<isNotEmpty property="juminNo">
+						WHERE 	damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', SEC_JUMIN2) = #juminNo#			
+					</isNotEmpty>
+					<isNotEmpty property="saupjaNo">
+						WHERE 	saupnum = #saupjaNo#			
+					</isNotEmpty>
+				</isEqual>
+				<isNotEqual property="certType" compareValue="CERT">
+					WHERE 	ipin_di = #ipinDi#
+							<isNotEmpty property="ipinCi" >
+							  and 	ipin_ci = #ipinCi#
+							</isNotEmpty>
+							<isEmpty property="ipinCi" >
+							  and 	( ipin_ci is null or ipin_ci = '' )
+							</isEmpty>				
+				</isNotEqual>
+			</isNotEqual>
+	</select>
+	
+	<select id="LoginDAO.selectMemberPartner" resultClass="LoginVO" >
+			SELECT 
+					id 				as id, 
+					passwd 			as PASSWORD , 
+					saupnum 		as saupjaNo , 
+					NAME 			as name, 
+					comname 		as companyNm,   
+					mail 			as email   , 
+					'3' 			as agentCd,
+					damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', SEC_JUMIN2)	as juminNo
+			FROM MEM_PARTNER_DAMO 
+			<isEqual property="certType" compareValue="IDPW">
+			WHERE 	id = #id#
+			AND passwd = damo.hash_str_data(#password#)
+			/*AND		substr(id,1,3) != 'ID_' 'ID_'가 prefix인 경우 본인인증하여 회원가입한 사용자 */
+			</isEqual>
+			<isNotEqual property="certType" compareValue="IDPW">
+				<isEqual property="certType" compareValue="CERT">
+					<isNotEmpty property="juminNo">
+						WHERE 	damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', SEC_JUMIN2) = #juminNo#			
+					</isNotEmpty>
+					<isNotEmpty property="saupjaNo">
+						WHERE 	saupnum = #saupjaNo#			
+					</isNotEmpty>
+				</isEqual>
+				<isNotEqual property="certType" compareValue="CERT">
+					WHERE 	ipin_di = #ipinDi#
+							<isNotEmpty property="ipinCi" >
+							  and 	ipin_ci = #ipinCi#
+							</isNotEmpty>
+							<isEmpty property="ipinCi" >
+							  and 	( ipin_ci is null or ipin_ci = '' )
+							</isEmpty>				
+				</isNotEqual>
+			</isNotEqual>
+	</select> -->
+	
+	<!-- 2016.12.05 [H] 주석처리함
+	<select id="LoginDAO.selectMemberTableEm" resultClass="LoginVO" >
+			SELECT 
+					id 				as id, 
+					passwd 			as PASSWORD , 
+					saupnum 		as saupjaNo , 
+					NAME 			as name, 
+					comname 		as companyNm,   
+					mail 			as email   , 
+					'1' 			as agentCd,
+					damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2)	as juminNo,
+					gyeyak_jibu		as gyeyakJibuCd
+			FROM MEM_TABLE_DAMO 
+			<isEqual property="certType" compareValue="IDPW">
+			WHERE 	id = #id#
+			AND passwd = #password#
+			/*AND		substr(id,1,3) != 'ID_' 'ID_'가 prefix인 경우 본인인증하여 회원가입한 사용자 */
+			</isEqual>
+			<isNotEqual property="certType" compareValue="IDPW">
+				<isEqual property="certType" compareValue="CERT">
+					<isNotEmpty property="juminNo">
+						WHERE 	damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2) = #juminNo#			
+					</isNotEmpty>
+					<isNotEmpty property="saupjaNo">
+						WHERE 	saupnum = #saupjaNo#			
+					</isNotEmpty>
+				</isEqual>
+				<isNotEqual property="certType" compareValue="CERT">
+					WHERE 	ipin_di = #ipinDi#
+							<isNotEmpty property="ipinCi" >
+							  and 	ipin_ci = #ipinCi#
+							</isNotEmpty>
+							<isEmpty property="ipinCi" >
+							  and 	( ipin_ci is null or ipin_ci = '' )
+							</isEmpty>				
+				</isNotEqual>
+			</isNotEqual>
+			
+	</select>
+	
+	<select id="LoginDAO.selectMemberEm" resultClass="LoginVO" >
+			SELECT 
+					userid 			as id , 
+					passwd 			as PASSWORD , 
+					saupnum 		as saupjaNo , 
+					NAME 			as name,  
+					'' 				as companyNm,   
+					mail 			as email  , 
+					'2' 			as agentCd,
+					damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', SEC_JUMIN2)	as juminNo
+			FROM MEMBER_DAMO
+			<isEqual property="certType" compareValue="IDPW">
+			WHERE 	userid = #id#
+			AND passwd = #password#
+			/*AND		substr(userid,1,3) != 'ID_' 'ID_'가 prefix인 경우 본인인증하여 회원가입한 사용자 */
+			</isEqual>
+			<isNotEqual property="certType" compareValue="IDPW">
+				<isEqual property="certType" compareValue="CERT">
+					<isNotEmpty property="juminNo">
+						WHERE 	damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', SEC_JUMIN2) = #juminNo#			
+					</isNotEmpty>
+					<isNotEmpty property="saupjaNo">
+						WHERE 	saupnum = #saupjaNo#			
+					</isNotEmpty>
+				</isEqual>
+				<isNotEqual property="certType" compareValue="CERT">
+					WHERE 	ipin_di = #ipinDi#
+							<isNotEmpty property="ipinCi" >
+							  and 	ipin_ci = #ipinCi#
+							</isNotEmpty>
+							<isEmpty property="ipinCi" >
+							  and 	( ipin_ci is null or ipin_ci = '' )
+							</isEmpty>				
+				</isNotEqual>
+			</isNotEqual>
+	</select> 
+	
+	<select id="LoginDAO.selectMemberPartnerEm" resultClass="LoginVO" >
+			SELECT 
+					id 				as id, 
+					passwd 			as PASSWORD , 
+					saupnum 		as saupjaNo , 
+					NAME 			as name, 
+					comname 		as companyNm,   
+					mail 			as email   , 
+					'3' 			as agentCd,
+					damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', SEC_JUMIN2)	as juminNo
+			FROM MEM_PARTNER_DAMO 
+			<isEqual property="certType" compareValue="IDPW">
+			WHERE 	id = #id#
+			AND passwd = #password#
+			/*AND		substr(id,1,3) != 'ID_' 'ID_'가 prefix인 경우 본인인증하여 회원가입한 사용자 */
+			</isEqual>
+			<isNotEqual property="certType" compareValue="IDPW">
+				<isEqual property="certType" compareValue="CERT">
+					<isNotEmpty property="juminNo">
+						WHERE 	damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', SEC_JUMIN1)||damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', SEC_JUMIN2) = #juminNo#			
+					</isNotEmpty>
+					<isNotEmpty property="saupjaNo">
+						WHERE 	saupnum = #saupjaNo#			
+					</isNotEmpty>
+				</isEqual>
+				<isNotEqual property="certType" compareValue="CERT">
+					WHERE 	ipin_di = #ipinDi#
+							<isNotEmpty property="ipinCi" >
+							  and 	ipin_ci = #ipinCi#
+							</isNotEmpty>
+							<isEmpty property="ipinCi" >
+							  and 	( ipin_ci is null or ipin_ci = '' )
+							</isEmpty>				
+				</isNotEqual>
+			</isNotEqual>
+	</select> -->
+	
+	<select id="LoginDAO.selectAuthTypeList" resultClass="String">
+		SELECT
+			AUTH_TYPE
+		FROM
+			HP_MENU_AUTH
+		WHERE
+			AUTH_ID = #user_id#
+	</select>
+	
+	<select id="LoginDAO.selectMenuAdminList" resultClass="String">
+		SELECT
+			HP_MENU_NO 
+		FROM 
+			HP_MENU_AUTH
+		WHERE
+			AUTH_ID = #user_id#
+		AND
+			AUTH_TYPE != 'system_admin'
+	</select>
+	
+	<select id="LoginDAO.selectSuperTable" resultClass="int">
+			SELECT 
+					COUNT(ID) 
+			FROM super_admin 
+			WHERE 	id = #id#
+			AND		passwd = #password#
+			AND		USE_YN = 'Y'
+	</select>	
+	
+	<!-- 2016.12.05 [H] 주석처리함
+	<select id="LoginDAO.selectMem_table_id"  resultClass="LoginVO">
+	SELECT 
+		ID
+	FROM 
+		MEM_TABLE_DAMO 
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	</select> 
+	
+	
+	<select id="LoginDAO.selectMem_table_id2"  resultClass="hashMap" >
+	SELECT 
+		ID AS ID,
+		f_jibu_nm(GYEYAK_JIBU || '01') as gyeyakJibuCd
+	FROM 
+		MEM_TABLE_DAMO 
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	</select> 
+	
+	<select id="LoginDAO.selectMember_id"  parameterClass="JoinVO" resultClass="String">
+	SELECT 
+		USERID 	AS ID
+	FROM 
+		MEMBER_DAMO
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	</select>
+	
+	<select id="LoginDAO.selectMem_partner_id"  parameterClass="JoinVO" resultClass="String">
+	SELECT 
+		ID
+	FROM 
+		MEM_PARTNER_DAMO
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	</select>
+	
+	
+	<select id="LoginDAO.selectMem_table_pw"  parameterClass="JoinVO" resultClass="String">
+	SELECT 
+		ID
+	FROM 
+		MEM_TABLE_DAMO 
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	AND
+		ID = #id#
+	</select> 
+	
+	<select id="LoginDAO.selectMember_pw"  parameterClass="JoinVO" resultClass="String">
+	SELECT 
+		USERID 	AS ID
+	FROM 
+		MEMBER_DAMO
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	AND
+		USERID = #id#
+	</select>
+	
+	<select id="LoginDAO.selectMem_partner_pw"  parameterClass="JoinVO" resultClass="String">
+	SELECT 
+		ID
+	FROM 
+		MEM_PARTNER_DAMO
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	AND
+		ID = #id#	
+	</select>
+	
+	<update id="LoginDAO.updateMem_table_pw"  parameterClass="JoinVO" >
+	UPDATE 
+		MEM_TABLE_DAMO
+	SET 
+		PASSWD = damo.hash_str_data(#newPasswd#)
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEM_TABLE', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	AND
+		ID = #id#
+	</update>
+	
+	<update id="LoginDAO.updateMember_pw"  parameterClass="JoinVO" >
+	UPDATE 
+		MEMBER_DAMO
+	SET 
+		PASSWD =  damo.hash_str_data(#newPasswd#)
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEMBER', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	AND
+		USERID = #id#
+	</update>
+	
+	<update id="LoginDAO.updateMem_partner_pw"  parameterClass="JoinVO" >
+	UPDATE 
+		MEM_PARTNER_DAMO
+	SET 
+		PASSWD = damo.hash_str_data(#newPasswd#)
+	WHERE 	
+		damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN1', SEC_JUMIN1) = #jumin1#	
+	AND
+		damo.dec_varchar_B64('KOTMAS', 'MEM_PARTNER', 'JUMIN2', SEC_JUMIN2) = #jumin2#			
+	AND
+		SAUPNUM = #saupnum#	
+	AND
+		ID = #id#
+	</update> -->
+	<update id="LoginDAO.updateRecentIpDt"  parameterClass="LoginVO" >
+	UPDATE 
+		TB_MEMBER
+	SET 
+		RECENT_IP = #recent_ip#
+		,RECENT_DT = TO_CHAR(SYSDATE,'YY.MM.DDHH24:MI:SS')
+	WHERE 	
+		ID = #id#
+		AND passwd = #password#	
+	</update>
+	<select id="LoginDAO.selectEmail" resultClass="String" parameterClass="String">
+		select mail as email from tb_member where id = #id#
+	</select>
+	<select id="LoginDAO.dormancyList" resultClass="hashmap">
+		select 
+    		id
+    		,to_char(joindate,'yyyy/mm/dd') as joindate
+    		,mail 
+		from tb_member t1 
+		where joindate <![CDATA[<]]> add_months(sysdate,-6) order by joindate desc
+	</select>
+</sqlMap>

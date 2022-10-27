@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="HwamulBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="hwamulBoardSearchVO" type="kr.or.truck.deuctproduct.privateHwamul.service.HwamulBoardSearchVO"/>
+	<typeAlias  alias="hwamulBoardVO" type="kr.or.truck.deuctproduct.privateHwamul.service.HwamulBoardVO"/>
+	
+	<resultMap id="hwamulBoardPreNex" class="kr.or.truck.deuctproduct.privateHwamul.service.HwamulBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="hwamulBoard" class="kr.or.truck.deuctproduct.privateHwamul.service.HwamulBoardVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String" nullValue=""/>
+		<result property="contentText" column="CONTENT_TEXT" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId" column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName" column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime" column="MODIFY_TIME" nullValue=""/>
+		<result property="email"					column="EMAIL" nullValue=""/>	
+		<result property="birth" 					column="BIRTH"  	/>
+		<result property="phone" 					column="PHONE" nullValue=""/>		
+		<result property="jibu_cd"					column="JIBU_CD"	/>
+		<result property="car_no" 					column="CAR_NO"  	/>
+		<result property="car_category"				column="CAR_CATEGORY"/>
+		<result property="carry_capacity"			column="CARRY_CAPACITY"/>
+		<result property="person1_coverage"			column="PERSON1_COVERAGE"/>
+		<result property="person2_coverage"			column="PERSON2_COVERAGE"/>
+		<result property="object_coverage"			column="OBJECT_COVERAGE"/>
+		<result property="selfbody_coverage"		column="SELFBODY_COVERAGE"/>
+		<result property="selfcar_coverage"			column="SELFCAR_COVERAGE"/>
+		<result property="emergency_call"			column="EMERGENCY_CALL"/>
+		<result property="law_expense"				column="LAW_EXPENSE"/>
+		<result property="luggage_coverage"			column="LUGGAGE_COVERAGE"/>
+		<result property="assocication_join"		column="ASSOCICATION_JOIN"/>
+		<result property="expire_date"				column="EXPIRE_DATE"/>
+		<result property="extra_charge"				column="EXTRA_CHARGE"/>
+		<result property="essential_notice1"		column="ESSENTIAL_NOTICE1"/>
+		<result property="essential_notice2"		column="ESSENTIAL_NOTICE2"/>
+		<result property="essential_notice3"		column="ESSENTIAL_NOTICE3"/>
+		<result property="essential_notice4"		column="ESSENTIAL_NOTICE4"/>
+		<result property="essential_notice5"		column="ESSENTIAL_NOTICE5"/>
+		<result property="essential_notice6"		column="ESSENTIAL_NOTICE6"/>
+		<result property="essential_notice7"		column="ESSENTIAL_NOTICE7"/>
+		<result property="forward_id"				column="FORWARD_ID"/>
+		<result property="replyAt" 					column="REPLY_AT"  		/>
+		<result property="replyContentHtml" 		column="REPLY_CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String"  />
+		<result property="replyContentText" 		column="REPLY_CONTENT_TEXT"  />
+		<result property="replyId" 					column="REPLY_ID"  		/>
+		<result property="replyName"			 	column="REPLY_NAME"  	/>
+		<result property="replyTime" 				column="REPLY_TIME"  	/>
+		<result property="replyModifyId" 			column="REPLY_MODIFY_ID"  	/>
+		<result property="replyModifyName" 			column="REPLY_MODIFY_NAME"  />
+		<result property="replyModifyTime" 			column="REPLY_MODIFY_TIME"  />		
+	</resultMap>
+	
+	<resultMap id="hwamulBoardList" class="kr.or.truck.deuctproduct.privateHwamul.service.HwamulBoardVO">
+		<result property="bbsId"				column="BBS_ID" nullValue="" />
+		<result property="bbsName"				column="BBS_NAME" nullValue=""/>
+		<result property="articleNo"			column="ARTICLE_NO" nullValue=""/>
+		<result property="title"				column="TITLE" nullValue=""/>
+		<result property="createTime"			column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount"				column="RDCOUNT" nullValue=""/>
+		<result property="writerId"				column="WRITER_ID" nullValue=""/>
+		<result property="writerName"			column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId"				column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName"			column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime"			column="MODIFY_TIME" nullValue=""/>
+		<result property="replyAt" 				column="REPLY_AT"  		/>
+		<result property="replyContentHtml" 	column="REPLY_CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String"  />
+		<result property="replyContentText" 	column="REPLY_CONTENT_TEXT"  />
+		<result property="replyId" 				column="REPLY_ID"  		/>
+		<result property="replyName"			column="REPLY_NAME"  	/>
+		<result property="replyTime"			column="REPLY_TIME"  	/>
+		<result property="replyModifyId"		column="REPLY_MODIFY_ID"  	/>
+		<result property="replyModifyName"		column="REPLY_MODIFY_NAME"  />
+		<result property="replyModifyTime"		column="REPLY_MODIFY_TIME"  />		
+		<result property="useAt"				column="USE_AT" nullValue=""/>
+		<result property="phone"				column="PHONE" nullValue=""/>
+		<result property="email"				column="EMAIL" nullValue=""/>
+		<result property="forward_id"			column="FORWARD_ID"/>
+	</resultMap>
+
+	<insert id="hwamulBoardDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO CONSULATION_BBS(
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CONTENT_HTML,
+			CONTENT_TEXT,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			PHONE,
+			USE_AT,
+			IPIN_CI, 
+			IPIN_DI, 
+			CERTTYPE,
+			BIRTH,
+			PHONE_YN,
+			EMAIL,
+			CAR_NO,
+			JIBU_CD,
+			CAR_CATEGORY,
+			CARRY_CAPACITY,
+			PERSON1_COVERAGE,
+			PERSON2_COVERAGE,
+			OBJECT_COVERAGE,
+			SELFBODY_COVERAGE,
+			SELFCAR_COVERAGE,
+			EMERGENCY_CALL,
+			LAW_EXPENSE,
+			LUGGAGE_COVERAGE,
+			ASSOCICATION_JOIN,
+			EXPIRE_DATE,
+			EXTRA_CHARGE,
+			ESSENTIAL_NOTICE1,
+			ESSENTIAL_NOTICE2,
+			ESSENTIAL_NOTICE3,
+			ESSENTIAL_NOTICE4,
+			ESSENTIAL_NOTICE5,
+			ESSENTIAL_NOTICE6,
+			ESSENTIAL_NOTICE7,
+			REPLY_AT
+			)
+		 
+		VALUES (
+		'CONSULATION_BBS',
+		'가입상담 게시판',
+		#articleNo#,
+		#title#,
+		#contentHtml#,
+		#contentText#,
+		sysdate,
+		0,
+		#writerId#,
+		#writerName#,
+		#writerId#,
+		#writerName#,
+		sysdate,
+		#phone#,
+		'Y',
+		#ipinCi#,
+		#ipinDi#,
+		#certType#,
+		#birth#,
+		#phone_yn#,
+		#email#,
+		#car_no#,
+		#jibu_cd#,
+		#car_category#,
+		#carry_capacity#,
+		#person1_coverage#,
+		#person2_coverage#,
+		#object_coverage#,
+		#selfbody_coverage#,
+		#selfcar_coverage#,
+		#emergency_call#,
+		#law_expense#,
+		#luggage_coverage#,
+		#assocication_join#,
+		#expire_date#,
+		#extra_charge#,
+		#essential_notice1#,
+		#essential_notice2#,
+		#essential_notice3#,
+		#essential_notice4#,
+		#essential_notice5#,
+		#essential_notice6#,
+		#essential_notice7#,
+		'N'
+		)
+		]]>
+	</insert>
+	
+	<select id="hwamulBoardDAO.selectHwamulAuthId"  parameterClass="HashMap" resultClass="HashMap" >
+		SELECT AUTH_ID FROM HP_MENU_AUTH
+		WHERE CATEGORY = #jibu_cd# and DAEPYO_YN='Y'
+	</select>
+	
+	<update id="hwamulBoardDAO.updateBoard_H" parameterClass="hwamulBoardVO">
+		UPDATE 
+			CONSULATION_BBS
+		SET
+			FORWARD_ID = #forward_id#,
+			FORWARD_TIME = SYSDATE
+		WHERE
+			ARTICLE_NO = #articleNo#
+	</update>
+	
+	
+	<select id="hwamulBoardDAO.hwamulBoardList_D" parameterClass="hwamulBoardSearchVO" resultMap="hwamulBoardList" >
+	SELECT 	
+		B.*
+	FROM (
+		SELECT 
+			ROWNUM RNUM,	A.*
+		FROM (
+			SELECT	
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				(CAR_NO||' 개인화물 가입상담' ) AS TITLE,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') AS CREATE_TIME,  	
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				REPLY_AT,
+				REPLY_CONTENT_HTML,
+				REPLY_CONTENT_TEXT,
+				REPLY_ID,
+				REPLY_NAME,
+				TO_CHAR(REPLY_TIME, 'YYYY.MM.DD HH24:MI:SS') AS REPLY_TIME,
+				REPLY_MODIFY_ID,
+				REPLY_MODIFY_NAME,
+				REPLY_MODIFY_TIME,
+				USE_AT,
+				PHONE,
+				EMAIL,
+				FORWARD_ID
+			FROM CONSULATION_BBS
+			WHERE 1=1
+			AND USE_AT='Y'
+			AND BBS_ID = 'CONSULATION_BBS'	
+			<isNotEmpty prepend="AND" property="ipinDi">
+				IPIN_DI = #ipinDi#
+			</isNotEmpty>	
+			<isNotEmpty prepend="AND" property="writerId">
+				WRITER_ID = #writerId#
+			</isNotEmpty>
+			ORDER BY CREATE_TIME DESC, ARTICLE_NO DESC
+			 ) A
+		WHERE 1=1
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			TITLE LIKE '%' || #searchKeyword# || '%'
+		</isEqual>
+		) B
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="hwamulBoardDAO.selectBoardListTotCnt_D" parameterClass="hwamulBoardSearchVO" resultClass="int">
+		SELECT COUNT(*) totCnt 
+		FROM(
+			SELECT *
+			FROM(
+				SELECT A.*, (CAR_NO||' 개인화물 가입상담' ) AS TITLE2
+				FROM CONSULATION_BBS A
+				WHERE 1=1 AND USE_AT='Y'
+				AND bbs_id = 'CONSULATION_BBS'
+				<isNotEmpty prepend="AND" property="ipinDi">
+					IPIN_DI = #ipinDi#
+				</isNotEmpty>
+				<isNotEmpty prepend="AND" property="writerId">
+					WRITER_ID = #writerId#
+				</isNotEmpty>
+			)WHERE 1=1		
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE2 LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+		)
+	</select>
+</sqlMap>

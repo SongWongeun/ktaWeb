@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="paymentList" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="35774cc8-a1ec-4219-9dab-9a19e20c095e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+	<parameter name="saupja_no" class="java.lang.String"/>
+	<parameter name="jibu_cd_sql" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{jibu_cd}.isEmpty() ? "1=1" : "a.jibu_cd ='" + $P{jibu_cd} + "'"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jibu_cd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{jibu_cd}.replaceAll("\'","")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="junpyo_symd" class="java.lang.String"/>
+	<parameter name="junpyo_eymd" class="java.lang.String"/>
+	<parameter name="kta_logo" class="java.lang.String"/>
+	<parameter name="revenue" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{revenue}.replaceAll("\'","")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="revenue_sql" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{revenue}.isEmpty() ? "1=1" : "b.revenue > 0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyNm" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[select z.cnt,
+	       z.jibu_cd,
+	       z.jibu_nm,
+	       z.junpyo_ymd,
+	       z.sago_no,
+	       z.johabwon,
+	       z.car_no,
+	       z.sago_ymd,
+	       z.tot_amt,
+	       z.pihaeja,
+	       z.revenue,
+	       z.inhabit
+	  from (
+			select 0                                 cnt,
+			       a.jibu_cd                         jibu_cd,
+			       f_jibu_nm(a.jibu_cd)              jibu_nm,
+			       to_char(a.junpyo_ymd, 'yyyymmdd') junpyo_ymd,
+			       substr(a.mijigum_no, 1, 9)        sago_no,
+			       substr(a.remark, 1, instr(a.remark, ' ', 3, 1) - 1)                              johabwon,
+			       substr(a.remark, instr(a.remark, ' ', 3, 1) + 1,
+			                       (instr(a.remark, ' ', 3, 2) - 1) - (instr(a.remark, ' ', 3, 1))) car_no,
+			       substr(a.remark, instr(a.remark, ' ', 3, 2) + 2, 10)                             sago_ymd,
+			       a.junpyo_amt                                                                     tot_amt,
+			       (select nvl(trim(b.manage_data), '')
+			          from acsi08 b
+			         where b.jibu_cd    = a.jibu_cd
+			           and b.junpyo_ymd = a.junpyo_ymd
+			           and b.saup_cd    = a.saup_cd
+			           and b.junpyo_no  = a.junpyo_no
+			           and b.manage_cd  = '64')                                                     pihaeja,
+			        b.revenue                                                                       revenue,
+			        b.inhabit                                                                       inhabit,
+			        row_number() OVER(PARTITION BY a.mijigum_no, b.seq order by b.seq)              seq
+			  from acsi07 a, actx03 b
+			 where 
+			   a.junpyo_knd    in ('3', '4')
+			   and a.cust_cd       = $P{saupja_no}
+			 	and a.junpyo_ymd between $P{junpyo_symd} AND $P{junpyo_eymd}
+			    and (a.acc_cd       like '233201%' or
+			         a.acc_cd       like '231401%' or
+			         a.acc_cd       like '113301%')
+		    	and a.CUST_CD = b.cust_cd(+)
+			    and a.MIJIGUM_NO = b.MIJIGUM_NO(+)
+			    and a.junpyo_amt = b.tot_amt(+)
+			    ) z
+				order by z.junpyo_ymd, z.jibu_cd, z.sago_no]]>
+	</queryString>
+	<field name="CNT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CNT"/>
+		<property name="com.jaspersoft.studio.field.label" value="CNT"/>
+	</field>
+	<field name="JIBU_CD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="JIBU_CD"/>
+		<property name="com.jaspersoft.studio.field.label" value="JIBU_CD"/>
+	</field>
+	<field name="JIBU_NM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="JIBU_NM"/>
+		<property name="com.jaspersoft.studio.field.label" value="JIBU_NM"/>
+	</field>
+	<field name="JUNPYO_YMD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="JUNPYO_YMD"/>
+		<property name="com.jaspersoft.studio.field.label" value="JUNPYO_YMD"/>
+	</field>
+	<field name="SAGO_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SAGO_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="SAGO_NO"/>
+	</field>
+	<field name="JOHABWON" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="JOHABWON"/>
+		<property name="com.jaspersoft.studio.field.label" value="JOHABWON"/>
+	</field>
+	<field name="CAR_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CAR_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="CAR_NO"/>
+	</field>
+	<field name="SAGO_YMD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SAGO_YMD"/>
+		<property name="com.jaspersoft.studio.field.label" value="SAGO_YMD"/>
+	</field>
+	<field name="TOT_AMT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="TOT_AMT"/>
+		<property name="com.jaspersoft.studio.field.label" value="TOT_AMT"/>
+	</field>
+	<field name="PIHAEJA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PIHAEJA"/>
+		<property name="com.jaspersoft.studio.field.label" value="PIHAEJA"/>
+	</field>
+	<field name="REVENUE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="REVENUE"/>
+		<property name="com.jaspersoft.studio.field.label" value="REVENUE"/>
+	</field>
+	<field name="INHABIT" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="INHABIT"/>
+		<property name="com.jaspersoft.studio.field.label" value="INHABIT"/>
+	</field>
+	<variable name="totalAmt" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT_AMT}]]></variableExpression>
+	</variable>
+	<variable name="totalRev" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{REVENUE}]]></variableExpression>
+	</variable>
+	<variable name="totalInha" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{INHABIT}]]></variableExpression>
+	</variable>
+	<variable name="colCNT" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{CNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="105">
+			<rectangle>
+				<reportElement x="260" y="20" width="279" height="25" backcolor="#A3A3A3" uuid="3ef30879-23bc-4d10-9d40-1346e43ff411"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="260" y="19" width="279" height="25" forecolor="#FFFFFF" uuid="13294dfb-cd49-4699-accc-9ff0092acbce"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="20"/>
+				</textElement>
+				<text><![CDATA[거래처 지급현황]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="13" y="70" width="57" height="12" forecolor="#000000" uuid="d1c67e35-58aa-4c69-9298-90802f0e7283"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[조회기간 : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="672" y="70" width="53" height="12" forecolor="#000000" uuid="df7b1037-5b22-4e8d-b287-cef377dd7e5d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[출력일자 : ]]></text>
+			</staticText>
+			<image>
+				<reportElement x="720" y="45" width="71" height="16" uuid="ea27ac49-e1ef-4783-8009-52537f189d35"/>
+				<imageExpression><![CDATA[$P{kta_logo}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="13" y="87" width="777" height="18" backcolor="#8F8F8F" uuid="8661ca90-d425-4bd2-8c97-b20383156cca"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="40" y="87" width="1" height="18" uuid="e2ff329b-d542-42ae-80c1-ca7346499aac"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="105" y="87" width="1" height="18" uuid="2ec41155-9828-47d1-9731-568efab64b87"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="153" y="87" width="1" height="18" uuid="514c88dc-a36e-4fda-825a-15489974bb24"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="221" y="87" width="1" height="18" uuid="30639d03-2403-444a-83aa-878d2b0a7142"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="279" y="87" width="1" height="18" uuid="40f5a984-0e4b-4add-a1d6-e122cf3b6eae"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="392" y="87" width="1" height="18" uuid="b9b305b3-1453-438c-a9aa-fa3c97a6ad1c"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="471" y="87" width="1" height="18" uuid="b3bd3d90-5bd6-4f83-b092-d97d67a8d02d"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="556" y="87" width="1" height="18" uuid="a8eb01be-6c7d-458f-9827-aa4170e64798"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="622" y="87" width="1" height="18" uuid="72f6a358-211a-4ac6-ab93-97a6cd12b8be"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="680" y="87" width="1" height="18" uuid="f458ca7a-058f-4ac7-9ef3-e7881c0a8bb5"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="737" y="87" width="1" height="18" uuid="f8ae1781-44ee-44d7-aa0c-4ed803467978"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="13" y="86" width="27" height="18" uuid="c6159043-4aa8-4c46-aeb8-46d2dc72a8e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[순번]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="86" width="64" height="18" uuid="4b93af50-630e-424a-a141-ba24f6706d08"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[지급일자]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="106" y="86" width="47" height="18" uuid="c7c7c024-87ec-44d1-b6ba-c8fb8041d6f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[지부]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="154" y="86" width="67" height="18" uuid="3ab96c2a-6d7b-42dd-afb3-5ebdf31af08a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[사고번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="86" width="57" height="18" uuid="5c27bb27-f930-486e-87a7-3de647c44729"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[사고일자]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="86" width="112" height="18" uuid="4289d929-31c7-49e7-8b9e-1ae42450517a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[조합원명]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="86" width="78" height="18" uuid="a70ed199-1c09-4925-bb8b-6c0fa05f0712"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[차량번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="86" width="84" height="18" uuid="593a479b-cded-4430-a39e-7b3a816d93da"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[피해자/물]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="557" y="86" width="65" height="18" uuid="4a47b233-30d2-4f34-a945-e07a278003df"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[금액]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="623" y="86" width="57" height="18" uuid="d9acb95b-a5dc-4e6e-8c96-3c83724f44b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[갑근세]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="681" y="86" width="56" height="18" uuid="71c6ce57-11dd-446c-9dd5-efa1222266a5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[주민세]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="738" y="86" width="52" height="18" uuid="585abc7f-65d8-4220-9625-61273e39ef74"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[비  고]]></text>
+			</staticText>
+			<textField pattern="yyyy.MM.dd">
+				<reportElement x="70" y="70" width="60" height="12" uuid="e73f9b73-caf2-461f-af9d-02b52ba22e15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy.MM.dd").format(new SimpleDateFormat("yyyyMMdd").parse($P{junpyo_symd}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="70" width="60" height="12" uuid="a5a3dda4-f716-4407-8542-477c521bf7a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy.MM.dd").format(new SimpleDateFormat("yyyyMMdd").parse($P{junpyo_eymd}))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="130" y="70" width="10" height="12" uuid="f61ad1ae-cf55-483b-a054-fc8098a66c83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[~]]></text>
+			</staticText>
+			<textField pattern="yyyy.MM.dd">
+				<reportElement x="725" y="70" width="65" height="12" uuid="c7ce7dd2-e504-4fa6-bd31-bf7e2cf05c90"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="260" y="70" width="279" height="12" uuid="a277be50-7cd7-4bc4-98e2-50e48d24431d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+			</textField>
+			<textField>
+				<reportElement x="342" y="70" width="100" height="12" uuid="1bf47b6a-a72c-4fc4-9cfa-1f383d962ae5"/>
+				<textElement>
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyNm}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="13">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<rectangle>
+				<reportElement x="13" y="0" width="777" height="13" uuid="2bf74f29-2a0b-4ee4-9396-eb772142d98b"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="40" y="0" width="1" height="13" uuid="79043e32-63f7-43dc-a702-3914590238f4"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="105" y="0" width="1" height="13" uuid="30775cd3-7700-46a6-a24a-e8cd8a651d08"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="153" y="0" width="1" height="13" uuid="efb23eec-45a4-4ae6-adc8-0e0881945fc3"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="221" y="0" width="1" height="13" uuid="6908a967-64d2-42c4-9bb6-cf8f558383be"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="279" y="0" width="1" height="13" uuid="69b83384-a0d7-45f8-84c9-c8e18b54c829"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="392" y="0" width="1" height="13" uuid="249bbcdb-c824-40dc-b27b-054f21df3b41"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="471" y="0" width="1" height="13" uuid="fb9f0ce7-1ed9-4f5f-ba14-d5a86b212d39"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="556" y="0" width="1" height="13" uuid="64c195d3-1f7e-4496-af51-610ce11a6e32"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="622" y="0" width="1" height="13" uuid="3791245b-6b77-45b6-81ed-1b25714b5317"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="680" y="0" width="1" height="13" uuid="8e8e6bf5-af35-437e-b8e5-cd408ea8318a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="737" y="0" width="1" height="13" uuid="e8823f7f-280a-42d9-8b91-2d8231ad933a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="557" y="-1" width="65" height="13" uuid="8c39d9bd-c5c2-4de0-8aef-e459989ab1b9">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT_AMT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="-1" width="112" height="13" uuid="6cbe9b6a-c9d1-48f0-a90c-4fc5e40703b0">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JOHABWON}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="-1" width="78" height="13" uuid="b39913a8-ae8c-49a5-ade3-e31ef1e897ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAR_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="-1" width="84" height="13" uuid="2c02b16b-bcdd-443d-83bf-3c0e2ac2315f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PIHAEJA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="623" y="-1" width="57" height="13" uuid="be2dfb47-380a-4af6-8d34-89958ef4a757">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{REVENUE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="681" y="-1" width="56" height="13" uuid="8f793c87-284b-44b6-afb4-f62ac3aef0db">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INHABIT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="106" y="-1" width="47" height="13" uuid="5223f1f5-fd5f-4e65-b332-384f0c191996"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{JIBU_NM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="154" y="-1" width="67" height="13" uuid="dedc7baf-c233-4bee-9578-672da5314694"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SAGO_NO}.substring( 0, 4 ) + "-" + $F{SAGO_NO}.substring(4)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="-1" width="57" height="13" uuid="22ebf14d-3b98-4389-a851-4c1d92ac68b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SAGO_YMD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="-1" width="64" height="13" uuid="21394af2-1979-4725-8898-baf188e3e19a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy.MM.dd").format(new SimpleDateFormat("yyyyMMdd").parse($F{JUNPYO_YMD}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="-1" width="27" height="13" uuid="48fbaa72-888a-4713-a535-fe81ac3b037d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{colCNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="42">
+			<property name="com.jaspersoft.studio.layout"/>
+			<rectangle>
+				<reportElement x="13" y="-1" width="777" height="13" isRemoveLineWhenBlank="true" uuid="04716fda-fb0a-4b82-8d66-0d041700be06"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="556" y="-1" width="1" height="13" uuid="72710941-7188-4fd3-9593-7c0d918d17c0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="471" y="-1" width="1" height="13" uuid="9d9df5fb-110f-49a9-864d-20df4b994402"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="737" y="-1" width="1" height="13" uuid="18c9f8e1-d8aa-4470-b999-3c7bddbec9d5"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="557" y="-1" width="65" height="11" uuid="42bcaf7c-fe81-43a8-8d4f-44619d597bc0">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="굴림" size="9" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalAmt}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="472" y="-1" width="84" height="11" uuid="c9df64ad-3d80-497f-9154-f382d88dc2d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<text><![CDATA[전 체 합 계]]></text>
+			</staticText>
+			<line>
+				<reportElement x="622" y="-1" width="1" height="13" uuid="9ae295a3-939f-4c10-866b-eea69a3a059c"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="680" y="-1" width="1" height="13" uuid="bf1cde6b-3b7b-4dac-aaa1-6b04892ce0d5"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement x="13" y="20" width="777" height="18" backcolor="#C9C9C9" uuid="6c851799-d387-4387-91a7-a013870e8924"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="23" width="777" height="14" uuid="5b9559f7-acc2-47f7-811b-55686576fde0"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<text><![CDATA[◑본 출력물은 화물공제조합 홈페이지에서 출력이 가능하며, 거래처를 위한 업무지원 서비스로서 위의 내용과 실지급 내역이 상이한 경우에는 해당지부 경리과로 문의하시기 바랍니다.]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="623" y="-1" width="57" height="11" uuid="66a1378b-ccb1-4273-b0bd-cb5ab4a40a9b">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="굴림" size="9" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalRev}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="681" y="-1" width="56" height="11" uuid="2c4ae62e-66d3-448e-a9f6-febb7fdfb9f3">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="굴림" size="9" isBold="true"/>
+					<paragraph rightIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalInha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

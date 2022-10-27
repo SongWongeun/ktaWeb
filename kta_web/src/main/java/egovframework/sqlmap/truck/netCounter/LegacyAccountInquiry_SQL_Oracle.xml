@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AccountInquiry">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>	
+	<typeAlias  alias="accountInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	<typeAlias  alias="accountInquiryVO" type="kr.or.truck.netcounter.inquiryservice.service.AccountInquiryVO"/>
+	
+	<resultMap id="accountInquiry" class="kr.or.truck.netcounter.inquiryservice.service.AccountInquiryVO">	
+		<result property="cnt" column="CNT"/>
+		<result property="junpyo_ymd" column="JUNPYO_YMD"/>
+		<result property="jibu_nm" column="JIBU_NM"/>
+		<result property="sago_no" column="SAGO_NO"/>
+		<result property="sago_ymd" column="SAGO_YMD"/>
+		<result property="johabwon" column="JOHABWON"/>
+		<result property="car_no" column="CAR_NO"/>
+		<result property="pihaeja" column="PIHAEJA"/>
+		<result property="tot_amt" column="TOT_AMT"/>
+		<result property="revenue" column="REVENUE"/>
+		<result property="inhabit" column="INHABIT"/>				
+	</resultMap>
+	
+	<select id="accountInquiryDAO.selectList" parameterClass="accountInquirySearchVO" resultMap="accountInquiry" >
+		select * from (
+		    select /*+ FIRST_ROWS(10) */ a.*, ROWNUM rnum from (
+		    
+				select z.cnt,
+			       z.jibu_cd,
+			       z.jibu_nm,
+			       z.junpyo_ymd,
+			       z.sago_no,
+			       z.johabwon,
+			       z.car_no,
+			       z.sago_ymd,
+			       z.tot_amt,
+			       z.pihaeja,
+			       z.revenue,
+			       z.inhabit
+			  	from (
+					select 0                                 cnt,
+					       a.jibu_cd                         jibu_cd,
+					       f_jibu_nm(a.jibu_cd)              jibu_nm,
+					       to_char(a.junpyo_ymd, 'yyyymmdd') junpyo_ymd,
+					       substr(a.mijigum_no, 1, 9)        sago_no,
+					       substr(a.remark, 1, instr(a.remark, ' ', 3, 1) - 1)                              johabwon,
+					       substr(a.remark, instr(a.remark, ' ', 3, 1) + 1,
+					                       (instr(a.remark, ' ', 3, 2) - 1) - (instr(a.remark, ' ', 3, 1))) car_no,
+					       substr(a.remark, instr(a.remark, ' ', 3, 2) + 2, 10)                             sago_ymd,
+					       a.junpyo_amt                                                                     tot_amt,
+					       (select nvl(trim(b.manage_data), '')
+					          from acsi08 b
+					         where b.jibu_cd    = a.jibu_cd
+					           and b.junpyo_ymd = a.junpyo_ymd
+					           and b.saup_cd    = a.saup_cd
+					           and b.junpyo_no  = a.junpyo_no
+					           and b.manage_cd  = '64')                                                     pihaeja,
+					        b.revenue                                                                       revenue,
+					        b.inhabit                                                                       inhabit,
+					        row_number() OVER(PARTITION BY a.mijigum_no, b.seq order by b.seq)              seq,
+					        ROWNUM RNUM
+					  from acsi07 a, actx03 b
+					 where 
+					   a.junpyo_knd    in ('3', '4')
+					   and a.cust_cd       = #saupja_no#
+					 	<isNotEmpty prepend="AND" property="jibu_cd">
+					 	a.jibu_cd       like #jibu_cd#
+					 	</isNotEmpty>
+		
+					    <isNotEmpty prepend="AND" property="junpyo_symd">
+						a.junpyo_ymd between #junpyo_symd# AND #junpyo_eymd#
+					    </isNotEmpty>
+					    and (a.acc_cd       like '233201%' or
+					         a.acc_cd       like '231401%' or
+					         a.acc_cd       like '113301%')
+				    	and a.CUST_CD = b.cust_cd(+)
+					    and a.MIJIGUM_NO = b.MIJIGUM_NO(+)
+					    and a.junpyo_amt = b.tot_amt(+)
+					    ) z
+				order by z.junpyo_ymd desc, z.jibu_cd, z.sago_no
+				) a
+			)
+		<!-- <![CDATA[
+			 	) a where ROWNUM <= #lastIndex#
+			)where rnum > #firstIndex#
+		]]>  -->				
+ 	</select>
+
+
+	<select id="accountInquiryDAO.selectReportList" parameterClass="accountInquirySearchVO" resultClass="java.util.HashMap" >
+		select z.cnt,
+	       z.jibu_cd,
+	       z.jibu_nm,
+	       z.junpyo_ymd,
+	       z.sago_no,
+	       z.johabwon,
+	       z.car_no,
+	       z.sago_ymd,
+	       z.tot_amt,
+	       z.pihaeja,
+	       z.revenue,
+	       z.inhabit
+	  from (
+			select 0                                 cnt,
+			       a.jibu_cd                         jibu_cd,
+			       f_jibu_nm(a.jibu_cd)              jibu_nm,
+			       to_char(a.junpyo_ymd, 'yyyymmdd') junpyo_ymd,
+			       substr(a.mijigum_no, 1, 9)        sago_no,
+			       substr(a.remark, 1, instr(a.remark, ' ', 3, 1) - 1)                              johabwon,
+			       substr(a.remark, instr(a.remark, ' ', 3, 1) + 1,
+			                       (instr(a.remark, ' ', 3, 2) - 1) - (instr(a.remark, ' ', 3, 1))) car_no,
+			       substr(a.remark, instr(a.remark, ' ', 3, 2) + 2, 10)                             sago_ymd,
+			       a.junpyo_amt                                                                     tot_amt,
+			       (select nvl(trim(b.manage_data), '')
+			          from acsi08 b
+			         where b.jibu_cd    = a.jibu_cd
+			           and b.junpyo_ymd = a.junpyo_ymd
+			           and b.saup_cd    = a.saup_cd
+			           and b.junpyo_no  = a.junpyo_no
+			           and b.manage_cd  = '64')                                                     pihaeja,
+			        b.revenue                                                                       revenue,
+			        b.inhabit                                                                       inhabit,
+			        row_number() OVER(PARTITION BY a.mijigum_no, b.seq order by b.seq)              seq
+			  from acsi07 a, actx03 b
+			 where 
+			   a.junpyo_knd    in ('3', '4')
+			   and a.cust_cd       = #saupja_no#
+			 	<isNotEmpty prepend="AND" property="jibu_cd">
+			 	a.jibu_cd       like #jibu_cd#
+			 	</isNotEmpty>
+			    <isNotEmpty prepend="AND" property="junpyo_symd">
+				a.junpyo_ymd between #junpyo_symd# AND #junpyo_eymd#
+			    </isNotEmpty>
+			    and (a.acc_cd       like '233201%' or
+			         a.acc_cd       like '231401%' or
+			         a.acc_cd       like '113301%')
+		    	and a.CUST_CD = b.cust_cd(+)
+			    and a.MIJIGUM_NO = b.MIJIGUM_NO(+)
+			    and a.junpyo_amt = b.tot_amt(+)
+			    ) z
+				order by z.junpyo_ymd, z.jibu_cd, z.sago_no
+ 	</select>
+ 	
+ 	<select id="accountInquiryDAO.selectList2" parameterClass="accountInquirySearchVO" resultMap="accountInquiry" >
+		select * from (
+		    select /*+ FIRST_ROWS(10) */ a.*, ROWNUM rnum from (
+		    
+				select z.cnt,
+			       z.jibu_cd,
+			       z.jibu_nm,
+			       z.junpyo_ymd,
+			       z.sago_no,
+			       z.johabwon,
+			       z.car_no,
+			       z.sago_ymd,
+			       z.tot_amt,
+			       z.pihaeja,
+			       z.revenue,
+			       z.inhabit
+			  	from (
+					select 0                                 cnt,
+					       a.jibu_cd                         jibu_cd,
+					       f_jibu_nm(a.jibu_cd)              jibu_nm,
+					       to_char(a.junpyo_ymd, 'yyyymmdd') junpyo_ymd,
+					       substr(a.mijigum_no, 1, 9)        sago_no,
+					       substr(a.remark, 1, instr(a.remark, ' ', 3, 1) - 1)                              johabwon,
+					       substr(a.remark, instr(a.remark, ' ', 3, 1) + 1,
+					                       (instr(a.remark, ' ', 3, 2) - 1) - (instr(a.remark, ' ', 3, 1))) car_no,
+					       substr(a.remark, instr(a.remark, ' ', 3, 2) + 2, 10)                             sago_ymd,
+					       a.junpyo_amt                                                                     tot_amt,
+					       (select nvl(trim(b.manage_data), '')
+					          from acsi08 b
+					         where b.jibu_cd    = a.jibu_cd
+					           and b.junpyo_ymd = a.junpyo_ymd
+					           and b.saup_cd    = a.saup_cd
+					           and b.junpyo_no  = a.junpyo_no
+					           and b.manage_cd  = '64')                                                     pihaeja,
+					        b.revenue                                                                       revenue,
+					        b.inhabit                                                                       inhabit,
+					        row_number() OVER(PARTITION BY a.mijigum_no, b.seq order by b.seq)              seq,
+					        ROWNUM RNUM
+					  from acsi07 a, actx03 b
+					 where 
+					   a.junpyo_knd    in ('3', '4')
+					   and a.cust_cd       = #saupja_no#
+					 	<isNotEmpty prepend="AND" property="jibu_cd">
+					 	a.jibu_cd       like #jibu_cd#
+					 	</isNotEmpty>
+		
+					    <isNotEmpty prepend="AND" property="junpyo_symd">
+						a.junpyo_ymd between #junpyo_symd# AND #junpyo_eymd#
+					    </isNotEmpty>
+					    and (a.acc_cd       like '233201%' or
+					         a.acc_cd       like '231401%' or
+					         a.acc_cd       like '113301%')
+				    	and a.CUST_CD = b.cust_cd(+)
+					    and a.MIJIGUM_NO = b.MIJIGUM_NO(+)
+					    and a.junpyo_amt = b.tot_amt(+)
+					    and b.revenue > 0
+					    ) z
+				order by z.junpyo_ymd desc, z.jibu_cd, z.sago_no
+				) a
+			)
+		<!-- <![CDATA[
+			 	) a where ROWNUM <= #lastIndex#
+			)where rnum > #firstIndex#
+		]]>  -->				
+ 	</select>
+
+
+	<select id="accountInquiryDAO.selectReportList2" parameterClass="accountInquirySearchVO" resultClass="java.util.HashMap" >
+		select z.cnt,
+	       z.jibu_cd,
+	       z.jibu_nm,
+	       z.junpyo_ymd,
+	       z.sago_no,
+	       z.johabwon,
+	       z.car_no,
+	       z.sago_ymd,
+	       z.tot_amt,
+	       z.pihaeja,
+	       z.revenue,
+	       z.inhabit
+	  from (
+			select 0                                 cnt,
+			       a.jibu_cd                         jibu_cd,
+			       f_jibu_nm(a.jibu_cd)              jibu_nm,
+			       to_char(a.junpyo_ymd, 'yyyymmdd') junpyo_ymd,
+			       substr(a.mijigum_no, 1, 9)        sago_no,
+			       substr(a.remark, 1, instr(a.remark, ' ', 3, 1) - 1)                              johabwon,
+			       substr(a.remark, instr(a.remark, ' ', 3, 1) + 1,
+			                       (instr(a.remark, ' ', 3, 2) - 1) - (instr(a.remark, ' ', 3, 1))) car_no,
+			       substr(a.remark, instr(a.remark, ' ', 3, 2) + 2, 10)                             sago_ymd,
+			       a.junpyo_amt                                                                     tot_amt,
+			       (select nvl(trim(b.manage_data), '')
+			          from acsi08 b
+			         where b.jibu_cd    = a.jibu_cd
+			           and b.junpyo_ymd = a.junpyo_ymd
+			           and b.saup_cd    = a.saup_cd
+			           and b.junpyo_no  = a.junpyo_no
+			           and b.manage_cd  = '64')                                                     pihaeja,
+			        b.revenue                                                                       revenue,
+			        b.inhabit                                                                       inhabit,
+			        row_number() OVER(PARTITION BY a.mijigum_no, b.seq order by b.seq)              seq
+			  from acsi07 a, actx03 b
+			 where 
+			   a.junpyo_knd    in ('3', '4')
+			   and a.cust_cd       = #saupja_no#
+			 	<isNotEmpty prepend="AND" property="jibu_cd">
+			 	a.jibu_cd       like #jibu_cd#
+			 	</isNotEmpty>
+			    <isNotEmpty prepend="AND" property="junpyo_symd">
+				a.junpyo_ymd between #junpyo_symd# AND #junpyo_eymd#
+			    </isNotEmpty>
+			    and (a.acc_cd       like '233201%' or
+			         a.acc_cd       like '231401%' or
+			         a.acc_cd       like '113301%')
+		    	and a.CUST_CD = b.cust_cd(+)
+			    and a.MIJIGUM_NO = b.MIJIGUM_NO(+)
+			    and a.junpyo_amt = b.tot_amt(+)
+			    and b.revenue > 0
+			    ) z
+				order by z.junpyo_ymd, z.jibu_cd, z.sago_no
+ 	</select>
+ 	
+ 	
+ 	<select id="accountInquiryDAO.selectBoardListTotCnt" parameterClass="accountInquirySearchVO" resultClass="int">
+ 			 select COUNT(*) totcnt
+              from acsi07 a, actx03 b
+			  where 
+			   a.junpyo_knd    in ('3', '4')
+			   and a.cust_cd       = #saupja_no#
+			 	<isNotEmpty prepend="AND" property="jibu_cd">
+			 	a.jibu_cd       like #jibu_cd#
+			 	</isNotEmpty>			  	
+			    <isNotEmpty prepend="AND" property="junpyo_symd">
+				a.junpyo_ymd between #junpyo_symd# AND #junpyo_eymd#
+			    </isNotEmpty>
+			    and (a.acc_cd       like '233201%' or
+			         a.acc_cd       like '231401%' or
+			         a.acc_cd       like '113301%')
+		    	and a.CUST_CD = b.cust_cd(+)
+			    and a.MIJIGUM_NO = b.MIJIGUM_NO(+)
+			    and a.junpyo_amt = b.tot_amt(+)
+ 	</select>
+ 	
+ 	<select id="accountInquiryDAO.selectBoardListTotCnt2" parameterClass="accountInquirySearchVO" resultClass="int">
+ 			 select COUNT(*) totcnt
+              from acsi07 a, actx03 b
+			  where 
+			   a.junpyo_knd    in ('3', '4')
+			   and a.cust_cd       = #saupja_no#
+			 	<isNotEmpty prepend="AND" property="jibu_cd">
+			 	a.jibu_cd       like #jibu_cd#
+			 	</isNotEmpty>			  	
+			    <isNotEmpty prepend="AND" property="junpyo_symd">
+				a.junpyo_ymd between #junpyo_symd# AND #junpyo_eymd#
+			    </isNotEmpty>
+			    and (a.acc_cd       like '233201%' or
+			         a.acc_cd       like '231401%' or
+			         a.acc_cd       like '113301%')
+		    	and a.CUST_CD = b.cust_cd(+)
+			    and a.MIJIGUM_NO = b.MIJIGUM_NO(+)
+			    and a.junpyo_amt = b.tot_amt(+)
+			    and b.revenue > 0
+ 	</select>
+ 	
+ 	
+ 	
+ 	<select id="accountInquiryDAO.selectCompanyNm" parameterClass="accountInquirySearchVO" resultClass="string" >
+		SELECT CUST_NM
+		FROM ACSD05
+		WHERE CUST_CD = #saupja_no#
+		AND ins_ymd = (select max(ins_ymd) from ACSD05 where CUST_CD = #saupja_no#)
+		AND ROWNUM = 1
+ 	</select>
+</sqlMap>

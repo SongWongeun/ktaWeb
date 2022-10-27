@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Member">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="MemberSearchVO" type="kr.or.truck.kwa.membermgr.service.MemberSearchVO"/>
+	
+	<!-- 웹회원 리스트 검색
+	 조합원 : Mem_table,
+	 차량관리자 : Member,
+	 거래처 : Mem_Partner -->
+	<select id="memberDAO.selectWebMember" parameterClass="MemberSearchVO" resultClass="hashMap" >
+		SELECT 
+		 		AGENTCD AS agentCd ,
+		       AGENT_NO AS agentNo ,
+		       ID AS id ,
+		       GYEYAK_JIBU_NM AS gyeyakJibuNm ,
+		       DAEPYOJA_NM AS daepyojaNm ,
+		       AGENT_NM AS agentNm ,
+		       SAUPNUM AS saupjaNo ,
+		       GYEYAK_JIBU AS gyeyakJibuCd ,
+		       TO_CHAR(JOINDATE, 'YYYY.MM.DD') joinDate,
+		       UNREGISTER_YN AS unregister_yn
+  			FROM (SELECT ROWNUM RNUM, S.*
+         				 FROM (
+         				 <isEqual property="category" compareValue="1">
+	         				 SELECT
+	         				 				  TM.AGENTCD,
+						                       TM.AGENT_NO,
+						                       TM.ID,
+						                       f_jibu_nm(TM.GYEYAK_JIBU||'01') as Gyeyak_Jibu_nm,
+						                       CT01.DAEPYOJA_NM,
+						                       CT01.AGENT_NM,
+						                       TM.SAUPNUM,
+						                       TM.GYEYAK_JIBU,
+						                       TM.JOINDATE,
+						                       TM.UNREGISTER_YN
+	                 					 FROM TB_MEMBER TM, CTGI01@KOTMASDB CT01
+	                					WHERE TM.AGENT_NO = CT01.AGENT_NO
+						                   AND TM.SAUPJANG_SEQ = CT01.SAUPJANG_SEQ 
+						                   AND TM.SAUPNUM = CT01.SAUPJA_NO
+						</isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="2">
+			                SELECT 
+			                		TM.AGENTCD,
+			                       TM.AGENT_NO,
+			                       TM.ID,
+			                       NULL as Gyeyak_Jibu_nm,
+			                       CT06.CARMGR_NM AS DAEPYOJA_NM,
+			                       CT06.COMPANY_NM AS AGENT_NM,
+			                       TM.SAUPNUM,
+			                       TM.GYEYAK_JIBU,
+			                       TM.JOINDATE,
+			                       TM.UNREGISTER_YN
+	                  		FROM TB_MEMBER TM, CTGI06@KOTMASDB CT06
+	                 		WHERE TM.CARMGR_SEQ = CT06.CARMGR_SEQ	  
+		                </isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="3">
+			                SELECT 
+			                		distinct TM.AGENT_NO,
+	                               TM.AGENTCD,
+			                       TM.ID,
+			                       NULL as Gyeyak_Jibu_nm,
+			                       AD05.PRESI_NM AS DAEPYOJA_NM,
+			                       AD05.CUST_NM AS AGENT_NM,
+			                       TM.SAUPNUM,
+			                       TM.GYEYAK_JIBU,
+			                       TM.JOINDATE,
+			                       TM.UNREGISTER_YN
+			                 FROM TB_MEMBER TM, ACSD05@KOTMASDB AD05                       
+			                 WHERE TM.AGENT_NO = AD05.CUST_CD 
+		                 </isEqual>              
+        		    ) S
+						WHERE 1=1
+							AND NOT UNREGISTER_YN='Y'
+							<isEqual prepend="AND" property="searchCondition" compareValue="1">
+								ID like '%'|| #searchKeyword# ||'%'
+							</isEqual>
+							<isEqual prepend="AND" property="searchCondition" compareValue="2">
+								( DAEPYOJA_NM like '%'||  #searchKeyword# ||'%'  or AGENT_NM like '%'||  #searchKeyword# ||'%' )
+							</isEqual>
+							<isEqual prepend="AND" property="searchCondition" compareValue="3">
+								SAUPNUM like '%'|| #searchKeyword# ||'%'
+							</isEqual>
+			 ) A
+			<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+			
+		 	<!-- SELECT gb, ID, PASSWD, SAUPNUM, Jumin1, JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,TO_CHAR(Joindate, 'YYYY.MM.DD') Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					Select 
+			'조합원' as gb, ID, PASSWD, SAUPNUM, Jumin1, JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+			From Mem_Table 
+			Union All 
+			Select '차량관리자' as gb, USERID as ID,PASSWD,	SAUPNUM,Jumin1,	JUMIN2,	Name,null,Post1,Post2,null,	PHONE1,
+			Phone2,	Phone3,	CELL1,	CELL2,	Cell3,	MAIL,Joindate,null,	MAIL_YN,Sms_Yn,	Info_Yn
+			From Member
+			Union All
+			Select 	'거래처' as gb, ID,	PASSWD,	SAUPNUM,Jumin1,	JUMIN2,	NAME,Comname,Post1,Post2,COMJUSO,PHONE1,Phone2,	Phone3,
+			CELL1,CELL2,Cell3,MAIL,	Joindate,null,MAIL_YN,Sms_Yn,Info_Yn 
+			From Mem_Partner          
+				) S	
+			WHERE 1=1
+			<isEqual prepend="AND" property="category" compareValue="0">
+				gb is not null
+			</isEqual>
+			<isEqual prepend="AND" property="category" compareValue="1">
+				gb ='조합원'
+			</isEqual>
+			<isEqual prepend="AND" property="category" compareValue="2">
+				gb ='차량관리자'
+			</isEqual>
+			<isEqual prepend="AND" property="category" compareValue="3">
+				gb ='거래처'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				ID like '%'|| #searchKeyword# ||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				NAME like '%'|| #searchKeyword# ||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="3">
+				SAUPNUM like '%'|| #searchKeyword# ||'%'
+			</isEqual>
+			 ) A
+			<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]> -->
+			 
+	</select>
+	
+	<!-- WebMember Total count  -->
+	<select id="memberDAO.selectWebMemberListTotCnt" parameterClass="MemberSearchVO" resultClass="Int">
+		SELECT COUNT(*) totcnt 
+			FROM (
+			<isEqual property="category" compareValue="1">
+				SELECT
+         				 				  TM.AGENTCD,
+					                       TM.AGENT_NO,
+					                       TM.ID,
+					                       NULL, <!-- f_jibu_nm(TM.GYEYAK_JIBU||'01') Gyeyak_Jibu_nm,-->
+					                       CT01.DAEPYOJA_NM AS DAEPYOJANM,
+					                       CT01.AGENT_NM AS AGENTNM,
+					                       TM.SAUPNUM,
+					                       TM.GYEYAK_JIBU,
+					                       TM.JOINDATE,
+					                       TM.UNREGISTER_YN
+                 					 FROM TB_MEMBER TM, CTGI01@KOTMASDB CT01
+                					WHERE TM.AGENT_NO = CT01.AGENT_NO
+					                   AND TM.SAUPJANG_SEQ = CT01.SAUPJANG_SEQ 
+					                   AND TM.SAUPNUM = CT01.SAUPJA_NO
+		                </isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="2">
+		                SELECT 
+		                		TM.AGENTCD,
+		                       TM.AGENT_NO,
+		                       TM.ID,
+		                       NULL,
+		                       CT06.CARMGR_NM AS DAEPYOJANM,
+		                       CT06.COMPANY_NM AS AGENTNM,
+		                       TM.SAUPNUM,
+		                       TM.GYEYAK_JIBU,
+		                       TM.JOINDATE,
+		                       TM.UNREGISTER_YN
+                  		FROM TB_MEMBER TM, CTGI06@KOTMASDB CT06
+                 		WHERE TM.CARMGR_SEQ = CT06.CARMGR_SEQ
+		                </isEqual>
+		                <!-- UNION -->
+		                <isEqual property="category" compareValue="3">
+		                SELECT 
+		                		distinct TM.AGENT_NO,
+                               TM.AGENTCD,
+		                       TM.ID,
+		                       NULL,
+		                       AD05.PRESI_NM AS DAEPYOJANM,
+		                       AD05.CUST_NM AS AGENTNM,
+		                       TM.SAUPNUM,
+		                       TM.GYEYAK_JIBU,
+		                       TM.JOINDATE,
+		                       TM.UNREGISTER_YN
+		                 FROM TB_MEMBER TM, ACSD05@KOTMASDB AD05                       
+		                 WHERE TM.AGENT_NO = AD05.CUST_CD
+		                 </isEqual> )
+			WHERE 1=1
+				AND NOT UNREGISTER_YN='Y'
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					ID like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					( DAEPYOJANM like '%'||  #searchKeyword# ||'%'  or AGENTNM like '%'||  #searchKeyword# ||'%' ) 
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					SAUPNUM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				
+			<!-- SELECT COUNT(*) totcnt FROM
+			( Select 
+			'조합원' as gb, ID, PASSWD, SAUPNUM, Jumin1, JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+			From Mem_Table 
+			Union All 
+			Select '차량관리자' as gb, USERID as ID,PASSWD,	SAUPNUM,Jumin1,	JUMIN2,	Name,null,Post1,Post2,null,	PHONE1,
+			Phone2,	Phone3,	CELL1,	CELL2,	Cell3,	MAIL,Joindate,null,	MAIL_YN,Sms_Yn,	Info_Yn
+			From Member
+			Union All
+			Select 	'거래처' as gb, ID,	PASSWD,	SAUPNUM,Jumin1,	JUMIN2,	NAME,Comname,Post1,Post2,COMJUSO,PHONE1,Phone2,	Phone3,
+			CELL1,CELL2,Cell3,MAIL,	Joindate,null,MAIL_YN,Sms_Yn,Info_Yn 
+			From Mem_Partner)
+			WHERE 1=1
+			<isEqual prepend="AND" property="category" compareValue="0">
+				gb is not null
+			</isEqual>
+			<isEqual prepend="AND" property="category" compareValue="1">
+				gb ='조합원'
+			</isEqual>
+			<isEqual prepend="AND" property="category" compareValue="2">
+				gb ='차량관리자'
+			</isEqual>
+			<isEqual prepend="AND" property="category" compareValue="3">
+				gb ='거래처'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				ID like '%'|| #searchKeyword# ||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				NAME like '%'|| #searchKeyword# ||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="3">
+				SAUPNUM like '%'|| #searchKeyword# ||'%'
+			</isEqual> -->
+	</select>
+	
+	<!-- 웹회원 상세조회 -->
+	<select id="memberDAO.selectMemberDetail" parameterClass="MemberSearchVO" resultClass="hashMap">
+		<isEqual property="category" compareValue="1">
+				SELECT rownum,
+					   T1.AGENTCD AS GB,
+					   T1.ID AS ID ,
+				       T1.PASSWD AS PASSWD,
+				       T1.SAUPNUM AS SAUPNUM ,
+				       C1.JOHAPWON_JUMIN_NO AS JUMINNO,
+				       C1.DAEPYOJA_NM AS NAME ,
+				       C1.AGENT_NM AS COMNAME ,
+				       C2.ZIP1||C2.ZIP2 AS POST1 ,
+				       C2.ADDR1||C2.ADDR2 AS COMJUSO ,
+				       C1.MOBILE_COM_NO as PHONE1 ,
+				       SUBSTR(C1.MOBILE_NO, 1, 4) as PHONE2 ,
+				       SUBSTR(C1.MOBILE_NO, 5, 8) as PHONE3 ,
+				       C2.TEL_LOCAL_NO as CELL1 ,
+				       SUBSTR(C2.TEL_NO, 1, 4) as CELL2 ,
+				       SUBSTR(C2.TEL_NO, 5, 8) as CELL3 ,
+				       T1.MAIL as MAIL ,
+				       T1.JOINDATE AS JOINDATE
+				  FROM 
+				  	   TB_MEMBER T1 LEFT OUTER JOIN CTGI01@KOTMASDB C1 ON T1.AGENT_NO = C1.AGENT_NO
+					   AND T1.SAUPJANG_SEQ = C1.SAUPJANG_SEQ LEFT OUTER JOIN CTGI02@KOTMASDB C2 ON T1.AGENT_NO = C2.AGENT_NO
+					   AND T1.SAUPJANG_SEQ = C2.SAUPJANG_SEQ
+					   AND C1.ADDR_GB_CD = C2.ADDR_GB_CD LEFT OUTER JOIN TB_MEMBER_SAUPNO TBS ON T1.AGENT_NO = TBS.AGENT_NO
+					   AND T1.SAUPJANG_SEQ = TBS.SAUPJANG_SEQ
+				 WHERE 
+				 	   T1.AGENTCD = '1'
+					   AND TBS.DEFAULT_YN ='Y'
+					   AND rownum = '1' AND T1.ID=#id#
+		</isEqual>
+		<isEqual property="category" compareValue="2">
+				SELECT rownum,
+					   T1.AGENTCD AS GB,
+				       T1.ID AS ID ,
+				       T1.PASSWD AS PASSWD,
+				       T1.SAUPNUM ,
+				       C6.CARMGR_JUMIN_NO AS JUMINNO,
+				       C6.CARMGR_NM AS NAME ,
+				       C6.COMPANY_NM AS COMNAME,
+				       C6.ZIP2||C6.ZIP2 AS POST1 ,
+				       C6.ADDR1||C6.ADDR2 AS COMJUSO ,
+				       C6.MOBILE_COM_NO AS PHONE1 ,
+				       SUBSTR(C6.MOBILE_NO, 1, 4) AS PHONE2 ,
+				       SUBSTR(C6.MOBILE_NO, 5, 8) AS PHONE3 ,
+				       C6.TEL_LOCAL_NO AS CELL1 ,
+				       SUBSTR(C6.TEL_NO, 1, 4) AS CELL2 ,
+				       SUBSTR(C6.TEL_NO, 5, 8) AS CELL3 ,
+				       T1.MAIL AS MAIL,
+				       T1.JOINDATE
+				  FROM TB_MEMBER T1 inner join CTGI06@KOTMASDB C6 ON T1.AGENT_NO = C6.CARMGR_SEQ
+				 WHERE rownum = '1' AND T1.ID=#id#
+		</isEqual>
+		<isEqual property="category" compareValue="3">
+				SELECT rownum,
+					   T1.AGENTCD AS GB,
+				       T1.ID AS ID ,
+				       T1.PASSWD AS PASSWD,
+				       T1.SAUPNUM AS SAUPNUM ,
+				       A5.PRESI_JUMINNO AS JUMINNO,
+				       A5.PRESI_NM AS NAME ,
+				       A5.CUST_NM AS COMNAME ,
+				       A5.PRESI_ZIPCD AS POST1 ,
+				       A5.PRESI_JUSO1||A5.PRESI_JUSO2 AS COMJUSO ,
+				       '' AS PHONE1 ,
+				       '' AS PHONE2 ,
+				       '' AS PHONE3 ,
+				       SUBSTR(A5.PRESI_TELNO, 1, 3) AS CELL1 ,
+				       SUBSTR(A5.PRESI_TELNO, 4, 3) AS CELL2 ,
+				       SUBSTR(A5.PRESI_TELNO, 7, 4) AS CELL3 ,
+				       T1.MAIL AS MAIL ,
+				       T1.JOINDATE
+				  FROM TB_MEMBER T1 LEFT OUTER JOIN acsd05@KOTMASDB A5 ON T1.AGENT_NO = A5.CUST_CD
+				 WHERE rownum = '1' AND T1.ID=#id#
+ 			</isEqual>
+		<!-- SELECT gb, ID, PASSWD, SAUPNUM, Jumin1, JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,TO_CHAR(Joindate, 'YYYY.MM.DD') Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					Select 
+			'조합원' as gb, ID, PASSWD, SAUPNUM, Jumin1, JUMIN2, NAME, Comname, Post1, Post2, COMJUSO, PHONE1,
+			Phone2, Phone3, CELL1, CELL2, Cell3, MAIL,Joindate, Gyeyak_Jibu,	MAIL_YN, Sms_Yn,	Info_Yn
+			From Mem_Table 
+			Union All 
+			Select '차량관리자' as gb, USERID as ID,PASSWD,	SAUPNUM,Jumin1,	JUMIN2,	Name,null,Post1,Post2,null,	PHONE1,
+			Phone2,	Phone3,	CELL1,	CELL2,	Cell3,	MAIL,Joindate,null,	MAIL_YN,Sms_Yn,	Info_Yn
+			From Member
+			Union All
+			Select 	'거래처' as gb, ID,	PASSWD,	SAUPNUM,Jumin1,	JUMIN2,	NAME,Comname,Post1,Post2,COMJUSO,PHONE1,Phone2,	Phone3,
+			CELL1,CELL2,Cell3,MAIL,	Joindate,null,MAIL_YN,Sms_Yn,Info_Yn 
+			From Mem_Partner          
+				) S	
+			WHERE 1=1 AND ID = #id#
+			 ) A  -->
+	</select>
+	
+	<!-- 웹회원 비밀번호 초기화 -->
+	<update id="memberDAO.initMemberPwd" parameterClass="hashmap">
+			UPDATE 
+				TB_MEMBER
+			SET 
+				PASSWD = damo.hash_str_data(#id#)
+				, UPDATE_PASSWD_DT=SYSDATE
+			WHERE 
+				ID = #id#
+	</update>
+	
+	<!-- 웹회원 정보수정 (email만) -->
+	<update id="memberDAO.updateWebMember" parameterClass="hashmap">
+			UPDATE 
+				TB_MEMBER
+			SET 
+				MAIL = #email#
+			WHERE 
+				ID = #id#
+	</update>
+	
+	<!-- 웹회원 정보수정 조합원 -->
+	<!-- <update id="memberDAO.updateWebMember1" parameterClass="hashmap">
+	UPDATE MEM_TABLE
+	SET 
+		NAME = #name#,
+		comname = #company#,
+		MAIL = #email#
+	WHERE 1=1
+	AND
+		ID = #id#
+	
+	</update> -->
+	<!-- 웹회원 정보수정 차량관리자 -->
+	<!-- <update id="memberDAO.updateWebMember2" parameterClass="hashmap">
+	UPDATE Member
+	SET
+		NAME = #name#,
+		MAIL = #email#
+	WHERE 1=1
+	AND
+		USERID = #id#
+	
+	</update> -->
+	<!-- 웹회원 정보수정 거래처 -->
+	<!-- <update id="memberDAO.updateWebMember3" parameterClass="hashmap">
+	UPDATE Mem_Partner
+	SET
+		NAME = #name#,
+		comname = #company#,
+		MAIL = #email#
+	WHERE 1=1
+	AND
+		ID = #id#
+	
+	</update> -->
+	
+	
+	<!-- 웹회원 비밀번호 초기화 조합원 -->
+	<!-- <update id="memberDAO.initMemberPwd1" parameterClass="hashmap">
+	UPDATE MEM_TABLE
+	SET 
+		PASSWD = #id#
+	WHERE 1=1
+	AND
+		ID = #id#
+	
+	</update> -->
+	<!-- 웹회원 비밀번호 초기화  차량관리자 -->
+	<!-- <update id="memberDAO.initMemberPwd2" parameterClass="hashmap">
+	UPDATE Member
+	SET
+		PASSWD = #id#
+	WHERE 1=1
+	AND
+		USERID = #id#
+	
+	</update> -->
+	<!-- 웹회원 비밀번호 초기화  거래처 -->
+	<!-- <update id="memberDAO.initMemberPwd3" parameterClass="hashmap">
+	UPDATE Mem_Partner
+	SET
+		PASSWD = #id#
+	WHERE 1=1
+	AND
+		ID = #id#
+	
+	</update> -->
+	
+	
+	<!-- 관리자 목록 조회 -->
+	<select id="memberDAO.selectAdminMemberList" parameterClass="MemberSearchVO" resultClass="hashMap">
+	
+	SELECT 
+		HP_MENU_AUTH_NO,
+		AUTH_NAME,
+		AUTH_TYPE,
+		HP_MENU_NO, 
+		AUTH_ID, 
+		TO_CHAR(REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE, 
+		REGIST_ID,
+		HP_BOARD_MASTER_NO,
+		MENU_NM
+			FROM (
+				SELECT  
+		       		ROWNUM RNUM,
+		       		S.*
+			   FROM (
+					SELECT 
+					A.HP_MENU_AUTH_NO,
+					A.AUTH_TYPE,
+					A.HP_MENU_NO, 
+					A.AUTH_ID, 
+					A.REGIST_DATE, 
+					A.REGIST_ID,
+					A.AUTH_NAME,
+					B.HP_BOARD_MASTER_NO,
+					B.MENU_NM
+        		FROM 
+					HP_MENU_AUTH A LEFT OUTER JOIN HP_MENU B
+				ON 
+					A.HP_MENU_NO = B.HP_MENU_NO
+				WHERE 1=1
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					(
+						(A.REGIST_ID like '%'|| #searchKeyword# ||'%')
+					OR
+						(A.AUTH_NAME like '%'|| #searchKeyword# ||'%')
+					)
+				</isEqual>				
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					MENU_NM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					CATEGORY like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+         		)S
+         	)A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 관리자 목록 조회 2 -->
+	<select id="memberDAO.selectAdminMemberList2" parameterClass="MemberSearchVO" resultClass="hashMap">
+	
+	SELECT 
+		HP_MENU_AUTH_NO,
+		AUTH_NAME,
+		AUTH_TYPE,
+		HP_MENU_NO, 
+		AUTH_ID, 
+		TO_CHAR(REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE, 
+		REGIST_ID,
+		HP_BOARD_MASTER_NO,
+		MENU_NM
+			FROM (
+				SELECT  
+		       		ROWNUM RNUM,
+		       		S.*
+			   FROM (
+					SELECT 
+					A.HP_MENU_AUTH_NO,
+					A.AUTH_TYPE,
+					A.HP_MENU_NO, 
+					A.AUTH_ID, 
+					A.REGIST_DATE, 
+					A.REGIST_ID,
+					A.AUTH_NAME,
+					B.HP_BOARD_MASTER_NO,
+					B.MENU_NM
+        		FROM 
+					HP_MENU_AUTH A LEFT OUTER JOIN HP_MENU B
+				ON 
+					A.HP_MENU_NO = B.HP_MENU_NO
+				WHERE 1=1
+				<isEqual prepend="AND" property="searchCondition" compareValue="1">
+					(
+						(A.REGIST_ID like '%'|| #searchKeyword# ||'%')
+					OR
+						(A.AUTH_NAME like '%'|| #searchKeyword# ||'%')
+					)
+				</isEqual>				
+				<isEqual prepend="AND" property="searchCondition" compareValue="2">
+					MENU_NM like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+				<isEqual prepend="AND" property="searchCondition" compareValue="3">
+					CATEGORY like '%'|| #searchKeyword# ||'%'
+				</isEqual>
+         		)S
+         	)A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM >= #firstIndex# ]]>
+	</select>
+	
+	<!-- 관리자 total count -->
+	<select id="memberDAO.selectAdminMemberListTotCnt" parameterClass="MemberSearchVO" resultClass="Int">
+	 SELECT 
+	 	COUNT(*) TOTCNT 
+	 FROM
+		(
+		SELECT 
+			* 
+		FROM 
+			HP_MENU_AUTH A LEFT OUTER JOIN HP_MENU B
+		ON 
+			A.HP_MENU_NO = B.HP_MENU_NO
+		WHERE 1=1
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			(
+				(A.REGIST_ID like '%'|| #searchKeyword# ||'%')
+			OR
+				(A.AUTH_NAME like '%'|| #searchKeyword# ||'%')
+			)
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			B.MENU_NM like '%'|| #searchKeyword# ||'%'
+		</isEqual>
+		)
+	</select>
+	
+	<!-- 개인화물 가입상담용 담당자 아이디 조회 -->
+	<select id="memberDAO.selectAuthId" parameterClass="MemberSearchVO" resultClass="String">
+	SELECT AUTH_ID
+	FROM HP_MENU_AUTH A 
+	WHERE CATEGORY like '%'|| #searchKeyword# ||'%'
+	</select>
+	
+	
+	<!-- 관리자 상세 조회  -->
+	<select id="memberDAO.selectAdminDetail" parameterClass="MemberSearchVO" resultClass="hashMap">
+	
+	</select>
+	
+	<!-- 관리자 권한 삭제 -->
+	<delete id="memberDAO.deleteAdmin" parameterClass="MemberSearchVO" >
+	DELETE
+		HP_MENU_AUTH
+	WHERE
+		HP_MENU_AUTH_NO = #id#	
+	</delete>
+	
+	<select id="memberDAO.selectDormancyList" resultClass="hashmap">
+		select
+		distinct
+    		id
+    		,to_char(to_date(recent_dt,'YY.MM.DDHH24:MI:SS'),'yyyy/mm/dd') as recent_dt
+    		,c1.agent_nm as agent_nm
+    		,decode(t1.agentcd,'1','조합원','2','차량관리자','3','거래처') as agent_cd
+		from tb_member t1 right outer join ctgi01@kotmasdb c1
+        on t1.agent_no = c1.agent_no and t1.saupjang_seq = c1.saupjang_seq
+		where to_date(recent_dt,'YY.MM.DDHH24:MI:SS') <![CDATA[<]]> add_months(sysdate,-6)
+		and human_yn ='N'
+		and agentcd = '1'
+		order by recent_dt desc
+	</select>
+	
+	<update id="memberDAO.updateDormancy" parameterClass="MemberSearchVO">
+		update 
+			tb_member set human_yn='Y' ,human_dt = sysdate
+		where to_date(recent_dt,'YY.MM.DDHH24:MI:SS') <![CDATA[<]]> add_months(sysdate,-6)
+		<isNotEmpty property="noDormancyArr">
+          	<iterate property="noDormancyArr" open="and id not in (" conjunction="," close=")">
+	        	#noDormancyArr[]#
+	        </iterate>
+        </isNotEmpty>
+        <isEqual prepend="AND" property="category" compareValue="0">
+        	agentcd = '1'
+        </isEqual>
+        <isEqual prepend="AND" property="category" compareValue="1">
+        	agentcd = '2'
+        </isEqual>
+        <isEqual prepend="AND" property="category" compareValue="2">
+        	agentcd = '3'
+        </isEqual>
+	</update>
+	
+	<select id="memberDAO.selectDormancyListEmail" resultClass="hashmap">
+		select 
+    		id
+    		,mail 
+		from tb_member t1 
+		where to_date(recent_dt,'YY.MM.DDHH24:MI:SS') <![CDATA[<]]> add_months(sysdate,-6)
+		and human_yn ='N'
+		and mail like '%@%'
+		<isNotEmpty property="noDormancyArr">
+          	<iterate property="noDormancyArr" open="and id not in (" conjunction="," close=")">
+	        	#noDormancyArr[]#
+	        </iterate>
+        </isNotEmpty>
+        <isEqual prepend="AND" property="category" compareValue="0">
+        	agentcd = '1'
+        </isEqual>
+        <isEqual prepend="AND" property="category" compareValue="1">
+        	agentcd = '2'
+        </isEqual>
+        <isEqual prepend="AND" property="category" compareValue="2">
+        	agentcd = '3'
+        </isEqual>
+		order by recent_dt desc
+	</select>
+	
+	<select id="memberDAO.selectDormanciedList" resultClass="hashmap">
+		select
+		distinct
+			id
+    		,to_char(HUMAN_DT,'yyyy/mm/dd') as HUMAN_DT
+    		,c1.agent_nm as agent_nm
+    		,decode(t1.agentcd,'1','조합원','2','차량관리자','3','거래처') as agent_cd
+    	from tb_member t1 right outer join ctgi01@kotmasdb c1
+        on t1.agent_no = c1.agent_no and t1.saupjang_seq = c1.saupjang_seq
+    	where human_yn='Y' 
+    	and human_dt <![CDATA[<]]>  add_months(sysdate,-6)
+    	and agentcd = '1'
+    	order by human_dt desc
+	</select>
+	
+	<delete id="memberDAO.deleteOutMember" parameterClass="MemberSearchVO">
+		delete 
+		from tb_member 
+		where human_yn='Y' 
+		and human_dt <![CDATA[<]]>  add_months(sysdate,-6)
+		<isNotEmpty property="noDormancyArr">
+          	<iterate property="noDormancyArr" open="and id not in (" conjunction="," close=")">
+	        	#noDormancyArr[]#
+	        </iterate>
+        </isNotEmpty>
+        <isEqual prepend="AND" property="category" compareValue="0">
+        	agentcd = '1'
+        </isEqual>
+        <isEqual prepend="AND" property="category" compareValue="1">
+        	agentcd = '2'
+        </isEqual>
+        <isEqual prepend="AND" property="category" compareValue="2">
+        	agentcd = '3'
+        </isEqual>
+	</delete>
+	
+	<select id="memberDAO.selectDormancyListCtgi06" resultClass="hashmap">
+		select 
+		distinct
+    		id
+    		,to_char(to_date(recent_dt,'YY.MM.DDHH24:MI:SS'),'yyyy/mm/dd') as recent_dt
+    		,c6.COMPANY_NM as agent_nm
+    		,decode(t1.agentcd,'1','조합원','2','차량관리자','3','거래처') as agent_cd
+		from tb_member t1 right outer join ctgi06@kotmasdb c6
+            on t1.agent_no = c6.carmgr_seq
+		where to_date(recent_dt,'YY.MM.DDHH24:MI:SS') <![CDATA[<]]> add_months(sysdate,-6)
+		and human_yn ='N'
+		and agentcd = '2'
+		order by recent_dt desc
+	</select>
+	<select id="memberDAO.selectDormancyListAcsd05" resultClass="hashmap">
+		select
+		distinct 
+    		id
+    		,to_char(to_date(recent_dt,'YY.MM.DDHH24:MI:SS'),'yyyy/mm/dd') as recent_dt
+    		,c6.CUST_NM as agent_nm
+    		,decode(t1.agentcd,'1','조합원','2','차량관리자','3','거래처') as agent_cd
+		from tb_member t1 right outer join acsd05@kotmasdb c6
+            on t1.agent_no = c6.cust_cd
+		where to_date(recent_dt,'YY.MM.DDHH24:MI:SS') <![CDATA[<]]> add_months(sysdate,-6)
+		and human_yn ='N'
+		and agentcd = '3'
+		order by recent_dt desc
+	</select>
+	
+	<select id="memberDAO.selectDormanciedListCtgi06" resultClass="hashmap">
+		select
+		distinct
+			id
+    		,to_char(HUMAN_DT,'yyyy/mm/dd') as HUMAN_DT
+    		,c6.COMPANY_NM as agent_nm
+    		,decode(t1.agentcd,'1','조합원','2','차량관리자','3','거래처') as agent_cd
+    	from tb_member t1 right outer join ctgi06@kotmasdb c6
+            on t1.agent_no = c6.carmgr_seq
+    	where human_yn='Y' 
+    	and human_dt <![CDATA[<]]>  add_months(sysdate,-6)
+    	and agentcd = '2'
+    	order by human_dt desc
+	</select>
+	
+	<select id="memberDAO.selectDormanciedListAcsd05" resultClass="hashmap">
+		select
+		distinct
+			id
+    		,to_char(HUMAN_DT,'yyyy/mm/dd') as HUMAN_DT
+    		,c6.CUST_NM as agent_nm
+    		,decode(t1.agentcd,'1','조합원','2','차량관리자','3','거래처') as agent_cd
+    	from tb_member t1 right outer join acsd05@kotmasdb c6
+            on t1.agent_no = c6.cust_cd
+    	where human_yn='Y' 
+    	and human_dt <![CDATA[<]]>  add_months(sysdate,-6)
+    	and agentcd = '3'
+    	order by human_dt desc
+	</select>
+</sqlMap>

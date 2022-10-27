@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PraiseBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="praiseBoardSearchVO" type="kr.or.truck.customer.praise.service.PraiseBoardSearchVO"/>
+	<typeAlias  alias="praiseBoardVO" type="kr.or.truck.customer.praise.service.PraiseBoardVO"/>
+	
+	<resultMap id="praiseBoardPreNex" class="kr.or.truck.customer.praise.service.PraiseBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="praiseBoard" class="kr.or.truck.customer.praise.service.PraiseBoardVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String" nullValue=""/>
+		<result property="contentText" column="CONTENT_TEXT" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId" column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName" column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime" column="MODIFY_TIME" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+		<result property="phone" column="PHONE" nullValue=""/>
+		<result property="email" column="EMAIL" nullValue=""/>		
+		<result property="post1" 					column="POST1"  		/>
+		<result property="post2" 					column="POST2"  		/>
+		<result property="addr" 					column="ADDR"  	/>
+		<result property="new_addr" 				column="NEW_ADDR"  	/>
+		<result property="birth" 					column="BIRTH"  	/>
+		<result property="accnt_no" 				column="ACCNT_NO"  	/>
+		<result property="car_no" 					column="CAR_NO"  	/>
+		<result property="accnt_name" 				column="ACCNT_NAME"  	/>
+	</resultMap>
+
+
+	<insert id="praiseBoardDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO PRAISE_NOTICE(
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CONTENT_HTML,
+			CONTENT_TEXT,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			PHONE,
+			EMAIL,
+			USE_AT,
+			IPIN_CI, 
+			IPIN_DI, 
+			CERTTYPE,
+			POST1,
+			POST2,
+			ADDR,
+			NEW_ADDR,
+			BIRTH,
+			EMAIL_YN,
+			PHONE_YN,
+			ACCNT_NO,
+			CAR_NO,
+			ACCNT_NAME
+			)
+		 
+		VALUES (
+		'PRAISE_NOTICE',
+		'칭찬합시다 게시판',
+		#articleNo#,
+		#title#,
+		#contentHtml#,
+		#contentText#,
+		sysdate,
+		0,
+		#writerId#,
+		#writerName#,
+		#writerId#,
+		#writerName#,
+		sysdate,
+		#atchFileId#,
+		#atchFileName#,
+		#phone#,
+		#email#,
+		'N',
+		#ipinCi#,
+		#ipinDi#,
+		#certType#,
+		#post1#,
+		#post2#,
+		#addr#,
+		#new_addr#,
+		#birth#,
+		#email_yn#,
+		#phone_yn#,
+		#accnt_no#,
+		#car_no#,
+		#accnt_name#
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="praiseBoardDAO.updateBoard_S" parameterClass="praiseBoardVO">
+		<![CDATA[
+			UPDATE PRAISE_NOTICE 
+			SET MODIFY_ID = #writerId#,
+				MODIFY_NAME = #writerName#,
+				TITLE = #title#,
+				CONTENT_HTML = #contentHtml#,
+				CONTENT_TEXT = #contentText#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#,
+			    PHONE = #phone#,
+			    EMAIL = #email#,
+			    ACCNT_NO = #accnt_no#,
+			    CAR_NO = #car_no#,
+			    ACCNT_NAME = #accnt_name#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="praiseBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE PRAISE_NOTICE 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="praiseBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE PRAISE_NOTICE   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="praiseBoardDAO.selectBoard_S" resultMap="praiseBoard" >
+		<![CDATA[
+			SELECT BBS_ID, BBS_NAME, ARTICLE_NO, TITLE, CONTENT_HTML, CONTENT_TEXT, TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME, RDCOUNT,
+			 		WRITER_ID, WRITER_NAME, MODIFY_ID, MODIFY_NAME, MODIFY_TIME, ATCH_FILE_ID,
+			 		ATCH_FILE_NAME, PHONE, EMAIL, POST1,POST2,ADDR,NEW_ADDR,BIRTH, ACCNT_NO, CAR_NO, ACCNT_NAME					
+			FROM PRAISE_NOTICE 
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="praiseBoardDAO.selectBoardList_D" parameterClass="praiseBoardSearchVO" resultMap="praiseBoard" >
+			 
+			 SELECT A.BBS_ID, A.BBS_NAME, A.ARTICLE_NO, A.TITLE, A.CONTENT_HTML, A.CONTENT_TEXT, TO_CHAR(A.CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS')  as CREATE_TIME, A.RDCOUNT,
+			 		A.WRITER_ID, A.WRITER_NAME, A.MODIFY_ID, A.MODIFY_NAME, A.MODIFY_TIME, A.ATCH_FILE_ID,
+			 		A.ATCH_FILE_NAME, A.PHONE, A.EMAIL, A.USE_AT , A.POST1, A.POST2, A.ADDR, A.NEW_ADDR, A.BIRTH, A.ACCNT_NO, A.CAR_NO, A.ACCNT_NAME			
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM PRAISE_NOTICE 
+					WHERE 1=1 AND USE_AT='Y'
+					AND BBS_ID = 'PRAISE_NOTICE'
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						TITLE LIKE '%' || #searchKeyword# || '%' or CONTENT_TEXT LIKE '%' || #searchKeyword# || '%' AND USE_AT='Y'  
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY CREATE_TIME DESC, ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="praiseBoardDAO.selectBoardListTotCnt_S" parameterClass="praiseBoardSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totCnt
+			FROM PRAISE_NOTICE
+			WHERE 1=1 AND USE_AT='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%' or CONTENT_TEXT LIKE '%' || #searchKeyword# || '%' AND USE_AT='Y' 
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+	
+	
+	<update id="praiseBoardDAO.checkFileInfo" parameterClass="praiseBoardVO">
+		<![CDATA[
+			UPDATE PRAISE_NOTICE 
+			SET ATCH_FILE_ID = NULL
+			WHERE ARTICLE_NO=#articleNo# AND USE_AT='N'
+		]]>
+	</update>
+	
+	<select id="praiseBoardDAO.selectPreArticle" resultMap="praiseBoardPreNex" >
+		<![CDATA[	 
+			select next_ARTICLE_NO as ARTICLE_NO, next_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lead(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) next_ARTICLE_NO,
+			    lead(TITLE,1,'이전글이 없습니다') over (order by ARTICLE_NO) next_TITLE
+			    from PRAISE_NOTICE WHERE USE_AT='Y'
+			) 
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	
+	<select id="praiseBoardDAO.selectNexArticle" resultMap="praiseBoardPreNex" >
+		<![CDATA[ 		
+			select pre_ARTICLE_NO as ARTICLE_NO, pre_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lag(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) pre_ARTICLE_NO,
+			    lag(title,1,'다음글이 없습니다') over (order by ARTICLE_NO) pre_TITLE
+			    from PRAISE_NOTICE WHERE USE_AT='Y'
+			)
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="praiseBoardDAO.getPhoneAddr" parameterClass="string" resultClass="string">
+		SELECT
+			replace(mobile, '-', '') mobile
+		FROM
+			employee@gw
+		WHERE
+			emp_code = #id#
+	</select>
+</sqlMap>

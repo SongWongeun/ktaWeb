@@ -1,0 +1,228 @@
+@charset "utf-8";
+
+/* ---------------------------------------------------------------------------------
+        Name : KTA | 전국화물자동차운송사업자공제조합
+        PART : UI(Gnb&Lnb&Foot) Contents Design Style
+        Author : EUN NIM
+--------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------------- Header --------------------------------------------------------------------------------- */
+#headerWrap {position:relative;width:100%;min-width:1280px;height:133px;background:url("/images/truck/com/header_bg.gif") repeat-x 0 0;z-index:70;border-bottom:2px solid #4097cd;overflow:hidden;}
+#headerWrap .header {position:relative;margin:0 auto;width:970px;letter-spacing:-1px;}
+#headerWrap .header h1 {float:left;padding:15px 0 16px 0;font-size:0;line-height:0;}
+#headerWrap .gnbSub {float:right;display:inline-block;margin:19px 0px 0px 0px;height:22px;}
+#headerWrap .gnbSub ul {float:left;padding:0px 0px 0px 0px;height:22px;}
+#headerWrap .gnbSub li {float:left;background:url("/images/truck/main/bg_topbar.gif") no-repeat left center;padding-left:8px;margin-right:8px;height:22px;line-height:20px;vertical-align:middle;}
+#headerWrap .gnbSub li:first-child {background:none;}
+#headerWrap .gnbSub li a {vertical-align:middle;}
+#headerWrap .gnbSub li a img {#vertical-align:middle;}
+#headerWrap .gnbSub .gnbSubGo {float:left;padding-top:0px;margin-right:10px;line-height:20px;height:22px;vertical-align:middle;}
+#headerWrap .gnbSub .gnbSubSearch {float:left;position:relative;height:22px;}
+#headerWrap .gnbSub .ut_search {float:left;background:url("/images/truck/main/util_searchbg.gif") no-repeat left top;width:126px;height:22px;}
+#headerWrap .gnbSub .ut_search label {display:none;}
+#headerWrap .gnbSub .ut_search input {width:110px;height:18px;line-height:18px;padding:0px 7px 0px 5px;background-color:#f7f7f7;border:0px;margin:2px 0px 0px 4px;}
+#headerWrap .gnbSub .btn_ut_search {float:left;width:24px;height:22px;}
+#headerWrap .gnbSub .loginInfo{float:left;padding:4px 4px 3px 19px;background:#f5f5f5 url("../../images/truck/com/bg_login_info.gif") no-repeat 6px 7px;font-family:"Daum_Regular";font-size:11px;color:#333;}
+#headerWrap .gnbSub .loginInfo .time{display:inline-block;margin:0 5px 0 16px;color:#0072b7;}
+
+
+#headerWrap .gnb .btn_memuopen {position:absolute;top:43px;right:-79px;background:url("/images/truck/btn/btn_totalmenu.png") no-repeat left center;width:24px;height:24px;display:none;}
+#headerWrap .gnb .btn_pause {position:absolute;top:100px;right:-84px;width:32px;padding:33px 0 0 0;background:url("/images/truck/btn/btn_pause.png") no-repeat 0 0;line-height:13px;text-align:center;color:#a5abaf;letter-spacing:-1px;}
+#headerWrap .gnb .pause_on {background:url("/images/truck/btn/btn_pause_on.png") no-repeat 0 0;color:#a5abaf;}
+#headerWrap .gnb .btn_close {position:absolute;top:160px;right:-84px;width:32px;padding:33px 0 0 0;background:url("/images/truck/btn/btn_close.png") no-repeat 0 0;line-height:13px;text-align:center;color:#a5abaf;letter-spacing:-1px;}
+
+    /* Gnb 1Depth */
+    .gnb {position:relative;width:970px;clear:both;display:inline-block;}
+    .gnb .gnbList li {float:left;margin:0px;padding:0px;}
+    .gnb .gnbList .menu1 {float:left;width:162px;height:38px;background:url("/images/truck/com/gnb.gif") no-repeat left 0px;}
+    .gnb .gnbList .gnb1Dep01 a:hover, .gnb .gnbList .on.gnb1Dep01 .menu1 {background-position:left -38px;}
+    .gnb .gnbList .menu2 {float:left;width:161px;height:38px;background:url("/images/truck/com/gnb.gif") no-repeat -162px 0px;}
+    .gnb .gnbList .gnb1Dep02 a:hover, .gnb .gnbList .on.gnb1Dep02 .menu2 {background-position:-162px -38px;}
+    .gnb .gnbList .menu3 {float:left;width:161px;height:38px;background:url("/images/truck/com/gnb.gif") no-repeat -323px 0px;}
+    .gnb .gnbList .gnb1Dep03 a:hover, .gnb .gnbList .on.gnb1Dep03 .menu3 {background-position:-323px -38px;}
+    .gnb .gnbList .menu4 {float:left;width:162px;height:38px;background:url("/images/truck/com/gnb.gif") no-repeat -484px 0px;}
+    .gnb .gnbList .gnb1Dep04 a:hover, .gnb .gnbList .on.gnb1Dep04 .menu4 {background-position:-484px -38px;}
+    .gnb .gnbList .menu5 {float:left;width:162px;height:38px;background:url("/images/truck/com/gnb.gif") no-repeat -646px 0px;}
+    .gnb .gnbList .gnb1Dep05 a:hover, .gnb .gnbList .on.gnb1Dep05 .menu5 {background-position:-646px -38px;}
+    .gnb .gnbList .menu6 {float:left;width:162px;height:38px;background:url("/images/truck/com/gnb.gif") no-repeat right 0px;}
+    .gnb .gnbList .gnb1Dep06 a:hover, .gnb .gnbList .on.gnb1Dep06 .menu6 {background-position:right -38px;}
+
+    /* Gnb 2Depth */
+    .gnb .gnbList li ul.subList {position:absolute;left:0px;top:38px;width:970px;height:34px;display:none;}
+    .gnb .gnbList li ul.subList li {position:relative;margin:0;padding:11px 0px 11px 20px;}
+    .gnb1Dep01 .subDep01 {width:109px;}
+    .gnb1Dep01 .subDep01 a {display:block;height:14px;width:66px;background:url("/images/truck/com/lnb.gif") no-repeat left -11px;}
+    .gnb1Dep01 .subDep01 a:hover, .gnb1Dep01 .on.subDep01 a {background-position:left -44px !important;}
+    .gnb1Dep01 .subDep02 {width:116px;}
+    .gnb1Dep01 .subDep02 a {display:block;height:14px;width:80px;background:url("/images/truck/com/lnb.gif") no-repeat -363px -11px;}
+    .gnb1Dep01 .subDep02 a:hover, .gnb1Dep01 .on.subDep02 a {background-position:-363px -44px !important;}
+    .gnb1Dep01 .subDep03 {width:105px;}
+    .gnb1Dep01 .subDep03 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat -70px -11px;}
+    .gnb1Dep01 .subDep03 a:hover, .gnb1Dep01 .on.subDep03 a {background-position: -70px -44px !important;}
+    .gnb1Dep01 .subDep04 {width:123px;}
+    .gnb1Dep01 .subDep04 a {display:block;height:14px;width:80px;background:url("/images/truck/com/lnb.gif") no-repeat -127px -11px;}
+    .gnb1Dep01 .subDep04 a:hover, .gnb1Dep01 .on.subDep04 a {background-position:-127px -44px !important;}
+    .gnb1Dep01 .subDep05 {width:150px;}
+    .gnb1Dep01 .subDep05 a {display:block;height:14px;width:80px;background:url("/images/truck/com/lnb.gif") no-repeat -210px -11px;}
+    .gnb1Dep01 .subDep05 a:hover, .gnb1Dep01 .on.subDep05 a {background-position:-210px -44px !important;}
+    .gnb1Dep01 .subDep06 {width:111px;}
+    .gnb1Dep01 .subDep06 a {display:block;height:14px;width:66px;background:url("/images/truck/com/lnb.gif") no-repeat -294px -11px;}
+    .gnb1Dep01 .subDep06 a:hover, .gnb1Dep01 .on.subDep06 a {background-position:-294px -44px !important;}
+    .gnb1Dep01 .subDep07 {width:130px;}
+    .gnb1Dep01 .subDep07 a {display:block;height:14px;width:80px;background:url("/images/truck/com/lnb.gif") no-repeat -447px -11px;}
+    .gnb1Dep01 .subDep07 a:hover, .gnb1Dep01 .on.subDep07 a {background-position:-447px -44px !important;}
+
+    .gnb1Dep01 .subDep08 {width:109px;}
+    .gnb1Dep01 .subDep08 a {display:block;height:14px;width:66px;background:url("/images/truck/com/lnb.gif") no-repeat -530px -11px;}
+    .gnb1Dep01 .subDep08 a:hover, .gnb1Dep01 .on.subDep08 a {background-position:-530px -44px !important;}
+    .gnb1Dep01 .subDep09 {width:126px;}
+    .gnb1Dep01 .subDep09 a {display:block;height:14px;width:131px;background:url("/images/truck/com/lnb.gif") no-repeat -600px -11px;}
+    .gnb1Dep01 .subDep09 a:hover, .gnb1Dep01 .on.subDep09 a {background-position:-600px -44px !important;}
+
+    .gnb1Dep02 .subDep01 {width:140px;}
+    .gnb1Dep02 .subDep01 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat left -77px;}
+    .gnb1Dep02 .subDep01 a:hover, .gnb1Dep02 .on.subDep01 a {background-position:left -110px !important;}
+    .gnb1Dep02 .subDep02 {width:125px;}
+    .gnb1Dep02 .subDep02 a {display:block;height:14px;width:52px;background:url("/images/truck/com/lnb.gif") no-repeat -57px -77px;}
+    .gnb1Dep02 .subDep02 a:hover, .gnb1Dep02 .on.subDep02 a {background-position: -57px -110px !important;}
+    .gnb1Dep02 .subDep03 {width:135px;}
+    .gnb1Dep02 .subDep03 a {display:block;height:14px;width:53px;background:url("/images/truck/com/lnb.gif") no-repeat -114px -77px;}
+    .gnb1Dep02 .subDep03 a:hover, .gnb1Dep02 .on.subDep03 a {background-position:-114px -110px !important;}
+    .gnb1Dep02 .subDep04 {width:160px;}
+    .gnb1Dep02 .subDep04 a {display:block;height:14px;width:53px;background:url("/images/truck/com/lnb.gif") no-repeat -170px -77px;}
+    .gnb1Dep02 .subDep04 a:hover, .gnb1Dep02 .on.subDep04 a {background-position:-170px -110px !important;}
+    .gnb1Dep02 .subDep05 {width:145px;}
+    .gnb1Dep02 .subDep05 a {display:block;height:14px;width:67px;background:url("/images/truck/com/lnb.gif") no-repeat -227px -77px;}
+    .gnb1Dep02 .subDep05 a:hover, .gnb1Dep02 .on.subDep05 a {background-position:-227px -110px !important;}
+    .gnb1Dep02 .subDep06 {width:145px;}
+    .gnb1Dep02 .subDep06 a {display:block;height:14px;width:106px;background:url("/images/truck/com/lnb.gif") no-repeat -297px -77px;}
+    .gnb1Dep02 .subDep06 a:hover, .gnb1Dep02 .on.subDep06 a {background-position:-297px -110px !important;}
+    
+    .gnb1Dep03 .subDep01 {width:120px;}
+    .gnb1Dep03 .subDep01 a {display:block;height:14px;width:53px;background:url("/images/truck/com/lnb.gif") no-repeat left -143px;}
+    .gnb1Dep03 .subDep01 a:hover, .gnb1Dep03 .on.subDep01 a {background-position:left -176px !important;}
+    .gnb1Dep03 .subDep02 {width:120px;}
+    .gnb1Dep03 .subDep02 a {display:block;height:14px;width:53px;background:url("/images/truck/com/lnb.gif") no-repeat -57px -143px;}
+    .gnb1Dep03 .subDep02 a:hover, .gnb1Dep03 .on.subDep02 a {background-position: -57px -176px !important;}
+    .gnb1Dep03 .subDep03 {width:110px;}
+    .gnb1Dep03 .subDep03 a {display:block;height:14px;width:67px;background:url("/images/truck/com/lnb.gif") no-repeat -114px -143px;}
+    .gnb1Dep03 .subDep03 a:hover, .gnb1Dep03 .on.subDep03 a {background-position:-114px -176px !important;}
+    .gnb1Dep03 .subDep04 {width:120px;}
+    .gnb1Dep03 .subDep04 a {display:block;height:14px;width:53px;background:url("/images/truck/com/lnb.gif") no-repeat -184px -143px;}
+    .gnb1Dep03 .subDep04 a:hover, .gnb1Dep03 .on.subDep04 a {background-position:-184px -176px !important;}
+    .gnb1Dep03 .subDep05 {width:130px;}
+    .gnb1Dep03 .subDep05 a {display:block;height:14px;width:80px;background:url("/images/truck/com/lnb.gif") no-repeat -240px -143px;}
+    .gnb1Dep03 .subDep05 a:hover, .gnb1Dep03 .on.subDep05 a {background-position:-240px -176px !important;}
+    .gnb1Dep03 .subDep06 {width:120px;}
+    .gnb1Dep03 .subDep06 a {display:block;height:14px;width:53px;background:url("/images/truck/com/lnb.gif") no-repeat -324px -143px;}
+    .gnb1Dep03 .subDep06 a:hover, .gnb1Dep03 .on.subDep06 a {background-position:-324px -176px !important;}
+    .gnb1Dep03 .subDep07 {width:110px;}
+    .gnb1Dep03 .subDep07 a {display:block;height:14px;width:67px;background:url("/images/truck/com/lnb.gif") no-repeat -380px -143px;}
+    .gnb1Dep03 .subDep07 a:hover, .gnb1Dep03 .on.subDep07 a {background-position:-380px -176px !important;}
+    
+    .gnb1Dep04 .subDep01 {width:145px;}
+    .gnb1Dep04 .subDep01 a {display:block;height:14px;width:53px;background:url("/images/truck/com/lnb.gif") no-repeat left -209px;}
+    .gnb1Dep04 .subDep01 a:hover, .gnb1Dep04 .on.subDep01 a {background-position:left -242px !important;}
+    .gnb1Dep04 .subDep02 {width:160px;}
+    .gnb1Dep04 .subDep02 a {display:block;height:14px;width:82px;background:url("/images/truck/com/lnb.gif") no-repeat -57px -209px;}
+    .gnb1Dep04 .subDep02 a:hover, .gnb1Dep04 .on.subDep02 a {background-position: -57px -242px !important;}
+    .gnb1Dep04 .subDep03 {width:140px;}
+    .gnb1Dep04 .subDep03 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat -140px -209px;}
+    .gnb1Dep04 .subDep03 a:hover, .gnb1Dep04 .on.subDep03 a {background-position:-140px -242px !important;}
+    .gnb1Dep04 .subDep04 {width:140px;}
+    .gnb1Dep04 .subDep04 a {display:block;height:14px;width:67px;background:url("/images/truck/com/lnb.gif") no-repeat -197px -209px;}
+    .gnb1Dep04 .subDep04 a:hover, .gnb1Dep04 .on.subDep04 a {background-position:-197px -242px !important;}
+    .gnb1Dep04 .subDep05 {width:120px;}
+    .gnb1Dep04 .subDep05 a {display:block;height:14px;width:45px;background:url("/images/truck/com/lnb.gif") no-repeat -267px -209px;}
+    .gnb1Dep04 .subDep05 a:hover, .gnb1Dep04 .on.subDep05 a {background-position:-267px -242px !important;}
+    .gnb1Dep04 .subDep06 {width:140px;}
+    .gnb1Dep04 .subDep06 a {display:block;height:14px;width:110px;background:url("/images/truck/com/lnb.gif") no-repeat -307px -209px;}
+    .gnb1Dep04 .subDep06 a:hover, .gnb1Dep04 .on.subDep06 a {background-position:-307px -242px !important;}
+    
+
+    .gnb1Dep05 .subDep01 {width:145px;}
+    .gnb1Dep05 .subDep01 a {display:block;height:14px;width:40px;background:url("/images/truck/com/lnb.gif") no-repeat left -275px;}
+    .gnb1Dep05 .subDep01 a:hover, .gnb1Dep05 .on.subDep01 a {background-position:left -308px !important;}
+    .gnb1Dep05 .subDep02 {width:160px;}
+    .gnb1Dep05 .subDep02 a {display:block;height:14px;width:83px;background:url("/images/truck/com/lnb.gif") no-repeat -44px -275px;}
+    .gnb1Dep05 .subDep02 a:hover, .gnb1Dep05 .on.subDep02 a {background-position: -44px -308px !important;}
+    .gnb1Dep05 .subDep03 {width:140px;}
+    .gnb1Dep05 .subDep03 a {display:block;height:14px;width:52px;background:url("/images/truck/com/lnb.gif") no-repeat -131px -275px;}
+    .gnb1Dep05 .subDep03 a:hover, .gnb1Dep05 .on.subDep03 a {background-position:-131px -308px !important;}
+    .gnb1Dep05 .subDep04 {width:140px;}
+    .gnb1Dep05 .subDep04 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat -187px -275px;}
+    .gnb1Dep05 .subDep04 a:hover, .gnb1Dep05 .on.subDep04 a {background-position:-187px -308px !important;}
+    .gnb1Dep05 .subDep05 {width:130px;}
+    .gnb1Dep05 .subDep05 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat -244px -275px;}
+    .gnb1Dep05 .subDep05 a:hover, .gnb1Dep05 .on.subDep05 a {background-position:-244px -308px !important;}
+    .gnb1Dep05 .subDep06 {width:130px;}
+    .gnb1Dep05 .subDep06 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat -301px -275px;}
+    .gnb1Dep05 .subDep06 a:hover, .gnb1Dep05 .on.subDep06 a {background-position:-301px -308px !important;}
+
+    .gnb1Dep06 .subDep01 {width:150px;}
+    .gnb1Dep06 .subDep01 a {display:block;height:14px;width:101px;background:url("/images/truck/com/lnb.gif") no-repeat left -341px;}
+    .gnb1Dep06 .subDep01 a:hover, .gnb1Dep06 .on.subDep01 a {background-position:left -374px !important;}
+    .gnb1Dep06 .subDep02 {width:150px;}
+    .gnb1Dep06 .subDep02 a {display:block;height:14px;width:67px;background:url("/images/truck/com/lnb.gif") no-repeat -104px -341px;}
+    .gnb1Dep06 .subDep02 a:hover, .gnb1Dep06 .on.subDep02 a {background-position:-104px -374px !important;}
+    .gnb1Dep06 .subDep03 {width:150px;}
+    .gnb1Dep06 .subDep03 a {display:block;height:14px;width:80px;background:url("/images/truck/com/lnb.gif") no-repeat -173px -341px;}
+    .gnb1Dep06 .subDep03 a:hover, .gnb1Dep06 .on.subDep03 a {background-position: -173px -374px !important;}
+    .gnb1Dep06 .subDep04 {width:150px;}
+    .gnb1Dep06 .subDep04 a {display:block;height:14px;width:65px;background:url("/images/truck/com/lnb.gif") no-repeat -257px -341px;}
+    .gnb1Dep06 .subDep04 a:hover, .gnb1Dep06 .on.subDep04 a {background-position:-257px -374px !important;}   
+    .gnb1Dep06 .subDep05 {width:150px;}
+    .gnb1Dep06 .subDep05 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat -327px -341px;}
+    .gnb1Dep06 .subDep05 a:hover, .gnb1Dep06 .on.subDep05 a {background-position:-327px -374px !important;} 
+    .gnb1Dep06 .subDep06 {width:100px;}
+    .gnb1Dep06 .subDep06 a {display:block;height:14px;width:54px;background:url("/images/truck/com/lnb.gif") no-repeat -384px -341px;}
+    .gnb1Dep06 .subDep06 a:hover, .gnb1Dep06 .on.subDep06 a {background-position:-384px -374px !important;}    
+
+    /* Gnb 3Depth */
+    .gnb .gnbList li ul.subList div.depth03 {position:relative;padding-top:6px;display:none;margin-top:11px;}
+    .gnb .gnbList li ul.subList div.depth03 a {display:block;background-image:none;font-size:13px;color:#585858;line-height:22px;height:22px;margin:0px;width:100%;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Txt {padding-top:6px;height:146px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img1 {position:absolute;top:0px;left:-15px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img2 {position:absolute;top:2px;left:-35px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img3 {position:absolute;top:0px;left:7px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img4 {position:absolute;top:2px;left:-47px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img5 {position:absolute;top:0px;left:-25px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img6 {position:absolute;top:0px;left:-5px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img7 {position:absolute;top:2px;left:-15px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img8 {position:absolute;top:0px;left:-10px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img9 {position:absolute;top:0px;left:-30px;height:168px;}
+
+	.gnb .gnbList li ul.subList div.depth03 .depth03Img10 {position:absolute;top:0px;left:11px;height:168px;}
+    .gnb .gnbList li ul.subList div.depth03 .depth03Img11 {position:absolute;top:0px;left:8px;height:168px;}
+	.gnb .gnbList li ul.subList div.depth03 .depth03Img12 {position:absolute;top:2px;left:-10px;height:168px;}
+
+    .gnb .gnbList li ul.subList div.depth03 a:hover, .gnb .gnbList li ul.subList div.depth03 a.on {color:#2b9adf;}
+
+/* --------------------------------------------------------------------------------- Footer  --------------------------------------------------------------------------------- */
+#footer {position:relative;clear:both;width:100%;min-width:1280px;border-top:1px solid #cecece;padding:15px 0px 20px 0px;}
+#footer:after {display:block;clear:both;visibility:hidden;height:0px;content:"";zoom:1;}
+.footerArea {clear:both;position:relative;width:970px;margin:0px auto;}
+.footLogo {float:left;width:224px;margin-right:30px;padding-top:8px;}
+.footPolice {float:left;width:532px;}
+.footPolice .linkList {position:relative;padding:8px 0px 5px 0px;}
+.footPolice .linkList ul {height:12px;padding-bottom:7px;display:inline-block;}
+.footPolice .linkList li {float:left;padding-left:10px;padding-right:10px;background:url("/images/truck/com/bg_botbar.gif") no-repeat left center;}
+.footPolice .linkList li:first-child {background:none;padding-left:0px;}
+.footPolice .address {height:12px;padding-bottom:5px;}
+.footPolice .copyright {height:12px;}
+.footRight {float:left;width:180px;}
+.footRight .familySite {float:right;position:relative;width:180px;font-size:12px;letter-spacing:-1px;display:block;text-align:right;}
+.familySite .arrow_up {text-align:left;width:145px;height:22px;display:inline-block;background:url("/images/truck/com/icon_arrow_up.gif") no-repeat right top;border:1px solid #cecece;cursor:pointer;}
+.familySite .arrow_up img {margin:5px 0 0 7px;}
+.familySite .arrow_down {width:145px;height:22px;display:inline-block;background:url("/images/truck/com/icon_arrow_down.gif") no-repeat right top;border:1px solid #cecece;}
+.familySite .fsList {width:147px;display:none;position:absolute;right:0;bottom:24px;z-index:9999;background:#ffffff;text-align:left;}
+.familySite .fsList li {padding:1px;border-top:1px solid #cecece;border-right:1px solid #cecece;border-left:1px solid #cecece;}
+.familySite .fsList li a {padding:5px 0 5px 7px;display:block;color:#8e8f8d;}
+.footRight .mark {display:inline-block;width:180px;padding-top:7px;text-align:right;}
+.footRight .mark a {display:inline-block;}
+.footRight .mark .a1 {width:57px;height:57px;}
+.footRight .mark span {height:57px;padding-left:5px;}
+
+
+
+

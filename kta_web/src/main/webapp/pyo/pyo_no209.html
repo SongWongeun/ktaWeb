@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">209</span><span class="pyoName">&#91;A&#93; 적색&#40;직진&#41; &#91;B&#93; 녹색화살표시 좌회전</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본</td>
+                            <td class="alC bB3">A 100</td>
+                            <td class="alC">B 0</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="11" class="alC"><img src="/images/truck/jpg/209.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 서행불이행</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">&#42;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 급좌회전</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">&#42;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 소좌회전&#183;대좌회전</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">&#42;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 대형차</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">&#42;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실 또는 중과실 &#9312;</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC"> 5&#126;10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 10km 이상의 속도위반</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 20km 이상의 속도위반</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 기좌회전의 경우</td>
+                            <td class="alC bB3">&#42;</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td  class="bg1">A 교차로 정체중 진입</td>
+                            <td class="alC bB3">&#42;</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td  class="bg1">A 기타 현저한 과실&#183;중과실 &#9312;</td>
+                            <td class="alC bB3">10&#126;20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312;	좌회전의 현저한 과실은 5&#37;&#44; 중과실은 10&#37; 수정 가산하고&#44; 직진차의 현저한 과실은 10&#37;&#44;중과실은 20&#37;를 수정 가산한다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 시행규칙 제7조&#91;신호등&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9313; 제1항에 따른 신호등의 등화의 배열순서 및 신호순서는 각각 별표4 및 별표5와 같다&#46;</li>
+                    </ul>
+					<p class="txtPoint">&#9827;	도로교통법 시행규칙 [별표5] &#91;신호등의 신호순서&#40;제7조제2항관련&#41;&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9674;적색&#183;황색&#183;녹색화살표&#183;녹색의 사색등화 &#58;적색 및 녹색화살표&#8594;황색&#8594;녹색&#8594;황색&#8594;적색</li>
+                       <li>&#9674;적색&#183;황색&#183;녹색&#40;녹색화살표&#41;의 삼색등화 &#58;녹색&#40;적색 및 녹색화살표&#41;&#8594;황색&#8594;적색</li>
+                        <li>&#9674;보행등의 적색 및 녹색의 이색등화 &#58;녹색&#8594;녹색 점멸&#8594;적색</li>
+					</ul>
+                 
+				</div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

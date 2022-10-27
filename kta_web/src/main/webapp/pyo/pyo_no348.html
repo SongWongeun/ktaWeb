@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">348</span><span class="pyoName">이륜차A 우회전&#40;대로&#41; 자동차B 직진&#40;소로&#41;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율9 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+					<caption>과실비율에 대해서 나타낸 표</caption>
+					<colgroup>
+						<col style="width:35%;" />
+						<col style="width:9%;" />
+						<col style="width:20%;" />
+						<col style="width:6%;" />
+						<col style="width:6%;" />
+						<col style="width:6%;" />
+						<col style="width:6%;" />
+						<col style="width:6%;" />
+						<col style="width:6%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row" rowspan="2">사고상황</th>
+							<td class="bg1" rowspan="2">기본 &#9312;</td>
+							<td class="bg1" rowspan="2">진입시기</td>
+							<td class="alC bB4" colspan="2">AB동시진입</td>
+							<td class="alC bB4" colspan="2">A선진입</td>
+							<td class="alC bB4" colspan="2">B선진입</td>
+						</tr>
+						<tr>
+							<td class="alC bB3">A20</td>
+							<td class="alC">B80</td>
+							<td class="alC bB3">A10</td>
+							<td class="alC">B90</td>
+							<td class="alC bB3">A30</td>
+							<td class="alC">B70</td>
+						</tr>
+						<tr>
+							<td rowspan="9" class="alC"><img src="/images/truck/jpg/348.jpg" alt="사고상황이미지" class="wAuto" /></td>
+							<td colspan="8" class="alC">수정 요소</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">B 서행 불이행 &#9313;</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">B 10㎞ 이상 속도위반 &#9313;</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">B 20㎞ 이상 속도위반 &#9313;</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">20</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">20</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">20</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">B 현저한 과실&#183;중과실 &#9314;</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10&#126;20</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10&#126;20</td>
+							<td class="alC bB3">&nbsp;</td>
+							<td class="alC">10&#126;20</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">A 서행 불이행</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">A 회전방법 위반 &#9315;</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">10</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">A 대형차</td>
+							<td class="alC bB3">&#42;</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">&#42;</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">&#42;</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="bg1" colspan="2">A 현저한 과실&#183;중과실 &#9314;</td>
+							<td class="alC bB3">10&#126;20</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">10&#126;20</td>
+							<td class="alC">&nbsp;</td>
+							<td class="alC bB3">10&#126;20</td>
+							<td class="alC">&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312; 도로교통법 제26조제4항의 준용으로&#44; 우회전차의 경우 대로차인 동시에 우측차이므로 소로차이며 좌측차인 직진차보다 우선권이 있다&#46;</p>
+					<p class="txtPoint">&#9313; 세 가지 수정요소 중 하나만을 선택해서 적용한다&#46;&#40;중복적용 불가&#41;</p>
+					<p class="txtPoint">&#9314; 두 가지 수정요소를 하나만을 선택해서 적용하고 현저한 과실은 10&#37;&#44; 중과실은 20&#37;를 적용한다&#46;</p>
+					<p class="txtPoint">&#9315; 도로교통법 제25조제1항에 따라 우회전차는 도로 우측 가장자리로 우회전하여야 하나 이를 위반해서 진행하고자 하는 차로의 중앙선쪽으로 크게 우회전한 경우에는 이를 수정요소로 반영한다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827; 도로교통법 제25조&#91;교차로 통행방법&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 모든 차의 운전자는 교차로에서 우회전을 하고자 하는 때에는 도로의 우측 가장자리를서행하면서 우회전하여야 한다&#46;</li>
+					</ul>
+					<p class="txtPoint">&#9827; 도로교통법 제26조&#91;교통정리가 없는 교차로에서의 양보운전&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 교통정리가 행하여지고 있지 아니하는 교차로에 들어가고자 하는 차의 운전자는 이미 교차로에 들어가 있는 차가 있는 때에는 그 차에 진로를 양보하여야 한다&#46;</li>
+						<li>&#9313; 교통정리가 행하여지고 있지 아니하는 교차로에 들어가고자 하는 차의 운전자는 해당 차가 통행하고 있는 도로의 폭보다 교차하는 도로의 폭이 넓은 경우에는 서행하여야 하며&#44; 폭이 넓은 도로로부터 교차로에 들어가려고 하는 다른 차가 있는 때에는 그 차에 진로를 양보하여야 한다&#46;</li>
+						<li>&#9314; 우선순위가 같은 차가 동시에 교통정리가 행하여지고 있지 아니하는 교차로에 들어가고자 하는 때에는 우측도로의 차에 진로를 양보하여야 한다&#46;</li>
+						<li>&#9315; 교통정리가 행하여지고 있지 아니하는 교차로에서 좌회전하려고 하는 차의 운전자는 그교차로에서 직진하거나 우회전하려는 다른 차가 있는 때에는 그 차에 진로를 양보하여야 한다&#46;</li>
+					</ul>
+				</div>
+				
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

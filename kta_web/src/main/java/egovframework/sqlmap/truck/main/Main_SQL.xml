@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MainDAO">
+	
+	<typeAlias  alias="mainSeachVO" type="kr.or.truck.main.service.Impl.TotalSearchVO"/>
+	
+	<select id="MainDAO.selectTotalSearchWeb" parameterClass="mainSeachVO" resultClass="hashmap">
+	SELECT * FROM(
+	SELECT WEB_NO, WEB_TITLE, WEB_CONTENT, WEB_URL, CREATE_TIME, ARTICLETYPE,ROWNUM RNUM
+	FROM
+		SEARCH_WEB_ARTICLE
+	WHERE 1=1 
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+		(WEB_TITLE LIKE '%' || #searchKeyword# || '%' OR WEB_CONTENT LIKE '%' || #searchKeyword# || '%')
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+		WEB_TITLE LIKE '%' || #searchKeyword# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="2">
+		WEB_CONTENT LIKE '%' || #searchKeyword# || '%'
+		</isEqual>
+		AND UPPER(ARTICLETYPE) = UPPER('HOME')
+	)
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex#  ]]>
+	</select>
+	
+	<select id="MainDAO.selectTotalSearchWebMobile" parameterClass="mainSeachVO" resultClass="hashmap">
+	SELECT * FROM(
+	SELECT WEB_NO, WEB_TITLE, WEB_CONTENT, WEB_URL, CREATE_TIME, ARTICLETYPE,ROWNUM RNUM
+	FROM
+		SEARCH_WEB_ARTICLE
+	WHERE 1=1 
+	AND
+		(WEB_TITLE LIKE '%' || #searchKeyword# || '%' OR WEB_CONTENT LIKE '%' || #searchKeyword# || '%')
+	AND 
+		UPPER(ARTICLETYPE) = UPPER('MOBILE')	
+	)
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="MainDAO.selectTotalCountWeb" parameterClass="mainSeachVO" resultClass="int">
+	SELECT COUNT(*)
+	FROM(
+		SELECT *
+		FROM
+			SEARCH_WEB_ARTICLE
+		WHERE 1=1 
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			WEB_TITLE LIKE '%' || #searchKeyword# || '%' OR WEB_CONTENT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			WEB_TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			WEB_CONTENT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+		)WHERE UPPER(ARTICLETYPE) = UPPER('HOME')
+	</select>
+	
+	<select id="MainDAO.selectTotalCountWebMobile" parameterClass="mainSeachVO" resultClass="int">
+	SELECT COUNT(*)
+	FROM(
+		SELECT *
+		FROM
+			SEARCH_WEB_ARTICLE
+		WHERE 1=1 
+		AND
+			(WEB_TITLE LIKE '%' || #searchKeyword# || '%' OR WEB_CONTENT LIKE '%' || #searchKeyword# || '%')
+		AND 
+			UPPER(ARTICLETYPE) = UPPER('MOBILE')
+		)
+	</select>
+	
+	
+	
+	<select id="MainDAO.selectTotalSearchBbs" parameterClass="mainSeachVO" resultClass="hashmap">
+	SELECT 
+		* 
+	FROM(
+		SELECT ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME, ROWNUM RNUM
+		FROM
+			(
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DEDUCT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+		
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				BIZ_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				INSURANCE_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, BID_NAME AS CONTENT_TEXT, CREATE_TIME
+			FROM 
+				BID_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR BID_NAME LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ENCOUR_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, SITE_NAME AS TITLE, SITE_URL AS CONTENT_TEXT, CREATE_TIME
+			FROM 
+				RECOMMAND_SITE 
+			WHERE 
+				SITE_NAME LIKE '%' || #searchKeyword# || '%' OR SITE_URL LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				FAQ_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				FORMDATA_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				PRAISE_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DRIVER_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ACC_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				EVENT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, CONTENT_TEXT AS TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				VIDEO_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			) 
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+		)
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="MainDAO.selectTotalSearchBbsMobile" parameterClass="mainSeachVO" resultClass="hashmap">
+	SELECT 
+		* 
+	FROM(
+		SELECT ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME, ROWNUM RNUM
+		FROM
+			(
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DEDUCT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+		
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ENCOUR_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				PRAISE_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DRIVER_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ACC_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				EVENT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, CONTENT_TEXT AS TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				VIDEO_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			) 
+			WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+		)
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="MainDAO.selectTotalCountBbs" parameterClass="mainSeachVO" resultClass="int">
+		SELECT COUNT(*) 
+		FROM(
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DEDUCT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+		
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				BIZ_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				INSURANCE_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, BID_NAME AS CONTENT_TEXT, CREATE_TIME
+			FROM 
+				BID_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR BID_NAME LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ENCOUR_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, SITE_NAME AS TITLE, SITE_URL AS CONTENT_TEXT, CREATE_TIME
+			FROM 
+				RECOMMAND_SITE 
+			WHERE 
+				SITE_NAME LIKE '%' || #searchKeyword# || '%' OR SITE_URL LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				FAQ_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				FORMDATA_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				PRAISE_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DRIVER_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ACC_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				EVENT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, CONTENT_TEXT AS TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				VIDEO_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+		) WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+	
+	<select id="MainDAO.selectTotalCountBbsMobile" parameterClass="mainSeachVO" resultClass="int">
+		SELECT COUNT(*) 
+		FROM(
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DEDUCT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+		
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ENCOUR_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				PRAISE_NOTICE
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				DRIVER_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				ACC_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				EVENT_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			UNION ALL
+			
+			SELECT 
+				ARTICLE_NO, CONTENT_TEXT AS TITLE, CONTENT_TEXT, CREATE_TIME
+			FROM 
+				VIDEO_NOTICE 
+			WHERE 
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			AND USE_AT ='Y'
+			)  WHERE 1=1
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				TITLE LIKE '%' || #searchKeyword# || '%' OR CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+	
+	<select id="MainDAO.searchCustomList" resultClass="hashmap" >
+	SELECT 
+		MENU_NM, 
+		HP_MENU_NO,  
+		UPPER_HP_MENU_NO, 
+		HP_BOARD_MASTER_NO 
+	FROM 
+		HP_MENU 
+	WHERE 
+		UPPER(MENU_TYPE)='ADD' 
+	AND 
+		USE_YN='Y'
+	AND 
+		UPPER_HP_MENU_NO like #menu_no#||'%'
+	ORDER BY HP_BOARD_MASTER_NO ASC
+	</select>
+	
+	<select id="MainDAO.selectMainBanner" resultClass="hashmap" >
+
+	SELECT * FROM(
+					SELECT
+						BANNER_URL, 
+						TITLE,
+						ATCH_FILE_ID,
+						NEW_WINDOW,
+						NVL(END_DATE, SYSDATE) END_DATE,
+						USE_AT,
+						FILE_ASC
+					FROM
+						KTA_BANNER
+			)
+	WHERE
+		USE_AT = 'Y'
+	AND 
+		 TO_CHAR(END_DATE, 'YYYYMMDD') - TO_CHAR(SYSDATE,'YYYYMMDD') <![CDATA[>= ]]>0
+	ORDER BY 
+		FILE_ASC ASC
+	
+	</select>
+	
+	
+	<select id="MainDAO.selectMobileThema" resultClass="string">
+	SELECT
+		THEMA
+	FROM
+		HP_THEMA
+	WHERE
+		USE_AT ='Y'	
+	</select>
+	
+	<select id="MainDAO.selectMobileNoticeIcon" resultClass="hashmap" >
+		SELECT
+			NO,
+			NAME,
+			CODE,
+			START_M_DT,
+			START_D_DT,
+			URL,
+			END_M_DT,
+			END_D_DT,
+			TO_CHAR(SYSDATE,'YY') AS YEAR
+		FROM
+			M_NOTICE_ICON a 
+		WHERE 
+			TO_CHAR(SYSDATE, 'MMdd') BETWEEN START_M_DT||START_D_DT AND END_M_DT||END_D_DT
+		AND
+			ROWNUM = 1
+		ORDER BY NO
+	</select>
+</sqlMap>

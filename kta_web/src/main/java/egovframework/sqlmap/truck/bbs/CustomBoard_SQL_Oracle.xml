@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="customBoardDAO">
+
+	<typeAlias  alias="customSearchVO" type="kr.or.truck.customboard.service.CustomBoardSearchVO"/>
+	<typeAlias  alias="customVO" type="kr.or.truck.kwa.contentsmgr.service.CustomBoardVO"/>
+	
+	<select id="customBoardDAO.selectCustomBoardCount" resultClass="int">
+	SELECT 
+		COUNT(*)
+	FROM (		
+		SELECT
+			* 
+		FROM HP_CUSTOM_BOARD 
+		WHERE 1=1 
+		AND 
+			USE_AT='Y' 
+		AND HP_BOARD_MASTER_NO = #boardNo#
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			((TITLE LIKE '%' || #searchKeyword# || '%')
+			OR
+			(CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'))
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			TITLE LIKE '%' || #searchKeyword# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+		</isEqual>
+		ORDER BY REGIST_DATE DESC,HP_CUSTOM_BOARD_NO DESC
+		) WHERE 1=1
+		<isNotEmpty prepend="AND" property="searchCategory">
+		CATEGORY =  #searchCategory# 
+		</isNotEmpty>
+
+	</select>
+	
+	<select id="customBoardDAO.selectBoardList" resultClass="hashmap" >
+	SELECT 
+		HP_CUSTOM_BOARD_NO,
+		TITLE,
+		READ_COUNT, 
+		TO_CHAR(REGIST_DATE, 'YYYY.MM.DD HH24:MI:SS') as REGIST_DATE,
+		REGIST_ID, 
+		REPLY_REGIST_DATE, 
+		REPLY_MODIFY_DATE, 
+		USE_AT, 
+		CATEGORY, 
+		HP_BOARD_MASTER_NO, 
+		REGIST_NAME,
+		ATCH_FILE_ID
+	FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM HP_CUSTOM_BOARD 
+					WHERE 1=1 
+					AND 
+						USE_AT='Y' 
+					AND 
+						HP_BOARD_MASTER_NO = #boardNo#
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						((TITLE LIKE '%' || #searchKeyword# || '%')
+						OR
+						(CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'))
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY REGIST_DATE DESC,HP_CUSTOM_BOARD_NO DESC
+				) S WHERE 1=1				
+				<isNotEmpty prepend="AND" property="searchCategory">
+				CATEGORY =  #searchCategory# 
+				</isNotEmpty>
+			 ) A 
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+		
+	</select>
+	
+	<select id="customBoardDAO.selectCustomBoard" resultClass="hashmap" >
+		SELECT  
+			HP_CUSTOM_BOARD_NO, 
+			TITLE, 
+			CONTENT_HTML, 
+			CONTENT_TEXT, 
+			READ_COUNT, 
+			TO_CHAR(REGIST_DATE, 'YYYY.MM.DD HH24:MI:SS') as REGIST_DATE,
+			REGIST_ID, 
+			MODIFY_DATE, 
+			MODIFY_ID, 
+			ATCH_FILE_ID, 
+			REPLY_CONTENT_HTML, 
+			REPLY_CONTENT_TEXT, 
+			REPLY_REGIST_DATE, 
+			REPLY_REGIST_ID, 
+			REPLY_MODIFY_DATE, 
+			REPLY_MODIFY_ID, 
+			USE_AT, 
+			CATEGORY, 
+			HP_BOARD_MASTER_NO, 
+			REGIST_NAME
+		FROM 
+			HP_CUSTOM_BOARD 
+		WHERE 
+			HP_CUSTOM_BOARD_NO=#customNo#
+		AND
+			HP_BOARD_MASTER_NO = #boardNo#
+	</select>
+	
+	
+	<select id="customBoardDAO.selectNextBoard" resultClass="hashmap" >
+	SELECT 
+		PRE_HP_CUSTOM_BOARD_NO AS HP_CUSTOM_BOARD_NO,
+		PRE_TITLE AS TITLE 
+	FROM
+		(
+		 SELECT 
+		 	HP_CUSTOM_BOARD_NO,
+		  	TITLE, 
+		    LAG(HP_CUSTOM_BOARD_NO,1,NULL) OVER (ORDER BY HP_CUSTOM_BOARD_NO) PRE_HP_CUSTOM_BOARD_NO,
+		    LAG(TITLE,1,'다음글이 없습니다') OVER (ORDER BY HP_CUSTOM_BOARD_NO) PRE_TITLE
+		 FROM 
+		 	HP_CUSTOM_BOARD 
+		 WHERE 
+		 	USE_AT='Y'
+		 AND
+			HP_BOARD_MASTER_NO = #boardNo# 
+		) 
+	WHERE 
+		HP_CUSTOM_BOARD_NO = #customNo#
+	</select>
+	
+	<select id="customBoardDAO.selectPreBoard" resultClass="hashmap" >
+	SELECT 
+		PRE_HP_CUSTOM_BOARD_NO AS HP_CUSTOM_BOARD_NO,
+		PRE_TITLE AS TITLE 
+	FROM
+		(
+		 SELECT 
+		 	HP_CUSTOM_BOARD_NO,
+		  	TITLE, 
+		    LEAD(HP_CUSTOM_BOARD_NO,1,NULL) OVER (ORDER BY HP_CUSTOM_BOARD_NO) PRE_HP_CUSTOM_BOARD_NO,
+		    LEAD(TITLE,1,'이전글이 없습니다') OVER (ORDER BY HP_CUSTOM_BOARD_NO) PRE_TITLE
+		 FROM 
+		 	HP_CUSTOM_BOARD 
+		 WHERE 
+		 	USE_AT='Y'
+		 AND
+			HP_BOARD_MASTER_NO = #boardNo# 
+		) 
+	WHERE 
+		HP_CUSTOM_BOARD_NO = #customNo#
+	</select>
+	
+	<select id="customBoardDAO.selectCustomBoardVO" resultClass="customVO" parameterClass="customSearchVO">
+	SELECT  
+			HP_CUSTOM_BOARD_NO as articleNo, 
+			TITLE as title, 
+			CONTENT_HTML as contentHtml, 
+			CONTENT_TEXT as contentText, 
+			READ_COUNT as read_cout, 
+			TO_CHAR(REGIST_DATE, 'YYYY.MM.DD HH24:MI:SS') as REGIST_DATE,
+			MODIFY_DATE as modifyDate, 
+			MODIFY_ID as modifyId, 
+			ATCH_FILE_ID as atchFileId, 
+			REPLY_CONTENT_HTML as reply_contentHtml, 
+			REPLY_CONTENT_TEXT as reply_contentText, 
+			REPLY_REGIST_DATE as reply_registDate, 
+			REPLY_REGIST_ID as reply_registId, 
+			REPLY_MODIFY_DATE as reply_modifyDate, 
+			REPLY_MODIFY_ID as reply_modifyId, 
+			CATEGORY as category, 
+			HP_BOARD_MASTER_NO as boardNo, 
+			REGIST_NAME as  writerName,
+			REGIST_ID as writerId
+		FROM 
+			HP_CUSTOM_BOARD 
+		WHERE 
+			HP_CUSTOM_BOARD_NO=#customNo#
+		AND
+			HP_BOARD_MASTER_NO = #boardNo#
+	</select>
+	
+</sqlMap>

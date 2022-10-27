@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Log_SQL_Oracle">
+	<!-- 사용자별 로그 분석 조회 -->
+	<select id="kta.log.selectListUserByLogInfo" resultClass="hashmap">
+		SELECT T1.*
+		  FROM (
+		         SELECT /*+ FIRST_ROWS */
+		                QUERY.*
+		              , ROWNUM RN
+		           FROM (
+						SELECT T1.USER_ID, T4.NAME
+						     , T1.CONNECT_SEQ
+						     , T3.REQUEST_MENU_NM
+						     , T3.REQUEST_URL
+						     , T3.JOB_GBN_CD
+						     , T3.REQUEST_COMMENT
+						     , TO_CHAR(T3.REG_DT,'YYYY.MM.DD HH24:MI:SS') AS CONNECT_DT
+						     , T3.REQUEST_SEQ
+						  FROM M_CONNECT_INFO      T1
+						     , M_CONN_REQ_REL_INFO T2
+						     , M_REQUEST_INFO      T3
+						     , CT_USER             T4
+						 WHERE T1.USER_ID     = T2.USER_ID
+						   AND T1.CONNECT_SEQ = T2.CONNECT_SEQ
+						   AND T2.REQUEST_SEQ = T3.REQUEST_SEQ
+						   AND T1.USER_ID     = T4.USER_ID
+						   AND (T4.USER_ID = #_searField# or T4.NAME = #_searField#)
+						   AND T1.REG_DT BETWEEN TO_DATE( REPLACE(#_ymdStart#,'.','') || ' 000000','YYYYMMDD HH24MISS') 
+						                     AND TO_DATE( REPLACE(#_ymdEnd#,'.','') || ' 235959','YYYYMMDD HH24MISS') 
+		                ) QUERY 
+		<![CDATA[
+		           WHERE ROWNUM <= (#_page# * #_pageSize#)
+		]]>
+		       ) T1
+		 WHERE T1.RN > ((#_page#-1) * #_pageSize#) 
+	</select>
+	
+	<!-- 사용자별 로그 분석 총 갯수 -->
+	<select id="kta.log.getCountLogInfo" resultClass="int">
+		SELECT COUNT(T1.USER_ID)
+		  FROM M_CONNECT_INFO      T1
+		     , M_CONN_REQ_REL_INFO T2
+		     , M_REQUEST_INFO      T3
+		     , CT_USER             T4
+		 WHERE T1.USER_ID     = T2.USER_ID
+		   AND T1.CONNECT_SEQ = T2.CONNECT_SEQ
+		   AND T2.REQUEST_SEQ = T3.REQUEST_SEQ
+		   AND T1.USER_ID     = T4.USER_ID
+		   AND (T4.USER_ID = #_searField# or T4.NAME = #_searField#)
+		   AND T1.REG_DT BETWEEN TO_DATE( REPLACE(#_ymdStart#,'.','') || ' 000000','YYYYMMDD HH24MISS') 
+		                     AND TO_DATE( REPLACE(#_ymdEnd#,'.','') || ' 235959','YYYYMMDD HH24MISS')
+	</select>
+</sqlMap>

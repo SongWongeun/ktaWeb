@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="joinCert" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="af96cb5e-fadf-4411-bdc5-8186f2c313a0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="KOTMASTS"/>
+	<parameter name="car_gaip_no" class="java.lang.String"/>
+	<parameter name="kta_logo" class="java.lang.String"/>
+	<parameter name="kta_stamp" class="java.lang.String"/>
+	<parameter name="PrintDateTime" class="java.util.Date"/>
+	<parameter name="damdang_phone" class="java.lang.String"/>
+	<parameter name="damdang_fax" class="java.lang.String"/>
+	<parameter name="publish_no" class="java.lang.String"/>
+	<parameter name="contractDate" class="java.lang.String"/>
+	<parameter name="gaip_year" class="java.lang.String"/>
+	<parameter name="gaip_month" class="java.lang.String"/>
+	<parameter name="publish_use" class="java.lang.String"/>
+	<parameter name="comment" class="java.lang.String"/>
+	<parameter name="damdang_jibu" class="java.lang.String"/>
+	<parameter name="damdang_sawon" class="java.lang.String"/>
+	<parameter name="publish_kind" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[select a.agent_nm,   a.agent_no,   a.saupjang_seq,   a.daepyoja_nm,  
+ 	SUBSTR(a.bupin_no,1,6)||'-'||SUBSTR(a.bupin_no,7) bupin_no, 
+	SUBSTR(a.saupja_no,1,3)||'-'||SUBSTR(a.saupja_no,4,2)||'-'||SUBSTR(a.saupja_no,6) saupja_no,  
+	c.car_no,
+		       b.zip_cd ||' '           zip, 
+				 b.addr1 || ' ' || b.addr2   address  
+		  from ctgi01 a, ctgi02 b, ctgi05 c 
+		where c.car_gaip_no  = $P{car_gaip_no}
+		   and c.saupjang_seq = a.saupjang_seq 
+		   and c.agent_no     = a.agent_no   
+		   and a.agent_no     = b.agent_no     
+		   and a.saupjang_seq = b.saupjang_seq
+		   and b.addr_gb_cd   = a.addr_gb_cd]]>
+	</queryString>
+	<field name="AGENT_NM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="AGENT_NM"/>
+		<property name="com.jaspersoft.studio.field.label" value="AGENT_NM"/>
+	</field>
+	<field name="AGENT_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="AGENT_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="AGENT_NO"/>
+	</field>
+	<field name="SAUPJANG_SEQ" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SAUPJANG_SEQ"/>
+		<property name="com.jaspersoft.studio.field.label" value="SAUPJANG_SEQ"/>
+	</field>
+	<field name="DAEPYOJA_NM" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DAEPYOJA_NM"/>
+		<property name="com.jaspersoft.studio.field.label" value="DAEPYOJA_NM"/>
+	</field>
+	<field name="BUPIN_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="BUPIN_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="BUPIN_NO"/>
+	</field>
+	<field name="SAUPJA_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="SAUPJA_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="SAUPJA_NO"/>
+	</field>
+	<field name="CAR_NO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CAR_NO"/>
+		<property name="com.jaspersoft.studio.field.label" value="CAR_NO"/>
+	</field>
+	<field name="ZIP" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ZIP"/>
+		<property name="com.jaspersoft.studio.field.label" value="ZIP"/>
+	</field>
+	<field name="ADDRESS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ADDRESS"/>
+		<property name="com.jaspersoft.studio.field.label" value="ADDRESS"/>
+	</field>
+	<variable name="damdang_call" class="java.lang.String">
+		<variableExpression><![CDATA["전화: " +$P{damdang_phone} +" 팩스: " +$P{damdang_fax}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="802" splitType="Stretch">
+			<frame>
+				<reportElement x="12" y="41" width="533" height="30" uuid="9bf108b7-ea9a-4748-a46d-3b785aea8ea9"/>
+			</frame>
+			<rectangle>
+				<reportElement x="9" y="41" width="537" height="30" uuid="c40a186e-86f3-49bc-bcf2-0f647e787721"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="9" y="105" width="539" height="360" uuid="e4b4263a-160c-4111-a89a-e5fe0cff33c8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="51" y="106" width="1" height="360" uuid="44d9736e-926e-4545-9440-c62c75ad2d7c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="137" y="106" width="1" height="360" uuid="b6c43aee-8978-4563-9f81-732b2d438f51"/>
+			</line>
+			<line>
+				<reportElement x="52" y="150" width="495" height="1" uuid="8c195fe9-3394-4a06-b2e9-553b23d9634c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="53" y="200" width="495" height="1" uuid="b122771b-ec77-4621-93b9-c8412b25cdda">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="52" y="250" width="495" height="1" uuid="6ad7dbe4-4d64-4688-80f5-dd266abe6226">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="52" y="289" width="495" height="1" uuid="b5c07554-98f4-4c4f-ac33-2526709df35a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="51" y="333" width="497" height="1" uuid="a4e32beb-850d-4876-aab2-147b6fdc156e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="51" y="417" width="497" height="1" uuid="653493b7-584a-4393-b21e-9dc239f6e586">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="51" y="371" width="497" height="1" uuid="2678c050-73d2-43be-91ef-2110ce501ec5">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="53" y="105" width="83" height="44" uuid="aa519194-f7e1-47ee-b2b9-f1d88403ce95"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[조 합 원 명
+(상호/성명)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="38" width="534" height="30" uuid="d1a5ad2f-bae4-4988-aa5c-c93974883f13"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="HY울릉M" size="20"/>
+				</textElement>
+				<text><![CDATA[공제 계약(경력) 증명서]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="150" width="85" height="49" uuid="3705a0cf-875f-4fdf-9a58-d20a92d2050d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[대 표 자 명]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="199" width="84" height="50" uuid="05fdd668-b8d1-42db-9509-a7edc448fc66"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[사업자등록번호	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="250" width="84" height="38" uuid="c50c5b3f-fe35-42da-800c-c14cdbca75fa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[주소]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="289" width="84" height="43" uuid="98211843-8ba8-4616-93c2-d555e515ad92"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[ 최초 가입일]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="333" width="84" height="36" uuid="d44374bd-0732-46ce-8ae6-ce7d96d908fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[계약경력]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="52" y="370" width="85" height="46" uuid="92b3310a-1621-42e0-ab1c-2256dd2bbbb6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[용     도]]></text>
+			</staticText>
+			<line>
+				<reportElement x="299" y="151" width="1" height="100" uuid="0a3eb0f4-3d18-41f5-9afd-bcc65d4c4736">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="377" y="151" width="1" height="100" uuid="305ba52c-aede-446e-a41a-c9f9a2b5dff8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="300" y="151" width="77" height="48" uuid="77185065-26d6-4c27-81e7-a54067a1f4ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[법인등록번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="200" width="77" height="49" uuid="4a47f432-1ced-45b9-8763-f4a553425710"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[차량번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="417" width="85" height="47" uuid="4245658b-b5f3-4853-9c28-fcb8ac8754f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="10"/>
+				</textElement>
+				<text><![CDATA[비     고]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="9" y="479" width="539" height="208" uuid="1fb28178-7e42-4851-b3c6-841e58122211">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="39" y="498" width="220" height="30" uuid="f69dc9ed-9a3d-4e3a-b467-8e3990375735"/>
+				<textElement>
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[상기 사항은 사실과 상위없음을 증명합니다.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="24" width="115" height="17" uuid="1b9d35a6-7092-48e1-961f-ac40cea1d0e2"/>
+				<textElement textAlignment="Left">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[(공제서식 제2-5호)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="89" width="50" height="14" uuid="939d262f-f139-4adf-86a4-a83387a26863"/>
+				<textElement textAlignment="Center">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[발급번호]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="9" y="693" width="539" height="17" uuid="5c379ab4-7e52-4271-bd2d-38860d510202">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</rectangle>
+			<line>
+				<reportElement x="113" y="693" width="1" height="17" uuid="7e4ae352-e0d4-459e-9af4-4879a945dd4b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="210" y="693" width="1" height="17" uuid="4529889b-d240-45ed-a461-0a298bd005d2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="304" y="693" width="1" height="17" uuid="22f92575-8814-4f45-93bc-9bc194066ac1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="346" y="693" width="1" height="17" uuid="5c41f62c-60ec-4f96-a9b8-2d045ab42a8a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="10" y="692" width="42" height="16" uuid="e8d6f95b-1fc5-4c58-b526-22597256963b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<text><![CDATA[계약지부:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="114" y="692" width="42" height="16" uuid="da20f9e2-501c-44e7-8847-1af75d024331"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<text><![CDATA[업체담당:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="106" width="42" height="359" uuid="1ab705df-f1d8-45c5-947c-112e9624b569"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="14"/>
+				</textElement>
+				<text><![CDATA[계
+
+약
+
+사
+
+항]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="146" y="105" width="110" height="44" uuid="8c682071-8a80-4cf5-9ab2-d4ee4bb41eba"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGENT_NM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="146" y="151" width="110" height="48" uuid="de5d61ad-3d2e-42fd-92d3-91bd7d3dcbdc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DAEPYOJA_NM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="000\-00\-00000\">
+				<reportElement x="146" y="200" width="110" height="49" uuid="9b01bd58-0e23-4126-a38f-de79bda43f5f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SAUPJA_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="392" y="200" width="138" height="49" uuid="34f8c715-d69b-4322-89d2-3b3b306c1ca0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAR_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="146" y="250" width="398" height="20" uuid="5541c7ac-2000-46bd-9f5d-7519081b6d03"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA["(" + $F{ZIP} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="146" y="270" width="398" height="18" uuid="23c5528b-5a18-4de1-ae85-2166f892f404"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ADDRESS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="692" width="93" height="16" uuid="da391eb3-15e7-469d-a9ca-8ecc85dc3aab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["발급유형: " + $P{publish_kind}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="305" y="692" width="42" height="16" uuid="5c015295-0135-4004-8146-10abcaac1683"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<text><![CDATA[연락처]]></text>
+			</staticText>
+			<image>
+				<reportElement x="475" y="26" width="71" height="15" uuid="f10a1fd8-92ca-4a90-86fb-1c555de1b3cf"/>
+				<imageExpression><![CDATA[$P{kta_logo}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="390" y="584" width="53" height="55" uuid="048d3359-e742-41c4-b09c-b258aff32a6b"/>
+				<imageExpression><![CDATA[$P{kta_stamp}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="12" y="586" width="532" height="51" uuid="d0f29ffa-7422-4f43-98a2-d344e706404b"/>
+				<textElement textAlignment="Center">
+					<font fontName="HY울릉M" size="20"/>
+				</textElement>
+				<text><![CDATA[전국화물자동차운송사업연합회공제조합
+    이     사     장  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="61" y="89" width="162" height="14" uuid="86ff73c3-0afc-4370-ad51-64b8d8eb8ead"/>
+				<textElement>
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA["제 "+$P{publish_no}+" 호"]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy년 MM월 dd일" isBlankWhenNull="true">
+				<reportElement x="138" y="289" width="410" height="42" uuid="20555d01-3b27-42cf-b6f2-858af30043e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy년MM월dd일").format(new SimpleDateFormat("yyyyMMdd").parse($P{contractDate}))]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy년" isBlankWhenNull="true">
+				<reportElement x="280" y="333" width="28" height="36" uuid="caa9205c-9dfd-4c56-99e7-53d86d390590"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{gaip_year}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM 개월" isBlankWhenNull="true">
+				<reportElement x="324" y="333" width="26" height="36" uuid="73b90e3a-013f-405c-971d-ceed0d9e60e9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{gaip_month}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="148" y="371" width="161" height="45" uuid="aec522e4-93ee-436a-8252-5baed60c1b43"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{publish_use}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="148" y="417" width="382" height="46" uuid="1c2c35fc-2854-4009-affa-739ad6aca3d7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{comment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="692" width="61" height="16" uuid="70ffafa5-69bf-460d-b49f-1d397f824ba5">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{damdang_jibu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="692" width="54" height="16" uuid="ee8d1215-960d-424e-a5c1-74d62b045719">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{damdang_sawon}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="308" y="333" width="16" height="37" uuid="efd0e2c0-699a-4bd1-abc6-04f0529a76ef"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[년]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="333" width="27" height="36" uuid="f0031132-fddd-489c-94b7-aeb4083f06ae"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<text><![CDATA[개월]]></text>
+			</staticText>
+			<textField pattern="yyyy년 MM월 dd일">
+				<reportElement x="8" y="550" width="540" height="15" uuid="239ec0fa-b23f-49a7-8d40-398009b4f6a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="000000\-0000000">
+				<reportElement x="392" y="151" width="138" height="48" uuid="889e083d-dda0-40cb-9c2a-005e5b2d2a7f">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BUPIN_NO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="347" y="692" width="200" height="16" uuid="c92c15f3-c2a0-4941-8295-27c53b411fca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["전화 : "+$P{damdang_phone}+ " 팩스 : "+$P{damdang_fax}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="714" width="538" height="16" uuid="439d1454-0260-4ea2-80a1-345704236571"/>
+				<textElement>
+					<font fontName="굴림" size="9"/>
+				</textElement>
+				<text><![CDATA[※ 계약지부 담당자를 통해 발급받은 증명서의 원본 대조가 가능합니다. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="670" width="61" height="14" uuid="73624374-69ab-4620-83d5-fa13f075db12">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[발급시간 :]]></text>
+			</staticText>
+			<textField pattern="yyyy년 MM월 dd일 HH시mm분ss초">
+				<reportElement x="70" y="670" width="189" height="14" uuid="ced7e431-35d2-4801-a388-2f0d0e378118"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="굴림"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</background>
+</jasperReport>

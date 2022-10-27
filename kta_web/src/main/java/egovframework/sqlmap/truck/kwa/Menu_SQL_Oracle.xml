@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Member">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="menuSearchVO" type="kr.or.truck.kwa.contentsmgr.service.ContentsSearchVO"/>
+	
+	
+	<!-- 메뉴 리스트 조회 -->
+	<select id="menuDAO.getMenuList" parameterClass="Int" resultClass="hashMap">
+	SELECT 
+		MENU_NM,
+		HP_MENU_NO,
+		UPPER_HP_MENU_NO,
+		MENU_DESC,
+		MENU_TYPE,
+		HP_BOARD_MASTER_NO,
+		REGIST_DATE,
+		REGIST_ID,
+		MODIFY_DATE,
+		MODIFY_ID,
+		USE_YN
+	FROM 
+		HP_MENU
+	WHERE 
+		HP_MENU_NO like #TYPE# || '%'
+	ORDER BY 
+		HP_MENU_NO ASC
+	</select>
+	
+	<!-- 메뉴 상세사항 조회 -->
+	<select id="menuDAO.getMenuDetail" parameterClass="Int" resultClass="hashMap">
+	SELECT 
+		*
+	FROM 
+		HP_MENU A, HP_BOARD_MASTER B
+	WHERE 
+		A.HP_BOARD_MASTER_NO = B.HP_BOARD_MASTER_NO 
+ 	AND
+		A.HP_MENU_NO = #MENUNO#
+	</select>
+	<!-- 메뉴 상세사항조회(보드마스터가 없을경우) -->
+	<select id="menuDAO.getMenuDetailBase"  parameterClass="Int" resultClass="hashMap">
+	SELECT 
+		*
+	FROM 
+		HP_MENU
+	WHERE 
+		HP_MENU_NO = #MENUNO#
+	</select>
+	
+	<!-- 게시판 관리자 리스트 조회 -->
+	<select id="menuDAO.getMenuAuth" parameterClass="Int" resultClass="hashMap">
+	SELECT
+		NVL(HP_MENU_AUTH_NO,0) HP_MENU_AUTH_NO,
+		NVL(AUTH_TYPE      ,' ')	AUTH_TYPE,     
+		NVL(HP_MENU_NO     ,0)	HP_MENU_NO,    
+		NVL(AUTH_ID        ,' ')	AUTH_ID,       
+		REGIST_DATE,   
+		NVL(REGIST_ID      ,' ') REGIST_ID      
+	FROM 	
+		HP_MENU_AUTH
+	WHERE 
+		HP_MENU_NO = #MENUNO#
+	
+	</select>
+	
+	<!-- 게시판 관리자 리스트 조회(HP_BOARD_MASTER_NO) -->
+	<select id="menuDAO.getMenuAuthBoardMst" parameterClass="Int" resultClass="hashMap">
+	SELECT
+		NVL(A.HP_MENU_AUTH_NO,0) HP_MENU_AUTH_NO,
+		NVL(A.AUTH_TYPE      ,' ')	AUTH_TYPE,     
+		NVL(A.HP_MENU_NO     ,0)	HP_MENU_NO,    
+		NVL(A.AUTH_ID        ,' ')	AUTH_ID,       
+		A.REGIST_DATE,   
+		NVL(A.REGIST_ID      ,' ') REGIST_ID,
+		NVL(A.AUTH_NAME      ,' ') AUTH_NAME      
+	FROM 	
+		HP_MENU_AUTH A LEFT OUTER JOIN HP_MENU B
+    ON A.HP_MENU_NO = B.HP_MENU_NO
+	WHERE 
+		B.HP_BOARD_MASTER_NO=#BOARDNO# and A.daepyo_yn = 'Y'
+	</select>	
+	
+	
+	<!-- 게시판 카테고리 리스트 조회 -->
+	<select id="menuDAO.getMenuCategory"  parameterClass="Int" resultClass="hashMap">
+	SELECT
+		*
+	FROM
+		HP_BOARD_CATEGORY
+	WHERE 
+		HP_BOARD_MASTER_NO = #BOARDNO#
+	ORDER BY 
+		CATEGORY_ID ASC
+	</select>
+	
+	
+	
+	<!-- 메뉴 추가시 번호 -->
+	<select id="menuDAO.getAddMenuNo" parameterClass="Int" resultClass="Int">
+	SELECT
+		MAX(HP_MENU_NO) + 1
+	FROM 
+		HP_MENU
+	WHERE 
+		HP_MENU_NO LIKE #MENUREFER# ||'%'
+	</select>
+	
+	<!-- insert to HP_BOARD_MASTER  -->
+	<insert id="menuDAO.insertHP_BOARD_MASTER" parameterClass="hashMap">
+	INSERT INTO HP_BOARD_MASTER
+	VALUES(
+		HP_BOARD_MASTER_NO_SEQ.NEXTVAL,
+		#BOARD_NM#,				
+		#BOARD_DESC#,				
+		'add',
+		#USE_COMMENT_YN#,			
+		#USE_REPLY_YN#,			
+		#USE_ADMIN_YN#,			
+		#USE_FILE_YN#,				
+		#USE_CATEGORY_YN#,			
+		#FILE_UPLOAD_LIMIT_SIZE#,	
+		#FILE_UPLOAD_AVAIL_NUMBER#,
+		SYSDATE,
+		#REGIST_ID#,
+		SYSDATE,
+		#REGIST_ID#,
+		'Y',	
+		#USING_TABLE_NAME#,		
+		#DISPLAY_TYPE#
+	)			
+	<selectKey keyProperty="HP_BOARD_MASTER_NO" resultClass="Integer">
+	Select
+	    MAX(HP_BOARD_MASTER_NO)    
+	FROM
+        HP_BOARD_MASTER 
+    </selectKey>
+	</insert>
+	
+	<!-- Board_Master_NO -->
+	<select id="menuDAO.selectBoardMasterNo" parameterClass="hashMap" resultClass="Int">
+	SELECT HP_BOARD_MASTER_NO
+    FROM HP_MENU
+    WHERE HP_MENU_NO = #HP_BOARD_NO#
+	</select>
+	
+	<!-- insert to HP_MENU -->
+	<insert id="menuDAO.insertHP_MENU" parameterClass="hashMap">
+	INSERT INTO HP_MENU
+	VALUES(
+		#BOARD_NM#,
+		#HP_BOARD_NO#,
+		#UPPER_HP_MENU_NO#,
+		#BOARD_DESC#,
+		'add',
+		#HP_BOARD_MASTER_NO#,
+		SYSDATE,
+		#REGIST_ID#,
+		SYSDATE,
+		#REGIST_ID#,
+		'Y'
+	)
+	</insert>
+	
+	<!-- insert to HP_MENU_AUTH -->
+	<insert id="menuDAO.insertHP_MENU_AUTH" parameterClass="hashMap">
+	INSERT INTO HP_MENU_AUTH(HP_MENU_AUTH_NO,AUTH_TYPE,HP_MENU_NO,AUTH_ID,REGIST_DATE,REGIST_ID,AUTH_NAME)
+	VALUES(
+		HP_MENU_AUTH_NO_SEQ.NEXTVAL,
+		'menu_admin',
+		#HP_BOARD_NO#,
+		#AUTH_ID#,
+		SYSDATE,
+		#REGIST_ID#,
+		#AUTH_NAME#
+	)
+	</insert>
+	
+	<!-- insert to HP_BOARD_CATEGORY -->
+	<insert id="menuDAO.insertHP_BOARD_CATEGORY" parameterClass="hashMap">
+	INSERT INTO HP_BOARD_CATEGORY
+	VALUES(
+		HP_BOARD_CATEGORY_NO_SEQ.NEXTVAL,
+		#HP_BOARD_MASTER_NO#,
+		#CATEGORY_ID#,
+		#CATEGORY_NM#,
+		#CATEGORY_DESC#,
+		SYSDATE,
+		#REGIST_ID#
+	)
+	</insert>
+	
+	<!-- update to HP_MENU -->
+	<update id="menuDAO.updateHP_MENU" parameterClass="hashMap">
+	UPDATE HP_MENU
+	SET
+		MENU_NM = #BOARD_NM#,
+		MENU_DESC = #BOARD_DESC#,
+		MODIFY_DATE = SYSDATE,
+		MODIFY_ID = #MODIFY_ID#,
+		USE_YN = #USE_YN#
+	WHERE
+		HP_MENU_NO = #HP_BOARD_NO#
+	</update>	
+	
+	<!-- update to HP_BOARD_MASTER -->
+	<update id="menuDAO.updateHP_BOARD_MASTER" parameterClass="hashMap">
+	UPDATE HP_BOARD_MASTER
+	SET
+		BOARD_NM = #BOARD_NM#,
+		BOARD_DESC = #BOARD_DESC#,
+		USE_ADMIN_YN = #USE_ADMIN_YN#,
+		USE_FILE_YN = #USE_FILE_YN#,
+		USE_CATEGORY_YN = #USE_CATEGORY_YN#,
+		FILE_UPLOAD_LIMIT_SIZE = #FILE_UPLOAD_LIMIT_SIZE#,
+		MODIFY_DATE = SYSDATE,
+		MODIFY_ID = #MODIFY_ID#,
+		DISPLAY_TYPE = #DISPLAY_TYPE#,
+		FILE_UPLOAD_AVAIL_NUMBER = #FILE_UPLOAD_AVAIL_NUMBER#,
+		USE_YN = #USE_YN#
+	WHERE
+		HP_BOARD_MASTER_NO = #HP_BOARD_MASTER_NO#
+	</update>
+	
+	<!-- 보드마스터 세부사항(basic type) 업데이트 -->
+	<update id="menuDAO.updateHP_BOARD_MASTERdetail" parameterClass="hashMap">
+	UPDATE HP_BOARD_MASTER
+	SET
+		USE_CATEGORY_YN = #USE_CATEGORY_YN#,
+		MODIFY_DATE = SYSDATE,
+		MODIFY_ID = #MODIFY_ID#
+	WHERE
+		HP_BOARD_MASTER_NO = #HP_BOARD_MASTER_NO#
+	</update>
+	
+	
+	<!-- delete to HP_BOARD_CATEGORY -->
+	<delete id="menuDAO.deleteHP_BOARD_CATEGORY" parameterClass="hashMap">
+	DELETE FROM HP_BOARD_CATEGORY 
+	WHERE 
+		HP_BOARD_MASTER_NO = #HP_BOARD_MASTER_NO#
+	</delete>
+	
+	<!-- delete to HP_MENU_AUTH -->
+	<delete id="menuDAO.deleteHP_MENU_AUTH" parameterClass="hashMap">
+	DELETE FROM HP_MENU_AUTH 
+	WHERE 
+		HP_MENU_NO = #HP_BOARD_NO#
+	</delete>
+	
+	<!-- 보드마스터 속성조회 -->
+	<select id="menuDAO.getBoardStatus" parameterClass="String" resultClass="hashMap">
+	SELECT 
+		BOARD_NM,
+		NVL(USE_COMMENT_YN,'N') 		USE_COMMENT_YN,
+		NVL(USE_REPLY_YN,'N')			USE_REPLY_YN,
+		NVL(USE_ADMIN_YN,'N')			USE_ADMIN_YN,
+		NVL(USE_FILE_YN,'N') 			USE_FILE_YN,
+		NVL(USE_CATEGORY_YN,'N') 		USE_CATEGORY_YN,
+		NVL(FILE_UPLOAD_LIMIT_SIZE, 0)	 FILE_UPLOAD_LIMIT_SIZE,
+		NVL(FILE_UPLOAD_AVAIL_NUMBER, 0) FILE_UPLOAD_AVAIL_NUMBER,
+		NVL(DISPLAY_TYPE, 'N')			DISPLAY_TYPE
+	FROM
+		HP_BOARD_MASTER
+	WHERE
+		HP_BOARD_MASTER_NO = #bmstNo#
+	</select>
+	
+	
+	<!-- FileCount -->
+	<select id="menuDAO.selectBoardFileCount" parameterClass="menuSearchVO" resultClass="int"  >
+	SELECT 
+    	COUNT(*)
+    FROM (
+	    SELECT 
+		  	B.ATCH_FILE_ID ,
+			B.FILE_SN ,
+			A.FILE_TITLE,
+			A.HOMEPAGE_MENU_NO,
+			M.MENU_NM,
+			B.ORIGNL_FILE_NM,
+			'HTTP://WWW.TRUCK.OR.KR/cmm/fms/FileDown.do?atchFileId='||B.ATCH_FILE_ID||'&amp;fileSn='||B.FILE_SN AS "LINK",
+			ROWNUM RNUM
+		FROM 
+			COMTNFILE A 
+		INNER JOIN 
+			COMTNFILEDETAIL B ON A.ATCH_FILE_ID = B.ATCH_FILE_ID 
+		LEFT JOIN 
+			HP_MENU M ON A.HOMEPAGE_MENU_NO = M.HP_MENU_NO
+		WHERE 
+			A.USE_AT = 'Y' 
+		AND 
+			M.HP_MENU_NO NOT IN ('1050304','1040301')
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			M.MENU_NM LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			B.ORIGNL_FILE_NM LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		ORDER BY 
+			A.ATCH_FILE_ID DESC)   
+	</select>
+	
+	
+	<select id="menuDAO.selectCustomBoardFileCount" parameterClass="menuSearchVO" resultClass="int" >
+	SELECT 
+    	COUNT(*)
+    FROM (
+	    SELECT 
+		  	B.ATCH_FILE_ID ,
+			B.FILE_SN ,
+			A.FILE_TITLE,
+			A.HOMEPAGE_MENU_NO,
+			M.MENU_NM,
+			B.ORIGNL_FILE_NM,
+			'HTTP://WWW.TRUCK.OR.KR/cmm/fms/FileDown.do?atchFileId='||B.ATCH_FILE_ID||'&amp;fileSn='||B.FILE_SN AS "LINK",
+			ROWNUM RNUM
+		FROM 
+			COMTNFILE A 
+		INNER JOIN 
+			COMTNFILEDETAIL B ON A.ATCH_FILE_ID = B.ATCH_FILE_ID 
+		LEFT JOIN 
+			HP_MENU M ON A.HOMEPAGE_MENU_NO = M.HP_MENU_NO
+		WHERE 
+			A.USE_AT = 'Y' 
+		AND 
+			M.HP_MENU_NO NOT IN ('1050304','1040301')
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			M.MENU_NM LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			B.ORIGNL_FILE_NM LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		ORDER BY 
+			A.ATCH_FILE_ID DESC)    
+	</select>
+	
+	
+	<select id="menuDAO.selectFileArticles"  parameterClass="menuSearchVO" resultClass="hashmap" >
+	SELECT
+		ATCH_FILE_ID ,   
+		FILE_SN ,        
+		TO_CHAR(CREAT_DT, 'YYYY.MM.DD') as CREAT_DT,
+		FILE_TITLE,      
+		FILE_DESC,
+		HOMEPAGE_MENU_NO,
+		MENU_NM,         
+		ORIGNL_FILE_NM, 
+		HP_BOARD_MASTER_NO, 
+		LINK,
+		RNUM
+	FROM
+		(
+		SELECT ROWNUM RNUM, A.*
+		FROM
+		(SELECT 
+		  	B.ATCH_FILE_ID ,
+			B.FILE_SN ,
+        	A.CREAT_DT,
+			A.FILE_TITLE,
+			A.FILE_DESC,
+			A.HOMEPAGE_MENU_NO,
+			M.MENU_NM,
+			M.HP_BOARD_MASTER_NO,
+			B.ORIGNL_FILE_NM,
+			'http://www.truck.or.kr/cmm/fms/FileDown.do?atchFileId='||B.ATCH_FILE_ID||'&amp;fileSn='||B.FILE_SN AS "LINK"
+		FROM 
+			COMTNFILE A 
+		INNER JOIN 
+			COMTNFILEDETAIL B ON A.ATCH_FILE_ID = B.ATCH_FILE_ID 
+		LEFT JOIN 
+			HP_MENU M ON A.HOMEPAGE_MENU_NO = M.HP_MENU_NO
+		WHERE 
+			A.USE_AT = 'Y' 
+		AND 
+			M.HP_MENU_NO NOT IN ('1050304','1040301')
+		<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			M.MENU_NM LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			B.ORIGNL_FILE_NM LIKE '%' || #searchWord# || '%'
+		</isEqual>
+		ORDER BY 
+			A.ATCH_FILE_ID DESC, B.FILE_SN ASC)A
+			)
+	 WHERE ROWNUM <![CDATA[<=]]> #recordCountPerPage# and RNUM <![CDATA[>]]> #firstIndex# 
+	 </select>
+	
+	<select id="menuDAO.getCustomFileList"  parameterClass="menuSearchVO" resultClass="hashmap" >
+	SELECT 
+	    ATCH_FILE_ID, 
+	    ARTICLE_NO, 
+	    TITLE,
+	    MODIFY_ID,
+	    MODIFY_TIME,
+	    RNUM
+	FROM (
+	    SELECT 
+	    ROWNUM RNUM,
+	    B.ATCH_FILE_ID, 
+	    B.HP_CUSTOM_BOARD_NO AS ARTICLE_NO, 
+	    B.TITLE,
+	    B.MODIFY_ID, 
+	    B.MODIFY_DATE AS MODIFY_TIME
+    FROM 
+	    COMTNFILE A, 
+	    HP_CUSTOM_BOARD B
+    WHERE 
+    	A.ATCH_FILE_ID = B.ATCH_FILE_ID
+    AND 
+    	B.USE_AT ='Y'
+    AND 
+    	B.HP_BOARD_MASTER_NO = #searchKeyword#)
+	<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+</sqlMap>

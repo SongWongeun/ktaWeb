@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="payDAO">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+
+	
+	<typeAlias  alias="paySearchVO" type="kr.or.truck.kma.pay.service.PaySearchVO"/>
+	<typeAlias  alias="payVO" type="kr.or.truck.kma.pay.service.PayVO"/>
+
+	<!-- 최근업로드일자 조회 -->
+	<select id="payDAO.selectGijun_Ymd" parameterClass="string" resultClass="string">
+	SELECT 
+		MAX(GIJUN_YMD) 
+	FROM 
+		M_ACCOUNT
+	</select>
+	
+	
+	<!-- 모바일기기 사용요금 리스트 -->
+	<select id="payDAO.selectPayList" resultClass="hashMap" parameterClass="paySearchVO">
+	SELECT
+		 TEL_NO,     
+		 USER_ID,    
+		 USER_NM,    
+		 EQUIP_PHY_ADDR,
+		 JIBU,       
+		 SMS_AMT,    
+		 DATA_AMT,   
+		 CONTENT_AMT,
+		 VAT_AMT,    
+		 EXTRA_AMT,  
+		 TOT_AMT   		
+	FROM
+	( 
+	SELECT 
+		ROWNUM RNUM, 
+		A.* 
+	FROM
+		(
+		SELECT 
+			A.EQUIP_OPENNO                          TEL_NO,
+			B.USER_ID                               USER_ID,
+			F_ID_NM(B.USER_ID)                      USER_NM, 
+			F_JIBU_NM(B.WK_PLACE_CODE)              JIBU,
+            B.EQUIP_PHY_ADDR                        EQUIP_PHY_ADDR,
+			C.SMS_AMT                               SMS_AMT, 
+			C.DATA_AMT                              DATA_AMT,
+			C.CONTENTS_AMT                          CONTENT_AMT,
+			C.VAT_AMT - 2250                        VAT_AMT, 
+			C.TOT_AMT -50260                        EXTRA_AMT,
+			C.TOT_AMT                               TOT_AMT
+		FROM M_REG_PHY_INFO A ,
+			M_USER_ETC_INFO B,
+			M_ACCOUNT C,
+      		HRPE02 d
+		WHERE 
+			A.EQUIP_PHY_ADDR = B.EQUIP_PHY_ADDR
+			AND A.EQUIP_OPENNO = C.EQUIP_OPENNO
+  			AND B.USER_ID   = D.SAWON_NO(+)
+			AND C.GIJUN_YMD =           #searchDate#
+			<!-- AND B.WK_PLACE_CODE LIKE    #jibu_no# || '%' -->
+			AND B.WK_PLACE_CODE   <![CDATA[ <> ]]>   '0131'
+			AND B.PART_CODE LIKE       SUBSTR(#jibu_no#,0,2)|| '%'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			(F_ID_NM(B.USER_ID) LIKE '%'||#searchKeyword#||'%' OR
+			A.EQUIP_OPENNO LIKE '%'||#searchKeyword#||'%')
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			F_ID_NM(B.USER_ID) LIKE '%'||#searchKeyword#||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			A.EQUIP_OPENNO LIKE '%'||#searchKeyword#||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="3">
+			C.TOT_AMT <![CDATA[ > ]]> #searchKeyword#
+			</isEqual>
+			AND B.DEL_DT IS NULL
+			AND D.TOESA_YMD IS NULL
+			AND A.EQUIP_AGENCYNM   = 'SKT'
+    		AND A.EQUIP_NM         = '갤럭시탭 8.9'
+		ORDER BY 
+			B.WK_PLACE_CODE, 
+			B.USER_ID, 
+			A.EQUIP_OPENNO	)A
+			)		
+	 WHERE ROWNUM <![CDATA[<=]]> #recordCountPerPage# and RNUM <![CDATA[>]]> #firstIndex# 
+	</select>
+	
+	<!-- 모바일기기 사용요금 리스트 count -->
+	<select id="payDAO.selectPayListCount" resultClass="int" parameterClass="paySearchVO">
+	 SELECT 
+		COUNT(*)
+	FROM M_REG_PHY_INFO A ,
+			M_USER_ETC_INFO B,
+			M_ACCOUNT C,
+      		HRPE02 d
+		WHERE 
+			A.EQUIP_PHY_ADDR = B.EQUIP_PHY_ADDR
+			AND A.EQUIP_OPENNO = C.EQUIP_OPENNO
+  			AND B.USER_ID   = D.SAWON_NO(+)
+			AND C.GIJUN_YMD =           #searchDate#
+			<!-- AND B.WK_PLACE_CODE LIKE    #jibu_no# || '%' -->
+			AND B.WK_PLACE_CODE   <![CDATA[ <> ]]>   '0131'
+			AND B.PART_CODE LIKE       SUBSTR(#jibu_no#,0,2)|| '%'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+			(F_ID_NM(B.USER_ID) LIKE '%'||#searchKeyword#||'%' OR
+			A.EQUIP_OPENNO LIKE '%'||#searchKeyword#||'%')
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+			F_ID_NM(B.USER_ID) LIKE '%'||#searchKeyword#||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+			A.EQUIP_OPENNO LIKE '%'||#searchKeyword#||'%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="3">
+			C.TOT_AMT <![CDATA[ > ]]> #searchKeyword#
+			</isEqual>
+			AND B.DEL_DT IS NULL
+			AND D.TOESA_YMD IS NULL
+			AND A.EQUIP_AGENCYNM   = 'SKT'
+    		AND A.EQUIP_NM         = '갤럭시탭 8.9'
+	ORDER BY 
+		B.WK_PLACE_CODE, 
+		B.USER_ID, 
+		A.EQUIP_OPENNO	
+	</select>
+	
+	<select id="payDAO.selectPayListCountAll" resultClass="int" parameterClass="paySearchVO">
+	SELECT  
+		COUNT(DISTINCT GIJUN_YMD)
+	FROM 
+		M_ACCOUNT
+	</select>
+	
+	
+	<select id="payDAO.selectPayListAll" resultClass="hashMap" parameterClass="paySearchVO">
+	SELECT  
+		DISTINCT GIJUN_YMD
+	FROM 
+		M_ACCOUNT
+	WHERE
+		GIJUN_YMD like #searchDate# || '%'
+	</select>
+	
+	<insert id="payDAO.insertPayList" parameterClass="payVO">
+	INSERT INTO 
+		M_ACCOUNT(
+			GIJUN_YMD, 
+			EQUIP_OPENNO, 
+			GIBON_AMT, 
+			SMS_AMT, 
+			DC_AMT, 
+			GITA_AMT, 
+			GIGI_AMT, 
+			VAT_AMT, 
+			CUT_AMT, 
+			TOT_AMT, 
+			DATA_AMT, 
+			ROAMING_AMT, 
+			CONTENTS_AMT		
+		)
+	VALUES(
+		#GIJUN_YMD#, 
+		#EQUIP_OPENNO#, 
+		#GIBON_AMT#, 
+		#SMS_AMT#, 
+		#DC_AMT#, 
+		#GITA_AMT#, 
+		#GIGI_AMT#, 
+		#VAT_AMT#, 
+		#CUT_AMT#, 
+		#TOT_AMT#, 
+		#DATA_AMT#, 
+		#ROAMING_AMT#, 
+		#CONTENTS_AMT#
+			)
+	</insert>
+	
+	<delete id="payDAO.deletePayList" parameterClass="paySearchVO">
+	DELETE 
+		M_ACCOUNT 
+	WHERE 
+		GIJUN_YMD = #searchDate#
+	</delete>
+	
+	<select id="payDAO.overCheck" parameterClass="paySearchVO" resultClass="string">
+	SELECT  
+		DISTINCT GIJUN_YMD
+	FROM 
+		M_ACCOUNT
+	WHERE
+		GIJUN_YMD = #searchDate#
+	</select>
+</sqlMap>

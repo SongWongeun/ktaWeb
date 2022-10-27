@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="EUC-KR" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap >
+		
+	
+	<insert id="AosServlet.insertAOS_MOB_ESTIMATE" parameterClass="java.util.Map" >
+		INSERT INTO KTAAOS.AOS_MOB_ESTIMATE(
+			EST_SERIAL,
+			BOCODE,
+			REGNO,
+			DAMBO,
+			SEQNO,
+			AGREE,
+		<isNotEmpty property="send_dt"  >
+			SEND_DT,
+		</isNotEmpty>
+			CARNO,
+			CARCODE,
+			CARNAME,
+			CAR_OPTIONS,
+			MODELCODE,
+			MODELNAME,
+			CARPRICE,
+			OWNERPEE,
+			EXTRA_STANDARD,
+			MIN_OWNERPEE,
+			MAX_OWNERPEE,
+			OWNERPEE_KIND,
+			APP_RATE,
+			ACCDAY,
+			ACCADR,
+			XPAY,
+			BPAY,
+			PPAY,
+			PNTCOT,
+			PART_RATE,
+			INS_MISRATE,
+			SPECIAL_OPT,
+			TOWFEE,
+			CAR_RENT,
+			MISKIND,
+			DEBRIS_FEE,
+			RPAYSUM,
+			XPAYSUM,
+			BPAYSUM,
+			APAYSUM,
+			SPAYSUM,
+			OPAYSUM,
+			PPAYSUM,
+			PPAY_EXTRA,
+			PPAY_MATERIAL,
+			PNTDRY,
+			NEWPARTSUM,
+			ENDTOTAL,
+			VATRATE,
+			VAT,
+			REPAIR_COST,
+			INS_MIS,
+			REQTOTAL,
+			PAYMENT,
+			USERID,
+		<isNotEmpty property="est_dt"  >
+			EST_DT,
+		</isNotEmpty>
+		<isNotEmpty property="sign_dt"  >
+			SIGN_DT,
+		</isNotEmpty>			
+		
+			EST_TRANS,
+			
+		<isNotEmpty property="update_dt"  >
+			UPDATE_DT,
+		</isNotEmpty>			
+			PAYMENT_TARGET,
+			ESTKIND,
+			MISRATE,
+			MIS_DEDUCTION,
+			CALCHECK,
+			GLASS_PARTSUM,
+			TR_REG_DATE,
+			TR_SEQ
+		) VALUES (
+			#est_serial:VARCHAR:NO_ENTRY#,
+			#bocode:VARCHAR:NO_ENTRY:VARCHAR:NO_ENTRY#,
+			#regno:VARCHAR:NO_ENTRY:VARCHAR:NO_ENTRY#,
+			#dambo:VARCHAR:NO_ENTRY#,
+			#seqno:VARCHAR:NO_ENTRY#,
+			#agree:VARCHAR:NO_ENTRY#,
+		<isNotEmpty property="send_dt"  >
+			TO_TIMESTAMP (#send_dt:VARCHAR:NO_ENTRY#, 'yyyy-MM-dd HH24:MI:SS.FF'),
+		</isNotEmpty>
+			#carno:VARCHAR:NO_ENTRY#,
+			#carcode:VARCHAR:NO_ENTRY#,
+			#carname:VARCHAR:NO_ENTRY#,
+			#car_options:VARCHAR:NO_ENTRY#,
+			#modelcode:VARCHAR:NO_ENTRY#,
+			#modelname:VARCHAR:NO_ENTRY#,
+			#carprice:NUMERIC:-999999#,
+			#ownerpee:NUMERIC:-999999#,
+			#extra_standard:NUMERIC:-999999#,
+			#min_ownerpee:NUMERIC:-999999#,
+			#max_ownerpee:NUMERIC:-999999#,
+			#ownerpee_kind:VARCHAR:NO_ENTRY#,
+			#app_rate:NUMERIC:-999999#,
+			#accday:VARCHAR:NO_ENTRY#,
+			#accadr:VARCHAR:NO_ENTRY#,
+			#xpay:NUMERIC:-999999#,
+			#bpay:NUMERIC:-999999#,
+			#ppay:NUMERIC:-999999#,
+			#pntcot:VARCHAR:NO_ENTRY#,
+			#part_rate:NUMERIC:-999999#,
+			#ins_misrate:NUMERIC:-999999#,
+			#special_opt:NUMERIC:-999999#,
+			#towfee:NUMERIC:-999999#,
+			#car_rent:NUMERIC:-999999#,
+			#miskind:VARCHAR:NO_ENTRY#,
+			#debris_fee:NUMERIC:-999999#,
+			#rpaysum:NUMERIC:-999999#,
+			#xpaysum:NUMERIC:-999999#,
+			#bpaysum:NUMERIC:-999999#,
+			#apaysum:NUMERIC:-999999#,
+			#spaysum:NUMERIC:-999999#,
+			#opaysum:NUMERIC:-999999#,
+			#ppaysum:NUMERIC:-999999#,
+			#ppay_extra:NUMERIC:-999999#,
+			#ppay_material:NUMERIC:-999999#,
+			#pntdry:NUMERIC:-999999#,
+			#newpartsum:NUMERIC:-999999#,
+			#endtotal:NUMERIC:-999999#,
+			#vatrate:NUMERIC:-999999#,
+			#vat:NUMERIC:-999999#,
+			#repair_cost:NUMERIC:-999999#,
+			#ins_mis:NUMERIC:-999999#,
+			#reqtotal:NUMERIC:-999999#,
+			#payment:NUMERIC:-999999#,
+			#userid:VARCHAR:NO_ENTRY#,
+		<isNotEmpty property="est_dt"  >
+			TO_TIMESTAMP (#est_dt:VARCHAR:NO_ENTRY#, 'yyyy-MM-dd HH24:MI:SS.FF'),
+		</isNotEmpty>
+		<isNotEmpty property="sign_dt"  >
+			TO_TIMESTAMP (#sign_dt:VARCHAR:NO_ENTRY#, 'yyyy-MM-dd HH24:MI:SS.FF'),
+		</isNotEmpty>
+			#est_trans:VARCHAR:NO_ENTRY#,
+		<isNotEmpty property="update_dt"  >
+			to_date(#update_dt:VARCHAR:NO_ENTRY#,'yyyymmdd'),
+		</isNotEmpty>
+			#payment_target:VARCHAR:NO_ENTRY#,
+			#estkind:VARCHAR:NO_ENTRY#,
+			#misrate:NUMERIC:-999999#,
+			#mis_deduction:NUMERIC:-999999#,
+			#calcheck:VARCHAR:NO_ENTRY#,
+			#glass_partsum:NUMERIC:-999999#,
+			SYSTIMESTAMP,
+			KTAAOS.AOS_MOB_ESTIMATE_TR_SEQ.nextval
+		)
+	</insert>
+	
+	<insert id="AosServlet.insertAOS_MOB_ESTSEC" parameterClass="java.util.Map" >
+	<![CDATA[
+		INSERT INTO KTAAOS.AOS_MOB_ESTSEC(
+			EST_SERIAL,
+			SECCODE,
+			DAMAGE,
+			SECNAME,
+			TR_REG_DATE,
+			TR_SEQ
+		) VALUES (
+			#est_serial:VARCHAR:NO_ENTRY#,
+			#seccode:VARCHAR:NO_ENTRY#,
+			#damage:VARCHAR:NO_ENTRY#,
+			#secname:VARCHAR:NO_ENTRY#,
+			SYSTIMESTAMP,
+			KTAAOS.AOS_MOB_ESTIMATEB_TR_SEQ.nextval
+		)
+
+	]]>
+	</insert>
+	
+	<insert id="AosServlet.insertAOS_MOB_ESTIMATEB" parameterClass="java.util.Map" >
+	<![CDATA[
+		INSERT INTO KTAAOS.AOS_MOB_ESTIMATEB(
+			EST_SERIAL,
+			ESTB_SEQNO,
+			PAYNO,
+			PARTNO,
+			PAYNAME,
+			WORKCODE,
+			QTY,
+			PAYSUM,
+			PARTSUM,
+			WORKKIND,
+			ORG_QTY,
+			SUBCODE,
+			APPROVAL,
+			PNTKIND,
+			TR_REG_DATE,
+			TR_SEQ
+		) VALUES (
+			#est_serial:VARCHAR:NO_ENTRY#,
+			#estb_seqno:VARCHAR:NO_ENTRY#,
+			#payno:VARCHAR:NO_ENTRY#,
+			#partno:VARCHAR:NO_ENTRY#,
+			#payname:VARCHAR:NO_ENTRY#,
+			#workcode:VARCHAR:NO_ENTRY#,
+			#qty:NUMERIC:-999999#,
+			#paysum:NUMERIC:-999999#,
+			#partsum:NUMERIC:-999999#,
+			#workkind:VARCHAR:NO_ENTRY#,
+			#org_qty:NUMERIC:-999999#,
+			#subcode:VARCHAR:NO_ENTRY#,
+			#approval:VARCHAR:NO_ENTRY#,
+			#pntkind:VARCHAR:NO_ENTRY#,
+			SYSTIMESTAMP,
+			KTAAOS.AOS_MOB_ESTSEC_TR_SEQ.nextval
+		)
+	]]>
+	</insert>
+	
+	<insert id="AosServlet.insertAOS_MOB_PHOTO" parameterClass="java.util.Map" >
+	<![CDATA[
+		INSERT INTO KTAAOS.AOS_MOB_PHOTO(
+			EST_SERIAL,
+			PHOTO_SEQNO,
+			FILENAME,
+			TR_REG_DATE,
+			TR_SEQ,
+			TR_FILE_FULL_PATH
+		) VALUES (
+			#est_serial:VARCHAR:NO_ENTRY#,
+			#photo_seqno:VARCHAR:NO_ENTRY#,
+			#filename:VARCHAR:NO_ENTRY#,
+			SYSTIMESTAMP,
+			KTAAOS.AOS_MOB_PHOTO_TR_SEQ.nextval,
+			#tr_file_full_path:VARCHAR:NO_ENTRY#
+		)
+	]]>
+	</insert>
+	
+	<update id="AosPhotoServlet.updateAOS_MOB_PHOTO" parameterClass="hashmap">
+		update 	KTAAOS.AOS_MOB_PHOTO
+		set 	TR_FILE_FULL_PATH = #tr_file_full_path:VARCHAR:NO_ENTRY#
+		where 	EST_SERIAL = #est_serial:VARCHAR:NO_ENTRY#
+		  and 	PHOTO_SEQNO = #photo_seqno:VARCHAR:NO_ENTRY#
+				
+	</update>
+	<select id="test.select" parameterClass="string" resultClass="hashmap">
+		select * from KTAAOS.AOS_MOB_ESTIMATE where EST_SERIAL = #est_serial:VARCHAR:NO_ENTRY#
+	</select>
+</sqlMap>

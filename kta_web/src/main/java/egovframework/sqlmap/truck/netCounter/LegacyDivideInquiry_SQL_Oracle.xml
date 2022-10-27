@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="divideInquiry">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>	
+	<typeAlias  alias="divideInquirySearchVO" type="kr.or.truck.netcounter.inquiryservice.service.ContractInquirySearchVO"/>
+	<typeAlias  alias="divideInquiryVO" type="kr.or.truck.netcounter.inquiryservice.service.DivideVO"/>
+	
+	<resultMap id="divideInquiry" class="kr.or.truck.netcounter.inquiryservice.service.DivideVO">	
+		<result property="GYEYAK_CHULJANG_CD"  	column="GYEYAK_CHULJANG_CD"/>
+		<result property="DAMDANG_SABUN"       	column="DAMDANG_SABUN"     />
+		<result property="AGENT_NO"            	column="AGENT_NO"          />
+		<result property="SAUPJANG_SEQ"        	column="SAUPJANG_SEQ"      />
+		<result property="AGENT_NM"            	column="AGENT_NM"          />
+		<result property="CHK"                 	column="CHK"               />
+		<result property="CAR_GAIP_NO"         	column="CAR_GAIP_NO"       />
+		<result property="CAR_NO"              	column="CAR_NO"            />
+		<result property="GYEYAK_NO_CAR"       	column="GYEYAK_NO_CAR"     />
+		<result property="BUNNAP_CNT_1"        	column="BUNNAP_CNT_1"      />
+		<result property="YUHYO_SYMD_1"        	column="YUHYO_SYMD_1"      />
+		<result property="SUNAP_YMD_1"         	column="SUNAP_YMD_1"       />
+		<result property="BUNNAP_AMT_1"        	column="BUNNAP_AMT_1"      />
+		<result property="BUNNAP_CNT_2"        	column="BUNNAP_CNT_2"      />
+		<result property="YUHYO_SYMD_2"        	column="YUHYO_SYMD_2"      />
+		<result property="SUNAP_YMD_2"         	column="SUNAP_YMD_2"       />
+		<result property="BUNNAP_AMT_2"        	column="BUNNAP_AMT_2"      />
+		<result property="BUNNAP_AMT_3"        	column="BUNNAP_AMT_3"      />
+		<result property="BUNNAP_AMT_4"        	column="BUNNAP_AMT_4"      />
+		<result property="BUNNAP_AMT_7"        	column="BUNNAP_AMT_7"      />
+		<result property="GYEYAK_NO_5"         	column="GYEYAK_NO_5"       />
+		<result property="BUNNAP_CNT_5"        	column="BUNNAP_CNT_5"      />
+		<result property="YUHYO_SYMD_5"        	column="YUHYO_SYMD_5"      />
+		<result property="SUNAP_YMD_5"         	column="SUNAP_YMD_5"       />		
+		<result property="BUNNAP_AMT_5"        	column="BUNNAP_AMT_5"      />		
+		<result property="GYEYAK_NO_6"         	column="GYEYAK_NO_6"       />		
+		<result property="BUNNAP_CNT_6"        	column="BUNNAP_CNT_6"      />		
+		<result property="YUHYO_SYMD_6"        	column="YUHYO_SYMD_6"      />		
+		<result property="SUNAP_YMD_6"         	column="SUNAP_YMD_6"       />		
+		<result property="BUNNAP_AMT_6"        	column="BUNNAP_AMT_6"      />		
+		<result property="JIBU_NM"             	column="JIBU_NM"           />		
+		<result property="TELNO_NEW"           	column="TELNO_NEW"         />		
+		<result property="FAX_NEW"             	column="FAX_NEW"           />			
+	</resultMap>
+	
+	<select id="divideInquiryDAO.selectDivideList" parameterClass="divideInquirySearchVO" resultMap="divideInquiry" >
+		select * from (
+		    select /*+ FIRST_ROWS(10) */ a.*, ROWNUM rnum from (
+					 SELECT C.GYEYAK_CHULJANG_CD  GYEYAK_CHULJANG_CD   
+				       , C.DAMDANG_SABUN       DAMDANG_SABUN
+				       , C.AGENT_NO            AGENT_NO
+				       , C.SAUPJANG_SEQ        SAUPJANG_SEQ
+				       , A.AGENT_NM            AGENT_NM
+				       , '0'                   chk
+				       , C.CAR_GAIP_NO         CAR_GAIP_NO
+				       , B.CAR_NO              CAR_NO   
+				       , C.GYEYAK_NO_CAR       GYEYAK_NO_CAR
+				       , C.BUNNAP_CNT_1        BUNNAP_CNT_1
+				       , C.YUHYO_SYMD_1        YUHYO_SYMD_1
+				       , decode(C.SUNAP_YMD_1, null, '0', '1')         SUNAP_YMD_1 
+				       , NVL(C.BUNNAP_AMT_1, 0)        BUNNAP_AMT_1
+				       , C.BUNNAP_CNT_2        BUNNAP_CNT_2
+				       , C.YUHYO_SYMD_2        YUHYO_SYMD_2
+				       , decode(C.SUNAP_YMD_2, null, '0', '1')          SUNAP_YMD_2 
+				       , NVL(C.BUNNAP_AMT_2, 0)        BUNNAP_AMT_2
+				       , NVL(C.BUNNAP_AMT_3, 0)        BUNNAP_AMT_3
+				       , NVL(C.BUNNAP_AMT_4, 0)        BUNNAP_AMT_4
+				       , NVL(C.BUNNAP_AMT_7, 0)        BUNNAP_AMT_7    /* 2009.11.27 YU. add */
+				       , C.GYEYAK_NO_5         GYEYAK_NO_5 
+				       , C.BUNNAP_CNT_5        BUNNAP_CNT_5
+				       , C.YUHYO_SYMD_5        YUHYO_SYMD_5
+				       , decode(C.SUNAP_YMD_5, null, '0', '1')          SUNAP_YMD_5 
+				       , NVL(C.BUNNAP_AMT_5, 0)        BUNNAP_AMT_5
+				       , C.GYEYAK_NO_6         GYEYAK_NO_6 
+				       , C.BUNNAP_CNT_6        BUNNAP_CNT_6
+				       , C.YUHYO_SYMD_6        YUHYO_SYMD_6
+				       , decode(C.SUNAP_YMD_6, null, '0', '1')          SUNAP_YMD_6 
+				       , NVL(C.BUNNAP_AMT_6, 0)        BUNNAP_AMT_6
+				       , f_jibu_name(substr(C.GYEYAK_CHULJANG_CD, 1, 2)) jibu_nm,
+				         decode(trim(d.tel_local_no), null, '', d.tel_local_no||'-')        ||
+				         decode(trim(d.tel_no), null, '', 
+				                trim(substr(d.tel_no, 1, length(trim(d.tel_no)) - 4))||'-') ||
+				         decode(trim(d.tel_no), null, '', 
+				                trim(substr(d.tel_no, length(trim(d.tel_no)) - 3)))            telno_new,
+				
+				         decode(trim(d.fax_local_no), null, '', d.fax_local_no||'-')        ||
+				         decode(trim(d.fax_no), null, '', 
+				                trim(substr(d.fax_no, 1, length(trim(d.fax_no)) - 4))||'-') ||
+				         decode(trim(d.fax_no), null, '', 
+				                trim(substr(d.fax_no, length(trim(d.fax_no)) - 3)))              fax_new
+							 FROM CTGI01 a, CTGI05 B
+								, (SELECT C2.GYEYAK_CHULJANG_CD, C2.AGENT_NO, C2.SAUPJANG_SEQ, C2.CAR_GAIP_NO
+				
+				               , MAX(damdang_sabun)  damdang_sabun
+				
+									, MAX(GYEYAK_NO_CAR)  GYEYAK_NO_CAR
+									, MAX( BUNNAP_CNT_1 ) BUNNAP_CNT_1  
+									, MAX( YUHYO_SYMD_1 ) YUHYO_SYMD_1   
+									, MAX( SUNAP_YMD_1  ) SUNAP_YMD_1   
+									, MAX( BUNNAP_AMT_1 ) BUNNAP_AMT_1
+							
+									, MAX( BUNNAP_CNT_2 ) BUNNAP_CNT_2
+									, MAX( YUHYO_SYMD_2 ) YUHYO_SYMD_2
+									, MAX( SUNAP_YMD_2  ) SUNAP_YMD_2
+									, MAX( BUNNAP_AMT_2 ) BUNNAP_AMT_2
+							
+									, MAX( BUNNAP_CNT_3 ) BUNNAP_CNT_3
+									, MAX( YUHYO_SYMD_3 ) YUHYO_SYMD_3
+									, MAX( SUNAP_YMD_3  ) SUNAP_YMD_3
+									, MAX( BUNNAP_AMT_3 ) BUNNAP_AMT_3
+							
+									, MAX( BUNNAP_CNT_4 ) BUNNAP_CNT_4
+									, MAX( YUHYO_SYMD_4 ) YUHYO_SYMD_4
+									, MAX( SUNAP_YMD_4  ) SUNAP_YMD_4
+									, MAX( BUNNAP_AMT_4 ) BUNNAP_AMT_4
+							
+									, MAX( BUNNAP_CNT_7 ) BUNNAP_CNT_7
+									, MAX( YUHYO_SYMD_7 ) YUHYO_SYMD_7
+									, MAX( SUNAP_YMD_7  ) SUNAP_YMD_7
+									, MAX( BUNNAP_AMT_7 ) BUNNAP_AMT_7
+							
+									, MAX( GYEYAK_NO_5  ) GYEYAK_NO_5
+									, MAX( BUNNAP_CNT_5 ) BUNNAP_CNT_5   
+									, MAX( YUHYO_SYMD_5 ) YUHYO_SYMD_5   
+									, MAX( SUNAP_YMD_5  ) SUNAP_YMD_5   
+									, MAX( BUNNAP_AMT_5 ) BUNNAP_AMT_5   
+							
+									, MAX( GYEYAK_NO_6  ) GYEYAK_NO_6
+									, MAX( BUNNAP_CNT_6 ) BUNNAP_CNT_6   
+									, MAX( YUHYO_SYMD_6 ) YUHYO_SYMD_6   
+									, MAX( SUNAP_YMD_6  ) SUNAP_YMD_6  
+									, MAX( BUNNAP_AMT_6 ) BUNNAP_AMT_6
+							
+							FROM (
+						  SELECT /*+ index(c1 idx_ctbh33_001) */
+						  			c1.GYEYAK_CHULJANG_CD GYEYAK_CHULJANG_CD,
+									c1.AGENT_NO           AGENT_NO,   
+									c1.SAUPJANG_SEQ       SAUPJANG_SEQ,   
+									c1.CAR_GAIP_NO        CAR_GAIP_NO,   
+									c1.damdang_sabun      damdang_sabun,
+									( case 
+									  when c1.dambo_kind_cd in ('1', '2', '3', '4', '7') THEN
+											 c1.gyeyak_no
+									  else
+											 null
+									  end 
+									) GYEYAK_NO_CAR,
+									decode(c1.dambo_kind_cd, '1', BUNNAP_CNT , null) BUNNAP_CNT_1,   
+									decode(c1.dambo_kind_cd, '1', YUHYO_SYMD , null) YUHYO_SYMD_1,   
+									decode(c1.dambo_kind_cd, '1', YOUNGSU_YMD, null) SUNAP_YMD_1,   
+									decode(c1.dambo_kind_cd, '1', BUNNAP_AMT , null) BUNNAP_AMT_1,   
+						
+									decode(c1.dambo_kind_cd, '2', BUNNAP_CNT , null) BUNNAP_CNT_2,
+									decode(c1.dambo_kind_cd, '2', YUHYO_SYMD , null) YUHYO_SYMD_2,
+									decode(c1.dambo_kind_cd, '2', YOUNGSU_YMD, null) SUNAP_YMD_2,
+									decode(c1.dambo_kind_cd, '2', BUNNAP_AMT , null) BUNNAP_AMT_2,
+						
+									decode(c1.dambo_kind_cd, '3', BUNNAP_CNT , null) BUNNAP_CNT_3,
+									decode(c1.dambo_kind_cd, '3', YUHYO_SYMD , null) YUHYO_SYMD_3,
+									decode(c1.dambo_kind_cd, '3', YOUNGSU_YMD, null) SUNAP_YMD_3,
+									decode(c1.dambo_kind_cd, '3', BUNNAP_AMT , null) BUNNAP_AMT_3,
+						
+									decode(c1.dambo_kind_cd, '4', BUNNAP_CNT , null) BUNNAP_CNT_4,
+									decode(c1.dambo_kind_cd, '4', YUHYO_SYMD , null) YUHYO_SYMD_4,
+									decode(c1.dambo_kind_cd, '4', YOUNGSU_YMD, null) SUNAP_YMD_4,
+									decode(c1.dambo_kind_cd, '4', BUNNAP_AMT , null) BUNNAP_AMT_4,
+				                       /* 2009.11.27 YU. add */		
+									decode(c1.dambo_kind_cd, '7', BUNNAP_CNT , null) BUNNAP_CNT_7,   
+									decode(c1.dambo_kind_cd, '7', YUHYO_SYMD , null) YUHYO_SYMD_7,   
+									decode(c1.dambo_kind_cd, '7', YOUNGSU_YMD, null) SUNAP_YMD_7,   
+									decode(c1.dambo_kind_cd, '7', BUNNAP_AMT , null) BUNNAP_AMT_7,  
+				
+									decode(c1.dambo_kind_cd, '5', GYEYAK_NO  , null) GYEYAK_NO_5,
+									decode(c1.dambo_kind_cd, '5', BUNNAP_CNT , null) BUNNAP_CNT_5,   
+									decode(c1.dambo_kind_cd, '5', YUHYO_SYMD , null) YUHYO_SYMD_5,   
+									decode(c1.dambo_kind_cd, '5', YOUNGSU_YMD, null) SUNAP_YMD_5,   
+									decode(c1.dambo_kind_cd, '5', BUNNAP_AMT , null) BUNNAP_AMT_5,   
+						
+									decode(c1.dambo_kind_cd, '6', GYEYAK_NO  , null) GYEYAK_NO_6,
+									decode(c1.dambo_kind_cd, '6', BUNNAP_CNT , null) BUNNAP_CNT_6,
+									decode(c1.dambo_kind_cd, '6', YUHYO_SYMD , null) YUHYO_SYMD_6,
+									decode(c1.dambo_kind_cd, '6', YOUNGSU_YMD, null) SUNAP_YMD_6,
+									decode(c1.dambo_kind_cd, '6', BUNNAP_AMT , null) BUNNAP_AMT_6
+						
+							 FROM ctbh33 c1
+						where c1.job_gb = '01'
+						  and ( c1.gyeyak_jibu_cd  = #jibu_cd# or c1.damdang_jibu_cd  = #damdang_jibu_cd# ) /* 2010.06.14 */
+				        AND C1.GIJUN_YMD BETWEEN #searchStartDetailDate# AND #searchEndDetailDate#
+						  and c1.agent_no           like #agent_no#
+						  and c1.saupjang_seq       like #saupjang_seq#
+				        and C1.DAMDANG_SABUN      like #damdang_sabun#
+						  and decode(c1.youngsu_ymd, null, '0', '1') like #sunap_yn#
+				           AND C1.DEL_YN = '0'
+						) C2
+						GROUP BY C2.GYEYAK_CHULJANG_CD, C2.AGENT_NO, C2.SAUPJANG_SEQ, C2.CAR_GAIP_NO
+				
+					 ) c, ctgi02 d
+				where a.AGENT_NO         = c.AGENT_NO
+				  and a.SAUPJANG_SEQ     = C.SAUPJANG_SEQ
+				  and B.CAR_GAIP_NO      = c.CAR_GAIP_NO
+				  and a.agent_no     = d.agent_no     (+)
+				  and a.saupjang_seq = d.saupjang_seq (+)
+				  and a.addr_gb_cd   = d.addr_gb_cd   (+)
+				  <isNotEmpty prepend="AND" property="searchKeyword">
+				  b.car_no like '%'|| #searchKeyword#|| '%'
+				  </isNotEmpty>
+		<![CDATA[
+			 	) a where ROWNUM <= #lastIndex#
+			)where rnum > #firstIndex#
+		]]>  
+ 	</select>
+ 	
+
+ 	
+ 	<select id="divideInquiryDAO.selectDivideTotCnt" parameterClass="divideInquirySearchVO" resultClass="int">
+		SELECT  COUNT(*) totcnt
+		FROM CTGI01 a, CTGI05 B
+			, (SELECT C2.GYEYAK_CHULJANG_CD, C2.AGENT_NO, C2.SAUPJANG_SEQ, C2.CAR_GAIP_NO
+		
+		               , MAX(damdang_sabun)  damdang_sabun
+		
+							, MAX(GYEYAK_NO_CAR)  GYEYAK_NO_CAR
+							, MAX( BUNNAP_CNT_1 ) BUNNAP_CNT_1  
+							, MAX( YUHYO_SYMD_1 ) YUHYO_SYMD_1   
+							, MAX( SUNAP_YMD_1  ) SUNAP_YMD_1   
+							, MAX( BUNNAP_AMT_1 ) BUNNAP_AMT_1
+					
+							, MAX( BUNNAP_CNT_2 ) BUNNAP_CNT_2
+							, MAX( YUHYO_SYMD_2 ) YUHYO_SYMD_2
+							, MAX( SUNAP_YMD_2  ) SUNAP_YMD_2
+							, MAX( BUNNAP_AMT_2 ) BUNNAP_AMT_2
+					
+							, MAX( BUNNAP_CNT_3 ) BUNNAP_CNT_3
+							, MAX( YUHYO_SYMD_3 ) YUHYO_SYMD_3
+							, MAX( SUNAP_YMD_3  ) SUNAP_YMD_3
+							, MAX( BUNNAP_AMT_3 ) BUNNAP_AMT_3
+					
+							, MAX( BUNNAP_CNT_4 ) BUNNAP_CNT_4
+							, MAX( YUHYO_SYMD_4 ) YUHYO_SYMD_4
+							, MAX( SUNAP_YMD_4  ) SUNAP_YMD_4
+							, MAX( BUNNAP_AMT_4 ) BUNNAP_AMT_4
+					
+							, MAX( BUNNAP_CNT_7 ) BUNNAP_CNT_7
+							, MAX( YUHYO_SYMD_7 ) YUHYO_SYMD_7
+							, MAX( SUNAP_YMD_7  ) SUNAP_YMD_7
+							, MAX( BUNNAP_AMT_7 ) BUNNAP_AMT_7
+					
+							, MAX( GYEYAK_NO_5  ) GYEYAK_NO_5
+							, MAX( BUNNAP_CNT_5 ) BUNNAP_CNT_5   
+							, MAX( YUHYO_SYMD_5 ) YUHYO_SYMD_5   
+							, MAX( SUNAP_YMD_5  ) SUNAP_YMD_5   
+							, MAX( BUNNAP_AMT_5 ) BUNNAP_AMT_5   
+					
+							, MAX( GYEYAK_NO_6  ) GYEYAK_NO_6
+							, MAX( BUNNAP_CNT_6 ) BUNNAP_CNT_6   
+							, MAX( YUHYO_SYMD_6 ) YUHYO_SYMD_6   
+							, MAX( SUNAP_YMD_6  ) SUNAP_YMD_6  
+							, MAX( BUNNAP_AMT_6 ) BUNNAP_AMT_6
+					
+					FROM (
+				  SELECT c1.GYEYAK_CHULJANG_CD GYEYAK_CHULJANG_CD,
+							c1.AGENT_NO           AGENT_NO,   
+							c1.SAUPJANG_SEQ       SAUPJANG_SEQ,   
+							c1.CAR_GAIP_NO        CAR_GAIP_NO,   
+							c1.damdang_sabun      damdang_sabun,
+							( case 
+							  when c1.dambo_kind_cd in ('1', '2', '3', '4', '7') THEN
+									 c1.gyeyak_no
+							  else
+									 null
+							  end 
+							) GYEYAK_NO_CAR,
+							decode(c1.dambo_kind_cd, '1', BUNNAP_CNT , null) BUNNAP_CNT_1,   
+							decode(c1.dambo_kind_cd, '1', YUHYO_SYMD , null) YUHYO_SYMD_1,   
+							decode(c1.dambo_kind_cd, '1', YOUNGSU_YMD, null) SUNAP_YMD_1,   
+							decode(c1.dambo_kind_cd, '1', BUNNAP_AMT , null) BUNNAP_AMT_1,   
+				
+							decode(c1.dambo_kind_cd, '2', BUNNAP_CNT , null) BUNNAP_CNT_2,
+							decode(c1.dambo_kind_cd, '2', YUHYO_SYMD , null) YUHYO_SYMD_2,
+							decode(c1.dambo_kind_cd, '2', YOUNGSU_YMD, null) SUNAP_YMD_2,
+							decode(c1.dambo_kind_cd, '2', BUNNAP_AMT , null) BUNNAP_AMT_2,
+				
+							decode(c1.dambo_kind_cd, '3', BUNNAP_CNT , null) BUNNAP_CNT_3,
+							decode(c1.dambo_kind_cd, '3', YUHYO_SYMD , null) YUHYO_SYMD_3,
+							decode(c1.dambo_kind_cd, '3', YOUNGSU_YMD, null) SUNAP_YMD_3,
+							decode(c1.dambo_kind_cd, '3', BUNNAP_AMT , null) BUNNAP_AMT_3,
+				
+							decode(c1.dambo_kind_cd, '4', BUNNAP_CNT , null) BUNNAP_CNT_4,
+							decode(c1.dambo_kind_cd, '4', YUHYO_SYMD , null) YUHYO_SYMD_4,
+							decode(c1.dambo_kind_cd, '4', YOUNGSU_YMD, null) SUNAP_YMD_4,
+							decode(c1.dambo_kind_cd, '4', BUNNAP_AMT , null) BUNNAP_AMT_4,
+		                       /* 2009.11.27 YU. add */		
+							decode(c1.dambo_kind_cd, '7', BUNNAP_CNT , null) BUNNAP_CNT_7,   
+							decode(c1.dambo_kind_cd, '7', YUHYO_SYMD , null) YUHYO_SYMD_7,   
+							decode(c1.dambo_kind_cd, '7', YOUNGSU_YMD, null) SUNAP_YMD_7,   
+							decode(c1.dambo_kind_cd, '7', BUNNAP_AMT , null) BUNNAP_AMT_7,  
+		
+							decode(c1.dambo_kind_cd, '5', GYEYAK_NO  , null) GYEYAK_NO_5,
+							decode(c1.dambo_kind_cd, '5', BUNNAP_CNT , null) BUNNAP_CNT_5,   
+							decode(c1.dambo_kind_cd, '5', YUHYO_SYMD , null) YUHYO_SYMD_5,   
+							decode(c1.dambo_kind_cd, '5', YOUNGSU_YMD, null) SUNAP_YMD_5,   
+							decode(c1.dambo_kind_cd, '5', BUNNAP_AMT , null) BUNNAP_AMT_5,   
+				
+							decode(c1.dambo_kind_cd, '6', GYEYAK_NO  , null) GYEYAK_NO_6,
+							decode(c1.dambo_kind_cd, '6', BUNNAP_CNT , null) BUNNAP_CNT_6,
+							decode(c1.dambo_kind_cd, '6', YUHYO_SYMD , null) YUHYO_SYMD_6,
+							decode(c1.dambo_kind_cd, '6', YOUNGSU_YMD, null) SUNAP_YMD_6,
+							decode(c1.dambo_kind_cd, '6', BUNNAP_AMT , null) BUNNAP_AMT_6
+				
+					 FROM ctbh33 c1
+				where c1.job_gb = '01'
+		          and ( c1.gyeyak_jibu_cd  = #jibu_cd# or c1.damdang_jibu_cd  = #jibu_cd# ) /* 2010.06.14 */
+			        AND C1.GIJUN_YMD BETWEEN #searchStartDetailDate# AND #searchEndDetailDate#
+					  and c1.agent_no           like #agent_no#
+					  and c1.saupjang_seq       like #saupjang_seq#
+			        and C1.DAMDANG_SABUN      like #damdang_sabun#
+					  and decode(c1.youngsu_ymd, null, '0', '1') like #sunap_yn#
+			           AND C1.DEL_YN = '0'
+				) C2
+				GROUP BY C2.GYEYAK_CHULJANG_CD, C2.AGENT_NO, C2.SAUPJANG_SEQ, C2.CAR_GAIP_NO
+		
+			 ) c, ctgi02 d
+			where a.AGENT_NO         = c.AGENT_NO
+		  and a.SAUPJANG_SEQ     = C.SAUPJANG_SEQ
+		  and B.CAR_GAIP_NO      = c.CAR_GAIP_NO
+		  and a.agent_no     = d.agent_no     (+)
+		  and a.saupjang_seq = d.saupjang_seq (+)
+		  and a.addr_gb_cd   = d.addr_gb_cd   (+)
+		  <isNotEmpty prepend="AND" property="searchKeyword">
+		  b.car_no like '%'|| #searchKeyword#|| '%'
+		  </isNotEmpty>
+ 	</select>
+</sqlMap>

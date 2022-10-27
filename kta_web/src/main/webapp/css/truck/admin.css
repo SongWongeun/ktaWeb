@@ -1,0 +1,22 @@
+
+
+table tbody tr{ cursor:pointer;}  
+.attachFile{position:relative;display:inline-block;padding:0 28px 0 8px;border:1px solid #cbcbcb;height:30px;line-height:30px;vertical-align:middle;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+}
+.attachFile a{position:absolute;right:0;top:0;width:27px;height:26px;text-align:center;}
+
+.vAlign .box-section{
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	min-height: 100%;
+}
+.vAlign .box-section div{
+	box-sizing: border-box;
+	line-height:26px\0/IE9;
+}

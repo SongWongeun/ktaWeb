@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="title" content="KTA | 전국화물자동차운송사업자공제조합" />
+<title>KTA | 전국화물자동차운송사업자공제조합</title>
+<script type="text/javascript" src="/js/jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://openapi.map.naver.com/openapi/naverMap.naver?ver=2.0&amp;key=511bd42514944833f8c39f4078eedb33"></script>
+
+<script type="text/javascript">
+try {document.execCommand('BackgroundImageCache', false, true);} catch(e) {}
+</script>
+</head>
+<body>
+<script>
+	function sendMap(){
+		var address = $("#addr").val();
+		$("#map").empty();
+		$.ajax({
+		    url : 'http://openapi.map.naver.com/api/geocode.php?key=511bd42514944833f8c39f4078eedb33&coord=latlng&output=json&query='+address,
+		 	type: "get",
+		    dataType : "jsonp",
+		    error : function( error) {
+		    	$("#map").html(error);
+		    },
+		    success: function(data) {
+			    console.log(data);
+		    },
+		    complete : function() {
+		    }
+		});
+	}
+	window.onload = function(){
+		var oPoint = new nhn.api.map.LatLng( 37.4769042, 126.8917324 );
+		nhn.api.map.setDefaultPoint('LatLng');
+		oMap = new nhn.api.map.Map('map' ,{
+					point : oPoint,
+					zoom : 10,
+					enableWheelZoom : true,
+					enableDragPan : true,
+					enableDblClickZoom : false,
+					mapMode : 0,
+					activateTrafficMap : false,
+					activateBicycleMap : false,
+					minMaxLevel : [ 1, 14 ],
+					size : new nhn.api.map.Size( 500, 500 )
+				});
+		var oSize = new nhn.api.map.Size(28, 37);
+		var oOffset = new nhn.api.map.Size(14, 37);
+		var oIcon = new nhn.api.map.Icon('http://static.naver.com/maps2/icons/pin_spot2.png', oSize, oOffset);
+		//http://static.naver.com/maps2/icons/pin_spot2.png
+		var oLabel = new nhn.api.map.MarkerLabel();
+		var oMarker = new nhn.api.map.Marker(oIcon, { title : '서울 금천구 가산동' });
+		oMarker.setPoint(oPoint);
+		oMap.addOverlay(oLabel);
+		oLabel.setVisible(true, oMarker);
+		oLabel.setPosition(true, 0, 30); 
+		oMap.addOverlay(oMarker);	
+		oMap.addControl( new nhn.api.map.ZoomControl() );
+
+
+		var oMapTypeBtn = new nhn.api.map.MapTypeBtn();
+		oMap.addControl(oMapTypeBtn);
+		oMapTypeBtn.setPosition({
+			bottom : 5,
+			right : 120
+		});
+		
+	};
+</script>
+<div id="map"></div>
+<form id="form" name="form">
+	<input type="text" id="addr">
+	<input type="button" onclick="sendMap();" value="실행">
+</form>
+<div id="result"></div>
+</body>
+</html>

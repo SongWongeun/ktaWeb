@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form  id="ff" name="ff" action="/aos/maosdata.do" method="post" >
+<!-- 	<input type="text" id="tParam" name="tParam" value="{\"mobestimate\":{\"est_serial\":\"1\"}}"> -->
+<!-- 	<input type="text" id="tParam" name="tParam" value=""> {"mobestimate":{"est_serial":"1"}} -->
+	<textarea id="tParam" name="tParam" rows="30" cols="100">
+	{"mobphoto":[{"PHOTO_SEQNO":"0000001193","FILENAME":"20131015_47354_0_signature.jpg","EST_SERIAL":"0000000981"}],"mobestimate":{"bpaysum":"0","bpay":"0","ins_mis":"137672","payment":"137672","vatrate":"10","extra_standard":"0","accadr":"","pntcot":"2","ppaysum":"0","carno":"11거9887","rpaysum":"0","ownerpee_kind":"2","xpaysum":"0","userid":"2300000002","send_dt":"2013-10-15 13:52","vat":"12516","towfee":"0","agree":"1","part_rate":"0","special_opt":"0","xpay":"0","car_options":"","pntdry":"16916","glass_partsum":"0","ppay":"0","bocode":"23","repair_cost":"137672","carcode":"011101","debris_fee":"0","car_rent":"0","apaysum":"0","ppay_extra":"0","endtotal":"125156","min_ownerpee":"0","est_serial":"0000000981","ppay_material":"27900","sign_dt":"2013-10-15 13:52","opaysum":"0","regno":"2013254698","spaysum":"0","newpartsum":"80340","dambo":"01","carname":"비스토","seqno":"001","ins_misrate":"100","reqtotal":"137672","est_dt":"2013-10-15 13:52","payment_target":"01","miskind":"1","carprice":"0","max_ownerpee":"0","accday":"0000-00-00 00:00","ownerpee":"0"},"mobestimateb":[{"approval":"1","paysum":"0","workkind":"1","payno":"010101","pntkind":"","est_serial":"0000000981","subcode":"","payname":"후론트 범퍼","partno":"","qty":"1.7","partsum":"0","org_qty":"1.7","estb_seqno":"0000015310","workcode":"X"},{"approval":"1","paysum":"0","workkind":"3","payno":"010101","pntkind":"","est_serial":"0000000981","subcode":"","payname":"커버－프론트 범퍼","partno":"8651106010","qty":"1","partsum":"54700","org_qty":"1","estb_seqno":"0000015311","workcode":"X"},{"approval":"1","paysum":"0","workkind":"3","payno":"010101","pntkind":"","est_serial":"0000000981","subcode":"","payname":"메쉬－프론트 범퍼 좌측","partno":"8651605000","qty":"1","partsum":"970","org_qty":"1","estb_seqno":"0000015312","workcode":"X"},{"approval":"1","paysum":"0","workkind":"3","payno":"010101","pntkind":"","est_serial":"0000000981","subcode":"","payname":"메쉬－프론트 범퍼 우측","partno":"8651705000","qty":"1","partsum":"970","org_qty":"1","estb_seqno":"0000015313","workcode":"X"},{"approval":"1","paysum":"0","workkind":"3","payno":"010101","pntkind":"","est_serial":"0000000981","subcode":"","payname":"레일 어셈블리－프론트 범퍼","partno":"8653006000","qty":"1","partsum":"23700","org_qty":"1","estb_seqno":"0000015314","workcode":"X"},{"approval":"1","paysum":"0","workkind":"6","payno":"01010","pntkind":"1","est_serial":"0000000981","subcode":"","payname":"후론트 범퍼 교환 도장","partno":"","qty":"1.35","partsum":"27900","org_qty":"1.35","estb_seqno":"0000015315","workcode":"P"},{"approval":"1","paysum":"0","workkind":"1","payno":"040110","pntkind":"","est_serial":"0000000981","subcode":"","payname":"헤드램프(좌)","partno":"","qty":".32","partsum":"0","org_qty":".32","estb_seqno":"0000015316","workcode":"R"},{"approval":"1","paysum":"0","workkind":"1","payno":"040120","pntkind":"","est_serial":"0000000981","subcode":"","payname":"헤드램프(우)","partno":"","qty":".32","partsum":"0","org_qty":".32","estb_seqno":"0000015317","workcode":"R"},{"approval":"1","paysum":"0","workkind":"1","payno":"040610","pntkind":"","est_serial":"0000000981","subcode":"","payname":"포그램프(좌)","partno":"","qty":"0.0","partsum":"0","org_qty":".38","estb_seqno":"0000015318","workcode":"R"},{"approval":"1","paysum":"0","workkind":"1","payno":"040620","pntkind":"","est_serial":"0000000981","subcode":"","payname":"포그램프(우)","partno":"","qty":"0.0","partsum":"0","org_qty":".38","estb_seqno":"0000015319","workcode":"R"},{"approval":"1","paysum":"0","workkind":"6","payno":"999990","pntkind":"","est_serial":"0000000981","subcode":"","payname":"공통시간작업","partno":"","qty":"1.7","partsum":"0","org_qty":"1.7","estb_seqno":"0000015320","workcode":"P"},{"approval":"1","paysum":"16916","workkind":"6","payno":"999991","pntkind":"","est_serial":"0000000981","subcode":"","payname":"가열건조비","partno":"","qty":"1","partsum":"0","org_qty":"1","estb_seqno":"0000015321","workcode":"P"}],"mobestsec":[{"SECNAME":"앞범퍼","EST_SERIAL":"0000000981","SECCODE":"1201","DAMAGE":"2"}]}
+	</textarea>
+	<input type="submit">
+</form>
+<p>멀티파트</p>
+<form id="f" name="f" action="/aos/maosphoto.do" method="post" enctype="multipart/form-data">
+	<input type="text" id="tParam" name="tParam" value="{\"mobestimate\":{\"est_serial\":\"1\"}}">
+	<input type="text" id="tParam" name="tParam" value=""> {"mobestimate":{"est_serial":"1"}}
+
+	<input type="file" />
+	<input type="file" />
+	<input type="submit">
+</form>
+</body>
+</html>

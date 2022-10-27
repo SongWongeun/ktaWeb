@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+    "http://www.ibatis.com/dtd/
+-2.dtd">
+    
+<sqlMapConfig>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/DeductBoard_SQL_Oracle.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/BizBoard_SQL_Oracle.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/InsuranceBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/PraiseBoard_SQL_Oracle.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/HwamulBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/EncourBoard_SQL_Oracle.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/FaqBoard_SQL_Oracle.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/FormDataBoard_SQL_Oracle.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/BidBoard_SQL_Oracle.xml"/>	
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/ReportBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/DriverBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/EventBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/VideoBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/AccBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/EchoBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/RecommandSite_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/RecommandCompany_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/ManageInfo_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/InquiryBoard_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/EncourInquiry_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/Office_SQL_Oracle.xml"/>
+	<sqlMap resource="egovframework/sqlmap/truck/bbs/CustomBoard_SQL_Oracle.xml"/>
+</sqlMapConfig>

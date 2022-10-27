@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 웹 로그 요약  -->
+	<bean id="webLogging"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="egovWebLogScheduling" />
+		<property name="targetMethod" value="webLogSummary" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- 웹 로그 요약  트리거-->
+	<bean id="webLogTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="webLogging" />
+		<property name="startDelay" value="600000" />
+		<property name="repeatInterval" value="3600000" />
+	</bean>
+	
+	<!-- 웹 로그 요약 스케줄러 -->
+	<bean id="webLogScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="webLogTrigger" />				
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 푸쉬서버 요약  -->
+	<!-- 2014-04-11 이재진대리 요청으로 푸쉬기능 정지. -->
+	<!-- 
+	<bean id="pushService"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="KwaPushMgrService" />
+		<property name="targetMethod" value="pushAllocationService" />
+		<property name="concurrent" value="false" />
+	</bean>
+ 	-->
+	<!-- 푸쉬서버  트리거-->
+	<!-- 
+	<bean id="pushTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="pushService" />
+		<property name="startDelay" value="10000" />
+		<property name="repeatInterval" value="1800000" />
+	</bean>
+	 -->
+	<!-- 푸쉬서버 스케줄러 -->
+	<!-- 
+	<bean id="pushScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="pushTrigger" />				
+			</list>
+		</property>
+	</bean>
+	 -->
+	<!-- RSS 요약  -->
+	<bean id="rssApi"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="RssMain" />
+		<property name="targetMethod" value="main" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<!-- RSS 요약  트리거-->
+	<bean id="rssTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+		<property name="jobDetail" ref="rssApi" />
+		<property name="startDelay" value="10000" />
+		<property name="repeatInterval" value="86400000" />
+	</bean>
+	
+	<!-- RSS 요약 스케줄러 -->
+	<bean id="rssScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="rssTrigger" />				
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="kwaLog">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<typeAlias  alias="logBoardVO" type="kr.or.truck.kwa.logMgr.service.LogBoardVO"/>
+	
+	<typeAlias  alias="logSearchVO" type="kr.or.truck.kwa.logMgr.service.LogSearchVO"/>
+	
+	<!-- 메뉴 로그 게시판 목록조회 -->
+	<select id="logMgrDAO.getMenuLogList" resultClass="hashMap" parameterClass="logSearchVO">
+		SELECT
+			REQUST_ID
+			,OCCRRNC_DE
+			,URL
+			,RQESTER_ID
+			,RQESTER_IP
+			,REQUEST_NAME
+			,REQUEST_BIRTH
+			,REQUEST_AGENT_CD
+			,REQUEST_CERT_TYPE
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT 
+					REQUST_ID
+					,OCCRRNC_DE
+					,URL
+					,RQESTER_ID
+					,RQESTER_IP
+					,REQUEST_NAME
+					,REQUEST_BIRTH
+					,REQUEST_AGENT_CD
+					,REQUEST_CERT_TYPE
+				FROM 
+					COMTNWEBLOG 
+				ORDER BY REQUST_ID DESC
+					) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 메뉴 로그 목록 총 카운트 -->	
+	<select id="logMgrDAO.getMenuLogListCnt" resultClass="Int" parameterClass="logSearchVO">
+				SELECT 
+					COUNT(REQUST_ID)
+				FROM 
+					COMTNWEBLOG 
+	</select>
+	
+	<!-- 담당자 접속 로그 게시판 목록조회 -->
+	<select id="logMgrDAO.getOperatorLogList" resultClass="hashMap" parameterClass="logSearchVO">
+		SELECT
+			REQUST_ID
+			,OCCRRNC_DE
+			,URL
+			,RQESTER_ID
+			,RQESTER_IP
+			,REQUEST_NAME
+			,REQUEST_BIRTH
+			,REQUEST_AGENT_CD
+			,REQUEST_CERT_TYPE
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT 
+				  REQUST_ID
+				  ,OCCRRNC_DE
+				  ,URL
+				  ,RQESTER_ID
+				  ,RQESTER_IP
+				  ,REQUEST_NAME
+				  ,REQUEST_BIRTH
+				  ,REQUEST_AGENT_CD
+				  ,REQUEST_CERT_TYPE
+				FROM COMTNWEBLOG
+				WHERE
+					REQUEST_AGENT_CD = '9'
+				ORDER BY REQUST_ID DESC
+				) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 담당자 접속 로그 목록 총 카운트 -->	
+	<select id="logMgrDAO.getOperatorLogListCnt" resultClass="Int" parameterClass="logSearchVO">
+				SELECT 
+					COUNT(REQUST_ID)
+				FROM 
+					COMTNWEBLOG
+				WHERE
+					REQUEST_AGENT_CD = '9'
+	</select>
+	
+	<!-- 이메일 발송 로그 게시판 목록조회 -->
+	<select id="logMgrDAO.getEmailLogList" resultClass="hashMap" parameterClass="logSearchVO">
+		SELECT
+			MSSAGE_ID
+			,EMAIL_CN
+			,SNDR
+			,RCVER
+			,SJ
+			,SNDNG_RESULT_CODE
+			,DSPTCH_DT
+			,ATCH_FILE_ID
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT
+					MSSAGE_ID
+					,EMAIL_CN
+					,SNDR
+					,RCVER
+					,SJ
+					,SNDNG_RESULT_CODE
+					,DSPTCH_DT
+					,ATCH_FILE_ID
+				FROM
+					COMTHEMAILDSPTCHMANAGE
+				ORDER BY MSSAGE_ID DESC
+				) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- 이메일 발송 로그 목록 총 카운트 -->	
+	<select id="logMgrDAO.getEmailLogListCnt" resultClass="Int" parameterClass="logSearchVO">
+				SELECT
+					COUNT(MSSAGE_ID)
+				FROM
+					COMTHEMAILDSPTCHMANAGE
+	</select>
+	
+</sqlMap>

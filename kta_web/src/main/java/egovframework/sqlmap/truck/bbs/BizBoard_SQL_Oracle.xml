@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BizBoard">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="BizBoardSearchVO" type="kr.or.truck.infolounge.biznews.service.BizBoardSearchVO"/>
+	<typeAlias  alias="bizBoardVO" type="kr.or.truck.infolounge.biznews.service.BizBoardVO"/>
+	
+	<resultMap id="bizBoardPreNex" class="kr.or.truck.infolounge.biznews.service.BizBoardVO">
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+	</resultMap>
+	
+	<resultMap id="bizBoard" class="kr.or.truck.infolounge.biznews.service.BizBoardVO">
+		<result property="bbsId" column="BBS_ID" nullValue="" />
+		<result property="bbsName" column="BBS_NAME" nullValue=""/>
+		<result property="articleNo" column="ARTICLE_NO" nullValue=""/>
+		<result property="title" column="TITLE" nullValue=""/>
+		<result property="contentHtml" column="CONTENT_HTML" typeHandler="com.ibatis.sqlmap.engine.type.ClobTypeHandlerCallback" jdbcType="CLOB" javaType="java.lang.String" nullValue=""/>
+		<result property="contentText" column="CONTENT_TEXT" nullValue=""/>
+		<result property="createTime" column="CREATE_TIME" nullValue=""/>
+		<result property="rdcount" column="RDCOUNT" nullValue=""/>
+		<result property="writerId" column="WRITER_ID" nullValue=""/>
+		<result property="writerName" column="WRITER_NAME" nullValue=""/>
+		<result property="modifyId" column="MODIFY_ID" nullValue=""/>
+		<result property="modifyName" column="MODIFY_NAME" nullValue=""/>
+		<result property="modifyTime" column="MODIFY_TIME" nullValue=""/>
+		<result property="atchFileId" column="ATCH_FILE_ID" nullValue=""/>
+		<result property="atchFileName" column="ATCH_FILE_NAME" nullValue=""/>
+	</resultMap>
+
+
+	<insert id="bizBoardDAO.insertBoard_S">
+		<![CDATA[
+		INSERT INTO BIZ_NOTICE(
+			BBS_ID,
+			BBS_NAME,
+			ARTICLE_NO,
+			TITLE,
+			CONTENT_HTML,
+			CONTENT_TEXT,
+			CREATE_TIME,
+			RDCOUNT,
+			WRITER_ID,
+			WRITER_NAME,
+			MODIFY_ID,
+			MODIFY_NAME,
+			MODIFY_TIME,
+			ATCH_FILE_ID,
+			ATCH_FILE_NAME,
+			USE_AT
+			)
+		 
+		VALUES (
+		'BIZ_NOTICE',
+		'업계소식 게시판',
+		#articleNo#,
+		#title#,
+		#contentHtml#,
+		#contentText#,
+		sysdate,
+		0,
+		#writerId#,
+		#writerName#,
+		#writerId#,
+		#writerName#,
+		sysdate,
+		#atchFileId#,
+		#atchFileName#,
+		'Y'
+		)
+		
+		]]>
+	</insert>
+	
+	
+	<update id="bizBoardDAO.updateBoard_S" parameterClass="bizBoardVO">
+		<![CDATA[
+			UPDATE BIZ_NOTICE 
+			SET MODIFY_ID = #modifyId#,
+				MODIFY_NAME = #modifyName#,
+				TITLE = #title#,
+				CONTENT_HTML = #contentHtml#,
+				CONTENT_TEXT = #contentText#,
+				MODIFY_TIME = sysdate,
+				ATCH_FILE_ID = #atchFileId#,
+			    ATCH_FILE_NAME = #atchFileName#
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="bizBoardDAO.updateCnt_S">
+		<![CDATA[
+			UPDATE BIZ_NOTICE 
+			SET RDCOUNT = RDCOUNT+1
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<update id="bizBoardDAO.deleteBoard_S">
+		<![CDATA[
+			UPDATE BIZ_NOTICE   
+			SET USE_AT = 'N'
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</update>
+	
+	<select id="bizBoardDAO.selectBoard_S" resultMap="bizBoard" >
+		<![CDATA[
+			SELECT 
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS'),
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME
+			FROM BIZ_NOTICE 
+			WHERE ARTICLE_NO=#articleNo#
+		]]>
+	</select>
+	
+	<select id="bizBoardDAO.selectBoardList_D" parameterClass="BizBoardSearchVO" resultMap="bizBoard" >
+			 
+			 SELECT 
+				BBS_ID,
+				BBS_NAME,
+				ARTICLE_NO,
+				TITLE,
+				CONTENT_HTML,
+				CONTENT_TEXT,
+				TO_CHAR(CREATE_TIME, 'YYYY.MM.DD HH24:MI:SS') as CREATE_TIME,
+				RDCOUNT,
+				WRITER_ID,
+				WRITER_NAME,
+				MODIFY_ID,
+				MODIFY_NAME,
+				MODIFY_TIME,
+				ATCH_FILE_ID,
+				ATCH_FILE_NAME,
+				USE_AT
+	       	 FROM (
+		       SELECT  ROWNUM RNUM, S.*
+			   FROM (
+					SELECT
+						* 
+					FROM BIZ_NOTICE 
+					WHERE 1=1 AND USE_AT='Y'
+					<isEqual prepend="AND" property="searchCondition" compareValue="0">
+						(TITLE LIKE '%' || #searchKeyword# || '%')
+						OR
+						(CONTENT_TEXT LIKE '%' || #searchKeyword# || '%') AND USE_AT='Y' 
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="1">
+						TITLE LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					<isEqual prepend="AND" property="searchCondition" compareValue="2">
+						CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+					</isEqual>
+					ORDER BY CREATE_TIME DESC, ARTICLE_NO DESC
+				) S
+			 ) A
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<select id="bizBoardDAO.selectBoardListTotCnt_S" parameterClass="BizBoardSearchVO" resultClass="int">
+
+			SELECT COUNT(*) totcnt
+			FROM BIZ_NOTICE
+			WHERE 1=1 AND USE_AT='Y'
+			<isEqual prepend="AND" property="searchCondition" compareValue="0">
+				(TITLE LIKE '%' || #searchKeyword# || '%')
+				OR
+				(CONTENT_TEXT LIKE '%' || #searchKeyword# || '%') AND USE_AT='Y' 
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="1">
+				TITLE LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+			<isEqual prepend="AND" property="searchCondition" compareValue="2">
+				CONTENT_TEXT LIKE '%' || #searchKeyword# || '%'
+			</isEqual>
+	</select>
+	
+	
+	<update id="bizBoardDAO.bizBoardDAO.checkFileInfo" parameterClass="bizBoardVO">
+		<![CDATA[
+			UPDATE BIZ_NOTICE 
+			SET ATCH_FILE_ID = NULL
+			WHERE ARTICLE_NO=#articleNo# AND USE_AT='N'
+		]]>
+	</update>
+	
+	<select id="bizBoardDAO.selectPreArticle" resultMap="bizBoardPreNex" >
+		<![CDATA[	 
+			select next_ARTICLE_NO as ARTICLE_NO, next_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lead(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) next_ARTICLE_NO,
+			    lead(TITLE,1,'이전글이 없습니다') over (order by ARTICLE_NO) next_TITLE
+			    from BIZ_NOTICE WHERE USE_AT='Y'
+			) 
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+	
+	<select id="bizBoardDAO.selectNexArticle" resultMap="bizBoardPreNex" >
+		<![CDATA[ 		
+			select pre_ARTICLE_NO as ARTICLE_NO, pre_TITLE as TITLE from
+			(
+			 select ARTICLE_NO, TITLE, 
+			    lag(ARTICLE_NO,1,NULL) over (order by ARTICLE_NO) pre_ARTICLE_NO,
+			    lag(title,1,'다음글이 없습니다') over (order by ARTICLE_NO) pre_TITLE
+			    from BIZ_NOTICE WHERE USE_AT='Y'
+			)
+			where ARTiCLE_NO = #articleNo# ]]>
+	</select>
+</sqlMap>

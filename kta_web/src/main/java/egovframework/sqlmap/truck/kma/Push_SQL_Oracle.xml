@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PushSqlOracle">
+
+	<typeAlias  alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+	
+	<typeAlias  alias="pushBoardVO" type="kr.or.truck.kma.push.service.PushBoardVO"/>
+	
+	<typeAlias  alias="pushSearchVO" type="kr.or.truck.kma.push.service.PushSearchVO"/>
+	
+	<!-- PUSH서비스 게시판 목록조회 -->
+	<select id="pushMgrDAO.getPushList" resultClass="hashMap" parameterClass="pushSearchVO">
+		SELECT
+			PUSH_NO
+			,PUSH_SJ
+			,PUSH_CN
+			,REG_DT
+			,REG_ID
+			,UPDT_DT
+			,UPDT_ID
+			,APN_SND_DT
+			,APN_SND_ID
+			,GCM_SND_DT
+			,GCM_SND_ID
+			,APN_SND_SUCCESS_YN
+			,GCM_SND_SUCCESS_YN
+		FROM
+			(
+			SELECT 
+				ROWNUM RNUM, A.*
+			FROM
+				(
+				SELECT
+					PUSH_NO
+					,PUSH_SJ
+					,PUSH_CN
+					,REG_DT
+					,REG_ID
+					,UPDT_DT
+					,UPDT_ID
+					,APN_SND_DT
+					,APN_SND_ID
+					,GCM_SND_DT
+					,GCM_SND_ID
+					,APN_SND_SUCCESS_YN
+					,GCM_SND_SUCCESS_YN
+				FROM
+					M_PUSH_INFO
+				ORDER BY REG_DT DESC
+					) A
+			) S
+		<![CDATA[ WHERE ROWNUM <= #recordCountPerPage# and RNUM > #firstIndex# ]]>
+	</select>
+	
+	<!-- PUSH서비스 목록 총 카운트 -->	
+	<select id="pushMgrDAO.getPushListCnt" resultClass="Int" parameterClass="pushSearchVO">
+				SELECT 
+					COUNT(PUSH_NO)
+				FROM 
+					M_PUSH_INFO 
+	</select>
+	
+		<!-- 안드로이드 전체 디바이스ID 게시판 목록조회 -->
+	<select id="pushMgrDAO.getAndPushAllList" resultClass="hashmap" parameterClass="pushSearchVO">
+		SELECT
+			muei.PUSH_ID AS DEVICE_ID,
+            muei.USER_ID
+		FROM
+			M_USER_ETC_INFO muei
+		LEFT OUTER JOIN 
+			M_REG_PHY_INFO mrpi 
+		ON 
+			muei.EQUIP_PHY_ADDR = mrpi.EQUIP_PHY_ADDR
+		WHERE
+			mrpi.EQUIP_NM LIKE '%갤럭시%'
+		AND
+			muei.DEL_DT is null
+		AND
+			muei.PUSH_ID IS NOT NULL
+	</select>
+	
+	<!-- 푸쉬정보 입력 -->
+	<insert id="pushMgrDAO.insertPushService" parameterClass="pushBoardVO">
+        <selectKey keyProperty="push_no" resultClass="string">
+			SELECT NVL(MAX(A.PUSH_NO),0)+1
+			  FROM M_PUSH_INFO A
+        </selectKey>
+		INSERT
+		  INTO M_PUSH_INFO
+		     (
+				PUSH_NO
+				,PUSH_SJ
+				,PUSH_CN
+				,REG_DT
+				,REG_ID
+				,UPDT_DT
+				,UPDT_ID
+				,APN_SND_DT
+				,APN_SND_ID
+				,GCM_SND_DT
+				,GCM_SND_ID
+				,APN_SND_SUCCESS_YN
+				,GCM_SND_SUCCESS_YN
+		     )
+		VALUES
+		     (
+				#push_no#
+				,#push_sj#
+				,#push_cn#
+				,SYSDATE
+				,#reg_id#
+				,SYSDATE
+				,#updt_id#
+				,null
+				,#apn_snd_id#
+				,SYSDATE
+				,#gcm_snd_id#
+				,#apn_snd_success_yn#
+				,#gcm_snd_success_yn#
+		     )
+	</insert>
+	
+			<!-- 안드로이드 전체 디바이스ID 게시판 목록조회 -->
+	<select id="pushMgrDAO.getAllocationList" resultClass="hashMap" >
+            SELECT 
+                    count(*) AS cnt ,  
+                    d.push_id AS device_id,
+                    d.USER_ID
+            FROM
+                    CPAA03 A, CPAA01 B, CPAA04 C, m_user_etc_info d , m_reg_phy_info e
+                WHERE B.ACDNT_NO = A.ACDNT_NO
+                  AND C.ACDNT_NO = A.ACDNT_NO
+                  AND A.SEQ = 2
+                  AND C.SEQ = 1
+                AND B.REQSIT_YMD||B.REQSIT_TM > TO_CHAR((SYSDATE-1/48), 'yyyymmddHHss')
+                and A.dmdngja_id2 = d.USER_ID
+                and d.equip_phy_addr = e.equip_phy_addr
+                and d.del_dt is null
+            group by d.push_id,d.USER_ID having d.push_id is not null
+	</select>
+	
+</sqlMap>

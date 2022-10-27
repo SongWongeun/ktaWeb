@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">225</span><span class="pyoName">&#91;A&#93; 직진 &#91;B&#93; 좌회전&#40;일시정지 위반&#41;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+                    <caption>과실비율에 대해서 나타낸 표</caption>
+                    <colgroup>
+                        <col style="width:50%;" />
+                        <col style="width:26%;" />
+                        <col style="width:12%;" />
+                        <col style="width:12%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">사고상황</th>
+                            <td class="bg1">기본 &#9312;</td>
+                            <td class="alC bB3">A 20</td>
+                            <td class="alC">B 80</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="13" class="alC"><img src="/images/truck/jpg/225.jpg" alt="사고상황이미지" /></td>
+                            <td colspan="3" class="alC">수정 요소</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 대형차</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 서행불이행</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 좌회전 금지위반</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 소좌회전&#183;대좌회전</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 현저한 과실&#183;중과실</td>
+                            <td class="alC bB3">&nbsp;</td>
+                            <td class="alC">5&#126;10</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 대형차</td>
+                            <td class="alC bB3">5</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 일시정지 후 출발 &#9313;</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">B 명백한 선진입</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 서행불이행</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 10km 이상의 속도위반</td>
+                            <td class="alC bB3">10</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="bg1">A 20km 이상의 속도위반</td>
+                            <td class="alC bB3">20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td  class="bg1">A 기타 현저한 과실&#183;중과실</td>
+                            <td class="alC bB3">10&#126;20</td>
+                            <td class="alC">&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9312; 이 경우는 좌회전차가 일시정지를 위반한 것인데&#44; 좌회전차는 직진차에 비해 우선권이 없고&#40;기좌회전의 경우는 제외&#41; 일시정지 신호를 위반한 과실이 크므로 기본과실을 좌회전차에게 크게 불리하게 설정하였다&#46;</p>
+					<p class="txtPoint">&#9313; 좌회전차가 일시정지를 하였으나&#44; 좌우의 안전 확인이 불충분했던 경우이다&#46; 좌회전차가 일시정지한 경우에는 직진차가 충돌을 회피할 여지가 크므로 직진차에게 불리하게 수정 가산한다&#46;</p>
+				</div>
+				<!-- 관련법규 -->
+                <div class="txtContent">
+                    <h3 class="decuh4Tit">관련법규</h3>
+                    <p class="txtPoint">&#9827; 도로교통법 제25조&#91;교차로 통행방법&#93;</p>
+                    <ul class="txtListst02">
+                        <li>&#9316; 모든 차의 운전자는 교통정리가 행하여지고 있지 아니하고 일시정지 또는 양보를 표시하는 안전표지가 설치되어 있는 교차로에 들어가고자 하는 때에는 일시정지하거나 양보하여 다른 차의 진행을 방해하여서는 아니된다&#46;</li>
+                    </ul>
+                    <p class="txtPoint">&#9827; 도로교통법 제31조&#91;서행 또는 일시정지할 장소&#93;</p>
+                    <ul class="txtListst02">
+                        <li>&#9313; 모든 차의 운전자는 다음 각 호의 어느 하나에 해당하는 곳에서는 일시 정지하여야 한다&#46;</li>
+                        <li>1&#46; 교통정리가 행하여지고 있지 아니하고 좌우를 확인할 수 없거나 교통이 빈번한 교차로</li>
+                        <li>2&#46; 지방경찰청장이 도로에서의 위험을 방지하고 교통의 안전과 원활한 소통을 확보하기 위하여 필요하다고 인정하여 안전표지에 의하여 지정한 곳</li>
+                    </ul>
+                </div>
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>

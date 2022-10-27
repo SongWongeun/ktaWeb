@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="KTA 전국화물자동차운송사업자공제조합" />
+<title>유형별과실비율팝업</title>
+<link rel="stylesheet" type="text/css" href="/css/truck/font.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/sub_codedesign.css" />
+<link rel="stylesheet" type="text/css" href="/css/truck/popup_codedesign.css" />
+</head>
+<body>
+	<!---- 팝업크기 width:880px ----->
+	<div id="popUp">
+		<div class="pyoBox">
+			<!-- 유형별과실비율 타이틀 s -->
+			<div class="pyoTitle">
+				<h2><span class="pyoNum">126</span><span class="pyoName">차도상&#40;차도 통행이 허용되지 않음&#41; &#9315;</span></h2>
+			</div><!--// 유형별과실비율 타이틀 e -->
+			<!-- 유형별과실비율 내용 s -->
+			<div class="pyoArea">
+				<!-- 과실비율 -->
+				<table class="tbPop" summary="과실비율 상세정보 테이블 입니다.">
+					<caption>과실비율에 대해서 나타낸 표</caption>
+					<colgroup>
+						<col style="width:50%;" />
+						<col style="width:25%;" />
+						<col style="width:25%;" />
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">사고상황</th>
+							<td class="bg1">기본&#9316;</td>
+							<td class="alC">&#40;A&#41;30 &#40;B&#41;40</td>
+						</tr>
+						<tr>
+							<td rowspan="10" class="alC"><img src="/images/truck/jpg/126.jpg" alt="사고상황이미지" /></td>
+							<td colspan="2" class="alC">수정 요소</td>
+						</tr>
+						<tr>
+							<td class="bg1">야간&#183;기타시야장애</td>
+							<td class="alC">10 </td>
+						</tr>
+						<tr>
+							<td class="bg1">간선도로</td>
+							<td class="alC">10&#126;20 &#9317;</td>
+						</tr>
+						<tr>
+							<td class="bg1">정지&#183;후퇴&#183;사행</td>
+							<td class="alC">10</td>
+						</tr>
+                         
+						<tr>
+							<td class="bg1">주택&#183;상점가&#183;학교</td>
+							<td class="alC">&#45;5 </td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">어린이&#183;노인보호구역</td>
+							<td class="alC">&#45;15 </td>
+						</tr>
+						<tr>
+							<td class="bg1">집단보행</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">차의 현저한 과실</td>
+							<td class="alC">&#45;5</td>
+						</tr>
+						<tr>
+							<td class="bg1">차의 중대한 과실</td>
+							<td class="alC">&#45;10</td>
+						</tr>
+						
+					</tbody>
+				</table>
+				<!-- 도표해설 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">도표해설</h3>
+					<p class="txtPoint">&#9315;	도로교통법 제8조제1항에 의거한 부득이한 경우가 아님에도 불구하고 보행자가 차도를 통행한 경우에 본도표를 적용한다&#46; &#34;차도측단&#34;이란 보차도 구분선으로서 1ｍ이내의 거리에 있는 차도의 부분을 말한다&#46;</p>
+                    <p class="txtPoint">&#9316;	기본의 과실비율에서 야간등기타시야장애의 경우에만 10&#37;로 상향조정하고 차도통행이 허용되지 않는데도 차도를 보행한 경우에는 형평의 원칙상 무단횡단&#40;단일로&#41;에 준하는 것으로 보는 것이 타당하므로 보행자의 기본과실을 정함에 있어서 차도측단의 경우를 무단횡단과 동일한 수준으로&#44; 차도의 측단보다 더 차도 쪽으로 보행한 경우에는 보행자의 과실을 보다 가중한다&#46;</p>
+					 <p class="txtPoint">&#9317;	보행자가 차도측단의 차선을 제외하고 1개 차선씩 중앙쪽으로 진입하여 보행할 때마다 5&#37;씩 가산하여 적용하고&#44; 최고 가산수정치는 20&#37;로 한다&#46;</p>
+                    </div>
+				<!-- 관련법규 -->
+				<div class="txtContent">
+					<h3 class="decuh4Tit">관련법규</h3>
+					<p class="txtPoint">&#9827;	도로교통법 제8조&#91;보행자의 통행&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 보행자는 보도와 차도가 구분된 도로에서는 언제나 보도로 통행하여야 한다&#46; 다만&#44; 차도를 횡단하는 경우&#44; 도로공사 등으로 보도의 통행이 금지된 경우나&#44; 그밖의 부득이한 경우에는 그러하지 아니한다&#46;</li>
+					<li>&#9313; 보행자는 보도와 차도가 구분되지 아니한 도로에서는 도로의 좌측 또는 길가장자리구역을 통행하여야 한다&#46;</li>
+                    </ul>
+                    <p class="txtPoint">&#9827;	도로교통법 제13조&#91;차마의 통행&#93;</p>
+					<ul class="txtListst02">
+						<li>&#9312; 차마는 보도와 차도가 구분된 도로에서는 차도를 통행하여야 한다&#46; 다만&#44; 도로 외의 곳에 출입하는 때에는 보도를 횡단할 수 있다&#46;
+</li>
+					</ul>
+					
+				</div>
+				<!-- 참고판례 -->
+			
+			</div>
+			<!--// 유형별과실비율 내용 e -->
+		</div>
+	</div>
+</body>
+</html>
